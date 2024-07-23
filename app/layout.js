@@ -1,14 +1,22 @@
+import Navigation from './(components)/Navigation';
 import './globals.css';
 
 export const metadata = {
-  title: 'Authentication Demo',
-  description: 'A simple authentication demo with reviews.',
+  title: '#GMNDR Authentication Demo',
+  description: 'A demo application using Next.js and MongoDB',
 };
 
-export default function RootLayout({ children }) {
+export default function Layout({ children }) {
   return (
     <html lang='en'>
-      <body className='bg-gray-100 text-gray-900'>{children}</body>
+      <body>
+        <Navigation />
+        <main className='pt-16'>
+          {' '}
+          {/* Padding to avoid content being hidden under the fixed header */}
+          {children}
+        </main>
+      </body>
     </html>
   );
 }
