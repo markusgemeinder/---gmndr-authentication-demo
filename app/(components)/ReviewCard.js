@@ -20,13 +20,14 @@ export default function ReviewCard({ review }) {
   const { username, email, note, rating, createdAt, updatedAt } = review;
 
   return (
-    <div className='bg-white shadow-md rounded-lg overflow-hidden p-4 mb-4'>
+    <div className='bg-gray-50 shadow-md rounded-lg overflow-hidden p-4 mb-4'>
       <div className='text-lg font-bold mb-2'>{username}</div>
       <div className='text-sm text-gray-600 mb-2'>{email}</div>
       <div className='text-gray-800 mb-4'>{note}</div>
       <div className='flex items-center mb-2'>{renderStars(rating)}</div>
       <div className='text-xs text-gray-500'>
-        {format(new Date(createdAt), 'dd.MM.yyyy | HH:mm:ss')} |{format(new Date(updatedAt), 'dd.MM.yyyy | HH:mm:ss')}
+        Created: {format(new Date(createdAt), 'dd.MM.yyyy (HH:mm:ss)')} | Updated:{' '}
+        {format(new Date(updatedAt), 'dd.MM.yyyy (HH:mm:ss)')}
       </div>
     </div>
   );
