@@ -146,7 +146,7 @@ export default function ReviewCard({ review, onDelete }) {
 
       <div className='text-lg font-bold mb-2'>{username}</div>
       <div className='text-gray-800 mb-4'>{note}</div>
-      <div className='flex items-center mb-2'>{renderStars(rating)}</div>
+      <div className='flex items-center mb-4'>{renderStars(rating)}</div>
       <div className='text-xs text-gray-400'>
         Created: {format(new Date(createdAt), 'dd.MM.yyyy (HH:mm:ss)')} | Updated:{' '}
         {format(new Date(updatedAt), 'dd.MM.yyyy (HH:mm:ss)')}
