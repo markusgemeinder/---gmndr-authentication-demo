@@ -1,6 +1,27 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import { FaStar, FaStarHalfAlt, FaRegStar } from 'react-icons/fa';
+
+// Helper function to render stars
+const renderStars = (rating, setRating) => {
+  const stars = [];
+  for (let i = 1; i <= 5; i++) {
+    const isFilled = rating >= i;
+    const isHalf = rating > i - 1 && rating < i;
+    stars.push(
+      <div
+        key={i}
+        className={`cursor-pointer ${isFilled ? 'text-yellow-500' : 'text-gray-400'}`}
+        onClick={() => setRating(i)}
+        onMouseEnter={() => setRating(i)}
+        onMouseLeave={() => setRating(rating)}>
+        {isFilled ? <FaStar /> : isHalf ? <FaStarHalfAlt /> : <FaRegStar />}
+      </div>
+    );
+  }
+  return stars;
+};
 
 export default function ReviewForm({ review, onSave, onCancel }) {
   const [username, setUsername] = useState('');
@@ -91,18 +112,8 @@ export default function ReviewForm({ review, onSave, onCancel }) {
         <label htmlFor='rating' className='block text-sm font-medium text-gray-700'>
           Rating
         </label>
-        <select
-          id='rating'
-          value={rating}
-          onChange={(e) => setRating(parseInt(e.target.value))}
-          className='mt-1 block w-full border-gray-300 rounded-md shadow-sm'
-          required>
-          {[1, 2, 3, 4, 5].map((r) => (
-            <option key={r} value={r}>
-              {r}
-            </option>
-          ))}
-        </select>
+        <div className='flex space-x-1'>{renderStars(rating, setRating)}</div>
+        <input type='hidden' id='rating' value={rating} onChange={(e) => setRating(parseInt(e.target.value))} />
       </div>
       <div className='flex gap-4'>
         <button type='submit' className='bg-blue-500 text-white px-4 py-2 rounded'>

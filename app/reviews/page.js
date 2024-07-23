@@ -8,11 +8,16 @@ export default function ReviewsPage() {
   const [reviews, setReviews] = useState([]);
   const router = useRouter(); // Initialize router for navigation
 
+  // Fetch reviews and sort them by the most recent date
   useEffect(() => {
     const fetchReviews = async () => {
       const response = await fetch('/api/reviews');
       const data = await response.json();
-      setReviews(data);
+
+      // Sort reviews by updatedAt date in descending order
+      const sortedReviews = data.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+
+      setReviews(sortedReviews);
     };
     fetchReviews();
   }, []);
