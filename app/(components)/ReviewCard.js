@@ -1,3 +1,5 @@
+'use client';
+
 import { format } from 'date-fns';
 import { FaStar, FaStarHalfAlt, FaRegStar } from 'react-icons/fa';
 import { useRouter } from 'next/navigation';
@@ -41,7 +43,6 @@ export default function ReviewCard({ review }) {
       <div className='absolute top-2 right-2 text-xs text-gray-400 bg-gray-100 px-2 py-1 rounded'>ID: {_id}</div>
 
       <div className='text-lg font-bold mb-2'>{username}</div>
-      {/* <div className='text-sm text-gray-600 mb-2'>{email}</div> */}
       <div className='text-gray-800 mb-4'>{note}</div>
       <div className='flex items-center mb-2'>{renderStars(rating)}</div>
       <div className='text-xs text-gray-400'>
@@ -65,7 +66,7 @@ export default function ReviewCard({ review }) {
 
       {/* Delete confirmation modal */}
       {confirmDelete && (
-        <div className='fixed inset-0 bg-gray-700 bg-opacity-50 flex justify-center items-center'>
+        <div className='fixed inset-0 bg-gray-700 bg-opacity-50 flex justify-center items-center z-50'>
           <div className='bg-white p-6 rounded shadow-lg'>
             <h2 className='text-lg font-bold mb-4'>Confirm Deletion Object ID {_id}</h2>
             <p className='mb-4'>
