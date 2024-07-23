@@ -17,10 +17,13 @@ const renderStars = (rating) => {
 };
 
 export default function ReviewCard({ review }) {
-  const { username, email, note, rating, createdAt, updatedAt } = review;
+  const { _id, username, email, note, rating, createdAt, updatedAt } = review;
 
   return (
-    <div className='bg-gray-50 shadow-md rounded-lg overflow-hidden p-4 mb-4'>
+    <div className='bg-gray-50 shadow-md rounded-lg overflow-hidden p-4 mb-4 relative'>
+      {/* Object ID displayed in the top-right corner */}
+      <div className='absolute top-2 right-2 text-xs text-gray-500 bg-gray-200 px-2 py-1 rounded'>ID: {_id}</div>
+
       <div className='text-lg font-bold mb-2'>{username}</div>
       <div className='text-sm text-gray-600 mb-2'>{email}</div>
       <div className='text-gray-800 mb-4'>{note}</div>
