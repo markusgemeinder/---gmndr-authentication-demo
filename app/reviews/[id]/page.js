@@ -25,7 +25,13 @@ export default function EditPage({ params }) {
     router.push('/reviews');
   };
 
-  if (!review) return <p>Loading...</p>;
+  if (!review) {
+    return (
+      <div className='flex justify-center items-center h-screen'>
+        <p className='text-2xl font-bold blinking-text'>Loading...</p>
+      </div>
+    );
+  }
 
   return (
     <main className='p-4'>
