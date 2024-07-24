@@ -31,35 +31,61 @@ export default function ReviewForm({ review, onSave, onCancel }) {
 
   useEffect(() => {
     if (review) {
-      setUsername(review.username || '');
-      setEmail(review.email || '');
-      setNote(review.note || '');
-      setRating(review.rating || 1);
+      if (review._id.startsWith('demo-')) {
+        // Load from session storage
+        const storedReviews = JSON.parse(sessionStorage.getItem('reviews') || '[]');
+        const demoReview = storedReviews.find((r) => r._id === review._id);
+        if (demoReview) {
+          setUsername(demoReview.username || '');
+          setEmail(demoReview.email || '');
+          setNote(demoReview.note || '');
+          setRating(demoReview.rating || 1);
+        }
+      } else {
+        // Load from MongoDB
+        setUsername(review.username || '');
+        setEmail(review.email || '');
+        setNote(review.note || '');
+        setRating(review.rating || 1);
+      }
     }
   }, [review]);
 
   const handleSubmit = async (event) => {
     event.preventDefault();
     const data = { username, email, note, rating };
+
     try {
       if (review?._id) {
-        // Edit existing review
-        await fetch(`/api/reviews/${review._id}`, {
-          method: 'PATCH',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify(data),
-        });
+        if (review._id.startsWith('demo-')) {
+          // Save to session storage
+          const storedReviews = JSON.parse(sessionStorage.getItem('reviews') || '[]');
+          const index = storedReviews.findIndex((r) => r._id === review._id);
+          if (index !== -1) {
+            storedReviews[index] = { ...storedReviews[index], ...data, updatedAt: new Date().toISOString() };
+            sessionStorage.setItem('reviews', JSON.stringify(storedReviews));
+          }
+        } else {
+          // Edit existing review in MongoDB
+          await fetch(`/api/reviews/${review._id}`, {
+            method: 'PATCH',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(data),
+          });
+        }
       } else {
-        // Create new review
-        await fetch('/api/reviews', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify(data),
-        });
+        if (data.username && data.note) {
+          // Create new review
+          await fetch('/api/reviews', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(data),
+          });
+        }
       }
       onSave();
     } catch (error) {
@@ -101,7 +127,7 @@ export default function ReviewForm({ review, onSave, onCancel }) {
         </label>
         <textarea
           id='note'
-          rows='4'
+          rows='8'
           value={note}
           onChange={(e) => setNote(e.target.value)}
           className='mt-1 block w-full border-gray-300 rounded-md shadow-sm'
