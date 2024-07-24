@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import ReviewForm from '@/app/(components)/ReviewForm';
+import ReviewForm from '@/app/components/ReviewForm';
 import { useRouter } from 'next/navigation';
 
 export default function EditPage({ params }) {

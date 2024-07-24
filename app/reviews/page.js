@@ -1,7 +1,7 @@
 // 'use client';
 
 // import { useEffect, useState } from 'react';
-// import ReviewCard from '../(components)/ReviewCard';
+// import ReviewCard from '../components/ReviewCard';
 // import { useRouter } from 'next/navigation';
 
 // export default function ReviewsPage() {
@@ -45,7 +45,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import ReviewCard from '../(components)/ReviewCard';
+import ReviewCard from '../components/ReviewCard';
 import { useRouter } from 'next/navigation';
 
 export default function ReviewsPage() {
