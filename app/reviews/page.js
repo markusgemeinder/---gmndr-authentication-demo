@@ -1,5 +1,6 @@
 'use client';
 
+import ProtectedRoute from '../components/ProtectedRoute';
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import ReviewCard from '../components/ReviewCard';
@@ -64,6 +65,7 @@ export default function ReviewsPage() {
   }
 
   return (
+    // <ProtectedRoute>
     <main className='p-4'>
       <h1 className='text-2xl font-bold mb-4'>Reviews</h1>
       <button
@@ -86,5 +88,6 @@ export default function ReviewsPage() {
         ))}
       </div>
     </main>
+    // </ProtectedRoute>
   );
 }
