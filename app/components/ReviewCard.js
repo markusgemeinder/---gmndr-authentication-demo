@@ -29,8 +29,17 @@ export default function ReviewCard({ review, onDelete }) {
   const handleDelete = async () => {
     if (inputValue === _id.slice(-4)) {
       try {
-        await fetch(`/api/reviews/${_id}`, { method: 'DELETE' });
-        if (onDelete) onDelete(); // Call the onDelete callback after deletion
+        if (_id.startsWith('demo-')) {
+          // Remove demo review from session storage
+          const storedReviews = JSON.parse(sessionStorage.getItem('reviews') || '[]');
+          const updatedReviews = storedReviews.filter((r) => r._id !== _id);
+          sessionStorage.setItem('reviews', JSON.stringify(updatedReviews));
+          if (onDelete) onDelete(); // Call the onDelete callback after deletion
+        } else {
+          // Delete review from MongoDB
+          await fetch(`/api/reviews/${_id}`, { method: 'DELETE' });
+          if (onDelete) onDelete(); // Call the onDelete callback after deletion
+        }
       } catch (error) {
         console.error('Error deleting review:', error);
       }
