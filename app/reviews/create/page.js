@@ -1,6 +1,6 @@
 'use client';
 
-import ReviewForm from '@/app/(components)/ReviewForm';
+import ReviewForm from '@/app/components/ReviewForm';
 import { useRouter } from 'next/navigation';
 
 export default function CreatePage() {
