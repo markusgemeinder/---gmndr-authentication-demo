@@ -13,7 +13,15 @@ export default function ReviewsPage() {
     setLoading(true); // Set loading to true when starting to fetch
     const response = await fetch('/api/reviews');
     const data = await response.json();
-    const sortedReviews = data.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+
+    // Retrieve demo reviews from session storage
+    const storedReviews = JSON.parse(sessionStorage.getItem('reviews') || '[]');
+
+    // Combine demo reviews with MongoDB reviews
+    const combinedReviews = [...storedReviews, ...data];
+
+    // Sort reviews by creation date
+    const sortedReviews = combinedReviews.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
     setReviews(sortedReviews);
     setLoading(false); // Set loading to false when fetch is complete
   };
@@ -45,6 +53,8 @@ export default function ReviewsPage() {
     setReviews([demoReview, ...reviews]); // Update local state
   };
 
+  const demoReviewExists = reviews.some((review) => review._id.startsWith('demo-'));
+
   if (loading) {
     return (
       <div className='flex justify-center items-center h-screen'>
@@ -61,11 +71,13 @@ export default function ReviewsPage() {
         className='bg-green-500 text-white px-4 py-2 rounded shadow hover:bg-green-600 mb-4'>
         Create Review
       </button>
-      <button
-        onClick={handleCreateDemoReview}
-        className='bg-yellow-500 text-white px-4 py-2 rounded shadow hover:bg-yellow-600 mb-4'>
-        Create Review (Demo)
-      </button>
+      {!demoReviewExists && (
+        <button
+          onClick={handleCreateDemoReview}
+          className='bg-yellow-500 text-white px-4 py-2 rounded shadow hover:bg-yellow-600 mb-4'>
+          Create Review (Demo)
+        </button>
+      )}
       <div className='flex flex-col gap-4'>
         {reviews.map((review) => (
           <div key={review._id} className='w-full max-w-lg mx-auto'>
