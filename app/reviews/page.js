@@ -70,17 +70,17 @@ export default function ReviewsPage() {
       <h1 className='text-2xl font-bold mb-4'>Reviews</h1>
       <button
         onClick={() => router.push('/reviews/create')}
-        className='bg-green-500 text-white px-4 py-2 rounded shadow hover:bg-green-600 mb-4'>
+        className='bg-green-500 text-white px-4 py-2 rounded shadow hover:bg-green-600 mb-4 mr-4'>
         Create Review
       </button>
       {!demoReviewExists && (
         <button
           onClick={handleCreateDemoReview}
-          className='bg-yellow-500 text-white px-4 py-2 rounded shadow hover:bg-yellow-600 mb-4'>
+          className='bg-yellow-500 text-white px-4 py-2 rounded shadow hover:bg-yellow-600 mb-4 mr-4'>
           Create Review (Demo)
         </button>
       )}
-      <div className='flex flex-col gap-4'>
+      <div className='flex flex-col gap-4 mt-4'>
         {reviews.map((review) => (
           <div key={review._id} className='w-full max-w-lg mx-auto'>
             <ReviewCard review={review} onDelete={handleDelete} />
