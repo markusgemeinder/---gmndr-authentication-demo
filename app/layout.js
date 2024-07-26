@@ -11,7 +11,7 @@ export const metadata = {
 export default function Layout({ children }) {
   return (
     <html lang='en'>
-      <body className='relative min-h-screen'>
+      <body className='relative min-h-screen m-10'>
         <AuthProvider>
           <Navigation />
           <main className='pt-16 pb-16'>
