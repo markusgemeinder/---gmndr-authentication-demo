@@ -1,8 +1,8 @@
 'use client';
 
-import { useSession, signIn } from 'next-auth/react';
+import { useSession } from 'next-auth/react';
+import { useRouter } from 'next/navigation';
 import { useEffect } from 'react';
-import { useRouter } from 'next/router';
 
 const ProtectedRoute = ({ children }) => {
   const { data: session, status } = useSession();
@@ -10,23 +10,19 @@ const ProtectedRoute = ({ children }) => {
 
   useEffect(() => {
     if (status === 'unauthenticated') {
-      signIn();
+      router.push('/api/auth/signin');
     }
-  }, [status]);
+  }, [status, router]);
 
   if (status === 'loading') {
     return (
       <div className='flex justify-center items-center h-screen'>
-        <p className='text-2xl font-bold blinking-text'>Loading...</p>
+        <p className='text-2xl font-bold'>Loading...</p>
       </div>
     );
   }
 
-  if (status === 'authenticated') {
-    return children;
-  }
-
-  return null;
+  return session ? children : null;
 };
 
 export default ProtectedRoute;
