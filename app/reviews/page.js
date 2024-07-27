@@ -12,14 +12,23 @@ export default function ReviewsPage() {
 
   const fetchReviews = async () => {
     setLoading(true);
-    const response = await fetch('/api/reviews');
-    const data = await response.json();
+    try {
+      const response = await fetch('/api/reviews');
+      const data = await response.json();
 
-    const storedReviews = JSON.parse(sessionStorage.getItem('reviews') || '[]');
-    const combinedReviews = [...storedReviews, ...data];
-    const sortedReviews = combinedReviews.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
-    setReviews(sortedReviews);
-    setLoading(false);
+      if (!Array.isArray(data)) {
+        throw new Error('Data is not an array');
+      }
+
+      const storedReviews = JSON.parse(sessionStorage.getItem('reviews') || '[]');
+      const combinedReviews = [...storedReviews, ...data];
+      const sortedReviews = combinedReviews.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+      setReviews(sortedReviews);
+    } catch (error) {
+      console.error('Error fetching reviews:', error);
+    } finally {
+      setLoading(false);
+    }
   };
 
   useEffect(() => {

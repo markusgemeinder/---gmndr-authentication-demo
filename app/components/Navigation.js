@@ -2,9 +2,18 @@
 
 import Link from 'next/link';
 import { useSession, signIn, signOut } from 'next-auth/react';
+import { useRouter } from 'next/navigation';
+import { useEffect } from 'react';
 
 export default function Navigation() {
-  const { data: session } = useSession();
+  const { data: session, status } = useSession();
+  const router = useRouter();
+
+  useEffect(() => {
+    if (status === 'unauthenticated') {
+      router.push('/');
+    }
+  }, [status, router]);
 
   return (
     <header className='bg-gray-800 text-white fixed top-0 left-0 w-full p-4 shadow-md z-10'>
@@ -12,7 +21,9 @@ export default function Navigation() {
         <div className='flex items-center space-x-4'>
           <div className='text-xl font-bold'>MyApp</div>
           <div>
-            {session ? (
+            {status === 'loading' ? (
+              <p>Loading...</p>
+            ) : session ? (
               <button onClick={() => signOut()} className='bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded'>
                 Logout
               </button>
@@ -29,16 +40,22 @@ export default function Navigation() {
               Home
             </Link>
           </li>
-          <li>
-            <Link href='/reviews' className='hover:underline'>
-              Reviews
-            </Link>
-          </li>
-          <li>
-            <Link href='/api/reviews' className='hover:underline'>
-              API
-            </Link>
-          </li>
+          {session && (
+            <>
+              <li>
+                <Link href='/reviews' className='hover:underline'>
+                  Reviews
+                </Link>
+              </li>
+              {session.user.role === 'admin' && (
+                <li>
+                  <Link href='/api/reviews' className='hover:underline'>
+                    API
+                  </Link>
+                </li>
+              )}
+            </>
+          )}
         </ul>
       </nav>
     </header>

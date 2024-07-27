@@ -1,5 +1,6 @@
 'use client';
 
+import ProtectedRoute from '@/app/components/Authentication/ProtectedRoute';
 import { useEffect, useState } from 'react';
 import ReviewForm from '@/app/components/ReviewForm';
 import { useRouter } from 'next/navigation';
@@ -47,9 +48,11 @@ export default function EditPage({ params }) {
   }
 
   return (
-    <main className='p-4'>
-      <h1 className='text-2xl font-bold mb-4'>Edit Review</h1>
-      <ReviewForm review={review} onSave={handleSave} onCancel={handleCancel} />
-    </main>
+    <ProtectedRoute>
+      <main className='p-4'>
+        <h1 className='text-2xl font-bold mb-4'>Edit Review</h1>
+        <ReviewForm review={review} onSave={handleSave} onCancel={handleCancel} />
+      </main>
+    </ProtectedRoute>
   );
 }

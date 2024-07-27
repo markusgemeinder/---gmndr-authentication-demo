@@ -22,7 +22,11 @@ const ProtectedRoute = ({ children }) => {
     );
   }
 
-  return session ? children : null;
+  if (!session) {
+    return null;
+  }
+
+  return <>{children}</>;
 };
 
 export default ProtectedRoute;
