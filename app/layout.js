@@ -1,6 +1,6 @@
 import './globals.css';
 import Navigation from './components/Navigation';
-import AuthProvider from './components/AuthProvider';
+import AuthProvider from './components/Authentication/AuthProvider';
 import Footer from './components/Footer'; // Importiere die Footer-Komponente
 
 export const metadata = {

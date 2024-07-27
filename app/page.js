@@ -1,4 +1,4 @@
-import SessionStatus from './components/SessionStatus';
+import SessionStatus from './components/Authentication/SessionStatus';
 
 export default function Home() {
   return (

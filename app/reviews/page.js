@@ -1,6 +1,6 @@
 'use client';
 
-import ProtectedRoute from '../components/ProtectedRoute';
+import ProtectedRoute from '../components/Authentication/ProtectedRoute';
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import ReviewCard from '../components/ReviewCard';
