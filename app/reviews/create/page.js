@@ -19,7 +19,7 @@ export default function CreatePage() {
   return (
     <ProtectedRoute>
       <main className='p-4'>
-        <h1 className='text-2xl font-bold mb-1'>Review erstellen</h1>
+        <h1 className='text-2xl font-bold mb-1'>Create Review</h1>
         <SessionStatus />
         <ReviewForm onSave={handleSave} onCancel={handleCancel} />
       </main>

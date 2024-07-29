@@ -35,14 +35,14 @@ export default function Navigation() {
             )}
           </div>
         </div>
-        <ul className='flex space-x-4'>
-          <li>
-            <Link href='/' className='hover:underline'>
-              Home
-            </Link>
-          </li>
-          {session && (
-            <>
+        {session && (
+          <>
+            <ul className='flex space-x-4'>
+              <li>
+                <Link href='/' className='hover:underline'>
+                  Home
+                </Link>
+              </li>
               <li>
                 <Link href='/reviews' className='hover:underline'>
                   Reviews
@@ -55,9 +55,9 @@ export default function Navigation() {
                   </Link>
                 </li>
               )}
-            </>
-          )}
-        </ul>
+            </ul>
+          </>
+        )}
       </nav>
     </header>
   );
