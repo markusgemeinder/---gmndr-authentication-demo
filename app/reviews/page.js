@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import ReviewCard from '../components/ReviewCard';
 import SessionStatus from '../components/Authentication/SessionStatus';
+import LoadingAnimation from '../components/LoadingAnimation';
 
 export default function ReviewsPage() {
   const [reviews, setReviews] = useState([]);
@@ -61,11 +62,7 @@ export default function ReviewsPage() {
   const demoReviewExists = reviews.some((review) => review._id.startsWith('demo-'));
 
   if (loading) {
-    return (
-      <div className='flex justify-center items-center h-screen'>
-        <p className='text-2xl font-bold blinking-text'>Loading...</p>
-      </div>
-    );
+    return <LoadingAnimation />;
   }
 
   return (
@@ -76,13 +73,13 @@ export default function ReviewsPage() {
         <button
           onClick={() => router.push('/reviews/create')}
           className='bg-green-500 text-white px-4 py-2 rounded shadow hover:bg-green-600 mt-4 mb-4 mr-4'>
-          Create Review
+          Review erstellen
         </button>
         {!demoReviewExists && (
           <button
             onClick={handleCreateDemoReview}
             className='bg-yellow-500 text-white px-4 py-2 rounded shadow hover:bg-yellow-600 mt-4 mb-4 mr-4'>
-            Create Review (Demo)
+            Demo Review erstellen
           </button>
         )}
         <div className='flex flex-col gap-4 mt-4'>

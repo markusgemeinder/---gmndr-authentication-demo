@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { useSession, signIn, signOut } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
 import { useEffect } from 'react';
+import LoadingAnimation from './LoadingAnimation';
 
 export default function Navigation() {
   const { data: session, status } = useSession();
@@ -24,7 +25,7 @@ export default function Navigation() {
           <div className='text-xl font-bold'>MyApp</div>
           <div>
             {status === 'loading' ? (
-              <p>Loading...</p>
+              <LoadingAnimation />
             ) : session ? (
               <button onClick={() => signOut()} className='bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded'>
                 Logout

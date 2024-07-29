@@ -5,6 +5,7 @@ import { useEffect, useState } from 'react';
 import ReviewForm from '@/app/components/ReviewForm';
 import { useRouter } from 'next/navigation';
 import SessionStatus from '@/app/components/Authentication/SessionStatus';
+import LoadingAnimation from '@/app/components/LoadingAnimation';
 
 export default function EditPage({ params }) {
   const [review, setReview] = useState(null);
@@ -41,17 +42,13 @@ export default function EditPage({ params }) {
   };
 
   if (!review && !isDemoReview) {
-    return (
-      <div className='flex justify-center items-center h-screen'>
-        <p className='text-2xl font-bold blinking-text'>Loading...</p>
-      </div>
-    );
+    return <LoadingAnimation />;
   }
 
   return (
     <ProtectedRoute>
       <main className='p-4'>
-        <h1 className='text-2xl font-bold mb-1'>Edit Review</h1>
+        <h1 className='text-2xl font-bold mb-1'>Review bearbeiten</h1>
         <SessionStatus />
         <ReviewForm review={review} onSave={handleSave} onCancel={handleCancel} />
       </main>
