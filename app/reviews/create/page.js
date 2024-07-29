@@ -1,7 +1,7 @@
 'use client';
 
 import ProtectedRoute from '@/app/components/Authentication/ProtectedRoute';
-import ReviewForm from '@/app/components/ReviewForm';
+import ReviewForm from '@/app/components/Review/ReviewForm';
 import { useRouter } from 'next/navigation';
 import SessionStatus from '@/app/components/Authentication/SessionStatus';
 

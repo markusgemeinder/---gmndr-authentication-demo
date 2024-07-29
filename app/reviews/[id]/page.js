@@ -2,10 +2,10 @@
 
 import ProtectedRoute from '@/app/components/Authentication/ProtectedRoute';
 import { useEffect, useState } from 'react';
-import ReviewForm from '@/app/components/ReviewForm';
+import ReviewForm from '@/app/components/Review/ReviewForm';
 import { useRouter } from 'next/navigation';
 import SessionStatus from '@/app/components/Authentication/SessionStatus';
-import LoadingAnimation from '@/app/components/LoadingAnimation';
+import LoadingAnimation from '@/app/components/Common/LoadingAnimation';
 
 export default function EditPage({ params }) {
   const [review, setReview] = useState(null);

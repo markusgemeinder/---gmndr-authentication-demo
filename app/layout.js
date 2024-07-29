@@ -1,7 +1,7 @@
 import './globals.css';
-import Navigation from './components/Navigation';
+import Navigation from './components/Common/Navigation';
 import AuthProvider from './components/Authentication/AuthProvider';
-import Footer from './components/Footer'; // Importiere die Footer-Komponente
+import Footer from './components/Common/Footer'; // Importiere die Footer-Komponente
 
 export const metadata = {
   title: '#GMNDR Authentication Demo',

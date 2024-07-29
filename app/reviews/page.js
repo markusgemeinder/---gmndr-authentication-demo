@@ -3,9 +3,9 @@
 import ProtectedRoute from '../components/Authentication/ProtectedRoute';
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
-import ReviewCard from '../components/ReviewCard';
+import ReviewCard from '../components/Review/ReviewCard';
 import SessionStatus from '../components/Authentication/SessionStatus';
-import LoadingAnimation from '../components/LoadingAnimation';
+import LoadingAnimation from '../components/Common/LoadingAnimation';
 
 export default function ReviewsPage() {
   const [reviews, setReviews] = useState([]);
