@@ -4,6 +4,7 @@ import ProtectedRoute from '@/app/components/Authentication/ProtectedRoute';
 import { useEffect, useState } from 'react';
 import ReviewForm from '@/app/components/ReviewForm';
 import { useRouter } from 'next/navigation';
+import SessionStatus from '@/app/components/Authentication/SessionStatus';
 
 export default function EditPage({ params }) {
   const [review, setReview] = useState(null);
@@ -50,7 +51,8 @@ export default function EditPage({ params }) {
   return (
     <ProtectedRoute>
       <main className='p-4'>
-        <h1 className='text-2xl font-bold mb-4'>Edit Review</h1>
+        <h1 className='text-2xl font-bold mb-1'>Edit Review</h1>
+        <SessionStatus />
         <ReviewForm review={review} onSave={handleSave} onCancel={handleCancel} />
       </main>
     </ProtectedRoute>

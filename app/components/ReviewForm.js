@@ -94,7 +94,7 @@ export default function ReviewForm({ review, onSave, onCancel }) {
   };
 
   return (
-    <form onSubmit={handleSubmit} className='bg-white shadow-md rounded-lg p-4 max-w-lg mx-auto'>
+    <form onSubmit={handleSubmit} className='bg-gray-50 shadow-md rounded-lg p-4 max-w-lg mx-auto mt-8'>
       <div className='mb-4'>
         <label htmlFor='username' className='block text-sm font-medium text-gray-700'>
           Username

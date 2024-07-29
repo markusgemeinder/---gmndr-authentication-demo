@@ -12,6 +12,8 @@ export default function Navigation() {
   useEffect(() => {
     if (status === 'unauthenticated') {
       router.push('/');
+    } else {
+      router.push('/reviews');
     }
   }, [status, router]);
 

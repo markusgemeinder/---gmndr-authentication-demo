@@ -8,11 +8,11 @@ const SessionStatus = () => {
   return (
     <div>
       {session ? (
-        <p className='text-lg text-gray-500'>
+        <p className='text-s text-gray-500'>
           Welcome, {session.user.name}. You are logged in as {session.user.role}.
         </p>
       ) : (
-        <p className='text-lg text-gray-500'>
+        <p className='text-s text-gray-500'>
           Welcome, unknown user.{' '}
           <a href='#' onClick={() => signIn()} className='text-blue-500 hover:underline'>
             Please login.
