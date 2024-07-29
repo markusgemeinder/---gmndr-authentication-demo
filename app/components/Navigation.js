@@ -24,9 +24,7 @@ export default function Navigation() {
         <div className='flex items-center space-x-4'>
           <div className='text-xl font-bold'>MyApp</div>
           <div>
-            {status === 'loading' ? (
-              <LoadingAnimation />
-            ) : session ? (
+            {session ? (
               <button onClick={() => signOut()} className='bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded'>
                 Logout
               </button>
