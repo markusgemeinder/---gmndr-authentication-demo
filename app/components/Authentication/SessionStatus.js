@@ -62,28 +62,33 @@ const ModalButtonContainer = styled.div`
 
 const SessionStatus = () => {
   const { data: session } = useSession();
-  const [timeLeft, setTimeLeft] = useState(() => {
-    const savedTime = localStorage.getItem('timeLeft');
-    return savedTime ? parseInt(savedTime, 10) : 180;
-  });
+  const [timeLeft, setTimeLeft] = useState(180); // Standardwert 3 Minuten
   const [showPopup, setShowPopup] = useState(false);
 
   useEffect(() => {
+    if (typeof window === 'undefined') return; // Sicherstellen, dass `window` existiert
+
+    const savedTime = localStorage.getItem('timeLeft');
+    if (savedTime) {
+      setTimeLeft(parseInt(savedTime, 10));
+    }
+
     let interval;
 
     if (session) {
       interval = setInterval(() => {
         setTimeLeft((prevTime) => {
           const newTime = prevTime - 1;
-          localStorage.setItem('timeLeft', newTime);
           if (newTime <= 0) {
             clearInterval(interval);
             signOut();
+            localStorage.removeItem('timeLeft'); // Entfernen, wenn die Zeit abgelaufen ist
             return 0;
           }
           if (newTime === 20) {
             setShowPopup(true);
           }
+          localStorage.setItem('timeLeft', newTime);
           return newTime;
         });
       }, 1000);
