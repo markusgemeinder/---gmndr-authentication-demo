@@ -3,6 +3,7 @@
 import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
 import { useEffect } from 'react';
+import LoadingAnimation from '../Common/LoadingAnimation';
 
 const ProtectedRoute = ({ children }) => {
   const { data: session, status } = useSession();
@@ -15,11 +16,7 @@ const ProtectedRoute = ({ children }) => {
   }, [status, router]);
 
   if (status === 'loading') {
-    return (
-      <div className='flex justify-center items-center h-screen'>
-        <p className='text-2xl font-bold'>Loading...</p>
-      </div>
-    );
+    return <LoadingAnimation />;
   }
 
   if (!session) {

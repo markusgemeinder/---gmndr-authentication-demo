@@ -2,20 +2,14 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Optional: Global styles */
-body {
-  margin: 0;
-  font-family: system-ui, sans-serif;
-}
-
-main {
-  padding-top: 4rem;
-  padding-bottom: 4rem;
-  margin: 1.4rem;
-}
-
 /* Color Variables */
+
 :root {
+  --color-link: #3b82f6;
+  --color-link-hover: #2563eb;
+  --color-text: #111827;
+  --color-text-medium: #6b7280;
+  --color-text-light: #9ca3af;
   --color-header: #1f2937;
   --color-header-text: #ffffff;
   --color-footer: var(--color-header);
@@ -39,6 +33,18 @@ main {
   --color-button-save-hover: var(--color-button-review-hover);
   --color-button-cancel: var(--color-button);
   --color-button-cancel-hover: var(--color-button-hover);
+}
+
+body {
+  margin: 0;
+  font-family: system-ui, sans-serif;
+  color: var(--color-text);
+}
+
+main {
+  padding-top: 4rem;
+  padding-bottom: 4rem;
+  margin: 1.4rem;
 }
 
 @keyframes blink {
