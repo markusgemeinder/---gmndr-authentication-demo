@@ -90,12 +90,12 @@ export default function ReviewCard({ review, onDelete }) {
             <div className='flex gap-4'>
               <button
                 onClick={handleDelete}
-                className='bg-red-500 text-white px-4 py-2 rounded shadow hover:bg-red-600'>
+                className='bg-red-500 text-white px-4 py-2 rounded shadow mr-4 hover:bg-red-600'>
                 Confirm
               </button>
               <button
                 onClick={() => setConfirmDelete(false)}
-                className='bg-gray-300 text-gray-800 px-4 py-2 rounded shadow hover:bg-gray-400'>
+                className='bg-gray-300 text-gray-800 px-4 py-2 rounded shadow mr-4 hover:bg-gray-400'>
                 Cancel
               </button>
             </div>

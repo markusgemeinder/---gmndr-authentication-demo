@@ -1,5 +1,7 @@
-import Navigation from './components/Navigation';
 import './globals.css';
+import Navigation from './components/Common/Navigation';
+import AuthProvider from './components/Authentication/AuthProvider';
+import Footer from './components/Common/Footer'; // Importiere die Footer-Komponente
 
 export const metadata = {
   title: '#GMNDR Authentication Demo',
@@ -9,13 +11,15 @@ export const metadata = {
 export default function Layout({ children }) {
   return (
     <html lang='en'>
-      <body>
-        <Navigation />
-        <main className='pt-16'>
-          {' '}
-          {/* Padding to avoid content being hidden under the fixed header */}
-          {children}
-        </main>
+      <body className='relative min-h-screen m-10'>
+        <AuthProvider>
+          <Navigation />
+          <main className='pt-16 pb-16'>
+            {/* Padding oben für Navigation und unten für Footer */}
+            {children}
+          </main>
+          <Footer /> {/* Füge den Footer hier hinzu */}
+        </AuthProvider>
       </body>
     </html>
   );

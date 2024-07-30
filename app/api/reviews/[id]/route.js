@@ -1,8 +1,15 @@
 import dbConnect from '@/db/connect';
 import Review from '@/db/models/Review';
 import mongoose from 'mongoose';
+import { getToken } from 'next-auth/jwt';
 
 export async function GET(request, { params }) {
+  const token = await getToken({ req: request, secret: process.env.NEXTAUTH_SECRET });
+
+  if (!token) {
+    return new Response(JSON.stringify({ error: 'Unauthorized' }), { status: 401 });
+  }
+
   await dbConnect();
   const { id } = params;
 
@@ -24,6 +31,12 @@ export async function GET(request, { params }) {
 }
 
 export async function PATCH(request, { params }) {
+  const token = await getToken({ req: request, secret: process.env.NEXTAUTH_SECRET });
+
+  if (!token) {
+    return new Response(JSON.stringify({ error: 'Unauthorized' }), { status: 401 });
+  }
+
   await dbConnect();
   const { id } = params;
 
@@ -45,6 +58,12 @@ export async function PATCH(request, { params }) {
 }
 
 export async function DELETE(request, { params }) {
+  const token = await getToken({ req: request, secret: process.env.NEXTAUTH_SECRET });
+
+  if (!token) {
+    return new Response(JSON.stringify({ error: 'Unauthorized' }), { status: 401 });
+  }
+
   await dbConnect();
   const { id } = params;
 

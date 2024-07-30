@@ -1,29 +1,36 @@
 'use client';
 
+import ProtectedRoute from '../components/Authentication/ProtectedRoute';
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
-import ReviewCard from '../components/ReviewCard';
+import ReviewCard from '../components/Review/ReviewCard';
+import SessionStatus from '../components/Authentication/SessionStatus';
+import LoadingAnimation from '../components/Common/LoadingAnimation';
 
 export default function ReviewsPage() {
   const [reviews, setReviews] = useState([]);
-  const [loading, setLoading] = useState(true); // Add a loading state
+  const [loading, setLoading] = useState(true);
   const router = useRouter();
 
   const fetchReviews = async () => {
-    setLoading(true); // Set loading to true when starting to fetch
-    const response = await fetch('/api/reviews');
-    const data = await response.json();
+    setLoading(true);
+    try {
+      const response = await fetch('/api/reviews');
+      const data = await response.json();
 
-    // Retrieve demo reviews from session storage
-    const storedReviews = JSON.parse(sessionStorage.getItem('reviews') || '[]');
+      if (!Array.isArray(data)) {
+        throw new Error('Data is not an array');
+      }
 
-    // Combine demo reviews with MongoDB reviews
-    const combinedReviews = [...storedReviews, ...data];
-
-    // Sort reviews by creation date
-    const sortedReviews = combinedReviews.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
-    setReviews(sortedReviews);
-    setLoading(false); // Set loading to false when fetch is complete
+      const storedReviews = JSON.parse(sessionStorage.getItem('reviews') || '[]');
+      const combinedReviews = [...storedReviews, ...data];
+      const sortedReviews = combinedReviews.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+      setReviews(sortedReviews);
+    } catch (error) {
+      console.error('Error fetching reviews:', error);
+    } finally {
+      setLoading(false);
+    }
   };
 
   useEffect(() => {
@@ -31,7 +38,7 @@ export default function ReviewsPage() {
   }, []);
 
   const handleDelete = async () => {
-    await fetchReviews(); // Re-fetch reviews to update the list
+    await fetchReviews();
   };
 
   const handleCreateDemoReview = () => {
@@ -45,46 +52,44 @@ export default function ReviewsPage() {
       updatedAt: new Date().toISOString(),
     };
 
-    // Save to session storage
     const storedReviews = JSON.parse(sessionStorage.getItem('reviews') || '[]');
-    storedReviews.unshift(demoReview); // Add demo review to the beginning of the array
+    storedReviews.unshift(demoReview);
     sessionStorage.setItem('reviews', JSON.stringify(storedReviews));
 
-    setReviews([demoReview, ...reviews]); // Update local state
+    setReviews([demoReview, ...reviews]);
   };
 
   const demoReviewExists = reviews.some((review) => review._id.startsWith('demo-'));
 
   if (loading) {
-    return (
-      <div className='flex justify-center items-center h-screen'>
-        <p className='text-2xl font-bold blinking-text'>Loading...</p>
-      </div>
-    );
+    return <LoadingAnimation />;
   }
 
   return (
-    <main className='p-4'>
-      <h1 className='text-2xl font-bold mb-4'>Reviews</h1>
-      <button
-        onClick={() => router.push('/reviews/create')}
-        className='bg-green-500 text-white px-4 py-2 rounded shadow hover:bg-green-600 mb-4'>
-        Create Review
-      </button>
-      {!demoReviewExists && (
+    <ProtectedRoute>
+      <main className='p-4'>
+        <h1 className='text-2xl font-bold mb-1'>Reviews</h1>
+        <SessionStatus />
         <button
-          onClick={handleCreateDemoReview}
-          className='bg-yellow-500 text-white px-4 py-2 rounded shadow hover:bg-yellow-600 mb-4'>
-          Create Review (Demo)
+          onClick={() => router.push('/reviews/create')}
+          className='bg-green-500 text-white px-4 py-2 rounded shadow hover:bg-green-600 mt-4 mb-4 mr-4'>
+          Create Review
         </button>
-      )}
-      <div className='flex flex-col gap-4'>
-        {reviews.map((review) => (
-          <div key={review._id} className='w-full max-w-lg mx-auto'>
-            <ReviewCard review={review} onDelete={handleDelete} />
-          </div>
-        ))}
-      </div>
-    </main>
+        {!demoReviewExists && (
+          <button
+            onClick={handleCreateDemoReview}
+            className='bg-yellow-500 text-white px-4 py-2 rounded shadow hover:bg-yellow-600 mt-4 mb-4 mr-4'>
+            Create Demo Review
+          </button>
+        )}
+        <div className='flex flex-col gap-4 mt-4'>
+          {reviews.map((review) => (
+            <div key={review._id} className='w-full max-w-lg mx-auto'>
+              <ReviewCard review={review} onDelete={handleDelete} />
+            </div>
+          ))}
+        </div>
+      </main>
+    </ProtectedRoute>
   );
 }

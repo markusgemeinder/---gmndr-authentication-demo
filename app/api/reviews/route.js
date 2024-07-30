@@ -1,7 +1,14 @@
 import dbConnect from '@/db/connect';
 import Review from '@/db/models/Review';
+import { getToken } from 'next-auth/jwt';
 
 export async function GET(request) {
+  const token = await getToken({ req: request, secret: process.env.NEXTAUTH_SECRET });
+
+  if (!token) {
+    return new Response(JSON.stringify({ error: 'Unauthorized' }), { status: 401 });
+  }
+
   await dbConnect();
 
   try {
@@ -14,6 +21,12 @@ export async function GET(request) {
 }
 
 export async function POST(request) {
+  const token = await getToken({ req: request, secret: process.env.NEXTAUTH_SECRET });
+
+  if (!token) {
+    return new Response(JSON.stringify({ error: 'Unauthorized' }), { status: 401 });
+  }
+
   await dbConnect();
 
   try {
