@@ -1,10 +1,28 @@
+'use client';
+import styled from 'styled-components';
 import SessionStatus from './components/Authentication/SessionStatus';
+
+const Container = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  min-height: 100vh;
+  padding: 0.5rem;
+  margin-top: 5rem;
+`;
+
+const Title = styled.h1`
+  font-size: 2.5rem;
+  font-weight: bold;
+  margin-bottom: 1rem;
+`;
 
 export default function Home() {
   return (
-    <div className='flex flex-col items-center justify-top min-h-screen py-2 mt-20'>
-      <h1 className='text-4xl font-bold mb-4'>#GMNDR Authentication Demo</h1>
+    <Container>
+      <Title>#GMNDR Authentication Demo</Title>
       <SessionStatus />
-    </div>
+    </Container>
   );
 }

@@ -1,25 +1,39 @@
-'use client';
-
 import { useSession, signIn } from 'next-auth/react';
+import styled from 'styled-components';
+
+const StatusContainer = styled.div`
+  margin-bottom: 0.4rem;
+  font-size: 0.875rem;
+  color: var(--color-text-light);
+`;
+
+const LoginLink = styled.a`
+  color: var(--color-link);
+  text-decoration: underline;
+
+  &:hover {
+    color: var(--color-link-hover);
+  }
+`;
 
 const SessionStatus = () => {
   const { data: session } = useSession();
 
   return (
-    <div>
+    <StatusContainer>
       {session ? (
-        <p className='text-s text-gray-500'>
+        <p>
           Welcome, {session.user.name}. You are logged in as {session.user.role}.
         </p>
       ) : (
-        <p className='text-s text-gray-500'>
+        <p>
           Welcome, unknown user.{' '}
-          <a href='#' onClick={() => signIn()} className='text-blue-500 hover:underline'>
+          <LoginLink href='#' onClick={() => signIn()}>
             Please login.
-          </a>
+          </LoginLink>
         </p>
       )}
-    </div>
+    </StatusContainer>
   );
 };
 
