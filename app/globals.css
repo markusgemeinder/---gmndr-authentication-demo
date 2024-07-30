@@ -8,6 +8,39 @@ body {
   font-family: system-ui, sans-serif;
 }
 
+main {
+  padding-top: 4rem;
+  padding-bottom: 4rem;
+  margin: 1.4rem;
+}
+
+/* Color Variables */
+:root {
+  --color-header: #1f2937;
+  --color-header-text: #ffffff;
+  --color-footer: var(--color-header);
+  --color-footer-text: var(--color-header-text);
+  --color-button: #b0bec5;
+  --color-button-hover: #78909c;
+  --color-button-text: #ffffff;
+  --color-button-review: #4caf50;
+  --color-button-review-hover: #388e3c;
+  --color-button-demo-review: #f59e0b;
+  --color-button-demo-review-hover: #b45309;
+  --color-button-edit: #2196f3;
+  --color-button-edit-hover: #1976d2;
+  --color-button-delete: #f44336;
+  --color-button-delete-hover: #d32f2f;
+  --color-button-login: var(--color-button-edit);
+  --color-button-login-hover: var(--color-button-edit-hover);
+  --color-button-logout: var(--color-button-delete);
+  --color-button-logout-hover: var(--color-button-delete-hover);
+  --color-button-save: var(--color-button-review);
+  --color-button-save-hover: var(--color-button-review-hover);
+  --color-button-cancel: var(--color-button);
+  --color-button-cancel-hover: var(--color-button-hover);
+}
+
 @keyframes blink {
   0% {
     opacity: 1;

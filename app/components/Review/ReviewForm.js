@@ -2,8 +2,62 @@
 
 import { useState, useEffect } from 'react';
 import { FaStar, FaStarHalfAlt, FaRegStar } from 'react-icons/fa';
+import styled from 'styled-components';
+import Button from '../Common/Button';
 
-// Helper function to render stars
+const FormContainer = styled.form`
+  background-color: #f5f5f5;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  border-radius: 0.375rem;
+  padding: 1rem;
+  max-width: 32rem;
+  margin: 2rem auto;
+`;
+
+const FormGroup = styled.div`
+  margin-bottom: 1rem;
+`;
+
+const Label = styled.label`
+  display: block;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: #4a5568;
+`;
+
+const Input = styled.input`
+  margin-top: 0.25rem;
+  width: 100%;
+  border-color: #e2e8f0;
+  border-radius: 0.375rem;
+  padding: 0.5rem;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+`;
+
+const Textarea = styled.textarea`
+  margin-top: 0.25rem;
+  width: 100%;
+  border-color: #e2e8f0;
+  border-radius: 0.375rem;
+  padding: 0.5rem;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+`;
+
+const RatingContainer = styled.div`
+  display: flex;
+  gap: 0.25rem;
+  margin-top: 0.5rem;
+`;
+
+const HiddenInput = styled.input`
+  display: none;
+`;
+
+const ButtonContainer = styled.div`
+  display: flex;
+  gap: 1rem;
+`;
+
 const renderStars = (rating, setRating) => {
   const stars = [];
   for (let i = 1; i <= 5; i++) {
@@ -12,7 +66,7 @@ const renderStars = (rating, setRating) => {
     stars.push(
       <div
         key={i}
-        className={`cursor-pointer ${isFilled ? 'text-yellow-500' : 'text-gray-400'}`}
+        style={{ cursor: 'pointer', color: isFilled ? '#fbbf24' : '#e5e7eb' }}
         onClick={() => setRating(i)}
         onMouseEnter={() => setRating(i)}
         onMouseLeave={() => setRating(rating)}>
@@ -32,7 +86,6 @@ export default function ReviewForm({ review, onSave, onCancel }) {
   useEffect(() => {
     if (review) {
       if (review._id.startsWith('demo-')) {
-        // Load from session storage
         const storedReviews = JSON.parse(sessionStorage.getItem('reviews') || '[]');
         const demoReview = storedReviews.find((r) => r._id === review._id);
         if (demoReview) {
@@ -42,7 +95,6 @@ export default function ReviewForm({ review, onSave, onCancel }) {
           setRating(demoReview.rating || 1);
         }
       } else {
-        // Load from MongoDB
         setUsername(review.username || '');
         setEmail(review.email || '');
         setNote(review.note || '');
@@ -58,7 +110,6 @@ export default function ReviewForm({ review, onSave, onCancel }) {
     try {
       if (review?._id) {
         if (review._id.startsWith('demo-')) {
-          // Save to session storage
           const storedReviews = JSON.parse(sessionStorage.getItem('reviews') || '[]');
           const index = storedReviews.findIndex((r) => r._id === review._id);
           if (index !== -1) {
@@ -66,7 +117,6 @@ export default function ReviewForm({ review, onSave, onCancel }) {
             sessionStorage.setItem('reviews', JSON.stringify(storedReviews));
           }
         } else {
-          // Edit existing review in MongoDB
           await fetch(`/api/reviews/${review._id}`, {
             method: 'PATCH',
             headers: {
@@ -77,7 +127,6 @@ export default function ReviewForm({ review, onSave, onCancel }) {
         }
       } else {
         if (data.username && data.note) {
-          // Create new review
           await fetch('/api/reviews', {
             method: 'POST',
             headers: {
@@ -94,61 +143,36 @@ export default function ReviewForm({ review, onSave, onCancel }) {
   };
 
   return (
-    <form onSubmit={handleSubmit} className='bg-gray-50 shadow-md rounded-lg p-4 max-w-lg mx-auto mt-8'>
-      <div className='mb-4'>
-        <label htmlFor='username' className='block text-sm font-medium text-gray-700'>
-          Username
-        </label>
-        <input
-          id='username'
-          type='text'
-          value={username}
-          onChange={(e) => setUsername(e.target.value)}
-          className='mt-1 block w-full border-gray-300 rounded-md shadow-sm'
-          required
-        />
-      </div>
-      <div className='mb-4'>
-        <label htmlFor='email' className='block text-sm font-medium text-gray-700'>
-          Email
-        </label>
-        <input
-          id='email'
-          type='email'
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          className='mt-1 block w-full border-gray-300 rounded-md shadow-sm'
-          required
-        />
-      </div>
-      <div className='mb-4'>
-        <label htmlFor='note' className='block text-sm font-medium text-gray-700'>
-          Note
-        </label>
-        <textarea
-          id='note'
-          rows='8'
-          value={note}
-          onChange={(e) => setNote(e.target.value)}
-          className='mt-1 block w-full border-gray-300 rounded-md shadow-sm'
-          required
-        />
-      </div>
-      <div className='mb-8'>
-        <label htmlFor='rating' className='block text-sm font-medium text-gray-700'>
-          Rating
-        </label>
-        <div className='flex space-x-1 mt-2'>{renderStars(rating, setRating)}</div>
-        <input type='hidden' id='rating' value={rating} onChange={(e) => setRating(parseInt(e.target.value))} />
-      </div>
-      <div className='flex gap-4'>
-        <button type='submit' className='bg-blue-500 text-white px-4 py-2 rounded'>
+    <FormContainer onSubmit={handleSubmit}>
+      <FormGroup>
+        <Label htmlFor='username'>Username</Label>
+        <Input id='username' type='text' value={username} onChange={(e) => setUsername(e.target.value)} required />
+      </FormGroup>
+      <FormGroup>
+        <Label htmlFor='email'>Email</Label>
+        <Input id='email' type='email' value={email} onChange={(e) => setEmail(e.target.value)} required />
+      </FormGroup>
+      <FormGroup>
+        <Label htmlFor='note'>Note</Label>
+        <Textarea id='note' rows='8' value={note} onChange={(e) => setNote(e.target.value)} required />
+      </FormGroup>
+      <FormGroup>
+        <Label htmlFor='rating'>Rating</Label>
+        <RatingContainer>{renderStars(rating, setRating)}</RatingContainer>
+        <HiddenInput type='hidden' id='rating' value={rating} onChange={(e) => setRating(parseInt(e.target.value))} />
+      </FormGroup>
+      <ButtonContainer>
+        <Button type='submit' bgColor='var(--color-button-save)' hoverColor='var(--color-button-save-hover)'>
           Save
-        </button>
-        <button type='button' onClick={onCancel} className='bg-gray-500 text-white px-4 py-2 rounded'>
+        </Button>
+        <Button
+          type='button'
+          onClick={onCancel}
+          bgColor='var(--color-button-cancel)'
+          hoverColor='var(--color-button-cancel-hover)'>
           Cancel
-        </button>
-      </div>
-    </form>
+        </Button>
+      </ButtonContainer>
+    </FormContainer>
   );
 }

@@ -5,6 +5,58 @@ import { useSession, signIn, signOut } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
 import { useEffect } from 'react';
 import LoadingAnimation from './LoadingAnimation';
+import styled from 'styled-components';
+import Button from './Button';
+
+const Header = styled.header`
+  background-color: var(--color-header);
+  color: var(--color-header-text);
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  z-index: 10;
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: center;
+`;
+
+const BrandContainer = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin: 0.4rem 2rem;
+`;
+
+const Title = styled.div`
+  font-size: 1.25rem;
+  font-weight: bold;
+`;
+
+const NavContainer = styled.div`
+  display: flex;
+  justify-content: flex-end;
+  margin: 0.4rem 2rem;
+`;
+
+const NavList = styled.ul`
+  display: flex;
+  gap: 1rem;
+`;
+
+const NavItem = styled.li`
+  list-style: none;
+`;
+
+const NavLink = styled(Link)`
+  color: var(--color-header-text);
+  text-decoration: none;
+
+  &:hover {
+    text-decoration: underline;
+  }
+`;
 
 export default function Navigation() {
   const { data: session, status } = useSession();
@@ -18,47 +70,49 @@ export default function Navigation() {
     }
   }, [status, router]);
 
+  if (status === 'loading') {
+    return <LoadingAnimation />;
+  }
+
   return (
-    <header className='bg-gray-800 text-white fixed top-0 left-0 w-full p-4 shadow-md z-10'>
-      <nav className='container mx-auto flex justify-between items-center'>
-        <div className='flex items-center space-x-4'>
-          <div className='text-xl font-bold'>MyApp</div>
-          <div>
-            {session ? (
-              <button onClick={() => signOut()} className='bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded'>
-                Logout
-              </button>
-            ) : (
-              <button onClick={() => signIn()} className='bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded'>
-                Login
-              </button>
-            )}
-          </div>
+    <Header>
+      <BrandContainer>
+        <Title>MyApp</Title>
+        <div>
+          {session ? (
+            <Button
+              bgColor='var(--color-button-delete)'
+              hoverColor='var(--color-button-delete-hover)'
+              onClick={() => signOut()}>
+              Logout
+            </Button>
+          ) : (
+            <Button
+              bgColor='var(--color-button-edit)'
+              hoverColor='var(--color-button-edit-hover)'
+              onClick={() => signIn()}>
+              Login
+            </Button>
+          )}
         </div>
-        {session && (
-          <>
-            <ul className='flex space-x-4'>
-              <li>
-                <Link href='/' className='hover:underline'>
-                  Home
-                </Link>
-              </li>
-              <li>
-                <Link href='/reviews' className='hover:underline'>
-                  Reviews
-                </Link>
-              </li>
-              {session.user.role === 'admin' && (
-                <li>
-                  <Link href='/api/reviews' className='hover:underline'>
-                    API
-                  </Link>
-                </li>
-              )}
-            </ul>
-          </>
-        )}
-      </nav>
-    </header>
+      </BrandContainer>
+      {session && (
+        <NavContainer>
+          <NavList>
+            <NavItem>
+              <NavLink href='/'>Home</NavLink>
+            </NavItem>
+            <NavItem>
+              <NavLink href='/reviews'>Reviews</NavLink>
+            </NavItem>
+            {session.user.role === 'admin' && (
+              <NavItem>
+                <NavLink href='/api/reviews'>API</NavLink>
+              </NavItem>
+            )}
+          </NavList>
+        </NavContainer>
+      )}
+    </Header>
   );
 }

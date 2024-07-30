@@ -6,6 +6,32 @@ import { useEffect, useState } from 'react';
 import ReviewCard from '../components/Review/ReviewCard';
 import SessionStatus from '../components/Authentication/SessionStatus';
 import LoadingAnimation from '../components/Common/LoadingAnimation';
+import Button from '../components/Common/Button';
+
+import styled from 'styled-components';
+
+const Main = styled.main`
+  padding: 1rem;
+`;
+
+const Title = styled.h1`
+  font-size: 1.5rem;
+  font-weight: bold;
+  margin-bottom: 0.25rem;
+`;
+
+const ReviewsContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  margin-top: 1rem;
+`;
+
+const ReviewWrapper = styled.div`
+  width: 100%;
+  max-width: 40rem;
+  margin: 0 auto;
+`;
 
 export default function ReviewsPage() {
   const [reviews, setReviews] = useState([]);
@@ -67,29 +93,33 @@ export default function ReviewsPage() {
 
   return (
     <ProtectedRoute>
-      <main className='p-4'>
-        <h1 className='text-2xl font-bold mb-1'>Reviews</h1>
+      <Main>
+        <Title>Reviews</Title>
         <SessionStatus />
-        <button
+        <Button
           onClick={() => router.push('/reviews/create')}
-          className='bg-green-500 text-white px-4 py-2 rounded shadow hover:bg-green-600 mt-4 mb-4 mr-4'>
+          bgColor='var(--color-button-review)'
+          hoverColor='var(--color-button-review-hover)'
+          color='var(--color-button-text)'>
           Create Review
-        </button>
+        </Button>
         {!demoReviewExists && (
-          <button
+          <Button
             onClick={handleCreateDemoReview}
-            className='bg-yellow-500 text-white px-4 py-2 rounded shadow hover:bg-yellow-600 mt-4 mb-4 mr-4'>
+            bgColor='var(--color-button-demo-review)'
+            hoverColor='var(--color-button-demo-review-hover)'
+            color='var(--color-button-text)'>
             Create Demo Review
-          </button>
+          </Button>
         )}
-        <div className='flex flex-col gap-4 mt-4'>
+        <ReviewsContainer>
           {reviews.map((review) => (
-            <div key={review._id} className='w-full max-w-lg mx-auto'>
+            <ReviewWrapper key={review._id}>
               <ReviewCard review={review} onDelete={handleDelete} />
-            </div>
+            </ReviewWrapper>
           ))}
-        </div>
-      </main>
+        </ReviewsContainer>
+      </Main>
     </ProtectedRoute>
   );
 }

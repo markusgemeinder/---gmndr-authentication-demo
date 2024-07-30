@@ -4,17 +4,105 @@ import { format } from 'date-fns';
 import { FaStar, FaStarHalfAlt, FaRegStar } from 'react-icons/fa';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
+import styled from 'styled-components';
+import Button from '../Common/Button';
 
-// Helper function to render stars
+const CardContainer = styled.div`
+  background-color: #f9fafb;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  border-radius: 0.5rem;
+  overflow: hidden;
+  padding: 1rem;
+  margin-bottom: 1rem;
+  position: relative;
+`;
+
+const IDLabel = styled.div`
+  position: absolute;
+  top: 0.5rem;
+  right: 0.5rem;
+  font-size: 0.75rem;
+  color: #6b7280;
+  background-color: #f3f4f6;
+  padding: 0.25rem 0.5rem;
+  border-radius: 0.25rem;
+`;
+
+const Username = styled.div`
+  font-size: 1.125rem;
+  font-weight: bold;
+  margin-bottom: 0.5rem;
+`;
+
+const Note = styled.div`
+  color: #1f2937;
+  margin-bottom: 1rem;
+`;
+
+const StarsContainer = styled.div`
+  display: flex;
+  gap: 0.25rem;
+  margin-bottom: 1rem;
+`;
+
+const CreatedUpdated = styled.div`
+  font-size: 0.75rem;
+  color: #6b7280;
+`;
+
+const ButtonContainer = styled.div`
+  display: flex;
+`;
+
+const ModalOverlay = styled.div`
+  position: fixed;
+  inset: 0;
+  background-color: rgba(31, 41, 55, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 50;
+`;
+
+const ModalContent = styled.div`
+  background-color: #ffffff;
+  padding: 1.5rem;
+  border-radius: 0.25rem;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+`;
+
+const ModalHeader = styled.h2`
+  font-size: 1.125rem;
+  font-weight: bold;
+  margin-bottom: 1rem;
+`;
+
+const ModalParagraph = styled.p`
+  margin-bottom: 1rem;
+`;
+
+const ModalInput = styled.input`
+  border: 1px solid #d1d5db;
+  padding: 0.5rem;
+  border-radius: 0.25rem;
+  margin-bottom: 1rem;
+  width: 100%;
+`;
+
+const ModalButtonContainer = styled.div`
+  display: flex;
+  gap: 1rem;
+`;
+
 const renderStars = (rating) => {
   const stars = [];
   for (let i = 1; i <= 5; i++) {
     if (rating >= i) {
-      stars.push(<FaStar key={i} className='text-yellow-500' />);
+      stars.push(<FaStar key={i} style={{ color: '#fbbf24' }} />);
     } else if (rating > i - 1) {
-      stars.push(<FaStarHalfAlt key={i} className='text-yellow-500' />);
+      stars.push(<FaStarHalfAlt key={i} style={{ color: '#fbbf24' }} />);
     } else {
-      stars.push(<FaRegStar key={i} className='text-gray-400' />);
+      stars.push(<FaRegStar key={i} style={{ color: '#d1d5db' }} />);
     }
   }
   return stars;
@@ -30,15 +118,13 @@ export default function ReviewCard({ review, onDelete }) {
     if (inputValue === _id.slice(-4)) {
       try {
         if (_id.startsWith('demo-')) {
-          // Remove demo review from session storage
           const storedReviews = JSON.parse(sessionStorage.getItem('reviews') || '[]');
           const updatedReviews = storedReviews.filter((r) => r._id !== _id);
           sessionStorage.setItem('reviews', JSON.stringify(updatedReviews));
-          if (onDelete) onDelete(); // Call the onDelete callback after deletion
+          if (onDelete) onDelete();
         } else {
-          // Delete review from MongoDB
           await fetch(`/api/reviews/${_id}`, { method: 'DELETE' });
-          if (onDelete) onDelete(); // Call the onDelete callback after deletion
+          if (onDelete) onDelete();
         }
       } catch (error) {
         console.error('Error deleting review:', error);
@@ -49,59 +135,64 @@ export default function ReviewCard({ review, onDelete }) {
   };
 
   return (
-    <div className='bg-gray-50 shadow-md rounded-lg overflow-hidden p-4 mb-4 relative'>
-      <div className='absolute top-2 right-2 text-xs text-gray-400 bg-gray-100 px-2 py-1 rounded'>ID: {_id}</div>
-
-      <div className='text-lg font-bold mb-2'>{username}</div>
-      <div className='text-gray-800 mb-4'>{note}</div>
-      <div className='flex items-center mb-4'>{renderStars(rating)}</div>
-      <div className='text-xs text-gray-400'>
+    <CardContainer>
+      <IDLabel>ID: {_id}</IDLabel>
+      <Username>{username}</Username>
+      <Note>{note}</Note>
+      <StarsContainer>{renderStars(rating)}</StarsContainer>
+      <CreatedUpdated>
         Created: {format(new Date(createdAt), 'dd.MM.yyyy (HH:mm:ss)')} | Updated:{' '}
         {format(new Date(updatedAt), 'dd.MM.yyyy (HH:mm:ss)')}
-      </div>
-
-      <div className='flex gap-2 mt-4'>
-        <a href={`/reviews/${_id}`} className='bg-blue-500 text-white px-4 py-2 rounded shadow hover:bg-blue-600'>
+      </CreatedUpdated>
+      <ButtonContainer>
+        <Button
+          onClick={() => router.push(`/reviews/${_id}`)}
+          bgColor='var(--color-button-edit)'
+          hoverColor='var(--color-button-edit-hover)'
+          color='var(--color-button-text)'>
           Edit
-        </a>
-
-        <button
+        </Button>
+        <Button
           onClick={() => setConfirmDelete(true)}
-          className='bg-red-500 text-white px-4 py-2 rounded shadow hover:bg-red-600'>
+          bgColor='var(--color-button-delete)'
+          hoverColor='var(--color-button-delete-hover)'
+          color='var(--color-button-text)'>
           Delete
-        </button>
-      </div>
-
+        </Button>
+      </ButtonContainer>
       {confirmDelete && (
-        <div className='fixed inset-0 bg-gray-700 bg-opacity-50 flex justify-center items-center z-50'>
-          <div className='bg-white p-6 rounded shadow-lg'>
-            <h2 className='text-lg font-bold mb-4'>Confirm Deletion Object ID {_id}</h2>
-            <p className='mb-4'>
+        <ModalOverlay>
+          <ModalContent>
+            <ModalHeader>Confirm Deletion Object ID {_id}</ModalHeader>
+            <ModalParagraph>
               Are you sure you want to delete? Please enter the last 4 digits of the ID to confirm.
-            </p>
-            <input
+            </ModalParagraph>
+            <ModalInput
               type='text'
               value={inputValue}
               onChange={(e) => setInputValue(e.target.value)}
-              className='border border-gray-300 p-2 rounded mb-4 w-full'
               placeholder='Last 4 digits'
               maxLength={4}
             />
-            <div className='flex gap-4'>
-              <button
+            <ModalButtonContainer>
+              <Button
                 onClick={handleDelete}
-                className='bg-red-500 text-white px-4 py-2 rounded shadow mr-4 hover:bg-red-600'>
+                bgColor='var(--color-button-delete)'
+                hoverColor='var(--color-button-delete-hover)'
+                color='var(--color-button-text)'>
                 Confirm
-              </button>
-              <button
+              </Button>
+              <Button
                 onClick={() => setConfirmDelete(false)}
-                className='bg-gray-300 text-gray-800 px-4 py-2 rounded shadow mr-4 hover:bg-gray-400'>
+                bgColor='var(--color-button)'
+                hoverColor='var(--color-button-hover)'
+                color='var(--color-button-text)'>
                 Cancel
-              </button>
-            </div>
-          </div>
-        </div>
+              </Button>
+            </ModalButtonContainer>
+          </ModalContent>
+        </ModalOverlay>
       )}
-    </div>
+    </CardContainer>
   );
 }
