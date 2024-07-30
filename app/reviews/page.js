@@ -3,12 +3,12 @@
 import ProtectedRoute from '../components/Authentication/ProtectedRoute';
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
+import styled from 'styled-components';
 import ReviewCard from '../components/Review/ReviewCard';
 import SessionStatus from '../components/Authentication/SessionStatus';
 import LoadingAnimation from '../components/Common/LoadingAnimation';
 import Button from '../components/Common/Button';
-
-import styled from 'styled-components';
+import ScrollToTop from '../components/Common/ScrollToTop';
 
 const Main = styled.main`
   padding: 1rem;
@@ -93,6 +93,7 @@ export default function ReviewsPage() {
 
   return (
     <ProtectedRoute>
+      <ScrollToTop />
       <Main>
         <Title>Reviews</Title>
         <SessionStatus />
