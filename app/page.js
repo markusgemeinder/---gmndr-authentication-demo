@@ -1,6 +1,7 @@
 'use client';
 import styled from 'styled-components';
 import SessionStatus from './components/Authentication/SessionStatus';
+import ScrollToTop from './components/Common/ScrollToTop';
 
 const Container = styled.div`
   display: flex;
@@ -21,6 +22,7 @@ const Title = styled.h1`
 export default function Home() {
   return (
     <Container>
+      <ScrollToTop />
       <Title>#GMNDR Authentication Demo</Title>
       <SessionStatus />
     </Container>

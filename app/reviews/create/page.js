@@ -5,6 +5,7 @@ import ProtectedRoute from '@/app/components/Authentication/ProtectedRoute';
 import ReviewForm from '@/app/components/Review/ReviewForm';
 import { useRouter } from 'next/navigation';
 import SessionStatus from '@/app/components/Authentication/SessionStatus';
+import ScrollToTop from '@/app/components/Common/ScrollToTop';
 
 const Main = styled.main`
   padding: 1rem;
@@ -29,6 +30,7 @@ export default function CreatePage() {
 
   return (
     <ProtectedRoute>
+      <ScrollToTop />
       <Main>
         <Title>Create Review</Title>
         <SessionStatus />

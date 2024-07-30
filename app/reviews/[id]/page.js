@@ -7,6 +7,7 @@ import { useRouter } from 'next/navigation';
 import SessionStatus from '@/app/components/Authentication/SessionStatus';
 import LoadingAnimation from '@/app/components/Common/LoadingAnimation';
 import styled from 'styled-components';
+import ScrollToTop from '@/app/components/Common/ScrollToTop';
 
 const Main = styled.main`
   padding: 1rem;
@@ -77,6 +78,7 @@ export default function EditPage({ params }) {
 
   return (
     <ProtectedRoute>
+      <ScrollToTop />
       <Main>
         <Title>Review bearbeiten</Title>
         <SessionStatus />
