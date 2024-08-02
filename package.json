@@ -1,6 +1,6 @@
 {
-  "name": "---gmndr-authentication-demo",
-  "version": "0.1.0",
+  "name": "#GMNDR Authentication Demo",
+  "version": "1.0.0",
   "private": true,
   "scripts": {
     "dev": "next dev",
