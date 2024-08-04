@@ -1,3 +1,5 @@
+// /app/components/Review/ReviewCard.js
+
 'use client';
 
 import { format } from 'date-fns';
@@ -6,7 +8,9 @@ import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import styled from 'styled-components';
 import Button from '../Common/Button';
+import { maskEmail } from '@/utils/maskEmail';
 
+// Styled components
 const CardContainer = styled.div`
   background-color: #f9fafb;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
@@ -32,6 +36,12 @@ const Username = styled.div`
   font-size: 1.125rem;
   font-weight: bold;
   margin-bottom: 0.5rem;
+`;
+
+const Email = styled.div`
+  font-size: 1rem;
+  color: #6b7280;
+  margin-bottom: 1rem;
 `;
 
 const Note = styled.div`
@@ -94,6 +104,7 @@ const ModalButtonContainer = styled.div`
   gap: 1rem;
 `;
 
+// Render stars function
 const renderStars = (rating) => {
   const stars = [];
   for (let i = 1; i <= 5; i++) {
@@ -108,12 +119,14 @@ const renderStars = (rating) => {
   return stars;
 };
 
+// Main component
 export default function ReviewCard({ review, onDelete }) {
-  const { _id, username, note, rating, createdAt, updatedAt } = review;
+  const { _id, username, note, rating, createdAt, updatedAt, email } = review;
   const [confirmDelete, setConfirmDelete] = useState(false);
   const [inputValue, setInputValue] = useState('');
   const router = useRouter();
 
+  // Handle delete function
   const handleDelete = async () => {
     if (inputValue === _id.slice(-4)) {
       try {
@@ -138,6 +151,7 @@ export default function ReviewCard({ review, onDelete }) {
     <CardContainer>
       <IDLabel>ID: {_id}</IDLabel>
       <Username>{username}</Username>
+      <Email>{maskEmail(email)}</Email>
       <Note>{note}</Note>
       <StarsContainer>{renderStars(rating)}</StarsContainer>
       <CreatedUpdated>
