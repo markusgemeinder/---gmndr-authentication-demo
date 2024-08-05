@@ -2,7 +2,6 @@
 
 'use client';
 
-import Link from 'next/link';
 import { useSession, signIn, signOut } from 'next-auth/react';
 import { useRouter, usePathname } from 'next/navigation';
 import { useEffect } from 'react';
@@ -51,7 +50,7 @@ const NavItem = styled.li`
   list-style: none;
 `;
 
-const NavLink = styled(Link)`
+const NavLink = styled.a`
   color: var(--color-header-text);
   text-decoration: none;
 
@@ -112,16 +111,12 @@ export default function Navigation() {
                 }>
                 Login
               </Button>
-              {/* Anzeigen des Signup-Buttons nur wenn nicht eingeloggt */}
-              {!session && (
-                <Button
-                  bgColor='var(--color-button-signup)'
-                  hoverColor='var(--color-button-signup-hover)'
-                  as='a'
-                  href='/signup'>
-                  Signup
-                </Button>
-              )}
+              <Button
+                bgColor='var(--color-button-signup)'
+                hoverColor='var(--color-button-signup-hover)'
+                onClick={() => router.push('/signup')}>
+                Signup
+              </Button>
             </>
           )}
         </div>
