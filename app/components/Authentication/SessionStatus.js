@@ -1,3 +1,5 @@
+// /app/components/Authentication/SessionStatus.js
+
 'use client';
 
 import { useSession, signIn, signOut } from 'next-auth/react';
@@ -62,19 +64,23 @@ const ModalButtonContainer = styled.div`
 
 const SessionStatus = () => {
   const { data: session } = useSession();
-  const [timeLeft, setTimeLeft] = useState(180); // Standardwert 3 Minuten
+  const [timeLeft, setTimeLeft] = useState(300); // Standardwert 5 Minuten (300 Sekunden)
   const [showPopup, setShowPopup] = useState(false);
 
+  // Update timeLeft and showPopup when session changes
   useEffect(() => {
     if (typeof window === 'undefined') return; // Sicherstellen, dass `window` existiert
 
-    const savedTime = localStorage.getItem('timeLeft');
+    const savedTime = sessionStorage.getItem('timeLeft');
     if (savedTime) {
       setTimeLeft(parseInt(savedTime, 10));
+    } else if (session) {
+      setTimeLeft(300); // Setzt den Timer auf 5 Minuten zurück, wenn neu eingeloggt
+      sessionStorage.setItem('timeLeft', 300);
+      setShowPopup(false);
     }
 
     let interval;
-
     if (session) {
       interval = setInterval(() => {
         setTimeLeft((prevTime) => {
@@ -82,13 +88,13 @@ const SessionStatus = () => {
           if (newTime <= 0) {
             clearInterval(interval);
             signOut();
-            localStorage.removeItem('timeLeft'); // Entfernen, wenn die Zeit abgelaufen ist
+            sessionStorage.removeItem('timeLeft');
             return 0;
           }
-          if (newTime === 20) {
+          if (newTime === 30) {
             setShowPopup(true);
           }
-          localStorage.setItem('timeLeft', newTime);
+          sessionStorage.setItem('timeLeft', newTime);
           return newTime;
         });
       }, 1000);
@@ -97,13 +103,21 @@ const SessionStatus = () => {
     return () => clearInterval(interval);
   }, [session]);
 
+  // Clear session storage when session ends
+  useEffect(() => {
+    if (!session) {
+      sessionStorage.clear();
+    }
+  }, [session]);
+
   const renewSession = () => {
-    setTimeLeft(180);
-    localStorage.setItem('timeLeft', 180);
+    setTimeLeft(300);
+    sessionStorage.setItem('timeLeft', 300);
     setShowPopup(false);
   };
 
   const handleLogout = () => {
+    sessionStorage.clear();
     signOut();
     setShowPopup(false);
   };

@@ -1,3 +1,5 @@
+// /app/api/auth/[...nextauth]/options.js
+
 import GitHubProvider from 'next-auth/providers/github';
 import GoogleProvider from 'next-auth/providers/google';
 
@@ -27,12 +29,21 @@ export const options = {
   ],
   callbacks: {
     async jwt({ token, user }) {
-      if (user) token.role = user.role;
+      if (user) {
+        token.role = user.role;
+        token.createdAt = Date.now();
+      }
       return token;
     },
     async session({ session, token }) {
-      if (session?.user) session.user.role = token.role;
+      if (session?.user) {
+        session.user.role = token.role;
+      }
       return session;
     },
+  },
+  session: {
+    maxAge: 60 * 60, // 1 Stunde
+    updateAge: 60 * 5, // alle 5 Minuten
   },
 };

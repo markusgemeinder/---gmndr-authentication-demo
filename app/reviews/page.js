@@ -74,7 +74,7 @@ export default function ReviewsPage() {
       _id: `demo-${Math.random().toString(36).substr(2, 12)}`,
       username: 'Demo User',
       email: 'test@demo.de',
-      note: 'You signed in as Demo User. This demo review can be edited and deleted, but will not be stored and gets lost when closing the browser. Sie haben sich als Demo-Nutzer angemeldet. Diese Demo-Bewertung kann bearbeitet und gelöscht werden, wird jedoch nicht gespeichert und geht verloren, wenn der Browser geschlossen wird.',
+      note: 'Signed in as Demo User. This review can be edited and deleted, but is not stored and will be lost when the browser is closed.\n\nAngemeldet als Demo-Nutzer. Diese Bewertung kann bearbeitet und gelöscht werden, wird aber nicht gespeichert und geht beim Schließen des Browsers verloren.',
       rating: 5,
       createdAt: new Date().toISOString(),
       updatedAt: new Date().toISOString(),

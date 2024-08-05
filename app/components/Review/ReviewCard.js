@@ -1,5 +1,3 @@
-// /app/components/Review/ReviewCard.js
-
 'use client';
 
 import { format } from 'date-fns';
@@ -47,6 +45,7 @@ const Email = styled.div`
 const Note = styled.div`
   color: #1f2937;
   margin-bottom: 1rem;
+  white-space: pre-wrap; /* Ensure whitespace and newlines are preserved */
 `;
 
 const StarsContainer = styled.div`
@@ -152,6 +151,9 @@ export default function ReviewCard({ review, onDelete }) {
   const isCreatorOrAdmin =
     session && ((session.user.name === username && session.user.email === email) || session.user.role === 'admin');
 
+  // Always show buttons for demo reviews
+  const showButtons = _id.startsWith('demo-') || isCreatorOrAdmin;
+
   return (
     <CardContainer>
       <IDLabel>ID: {_id}</IDLabel>
@@ -163,7 +165,7 @@ export default function ReviewCard({ review, onDelete }) {
         Created: {format(new Date(createdAt), 'dd.MM.yyyy (HH:mm:ss)')} | Updated:{' '}
         {format(new Date(updatedAt), 'dd.MM.yyyy (HH:mm:ss)')}
       </CreatedUpdated>
-      {isCreatorOrAdmin && (
+      {showButtons && (
         <ButtonContainer>
           <Button
             onClick={() => router.push(`/reviews/${_id}`)}
