@@ -1,3 +1,5 @@
+// /app/components/Navigation.js
+
 'use client';
 
 import Link from 'next/link';
@@ -81,18 +83,27 @@ export default function Navigation() {
         <div>
           {session ? (
             <Button
-              bgColor='var(--color-button-delete)'
-              hoverColor='var(--color-button-delete-hover)'
+              bgColor='var(--color-button-logout)'
+              hoverColor='var(--color-button-logout-hover)'
               onClick={() => signOut()}>
               Logout
             </Button>
           ) : (
-            <Button
-              bgColor='var(--color-button-edit)'
-              hoverColor='var(--color-button-edit-hover)'
-              onClick={() => signIn()}>
-              Login
-            </Button>
+            <>
+              <Button
+                bgColor='var(--color-button-login)'
+                hoverColor='var(--color-button-login-hover)'
+                onClick={() => signIn()}>
+                Login
+              </Button>
+              <Button
+                bgColor='var(--color-button-signup)'
+                hoverColor='var(--color-button-signup-hover)'
+                as='a'
+                href='/signup'>
+                Signup
+              </Button>
+            </>
           )}
         </div>
       </BrandContainer>
