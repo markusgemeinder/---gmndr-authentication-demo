@@ -36,9 +36,9 @@ const Input = styled.input`
   border-radius: 0.375rem;
   padding: 0.5rem;
   box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
-  background-color: #f0f0f0; /* Hintergrundfarbe für deaktivierte Felder */
-  color: #6b7280; /* Grauer Text für deaktivierte Felder */
-  cursor: not-allowed; /* Zeiger ändert sich, um anzuzeigen, dass das Feld nicht bearbeitet werden kann */
+  background-color: ${({ readOnly }) => (readOnly ? '#f0f0f0' : 'white')};
+  color: ${({ readOnly }) => (readOnly ? '#6b7280' : 'black')};
+  cursor: ${({ readOnly }) => (readOnly ? 'not-allowed' : 'text')};
 `;
 
 const Textarea = styled.textarea`
@@ -98,6 +98,7 @@ export default function ReviewForm({ review, onSave, onCancel }) {
     }
 
     if (review) {
+      setEmail(review.email || '');
       setNote(review.note || '');
       setRating(review.rating || 1);
     }

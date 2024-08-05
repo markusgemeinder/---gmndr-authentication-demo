@@ -8,7 +8,7 @@ import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import styled from 'styled-components';
 import Button from '../Common/Button';
-import { maskEmail } from '@/utils/maskEmail';
+// import { maskEmail } from '@/utils/maskEmail';
 
 // Styled components
 const CardContainer = styled.div`
@@ -151,29 +151,31 @@ export default function ReviewCard({ review, onDelete }) {
     <CardContainer>
       <IDLabel>ID: {_id}</IDLabel>
       <Username>{username}</Username>
-      <Email>{maskEmail(email)}</Email>
+      <Email>{email}</Email>
       <Note>{note}</Note>
       <StarsContainer>{renderStars(rating)}</StarsContainer>
       <CreatedUpdated>
         Created: {format(new Date(createdAt), 'dd.MM.yyyy (HH:mm:ss)')} | Updated:{' '}
         {format(new Date(updatedAt), 'dd.MM.yyyy (HH:mm:ss)')}
       </CreatedUpdated>
-      <ButtonContainer>
-        <Button
-          onClick={() => router.push(`/reviews/${_id}`)}
-          bgColor='var(--color-button-edit)'
-          hoverColor='var(--color-button-edit-hover)'
-          color='var(--color-button-text)'>
-          Edit
-        </Button>
-        <Button
-          onClick={() => setConfirmDelete(true)}
-          bgColor='var(--color-button-delete)'
-          hoverColor='var(--color-button-delete-hover)'
-          color='var(--color-button-text)'>
-          Delete
-        </Button>
-      </ButtonContainer>
+      {email !== 'Email only visible to review creator or admin' && (
+        <ButtonContainer>
+          <Button
+            onClick={() => router.push(`/reviews/${_id}`)}
+            bgColor='var(--color-button-edit)'
+            hoverColor='var(--color-button-edit-hover)'
+            color='var(--color-button-text)'>
+            Edit
+          </Button>
+          <Button
+            onClick={() => setConfirmDelete(true)}
+            bgColor='var(--color-button-delete)'
+            hoverColor='var(--color-button-delete-hover)'
+            color='var(--color-button-text)'>
+            Delete
+          </Button>
+        </ButtonContainer>
+      )}
       {confirmDelete && (
         <ModalOverlay>
           <ModalContent>
