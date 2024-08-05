@@ -1,9 +1,13 @@
+// /app/components/Review/ReviewForm.js
+
 'use client';
 
 import { useState, useEffect } from 'react';
+import { useSession } from 'next-auth/react';
 import { FaStar, FaStarHalfAlt, FaRegStar } from 'react-icons/fa';
 import styled from 'styled-components';
 import Button from '../Common/Button';
+import { maskEmail } from '@/utils/maskEmail';
 
 const FormContainer = styled.form`
   background-color: #f5f5f5;
@@ -32,6 +36,9 @@ const Input = styled.input`
   border-radius: 0.375rem;
   padding: 0.5rem;
   box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+  background-color: ${({ readOnly }) => (readOnly ? '#f0f0f0' : 'white')};
+  color: ${({ readOnly }) => (readOnly ? '#6b7280' : 'black')};
+  cursor: ${({ readOnly }) => (readOnly ? 'not-allowed' : 'text')};
 `;
 
 const Textarea = styled.textarea`
@@ -78,30 +85,24 @@ const renderStars = (rating, setRating) => {
 };
 
 export default function ReviewForm({ review, onSave, onCancel }) {
+  const { data: session } = useSession();
   const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
   const [note, setNote] = useState('');
   const [rating, setRating] = useState(1);
 
   useEffect(() => {
-    if (review) {
-      if (review._id.startsWith('demo-')) {
-        const storedReviews = JSON.parse(sessionStorage.getItem('reviews') || '[]');
-        const demoReview = storedReviews.find((r) => r._id === review._id);
-        if (demoReview) {
-          setUsername(demoReview.username || '');
-          setEmail(demoReview.email || '');
-          setNote(demoReview.note || '');
-          setRating(demoReview.rating || 1);
-        }
-      } else {
-        setUsername(review.username || '');
-        setEmail(review.email || '');
-        setNote(review.note || '');
-        setRating(review.rating || 1);
-      }
+    if (session) {
+      setUsername(session.user.name);
+      setEmail(session.user.email);
     }
-  }, [review]);
+
+    if (review) {
+      setEmail(review.email || '');
+      setNote(review.note || '');
+      setRating(review.rating || 1);
+    }
+  }, [review, session]);
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -109,32 +110,21 @@ export default function ReviewForm({ review, onSave, onCancel }) {
 
     try {
       if (review?._id) {
-        if (review._id.startsWith('demo-')) {
-          const storedReviews = JSON.parse(sessionStorage.getItem('reviews') || '[]');
-          const index = storedReviews.findIndex((r) => r._id === review._id);
-          if (index !== -1) {
-            storedReviews[index] = { ...storedReviews[index], ...data, updatedAt: new Date().toISOString() };
-            sessionStorage.setItem('reviews', JSON.stringify(storedReviews));
-          }
-        } else {
-          await fetch(`/api/reviews/${review._id}`, {
-            method: 'PATCH',
-            headers: {
-              'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(data),
-          });
-        }
+        await fetch(`/api/reviews/${review._id}`, {
+          method: 'PATCH',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(data),
+        });
       } else {
-        if (data.username && data.note) {
-          await fetch('/api/reviews', {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(data),
-          });
-        }
+        await fetch('/api/reviews', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(data),
+        });
       }
       onSave();
     } catch (error) {
@@ -146,11 +136,11 @@ export default function ReviewForm({ review, onSave, onCancel }) {
     <FormContainer onSubmit={handleSubmit}>
       <FormGroup>
         <Label htmlFor='username'>Username</Label>
-        <Input id='username' type='text' value={username} onChange={(e) => setUsername(e.target.value)} required />
+        <Input id='username' type='text' value={username} readOnly />
       </FormGroup>
       <FormGroup>
         <Label htmlFor='email'>Email</Label>
-        <Input id='email' type='email' value={email} onChange={(e) => setEmail(e.target.value)} required />
+        <Input id='email' type='email' value={email} readOnly />
       </FormGroup>
       <FormGroup>
         <Label htmlFor='note'>Note</Label>

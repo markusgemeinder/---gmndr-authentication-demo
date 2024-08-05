@@ -1,3 +1,5 @@
+// /app/reviews/page.js
+
 'use client';
 
 import ProtectedRoute from '../components/Authentication/ProtectedRoute';

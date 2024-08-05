@@ -1,6 +1,11 @@
+// app/components/Common/Button.js
+
 import styled from 'styled-components';
 
-const StyledButton = styled.button`
+// StyledButton with transient props (props that are not forwarded to the DOM element)
+const StyledButton = styled.button.withConfig({
+  shouldForwardProp: (prop) => !['bgColor', 'hoverColor', 'color'].includes(prop),
+})`
   background-color: ${(props) => props.bgColor || 'var(--color-button)'};
   color: ${(props) => props.color || 'var(--color-button-text)'};
   padding: 0.5rem 1rem;
@@ -16,6 +21,7 @@ const StyledButton = styled.button`
   }
 `;
 
+// Button component utilizing transient props to avoid passing unwanted props to the DOM
 const Button = ({ children, bgColor, hoverColor, color, ...rest }) => {
   return (
     <StyledButton bgColor={bgColor} hoverColor={hoverColor} color={color} {...rest}>

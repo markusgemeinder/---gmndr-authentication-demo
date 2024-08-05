@@ -1,7 +1,22 @@
+// /app/api/reviews/[id]/route.js
+
 import dbConnect from '@/db/connect';
 import Review from '@/db/models/Review';
 import mongoose from 'mongoose';
 import { getToken } from 'next-auth/jwt';
+import CryptoJS from 'crypto-js';
+// import { maskEmail } from '@/utils/maskEmail';
+
+const secretKey = process.env.SECRET_KEY || 'my_secret_key';
+
+const encryptEmail = (email) => {
+  return CryptoJS.AES.encrypt(email, secretKey).toString();
+};
+
+const decryptEmail = (cipherText) => {
+  const bytes = CryptoJS.AES.decrypt(cipherText, secretKey);
+  return bytes.toString(CryptoJS.enc.Utf8);
+};
 
 export async function GET(request, { params }) {
   const token = await getToken({ req: request, secret: process.env.NEXTAUTH_SECRET });
@@ -24,7 +39,18 @@ export async function GET(request, { params }) {
       return new Response(JSON.stringify({ status: 'Not found' }), { status: 404 });
     }
 
-    return new Response(JSON.stringify(review), { status: 200 });
+    let decryptedEmail = 'Email only visible to review creator or admin';
+    if (token.email === decryptEmail(review.email) || token.role === 'admin') {
+      decryptedEmail = decryptEmail(review.email);
+      // decryptedEmail = maskEmail(decryptedEmail);
+    }
+
+    const decryptedReview = {
+      ...review.toObject(),
+      email: decryptedEmail,
+    };
+
+    return new Response(JSON.stringify(decryptedReview), { status: 200 });
   } catch (error) {
     return new Response(JSON.stringify({ status: 'Server error' }), { status: 500 });
   }
@@ -45,11 +71,25 @@ export async function PATCH(request, { params }) {
   }
 
   try {
-    const updatedReview = await Review.findByIdAndUpdate(id, { $set: await request.json() }, { new: true });
+    const reviewData = await request.json();
+    const existingReview = await Review.findById(id);
 
-    if (!updatedReview) {
+    if (!existingReview) {
       return new Response(JSON.stringify({ status: 'Review not found' }), { status: 404 });
     }
+
+    // Do not update email and username if they are already set
+    if (existingReview.email) {
+      reviewData.email = existingReview.email;
+    } else {
+      reviewData.email = encryptEmail(reviewData.email);
+    }
+
+    if (existingReview.username) {
+      reviewData.username = existingReview.username;
+    }
+
+    const updatedReview = await Review.findByIdAndUpdate(id, { $set: reviewData }, { new: true });
 
     return new Response(JSON.stringify({ status: 'Review updated', updatedReview }), { status: 200 });
   } catch (error) {

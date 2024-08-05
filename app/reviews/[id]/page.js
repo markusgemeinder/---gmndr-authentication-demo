@@ -1,3 +1,5 @@
+// /app/reviews/[id]/page.js
+
 'use client';
 
 import ProtectedRoute from '@/app/components/Authentication/ProtectedRoute';
@@ -80,7 +82,7 @@ export default function EditPage({ params }) {
     <ProtectedRoute>
       <ScrollToTop />
       <Main>
-        <Title>Review bearbeiten</Title>
+        <Title>Edit Review</Title>
         <SessionStatus />
         <ReviewForm review={review} onSave={handleSave} onCancel={handleCancel} isDemoReview={isDemoReview} />
       </Main>
