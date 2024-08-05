@@ -7,8 +7,9 @@ export async function middleware(req) {
 
   // Allow the request if:
   // 1. It's a request for next-auth session & provider fetching
-  // 2. the token exists
-  if (pathname.includes('/api/auth') || token) {
+  // 2. It's a request for signup
+  // 3. the token exists
+  if (pathname.includes('/api/auth') || pathname.includes('/api/users') || token) {
     return NextResponse.next();
   }
 

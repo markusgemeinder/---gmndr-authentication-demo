@@ -1,8 +1,9 @@
+// app/components/Common/Navigation.js
+
 'use client';
 
-import Link from 'next/link';
 import { useSession, signIn, signOut } from 'next-auth/react';
-import { useRouter } from 'next/navigation';
+import { useRouter, usePathname } from 'next/navigation';
 import { useEffect } from 'react';
 import LoadingAnimation from './LoadingAnimation';
 import styled from 'styled-components';
@@ -49,7 +50,7 @@ const NavItem = styled.li`
   list-style: none;
 `;
 
-const NavLink = styled(Link)`
+const NavLink = styled.a`
   color: var(--color-header-text);
   text-decoration: none;
 
@@ -61,14 +62,21 @@ const NavLink = styled(Link)`
 export default function Navigation() {
   const { data: session, status } = useSession();
   const router = useRouter();
+  const pathname = usePathname(); // Aktuelle Pathname holen
 
   useEffect(() => {
-    if (status === 'unauthenticated') {
+    if (status === 'unauthenticated' && pathname === '/signup') {
+      // Falls nicht authentifiziert und auf der Signup-Seite
+      return;
+    }
+    if (status === 'unauthenticated' && pathname !== '/signup') {
+      // Falls nicht authentifiziert und nicht auf der Signup-Seite
       router.push('/');
-    } else {
+    } else if (status === 'authenticated' && pathname === '/') {
+      // Falls authentifiziert und auf der Startseite
       router.push('/reviews');
     }
-  }, [status, router]);
+  }, [status, router, pathname]);
 
   if (status === 'loading') {
     return <LoadingAnimation />;
@@ -81,18 +89,35 @@ export default function Navigation() {
         <div>
           {session ? (
             <Button
-              bgColor='var(--color-button-delete)'
-              hoverColor='var(--color-button-delete-hover)'
+              bgColor='var(--color-button-logout)'
+              hoverColor='var(--color-button-logout-hover)'
               onClick={() => signOut()}>
               Logout
             </Button>
           ) : (
-            <Button
-              bgColor='var(--color-button-edit)'
-              hoverColor='var(--color-button-edit-hover)'
-              onClick={() => signIn()}>
-              Login
-            </Button>
+            <>
+              <Button
+                bgColor='var(--color-button-login)'
+                hoverColor='var(--color-button-login-hover)'
+                onClick={() =>
+                  signIn({ redirect: false }) // Redirect false verhindern
+                    .then((result) => {
+                      if (result.ok) {
+                        router.push('/reviews'); // Redirect to reviews after successful login
+                      } else {
+                        router.push('/'); // Redirect to homepage on login failure
+                      }
+                    })
+                }>
+                Login
+              </Button>
+              <Button
+                bgColor='var(--color-button-signup)'
+                hoverColor='var(--color-button-signup-hover)'
+                onClick={() => router.push('/signup')}>
+                Signup
+              </Button>
+            </>
           )}
         </div>
       </BrandContainer>
