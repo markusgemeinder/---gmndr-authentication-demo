@@ -2,6 +2,9 @@
 
 'use client';
 
+import { useSession } from 'next-auth/react';
+import { useEffect } from 'react';
+import { useRouter } from 'next/navigation';
 import styled from 'styled-components';
 import SignupForm from '@/app/components/Signup/SignupForm';
 import ScrollToTop from '@/app/components/Common/ScrollToTop';
@@ -17,6 +20,19 @@ const Title = styled.h1`
 `;
 
 export default function SignupPage() {
+  const { data: session, status } = useSession();
+  const router = useRouter();
+
+  useEffect(() => {
+    if (status === 'authenticated') {
+      router.push('/reviews'); // Umleitung zu Reviews-Seite, wenn der Benutzer eingeloggt ist
+    }
+  }, [status, router]);
+
+  if (status === 'loading') {
+    return <div>Loading...</div>; // Optional: Ladeanzeige
+  }
+
   return (
     <>
       <ScrollToTop />

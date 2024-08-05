@@ -51,18 +51,28 @@ export default function SignupForm() {
     event.preventDefault();
     const data = { username, email, password };
 
-    console.log('Signup data:', data);
+    console.log('Submitting data:', data); // Logging data to ensure it's correct
 
     try {
-      await fetch('/api/signup', {
+      const response = await fetch('/api/signup', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify(data),
       });
-      // Handle response or redirect
+
+      console.log('Signup response status:', response.status); // Log the response status
+
+      if (response.ok) {
+        router.push('/'); // Navigate to home after signup
+      } else {
+        const errorText = await response.text();
+        setError(`Signup failed: ${errorText}`);
+        console.error('Signup failed:', errorText);
+      }
     } catch (error) {
+      setError('An unexpected error occurred.');
       console.error('Error signing up:', error);
     }
   };
