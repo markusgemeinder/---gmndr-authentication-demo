@@ -131,7 +131,7 @@ export default function SignupForm() {
     console.log('Submitting data:', data); // Logging data to ensure it's correct
 
     try {
-      const response = await fetch('/api/signup', {
+      const response = await fetch('/api/users', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
