@@ -8,7 +8,7 @@ import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import styled from 'styled-components';
 import Button from '../Common/Button';
-// import { maskEmail } from '@/utils/maskEmail';
+import { useSession } from 'next-auth/react'; // Import useSession
 
 // Styled components
 const CardContainer = styled.div`
@@ -125,6 +125,7 @@ export default function ReviewCard({ review, onDelete }) {
   const [confirmDelete, setConfirmDelete] = useState(false);
   const [inputValue, setInputValue] = useState('');
   const router = useRouter();
+  const { data: session } = useSession(); // Get session data
 
   // Handle delete function
   const handleDelete = async () => {
@@ -147,6 +148,10 @@ export default function ReviewCard({ review, onDelete }) {
     }
   };
 
+  // Check if current user is the creator or an admin
+  const isCreatorOrAdmin =
+    session && ((session.user.name === username && session.user.email === email) || session.user.role === 'admin');
+
   return (
     <CardContainer>
       <IDLabel>ID: {_id}</IDLabel>
@@ -158,7 +163,7 @@ export default function ReviewCard({ review, onDelete }) {
         Created: {format(new Date(createdAt), 'dd.MM.yyyy (HH:mm:ss)')} | Updated:{' '}
         {format(new Date(updatedAt), 'dd.MM.yyyy (HH:mm:ss)')}
       </CreatedUpdated>
-      {email !== 'Email only visible to review creator or admin' && (
+      {isCreatorOrAdmin && (
         <ButtonContainer>
           <Button
             onClick={() => router.push(`/reviews/${_id}`)}

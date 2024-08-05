@@ -140,7 +140,7 @@ export default function ReviewForm({ review, onSave, onCancel }) {
       </FormGroup>
       <FormGroup>
         <Label htmlFor='email'>Email</Label>
-        <Input id='email' type='email' value={maskEmail(email)} readOnly />
+        <Input id='email' type='email' value={email} readOnly />
       </FormGroup>
       <FormGroup>
         <Label htmlFor='note'>Note</Label>

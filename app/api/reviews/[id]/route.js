@@ -42,7 +42,7 @@ export async function GET(request, { params }) {
     let decryptedEmail = 'Email only visible to review creator or admin';
     if (token.email === decryptEmail(review.email) || token.role === 'admin') {
       decryptedEmail = decryptEmail(review.email);
-      decryptedEmail = maskEmail(decryptedEmail);
+      // decryptedEmail = maskEmail(decryptedEmail);
     }
 
     const decryptedReview = {

@@ -1,5 +1,7 @@
 // /app/utils/maskEmail.js
 
+// actually not in use
+
 export function maskEmail(email) {
   if (!email) return 'Email not available';
 
