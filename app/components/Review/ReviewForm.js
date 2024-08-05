@@ -93,7 +93,7 @@ export default function ReviewForm({ review, onSave, onCancel }) {
 
   useEffect(() => {
     if (session) {
-      setUsername(session.user.name);
+      setUsername(session.user.username);
       setEmail(session.user.email);
     }
 

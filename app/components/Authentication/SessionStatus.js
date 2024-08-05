@@ -67,15 +67,14 @@ const SessionStatus = () => {
   const [timeLeft, setTimeLeft] = useState(300); // Standardwert 5 Minuten (300 Sekunden)
   const [showPopup, setShowPopup] = useState(false);
 
-  // Update timeLeft and showPopup when session changes
   useEffect(() => {
-    if (typeof window === 'undefined') return; // Sicherstellen, dass `window` existiert
+    if (typeof window === 'undefined') return;
 
     const savedTime = sessionStorage.getItem('timeLeft');
     if (savedTime) {
       setTimeLeft(parseInt(savedTime, 10));
     } else if (session) {
-      setTimeLeft(300); // Setzt den Timer auf 5 Minuten zurück, wenn neu eingeloggt
+      setTimeLeft(300);
       sessionStorage.setItem('timeLeft', 300);
       setShowPopup(false);
     }
@@ -103,7 +102,6 @@ const SessionStatus = () => {
     return () => clearInterval(interval);
   }, [session]);
 
-  // Clear session storage when session ends
   useEffect(() => {
     if (!session) {
       sessionStorage.clear();
@@ -133,7 +131,7 @@ const SessionStatus = () => {
       {session ? (
         <>
           <p>
-            Welcome, {session.user.name}. You are logged in as {session.user.role}. Login expires in{' '}
+            Welcome, {session.user.username}. You are logged in as {session.user.role}. Login expires in{' '}
             {formatTime(timeLeft)}{' '}
             <LoginLink href='#' onClick={renewSession}>
               (renew session)

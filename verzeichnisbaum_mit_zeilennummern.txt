@@ -1,0 +1,57 @@
+     1	.
+     2	├── README.md
+     3	├── app
+     4	│   ├── api
+     5	│   │   ├── auth
+     6	│   │   │   └── [...nextauth]
+     7	│   │   │       ├── options.js
+     8	│   │   │       └── route.js
+     9	│   │   ├── reviews
+    10	│   │   │   ├── [id]
+    11	│   │   │   │   └── route.js
+    12	│   │   │   └── route.js
+    13	│   │   └── users
+    14	│   │       └── route.js
+    15	│   ├── components
+    16	│   │   ├── Authentication
+    17	│   │   │   ├── AuthProvider.js
+    18	│   │   │   ├── ProtectedRoute.js
+    19	│   │   │   └── SessionStatus.js
+    20	│   │   ├── Common
+    21	│   │   │   ├── Button.js
+    22	│   │   │   ├── Footer.js
+    23	│   │   │   ├── LoadingAnimation.js
+    24	│   │   │   ├── Navigation.js
+    25	│   │   │   └── ScrollToTop.js
+    26	│   │   ├── Review
+    27	│   │   │   ├── ReviewCard.js
+    28	│   │   │   └── ReviewForm.js
+    29	│   │   └── Signup
+    30	│   │       └── SignupForm.js
+    31	│   ├── globals.css
+    32	│   ├── layout.js
+    33	│   ├── page.js
+    34	│   ├── reviews
+    35	│   │   ├── [id]
+    36	│   │   │   └── page.js
+    37	│   │   ├── create
+    38	│   │   │   └── page.js
+    39	│   │   └── page.js
+    40	│   └── signup
+    41	│       └── page.js
+    42	├── db
+    43	│   ├── connect.js
+    44	│   └── models
+    45	│       ├── Review.js
+    46	│       └── User.js
+    47	├── jsconfig.json
+    48	├── middleware.js
+    49	├── next.config.mjs
+    50	├── package.json
+    51	├── postcss.config.mjs
+    52	├── tailwind.config.js
+    53	├── utils
+    54	│   └── maskEmail.js
+    55	└── verzeichnisbaum_mit_zeilennummern.txt
+      	
+    56	20 directories, 35 files
