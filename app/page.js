@@ -1,4 +1,7 @@
+// /app/page.js
+
 'use client';
+
 import styled from 'styled-components';
 import SessionStatus from './components/Authentication/SessionStatus';
 import ScrollToTop from './components/Common/ScrollToTop';
