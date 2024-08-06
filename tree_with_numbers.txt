@@ -50,8 +50,8 @@
     50	├── package.json
     51	├── postcss.config.mjs
     52	├── tailwind.config.js
-    53	├── utils
-    54	│   └── maskEmail.js
-    55	└── verzeichnisbaum_mit_zeilennummern.txt
+    53	├── tree_with_numbers.txt
+    54	└── utils
+    55	    └── maskEmail.js
       	
     56	20 directories, 35 files
