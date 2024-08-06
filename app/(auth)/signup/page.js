@@ -1,4 +1,4 @@
-// /app/reviews/signup/page.js
+// /app/(auth)/signup/page.js
 
 'use client';
 

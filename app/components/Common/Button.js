@@ -11,9 +11,8 @@ const StyledButton = styled.button.withConfig({
   padding: 0.5rem 1rem;
   border-radius: 0.25rem;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  margin-top: 1rem;
-  margin-bottom: 1rem;
-  margin-right: 1rem;
+  margin: 0.8rem;
+  margin-left: 0rem;
   cursor: pointer;
 
   &:hover {

@@ -192,7 +192,7 @@ export default function SignupForm() {
             required
           />
           <ToggleVisibility onClick={() => setPasswordVisible(!passwordVisible)}>
-            {passwordVisible ? <FaEyeSlash /> : <FaEye />}
+            {passwordVisible ? <FaEye /> : <FaEyeSlash />}
           </ToggleVisibility>
         </InputContainer>
       </FormGroup>

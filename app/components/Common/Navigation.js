@@ -1,4 +1,4 @@
-// app/components/Common/Navigation.js
+// /app/components/Common/Navigation.js
 
 'use client';
 
@@ -65,16 +65,18 @@ export default function Navigation() {
   const pathname = usePathname(); // Aktuelle Pathname holen
 
   useEffect(() => {
-    if (status === 'unauthenticated' && pathname === '/signup') {
-      // Falls nicht authentifiziert und auf der Signup-Seite
+    if (status === 'loading') {
       return;
     }
-    if (status === 'unauthenticated' && pathname !== '/signup') {
-      // Falls nicht authentifiziert und nicht auf der Signup-Seite
-      router.push('/');
+    if (
+      status === 'unauthenticated' &&
+      pathname !== '/login' &&
+      pathname !== '/signup' &&
+      pathname !== '/forgot-password'
+    ) {
+      router.push('/'); // Redirect to homepage if not authenticated
     } else if (status === 'authenticated' && pathname === '/') {
-      // Falls authentifiziert und auf der Startseite
-      router.push('/reviews');
+      router.push('/reviews'); // Redirect to reviews if authenticated and on home page
     }
   }, [status, router, pathname]);
 
@@ -91,7 +93,7 @@ export default function Navigation() {
             <Button
               bgColor='var(--color-button-logout)'
               hoverColor='var(--color-button-logout-hover)'
-              onClick={() => signOut()}>
+              onClick={() => signOut({ callbackUrl: '/' })}>
               Logout
             </Button>
           ) : (
@@ -99,16 +101,7 @@ export default function Navigation() {
               <Button
                 bgColor='var(--color-button-login)'
                 hoverColor='var(--color-button-login-hover)'
-                onClick={() =>
-                  signIn({ redirect: false }) // Redirect false verhindern
-                    .then((result) => {
-                      if (result.ok) {
-                        router.push('/reviews'); // Redirect to reviews after successful login
-                      } else {
-                        router.push('/'); // Redirect to homepage on login failure
-                      }
-                    })
-                }>
+                onClick={() => router.push('/login')}>
                 Login
               </Button>
               <Button
@@ -116,6 +109,12 @@ export default function Navigation() {
                 hoverColor='var(--color-button-signup-hover)'
                 onClick={() => router.push('/signup')}>
                 Signup
+              </Button>
+              <Button
+                bgColor='var(--color-button-forgot-password)'
+                hoverColor='var(--color-button-forgot-password-hover)'
+                onClick={() => router.push('/forgot-password')}>
+                Forgot Password
               </Button>
             </>
           )}

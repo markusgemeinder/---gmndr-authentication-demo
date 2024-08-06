@@ -64,7 +64,7 @@ const ModalButtonContainer = styled.div`
 
 const SessionStatus = () => {
   const { data: session } = useSession();
-  const [timeLeft, setTimeLeft] = useState(300); // Standardwert 5 Minuten (300 Sekunden)
+  const [timeLeft, setTimeLeft] = useState(300);
   const [showPopup, setShowPopup] = useState(false);
 
   useEffect(() => {
@@ -165,10 +165,7 @@ const SessionStatus = () => {
         </>
       ) : (
         <p>
-          Welcome, unknown user.{' '}
-          <LoginLink href='#' onClick={() => signIn()}>
-            Please login.
-          </LoginLink>
+          Welcome, unknown user. <LoginLink href='/login'>Please login.</LoginLink>
         </p>
       )}
     </StatusContainer>

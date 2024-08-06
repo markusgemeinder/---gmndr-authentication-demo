@@ -4,7 +4,7 @@ import GitHubProvider from 'next-auth/providers/github';
 import GoogleProvider from 'next-auth/providers/google';
 import CredentialsProvider from 'next-auth/providers/credentials';
 import User from '@/db/models/User';
-import bcrypt from 'bcrypt';
+import bcrypt from 'bcryptjs';
 
 export const options = {
   providers: [
@@ -41,27 +41,27 @@ export const options = {
 
           if (!foundUser) {
             console.log('No user found with this email.');
-            return null;
+            throw new Error('No user found with this email.');
           }
 
           const match = await bcrypt.compare(credentials.password, foundUser.password);
-          if (match) {
-            console.log('Password match');
-            const userPayload = {
-              id: foundUser._id,
-              username: foundUser.username, // Benutzername
-              email: foundUser.email,
-              role: foundUser.role || 'Unverified User', // Rolle oder Standardwert
-            };
-            console.log('Returning user payload:', userPayload);
-            return userPayload;
-          } else {
-            console.log('Password does not match');
-            return null;
+          if (!match) {
+            console.log('Password does not match.');
+            throw new Error('Password does not match.');
           }
+
+          console.log('Password match');
+          const userPayload = {
+            id: foundUser._id,
+            username: foundUser.username, // Benutzername
+            email: foundUser.email,
+            role: foundUser.role || 'Unverified User', // Rolle oder Standardwert
+          };
+          console.log('Returning user payload:', userPayload);
+          return userPayload;
         } catch (error) {
           console.log('Error during authorization:', error);
-          return null;
+          throw new Error(error.message);
         }
       },
     }),
