@@ -144,8 +144,12 @@ export default function SignupForm() {
       if (response.ok) {
         router.push('/'); // Navigate to home after signup
       } else {
-        const errorText = await response.text();
-        setError(`Signup failed: ${errorText}`);
+        const errorText = await response.json();
+        if (errorText.message === 'Duplicate Email') {
+          setError('An account with this email already exists. Please try logging in.');
+        } else {
+          setError(`Signup failed: ${errorText.message}`);
+        }
         console.error('Signup failed:', errorText);
       }
     } catch (error) {
