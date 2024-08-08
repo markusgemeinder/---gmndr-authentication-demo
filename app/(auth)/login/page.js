@@ -108,6 +108,7 @@ export default function LoginPage() {
   };
 
   const handleOAuthLogin = (provider) => {
+    setError(''); // Reset error when using OAuth
     signIn(provider, { callbackUrl: '/reviews' });
   };
 
@@ -118,6 +119,7 @@ export default function LoginPage() {
         <FormContainer onSubmit={handleLogin}>
           <ButtonContainer>
             <Button
+              type='button'
               bgColor='var(--color-button-login)'
               hoverColor='var(--color-button-login-hover)'
               onClick={() => handleOAuthLogin('github')}
@@ -125,6 +127,7 @@ export default function LoginPage() {
               Login with GitHub
             </Button>
             <Button
+              type='button'
               bgColor='var(--color-button-login)'
               hoverColor='var(--color-button-login-hover)'
               onClick={() => handleOAuthLogin('google')}
