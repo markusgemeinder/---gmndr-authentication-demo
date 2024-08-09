@@ -1,7 +1,7 @@
      1	.
      2	├── README.md
      3	├── app
-     4	│   ├── (authentication)
+     4	│   ├── (auth)
      5	│   │   ├── forgot-password
      6	│   │   │   └── page.js
      7	│   │   ├── login
@@ -16,52 +16,56 @@
     16	│   │   │   ├── [...nextauth]
     17	│   │   │   │   ├── options.js
     18	│   │   │   │   └── route.js
-    19	│   │   │   ├── forgot-password.js
-    20	│   │   │   └── reset-password.js
-    21	│   │   ├── reviews
-    22	│   │   │   ├── [id]
-    23	│   │   │   │   └── route.js
-    24	│   │   │   └── route.js
-    25	│   │   └── users
-    26	│   │       └── route.js
-    27	│   ├── components
-    28	│   │   ├── Authentication
-    29	│   │   │   ├── AuthProvider.js
-    30	│   │   │   ├── ProtectedRoute.js
-    31	│   │   │   └── SessionStatus.js
-    32	│   │   ├── Common
-    33	│   │   │   ├── Button.js
-    34	│   │   │   ├── Footer.js
-    35	│   │   │   ├── LoadingAnimation.js
-    36	│   │   │   ├── Navigation.js
-    37	│   │   │   └── ScrollToTop.js
-    38	│   │   ├── Review
-    39	│   │   │   ├── ReviewCard.js
-    40	│   │   │   └── ReviewForm.js
-    41	│   │   └── Signup
-    42	│   │       └── SignupForm.js
-    43	│   ├── globals.css
-    44	│   ├── layout.js
-    45	│   ├── page.js
-    46	│   └── reviews
-    47	│       ├── [id]
-    48	│       │   └── page.js
-    49	│       ├── create
+    19	│   │   │   ├── forgot-password
+    20	│   │   │   │   └── route.js
+    21	│   │   │   └── reset-password
+    22	│   │   │       └── route.js
+    23	│   │   ├── reviews
+    24	│   │   │   ├── [id]
+    25	│   │   │   │   └── route.js
+    26	│   │   │   └── route.js
+    27	│   │   └── users
+    28	│   │       └── route.js
+    29	│   ├── components
+    30	│   │   ├── Authentication
+    31	│   │   │   ├── AuthProvider.js
+    32	│   │   │   ├── ProtectedRoute.js
+    33	│   │   │   └── SessionStatus.js
+    34	│   │   ├── Common
+    35	│   │   │   ├── Button.js
+    36	│   │   │   ├── Footer.js
+    37	│   │   │   ├── LoadingAnimation.js
+    38	│   │   │   ├── Navigation.js
+    39	│   │   │   └── ScrollToTop.js
+    40	│   │   ├── Review
+    41	│   │   │   ├── ReviewCard.js
+    42	│   │   │   └── ReviewForm.js
+    43	│   │   └── Signup
+    44	│   │       └── SignupForm.js
+    45	│   ├── globals.css
+    46	│   ├── layout.js
+    47	│   ├── page.js
+    48	│   └── reviews
+    49	│       ├── [id]
     50	│       │   └── page.js
-    51	│       └── page.js
-    52	├── db
-    53	│   ├── connect.js
-    54	│   └── models
-    55	│       ├── Review.js
-    56	│       └── User.js
-    57	├── jsconfig.json
-    58	├── middleware.js
-    59	├── next.config.mjs
-    60	├── package.json
-    61	├── postcss.config.mjs
-    62	├── tailwind.config.js
-    63	├── tree_with_numbers.txt
-    64	└── utils
-    65	    └── maskEmail.js
+    51	│       ├── create
+    52	│       │   └── page.js
+    53	│       └── page.js
+    54	├── db
+    55	│   ├── connect.js
+    56	│   └── models
+    57	│       ├── PasswordResetToken.js
+    58	│       ├── Review.js
+    59	│       └── User.js
+    60	├── jsconfig.json
+    61	├── middleware.js
+    62	├── next.config.mjs
+    63	├── package.json
+    64	├── postcss.config.mjs
+    65	├── tailwind.config.js
+    66	├── tree_with_numbers.txt
+    67	└── utils
+    68	    ├── db.js
+    69	    └── maskEmail.js
       	
-    66	25 directories, 40 files
+    70	27 directories, 42 files

@@ -1,5 +1,6 @@
-import { getCsrfToken } from 'next-auth/react';
-import { resetUserPassword } from '../../../lib/auth'; // Implement this function
+// /app/api/auth/reset-password/route.js
+
+import { resetUserPassword } from '@/lib/auth';
 
 export default async (req, res) => {
   const { token, password } = req.body;
@@ -8,8 +9,7 @@ export default async (req, res) => {
     return res.status(400).json({ message: 'Token and password are required' });
   }
 
-  // Implement logic to reset the user's password using the token
-  const success = await resetUserPassword(token, password); // Replace with actual logic
+  const success = await resetUserPassword(token, password);
 
   if (success) {
     res.status(200).json({ success: true, message: 'Password has been reset' });
