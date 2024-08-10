@@ -1,10 +1,10 @@
 // /app/api/auth/forgot-password/route.js
 
 import nodemailer from 'nodemailer';
-import dbConnect from '@/db/connect'; // Korrigierter Import-Pfad
-import User from '@/db/models/User'; // Korrigierter Import-Pfad
-import PasswordResetToken from '@/db/models/PasswordResetToken'; // Korrigierter Import-Pfad
-const crypto = require('crypto'); // Verwenden des eingebauten crypto-Moduls
+import dbConnect from '@/db/connect';
+import User from '@/db/models/User';
+import PasswordResetToken from '@/db/models/PasswordResetToken';
+const crypto = require('crypto');
 
 export async function POST(req) {
   const { email } = await req.json();
@@ -33,7 +33,7 @@ export async function POST(req) {
     const transporter = nodemailer.createTransport({
       host: process.env.EMAIL_HOST,
       port: process.env.EMAIL_PORT,
-      secure: process.env.EMAIL_PORT == 465,
+      secure: process.env.EMAIL_SECURE === 'true', // Verwende die Umgebungsvariable
       auth: {
         user: process.env.EMAIL_USER,
         pass: process.env.EMAIL_PASS,
@@ -69,6 +69,13 @@ export async function POST(req) {
     return new Response(JSON.stringify({ message: 'Reset link sent to email' }), { status: 200 });
   } catch (error) {
     console.error('Error handling password reset request:', error);
-    return new Response(JSON.stringify({ message: 'Error handling password reset request' }), { status: 500 });
+
+    let errorMessage = 'Error handling password reset request.';
+
+    if (error.responseCode === 535 || error.code === 'EAUTH') {
+      errorMessage = 'Invalid email authentication credentials. Please check your email settings.';
+    }
+
+    return new Response(JSON.stringify({ message: errorMessage }), { status: 500 });
   }
 }
