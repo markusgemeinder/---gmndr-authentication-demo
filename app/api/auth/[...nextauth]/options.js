@@ -77,10 +77,12 @@ export const options = {
       return token;
     },
     async session({ session, token }) {
+      console.log('Session Callback - Token:', token); // Token-Daten loggen
+      console.log('Session Callback - Session before update:', session); // Session-Daten vor dem Update loggen
       if (session?.user) {
         session.user.role = token.role;
         session.user.username = token.name; // Benutzername zur Session hinzufügen
-        console.log('Session Callback - Session:', session); // Logge die Session-Daten
+        console.log('Session Callback - Session after update:', session); // Logge die Session-Daten
       }
       return session;
     },

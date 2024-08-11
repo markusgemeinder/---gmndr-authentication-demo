@@ -29,6 +29,9 @@ export async function POST(req) {
 
     const resetLink = `${baseUrl}/reset-password/${token}`;
 
+    console.log('Generated Token:', token);
+    console.log('Reset Link:', resetLink);
+
     // SMTP-Transporter einrichten
     const transporter = nodemailer.createTransport({
       host: process.env.EMAIL_HOST,

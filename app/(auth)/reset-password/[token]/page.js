@@ -2,7 +2,7 @@
 
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import styled from 'styled-components';
 import ScrollToTop from '@/app/components/Common/ScrollToTop';
@@ -65,6 +65,10 @@ export default function ResetPasswordPage({ params }) {
   const [message, setMessage] = useState('');
   const router = useRouter();
   const { token } = params;
+
+  useEffect(() => {
+    console.log('Token from params:', token); // Debugging: Überprüfen des Tokens
+  }, [token]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();

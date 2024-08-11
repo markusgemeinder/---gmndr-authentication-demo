@@ -5,6 +5,11 @@ import { resetUserPassword } from '@/lib/auth';
 export default async (req, res) => {
   const { token, password } = req.body;
 
+  // Debugging-Ausgaben
+  console.log('Reset Password Endpoint Hit');
+  console.log('Token:', token);
+  console.log('Password:', password);
+
   if (!token || !password) {
     return res.status(400).json({ message: 'Token and password are required' });
   }
