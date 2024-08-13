@@ -1,109 +1,30 @@
+// /app/components/Review/ReviewCard.js
+
 'use client';
 
 import { format } from 'date-fns';
 import { FaStar, FaStarHalfAlt, FaRegStar } from 'react-icons/fa';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
-import styled from 'styled-components';
 import Button from '../Common/Button';
-import { useSession } from 'next-auth/react'; // Import useSession
+import { useSession } from 'next-auth/react';
+import {
+  CardContainer,
+  IDLabel,
+  Username,
+  Email,
+  Note,
+  StarsContainer,
+  CreatedUpdated,
+  ButtonContainer,
+  ModalOverlay,
+  ModalContent,
+  ModalHeader,
+  ModalParagraph,
+  ModalInput,
+  ModalButtonContainer,
+} from './ReviewStyles';
 
-// Styled components
-const CardContainer = styled.div`
-  background-color: #f9fafb;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  border-radius: 0.5rem;
-  overflow: hidden;
-  padding: 1rem;
-  margin-bottom: 1rem;
-  position: relative;
-`;
-
-const IDLabel = styled.div`
-  position: absolute;
-  top: 0.5rem;
-  right: 0.5rem;
-  font-size: 0.75rem;
-  color: #6b7280;
-  background-color: #f3f4f6;
-  padding: 0.25rem 0.5rem;
-  border-radius: 0.25rem;
-`;
-
-const Username = styled.div`
-  font-size: 1.125rem;
-  font-weight: bold;
-  margin-bottom: 0.5rem;
-`;
-
-const Email = styled.div`
-  font-size: 1rem;
-  color: #6b7280;
-  margin-bottom: 1rem;
-`;
-
-const Note = styled.div`
-  color: #1f2937;
-  margin-bottom: 1rem;
-  white-space: pre-wrap; /* Ensure whitespace and newlines are preserved */
-`;
-
-const StarsContainer = styled.div`
-  display: flex;
-  gap: 0.25rem;
-  margin-bottom: 1rem;
-`;
-
-const CreatedUpdated = styled.div`
-  font-size: 0.75rem;
-  color: #6b7280;
-`;
-
-const ButtonContainer = styled.div`
-  display: flex;
-`;
-
-const ModalOverlay = styled.div`
-  position: fixed;
-  inset: 0;
-  background-color: rgba(31, 41, 55, 0.5);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: 50;
-`;
-
-const ModalContent = styled.div`
-  background-color: #ffffff;
-  padding: 1.5rem;
-  border-radius: 0.25rem;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-`;
-
-const ModalHeader = styled.h2`
-  font-size: 1.125rem;
-  font-weight: bold;
-  margin-bottom: 1rem;
-`;
-
-const ModalParagraph = styled.p`
-  margin-bottom: 1rem;
-`;
-
-const ModalInput = styled.input`
-  border: 1px solid #d1d5db;
-  padding: 0.5rem;
-  border-radius: 0.25rem;
-  margin-bottom: 1rem;
-  width: 100%;
-`;
-
-const ModalButtonContainer = styled.div`
-  display: flex;
-  gap: 1rem;
-`;
-
-// Render stars function
 const renderStars = (rating) => {
   const stars = [];
   for (let i = 1; i <= 5; i++) {
@@ -118,15 +39,13 @@ const renderStars = (rating) => {
   return stars;
 };
 
-// Main component
 export default function ReviewCard({ review, onDelete }) {
   const { _id, username, note, rating, createdAt, updatedAt, email } = review;
   const [confirmDelete, setConfirmDelete] = useState(false);
   const [inputValue, setInputValue] = useState('');
   const router = useRouter();
-  const { data: session } = useSession(); // Get session data
+  const { data: session } = useSession();
 
-  // Handle delete function
   const handleDelete = async () => {
     if (inputValue === _id.slice(-4)) {
       try {
@@ -147,11 +66,9 @@ export default function ReviewCard({ review, onDelete }) {
     }
   };
 
-  // Check if current user is the creator or an admin
   const isCreatorOrAdmin =
     session && ((session.user.name === username && session.user.email === email) || session.user.role === 'admin');
 
-  // Always show buttons for demo reviews
   const showButtons = _id.startsWith('demo-') || isCreatorOrAdmin;
 
   return (

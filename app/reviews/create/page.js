@@ -2,22 +2,12 @@
 
 'use client';
 
-import styled from 'styled-components';
+import { Main, SmallTitle } from '@/app/components/Common/CommonStyles';
 import ProtectedRoute from '@/app/components/Authentication/ProtectedRoute';
 import ReviewForm from '@/app/components/Review/ReviewForm';
 import { useRouter } from 'next/navigation';
 import SessionStatus from '@/app/components/Authentication/SessionStatus';
 import ScrollToTop from '@/app/components/Common/ScrollToTop';
-
-const Main = styled.main`
-  padding: 1rem;
-`;
-
-const Title = styled.h1`
-  font-size: 1.5rem;
-  font-weight: bold;
-  margin-bottom: 0.25rem;
-`;
 
 export default function CreatePage() {
   const router = useRouter();
@@ -34,7 +24,7 @@ export default function CreatePage() {
     <ProtectedRoute>
       <ScrollToTop />
       <Main>
-        <Title>Create Review</Title>
+        <SmallTitle>Create Review</SmallTitle>
         <SessionStatus />
         <ReviewForm onSave={handleSave} onCancel={handleCancel} />
       </Main>

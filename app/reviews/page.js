@@ -2,38 +2,21 @@
 
 'use client';
 
-import ProtectedRoute from '../components/Authentication/ProtectedRoute';
-import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
-import styled from 'styled-components';
-import ReviewCard from '../components/Review/ReviewCard';
-import SessionStatus from '../components/Authentication/SessionStatus';
-import LoadingAnimation from '../components/Common/LoadingAnimation';
-import Button from '../components/Common/Button';
-import ScrollToTop from '../components/Common/ScrollToTop';
-
-const Main = styled.main`
-  padding: 1rem;
-`;
-
-const Title = styled.h1`
-  font-size: 1.5rem;
-  font-weight: bold;
-  margin-bottom: 0.25rem;
-`;
-
-const ReviewsContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-  margin-top: 1rem;
-`;
-
-const ReviewWrapper = styled.div`
-  width: 100%;
-  max-width: 40rem;
-  margin: 0 auto;
-`;
+import {
+  Main,
+  SmallTitle,
+  ButtonContainer,
+  ReviewsContainer,
+  ReviewWrapper,
+} from '@/app/components/Common/CommonStyles';
+import ProtectedRoute from '@/app/components/Authentication/ProtectedRoute';
+import { useRouter } from 'next/navigation';
+import ReviewCard from '@/app/components/Review/ReviewCard';
+import SessionStatus from '@/app/components/Authentication/SessionStatus';
+import LoadingAnimation from '@/app/components/Common/LoadingAnimation';
+import Button from '@/app/components/Common/Button';
+import ScrollToTop from '@/app/components/Common/ScrollToTop';
 
 export default function ReviewsPage() {
   const [reviews, setReviews] = useState([]);
@@ -97,24 +80,26 @@ export default function ReviewsPage() {
     <ProtectedRoute>
       <ScrollToTop />
       <Main>
-        <Title>Reviews</Title>
+        <SmallTitle>Reviews</SmallTitle>
         <SessionStatus />
-        <Button
-          onClick={() => router.push('/reviews/create')}
-          bgColor='var(--color-button-review)'
-          hoverColor='var(--color-button-review-hover)'
-          color='var(--color-button-text)'>
-          Create Review
-        </Button>
-        {!demoReviewExists && (
+        <ButtonContainer>
           <Button
-            onClick={handleCreateDemoReview}
-            bgColor='var(--color-button-demo-review)'
-            hoverColor='var(--color-button-demo-review-hover)'
+            onClick={() => router.push('/reviews/create')}
+            bgColor='var(--color-button-review)'
+            hoverColor='var(--color-button-review-hover)'
             color='var(--color-button-text)'>
-            Create Demo Review
+            Create Review
           </Button>
-        )}
+          {!demoReviewExists && (
+            <Button
+              onClick={handleCreateDemoReview}
+              bgColor='var(--color-button-demo-review)'
+              hoverColor='var(--color-button-demo-review-hover)'
+              color='var(--color-button-text)'>
+              Create Demo Review
+            </Button>
+          )}
+        </ButtonContainer>
         <ReviewsContainer>
           {reviews.map((review) => (
             <ReviewWrapper key={review._id}>

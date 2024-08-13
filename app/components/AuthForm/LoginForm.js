@@ -21,8 +21,13 @@ import {
 } from './AuthFormStyles';
 
 export default function LoginForm({ onLogin, onOAuthLogin, error, onForgotPassword }) {
+  const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [passwordVisible, setPasswordVisible] = useState(false);
+
+  const handleEmailChange = (e) => {
+    setEmail(e.target.value);
+  };
 
   return (
     <>
@@ -30,8 +35,6 @@ export default function LoginForm({ onLogin, onOAuthLogin, error, onForgotPasswo
       <FormContainer
         onSubmit={(e) => {
           e.preventDefault();
-          const email = e.target.email.value;
-          const password = e.target.password.value;
           onLogin(email, password);
         }}>
         <ButtonContainer>
@@ -58,26 +61,27 @@ export default function LoginForm({ onLogin, onOAuthLogin, error, onForgotPasswo
             <LabelContainer>
               <Label htmlFor='email'>Email:</Label>
             </LabelContainer>
-            <Input id='email' type='email' name='email' />
+            <Input id='email' type='email' name='email' value={email} onChange={handleEmailChange} />
           </FormGroup>
-          <FormGroup>
-            <LabelContainer>
-              <Label htmlFor='password'>Password:</Label>
-            </LabelContainer>
-            <InputContainer>
-              <Input
-                id='password'
-                type={passwordVisible ? 'text' : 'password'}
-                name='password'
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-              />
-              <ToggleVisibility onClick={() => setPasswordVisible(!passwordVisible)}>
-                {passwordVisible ? <PasswordVisibleIcon /> : <PasswordHiddenIcon />}
-              </ToggleVisibility>
-              {/* Hier kann ein Warnhinweis hinzugefügt werden, wenn nötig */}
-            </InputContainer>
-          </FormGroup>
+          {email && (
+            <FormGroup>
+              <LabelContainer>
+                <Label htmlFor='password'>Password:</Label>
+              </LabelContainer>
+              <InputContainer>
+                <Input
+                  id='password'
+                  type={passwordVisible ? 'text' : 'password'}
+                  name='password'
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                />
+                <ToggleVisibility onClick={() => setPasswordVisible(!passwordVisible)}>
+                  {passwordVisible ? <PasswordVisibleIcon /> : <PasswordHiddenIcon />}
+                </ToggleVisibility>
+              </InputContainer>
+            </FormGroup>
+          )}
           {error && <WarningMessage>{error}</WarningMessage>}
           <Button
             type='submit'

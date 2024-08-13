@@ -20,7 +20,7 @@ export const FormContainer = styled.form`
   background-color: #f5f5f5;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   border-radius: 0.375rem;
-  margin: 2rem auto;
+  margin: 1rem auto;
   padding: 1.5rem;
   max-width: 32rem;
   width: 90%;
