@@ -3,9 +3,8 @@
 'use client';
 
 import { useState } from 'react';
-import ScrollToTop from '@/app/components/Common/ScrollToTop';
 import Button from '@/app/components/Common/Button';
-import { Main, Title, FormContainer, Label, Input, ButtonContainer, WarningMessage } from './AuthFormStyles';
+import { FormContainer, Label, Input, ButtonContainer, WarningMessage } from './AuthFormStyles';
 
 export default function ForgotPasswordForm() {
   const [email, setEmail] = useState('');
@@ -25,17 +24,15 @@ export default function ForgotPasswordForm() {
   };
 
   return (
-    <>
-      <FormContainer onSubmit={handleSubmit}>
-        <Label htmlFor='email'>Email:</Label>
-        <Input id='email' type='email' value={email} onChange={(e) => setEmail(e.target.value)} required />
-        <ButtonContainer>
-          <Button type='submit' bgColor='var(--color-button-save)' hoverColor='var(--color-button-save-hover)'>
-            Send Reset Link
-          </Button>
-        </ButtonContainer>
-      </FormContainer>
+    <FormContainer onSubmit={handleSubmit}>
+      <Label htmlFor='email'>Email:</Label>
+      <Input id='email' type='email' value={email} onChange={(e) => setEmail(e.target.value)} required />
+      <ButtonContainer>
+        <Button type='submit' bgColor='var(--color-button-save)' hoverColor='var(--color-button-save-hover)'>
+          Send Reset Link
+        </Button>
+      </ButtonContainer>
       {message && <WarningMessage>{message}</WarningMessage>}
-    </>
+    </FormContainer>
   );
 }

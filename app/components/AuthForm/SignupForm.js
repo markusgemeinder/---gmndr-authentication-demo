@@ -4,8 +4,7 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import Button, { ButtonContainer } from '@/app/components/Common/Button';
-
+import Button from '@/app/components/Common/Button';
 import {
   FormContainer,
   FormGroup,
@@ -17,8 +16,8 @@ import {
   PasswordHiddenIcon,
   PasswordVisibleIcon,
   WarningMessage,
-  PasswordQualityWarning,
   CheckIcon,
+  ButtonContainer,
 } from './AuthFormStyles';
 
 export default function SignupForm() {
@@ -59,7 +58,7 @@ export default function SignupForm() {
     }
     const data = { username, email, password };
 
-    console.log('Submitting data:', data); // Logging data to ensure it's correct
+    console.log('Submitting data:', data);
 
     try {
       const response = await fetch('/api/users', {
@@ -70,10 +69,10 @@ export default function SignupForm() {
         body: JSON.stringify(data),
       });
 
-      console.log('Signup response status:', response.status); // Log the response status
+      console.log('Signup response status:', response.status);
 
       if (response.ok) {
-        router.push('/'); // Navigate to home after signup
+        router.push('/');
       } else {
         const errorText = await response.json();
         if (errorText.message === 'Duplicate Email') {
@@ -110,10 +109,11 @@ export default function SignupForm() {
       <FormGroup>
         <LabelContainer>
           <Label htmlFor='password'>Password:</Label>
-          {passwordQuality === '' && password.length > 0 && <CheckIcon />}
-          <PasswordQualityWarning valid={passwordQuality === '' && password.length > 0}>
-            {passwordQuality}
-          </PasswordQualityWarning>
+          {passwordQuality === '' && password.length > 0 ? (
+            <CheckIcon />
+          ) : (
+            <WarningMessage>{passwordQuality}</WarningMessage>
+          )}
         </LabelContainer>
         <InputContainer>
           <Input
@@ -122,7 +122,7 @@ export default function SignupForm() {
             value={password}
             onChange={(e) => {
               setPassword(e.target.value);
-              checkPasswordQuality(e.target.value); // Update password quality on change
+              checkPasswordQuality(e.target.value);
             }}
             required
           />
@@ -130,22 +130,28 @@ export default function SignupForm() {
             {passwordVisible ? <PasswordVisibleIcon /> : <PasswordHiddenIcon />}
           </ToggleVisibility>
         </InputContainer>
-
+      </FormGroup>
+      <FormGroup>
         <LabelContainer>
           <Label htmlFor='repeat-password'>Repeat Password:</Label>
-          {password === repeatPassword && repeatPassword && <CheckIcon />}
-          {repeatPassword === '' && password.length > 0 && <WarningMessage>Please enter.</WarningMessage>}
+          {password === repeatPassword && repeatPassword ? (
+            <CheckIcon />
+          ) : (
+            password.length > 0 && repeatPassword === '' && <WarningMessage>Please enter.</WarningMessage>
+          )}
           {password !== repeatPassword && repeatPassword && password.length > 0 && (
-            <WarningMessage>{`Passwords do not match.`}</WarningMessage>
+            <WarningMessage>Passwords do not match.</WarningMessage>
           )}
         </LabelContainer>
-        <Input
-          id='repeat-password'
-          type={passwordVisible ? 'text' : 'password'}
-          value={repeatPassword}
-          onChange={(e) => setRepeatPassword(e.target.value)}
-          required
-        />
+        <InputContainer>
+          <Input
+            id='repeat-password'
+            type={passwordVisible ? 'text' : 'password'}
+            value={repeatPassword}
+            onChange={(e) => setRepeatPassword(e.target.value)}
+            required
+          />
+        </InputContainer>
       </FormGroup>
       {error && <WarningMessage>{error}</WarningMessage>}
       <ButtonContainer>

@@ -20,15 +20,15 @@ export const FormContainer = styled.form`
   background-color: #f5f5f5;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   border-radius: 0.375rem;
-  margin: 1rem auto;
-  padding: 1rem;
+  margin: 2rem auto;
+  padding: 1.5rem;
   max-width: 32rem;
-  width: 100%;
+  width: 90%;
+  box-sizing: border-box;
 `;
 
 export const FormGroup = styled.div`
-  margin-bottom: 0.2rem;
-  position: relative;
+  margin-bottom: 1rem;
   display: flex;
   flex-direction: column;
 `;
@@ -36,39 +36,36 @@ export const FormGroup = styled.div`
 export const LabelContainer = styled.div`
   display: flex;
   align-items: center;
+  justify-content: space-between;
+  margin-bottom: 0.5rem;
 `;
 
 export const Label = styled.label`
-  display: block;
   font-size: 0.875rem;
   font-weight: bold;
   color: #4a5568;
-  margin-bottom: 0.4rem;
-  margin-right: 0.5rem;
+  margin: 0 0.5rem;
+  line-height: 1.5;
 `;
 
 export const InputContainer = styled.div`
-  margin-bottom: 0.8rem;
   position: relative;
-  display: flex;
-  flex-direction: column;
-  /* align-items: center; */
 `;
 
 export const Input = styled.input`
   width: 100%;
-  padding: 0.5rem;
+  padding: 0.75rem;
   border: 1px solid #e2e8f0;
   border-radius: 0.375rem;
   box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
-  margin-bottom: 0.5rem;
+  box-sizing: border-box;
 `;
 
 export const ToggleVisibility = styled.button`
   position: absolute;
-  top: 40%;
-  right: 0.7rem;
-  transform: translateY(-40%);
+  top: 50%;
+  right: 0.75rem;
+  transform: translateY(-50%);
   background: none;
   border: none;
   cursor: pointer;
@@ -76,6 +73,7 @@ export const ToggleVisibility = styled.button`
   display: flex;
   align-items: center;
 `;
+
 export const PasswordVisibleIcon = styled(FaEye)``;
 
 export const PasswordHiddenIcon = styled(FaEyeSlash)``;
@@ -83,16 +81,12 @@ export const PasswordHiddenIcon = styled(FaEyeSlash)``;
 export const WarningMessage = styled.p`
   color: #e00;
   font-size: 0.875rem;
-  margin: 0.5rem 0;
-  text-align: center;
-`;
-
-export const PasswordQualityWarning = styled(WarningMessage)`
-  text-align: left;
+  margin: 0 0.5rem;
 `;
 
 export const CheckIcon = styled(FaCheck)`
   color: green;
+  margin-left: 0.5rem; /* Einzug von links für Check-Icons */
   margin-right: 0.5rem;
 `;
 
@@ -119,6 +113,6 @@ export const Divider = styled.div`
 export const ButtonContainer = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 0.1rem;
+  gap: 0.5rem;
   width: 100%;
 `;

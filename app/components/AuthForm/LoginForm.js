@@ -2,11 +2,10 @@
 
 'use client';
 
+import { useState } from 'react';
 import ScrollToTop from '@/app/components/Common/ScrollToTop';
-import Button, { ButtonContainer } from '@/app/components/Common/Button';
-import { FaEye, FaEyeSlash, FaCheck } from 'react-icons/fa';
+import Button from '@/app/components/Common/Button';
 import {
-  Main,
   FormContainer,
   FormGroup,
   LabelContainer,
@@ -15,65 +14,88 @@ import {
   WarningMessage,
   Divider,
   InputContainer,
+  ToggleVisibility,
+  PasswordVisibleIcon,
+  PasswordHiddenIcon,
+  ButtonContainer,
 } from './AuthFormStyles';
 
 export default function LoginForm({ onLogin, onOAuthLogin, error, onForgotPassword }) {
+  const [password, setPassword] = useState('');
+  const [passwordVisible, setPasswordVisible] = useState(false);
+
   return (
     <>
       <ScrollToTop />
-      <Main>
-        <FormContainer
-          onSubmit={(e) => {
-            e.preventDefault();
-            const email = e.target.email.value;
-            const password = e.target.password.value;
-            onLogin(email, password);
-          }}>
-          <ButtonContainer>
-            <Button
-              type='button'
-              bgColor='var(--color-button-login)'
-              hoverColor='var(--color-button-login-hover)'
-              onClick={() => onOAuthLogin('github')}
-              style={{ width: '100%' }}>
-              Login with GitHub
-            </Button>
-            <Button
-              type='button'
-              bgColor='var(--color-button-login)'
-              hoverColor='var(--color-button-login-hover)'
-              onClick={() => onOAuthLogin('google')}
-              style={{ width: '100%' }}>
-              Login with Google
-            </Button>
-            <Divider>
-              <span>or</span>
-            </Divider>
-            <InputContainer>
+      <FormContainer
+        onSubmit={(e) => {
+          e.preventDefault();
+          const email = e.target.email.value;
+          const password = e.target.password.value;
+          onLogin(email, password);
+        }}>
+        <ButtonContainer>
+          <Button
+            type='button'
+            bgColor='var(--color-button-login)'
+            hoverColor='var(--color-button-login-hover)'
+            onClick={() => onOAuthLogin('github')}
+            style={{ width: '100%' }}>
+            Login with GitHub
+          </Button>
+          <Button
+            type='button'
+            bgColor='var(--color-button-login)'
+            hoverColor='var(--color-button-login-hover)'
+            onClick={() => onOAuthLogin('google')}
+            style={{ width: '100%' }}>
+            Login with Google
+          </Button>
+          <Divider>
+            <span>or</span>
+          </Divider>
+          <FormGroup>
+            <LabelContainer>
               <Label htmlFor='email'>Email:</Label>
-              <Input id='email' type='email' name='email' />
+            </LabelContainer>
+            <Input id='email' type='email' name='email' />
+          </FormGroup>
+          <FormGroup>
+            <LabelContainer>
               <Label htmlFor='password'>Password:</Label>
-              <Input id='password' type='password' name='password' />
+              <ToggleVisibility onClick={() => setPasswordVisible(!passwordVisible)}>
+                {passwordVisible ? <PasswordVisibleIcon /> : <PasswordHiddenIcon />}
+              </ToggleVisibility>
+            </LabelContainer>
+            <InputContainer>
+              <Input
+                id='password'
+                type={passwordVisible ? 'text' : 'password'}
+                name='password'
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+              />
+              {/* Hier kann ein Warnhinweis hinzugefügt werden, wenn nötig */}
             </InputContainer>
-            {error && <WarningMessage>{error}</WarningMessage>}
-            <Button
-              type='submit'
-              bgColor='var(--color-button-login)'
-              hoverColor='var(--color-button-login-hover)'
-              style={{ width: '100%' }}>
-              Login
-            </Button>
-            <Button
-              type='button'
-              onClick={onForgotPassword}
-              bgColor='var(--color-button-hover)'
-              hoverColor='var(--color-button)'
-              style={{ width: '100%' }}>
-              Forgot Password
-            </Button>
-          </ButtonContainer>
-        </FormContainer>
-      </Main>
+          </FormGroup>
+          {error && <WarningMessage>{error}</WarningMessage>}
+          <Button
+            type='submit'
+            bgColor='var(--color-button-login)'
+            hoverColor='var(--color-button-login-hover)'
+            style={{ width: '100%' }}>
+            Login
+          </Button>
+          <Button
+            type='button'
+            onClick={onForgotPassword}
+            bgColor='var(--color-button-hover)'
+            hoverColor='var(--color-button)'
+            style={{ width: '100%' }}>
+            Forgot Password
+          </Button>
+        </ButtonContainer>
+      </FormContainer>
     </>
   );
 }
