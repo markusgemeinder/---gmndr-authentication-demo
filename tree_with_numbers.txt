@@ -27,45 +27,51 @@
     27	│   │   └── users
     28	│   │       └── route.js
     29	│   ├── components
-    30	│   │   ├── Authentication
-    31	│   │   │   ├── AuthProvider.js
-    32	│   │   │   ├── ProtectedRoute.js
-    33	│   │   │   └── SessionStatus.js
-    34	│   │   ├── Common
-    35	│   │   │   ├── Button.js
-    36	│   │   │   ├── Footer.js
-    37	│   │   │   ├── LoadingAnimation.js
-    38	│   │   │   ├── Navigation.js
-    39	│   │   │   └── ScrollToTop.js
-    40	│   │   ├── Review
-    41	│   │   │   ├── ReviewCard.js
-    42	│   │   │   └── ReviewForm.js
-    43	│   │   └── Signup
-    44	│   │       └── SignupForm.js
-    45	│   ├── globals.css
-    46	│   ├── layout.js
-    47	│   ├── page.js
-    48	│   └── reviews
-    49	│       ├── [id]
-    50	│       │   └── page.js
-    51	│       ├── create
-    52	│       │   └── page.js
-    53	│       └── page.js
-    54	├── db
-    55	│   ├── connect.js
-    56	│   └── models
-    57	│       ├── PasswordResetToken.js
-    58	│       ├── Review.js
-    59	│       └── User.js
-    60	├── jsconfig.json
-    61	├── middleware.js
-    62	├── next.config.mjs
-    63	├── package.json
-    64	├── postcss.config.mjs
-    65	├── tailwind.config.js
-    66	├── tree_with_numbers.txt
-    67	└── utils
-    68	    ├── db.js
-    69	    └── maskEmail.js
+    30	│   │   ├── AuthForm
+    31	│   │   │   ├── AuthFormStyles.js
+    32	│   │   │   ├── ForgotPasswordForm.js
+    33	│   │   │   ├── LoginForm.js
+    34	│   │   │   ├── ResetPasswordForm.js
+    35	│   │   │   └── SignupForm.js
+    36	│   │   ├── Authentication
+    37	│   │   │   ├── AuthProvider.js
+    38	│   │   │   ├── ProtectedRoute.js
+    39	│   │   │   └── SessionStatus.js
+    40	│   │   ├── Common
+    41	│   │   │   ├── Button.js
+    42	│   │   │   ├── Footer.js
+    43	│   │   │   ├── LoadingAnimation.js
+    44	│   │   │   ├── Navigation.js
+    45	│   │   │   └── ScrollToTop.js
+    46	│   │   └── Review
+    47	│   │       ├── ReviewCard.js
+    48	│   │       └── ReviewForm.js
+    49	│   ├── globals.css
+    50	│   ├── layout.js
+    51	│   ├── page.js
+    52	│   └── reviews
+    53	│       ├── [id]
+    54	│       │   └── page.js
+    55	│       ├── create
+    56	│       │   └── page.js
+    57	│       └── page.js
+    58	├── db
+    59	│   ├── connect.js
+    60	│   └── models
+    61	│       ├── PasswordResetToken.js
+    62	│       ├── Review.js
+    63	│       └── User.js
+    64	├── jsconfig.json
+    65	├── lib
+    66	│   └── auth.js
+    67	├── middleware.js
+    68	├── next.config.mjs
+    69	├── package.json
+    70	├── postcss.config.mjs
+    71	├── tailwind.config.js
+    72	├── tree_with_numbers.txt
+    73	└── utils
+    74	    ├── db.js
+    75	    └── maskEmail.js
       	
-    70	27 directories, 42 files
+    76	28 directories, 47 files

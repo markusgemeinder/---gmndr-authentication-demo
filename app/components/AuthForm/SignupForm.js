@@ -1,94 +1,25 @@
-// /app/components/Signup/SignupForm.js
+// /app/components/AuthForm/SignupForm.js
 
 'use client';
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import styled from 'styled-components';
-import Button from '../Common/Button';
-import { FaEye, FaEyeSlash, FaCheck } from 'react-icons/fa';
+import Button, { ButtonContainer } from '@/app/components/Common/Button';
 
-const FormContainer = styled.form`
-  background-color: #f5f5f5;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  border-radius: 0.375rem;
-  padding: 1rem;
-  max-width: 32rem;
-  margin: 2rem auto;
-`;
-
-const FormGroup = styled.div`
-  margin-bottom: 1rem;
-  position: relative;
-  display: flex;
-  flex-direction: column;
-`;
-
-const LabelContainer = styled.div`
-  display: flex;
-  align-items: center;
-`;
-
-const Label = styled.label`
-  display: block;
-  font-size: 0.875rem;
-  font-weight: 500;
-  color: #4a5568;
-  margin-right: 0.5rem;
-`;
-
-const InputContainer = styled.div`
-  position: relative;
-  display: flex;
-  align-items: center;
-`;
-
-const Input = styled.input`
-  margin-top: 0.25rem;
-  width: 100%;
-  border-color: #e2e8f0;
-  border-radius: 0.375rem;
-  padding: 0.5rem;
-  padding-right: 2.8rem; // Space for the visibility toggle button
-  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
-`;
-
-const ToggleVisibility = styled.button`
-  position: absolute;
-  top: 50%;
-  right: 0.7rem;
-  transform: translateY(-50%);
-  background: none;
-  border: none;
-  cursor: pointer;
-  color: #4a5568;
-  display: flex;
-  align-items: center;
-`;
-
-const ButtonContainer = styled.div`
-  display: flex;
-  gap: 1rem;
-`;
-
-const Warning = styled.div`
-  color: ${(props) => (props.valid ? 'green' : 'red')};
-  font-size: 0.875rem;
-  margin-left: 0.5rem;
-  display: flex;
-  align-items: center;
-`;
-
-const PasswordQualityWarning = styled(Warning)`
-  display: flex;
-  align-items: center;
-  margin-left: 1rem;
-`;
-
-const CheckIcon = styled(FaCheck)`
-  color: green;
-  margin-right: 0.5rem;
-`;
+import {
+  FormContainer,
+  FormGroup,
+  LabelContainer,
+  Label,
+  InputContainer,
+  Input,
+  ToggleVisibility,
+  PasswordHiddenIcon,
+  PasswordVisibleIcon,
+  WarningMessage,
+  PasswordQualityWarning,
+  CheckIcon,
+} from './AuthFormStyles';
 
 export default function SignupForm() {
   const [username, setUsername] = useState('');
@@ -166,19 +97,19 @@ export default function SignupForm() {
     <FormContainer onSubmit={handleSubmit}>
       <FormGroup>
         <LabelContainer>
-          <Label htmlFor='username'>Username</Label>
+          <Label htmlFor='username'>Username:</Label>
         </LabelContainer>
         <Input id='username' type='text' value={username} onChange={(e) => setUsername(e.target.value)} required />
       </FormGroup>
       <FormGroup>
         <LabelContainer>
-          <Label htmlFor='email'>Email</Label>
+          <Label htmlFor='email'>Email:</Label>
         </LabelContainer>
         <Input id='email' type='email' value={email} onChange={(e) => setEmail(e.target.value)} required />
       </FormGroup>
       <FormGroup>
         <LabelContainer>
-          <Label htmlFor='password'>Password</Label>
+          <Label htmlFor='password'>Password:</Label>
           {passwordQuality === '' && password.length > 0 && <CheckIcon />}
           <PasswordQualityWarning valid={passwordQuality === '' && password.length > 0}>
             {passwordQuality}
@@ -196,17 +127,16 @@ export default function SignupForm() {
             required
           />
           <ToggleVisibility onClick={() => setPasswordVisible(!passwordVisible)}>
-            {passwordVisible ? <FaEye /> : <FaEyeSlash />}
+            {passwordVisible ? <PasswordVisibleIcon /> : <PasswordHiddenIcon />}
           </ToggleVisibility>
         </InputContainer>
-      </FormGroup>
-      <FormGroup>
+
         <LabelContainer>
-          <Label htmlFor='repeat-password'>Repeat Password</Label>
+          <Label htmlFor='repeat-password'>Repeat Password:</Label>
           {password === repeatPassword && repeatPassword && <CheckIcon />}
-          {repeatPassword === '' && password.length > 0 && <Warning>Please enter.</Warning>}
+          {repeatPassword === '' && password.length > 0 && <WarningMessage>Please enter.</WarningMessage>}
           {password !== repeatPassword && repeatPassword && password.length > 0 && (
-            <Warning>{`Passwords do not match.`}</Warning>
+            <WarningMessage>{`Passwords do not match.`}</WarningMessage>
           )}
         </LabelContainer>
         <Input
@@ -217,7 +147,7 @@ export default function SignupForm() {
           required
         />
       </FormGroup>
-      {error && <Warning>{error}</Warning>}
+      {error && <WarningMessage>{error}</WarningMessage>}
       <ButtonContainer>
         <Button
           type='submit'

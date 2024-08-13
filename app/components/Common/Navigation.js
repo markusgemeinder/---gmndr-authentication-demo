@@ -7,7 +7,7 @@ import { useRouter, usePathname } from 'next/navigation';
 import { useEffect } from 'react';
 import LoadingAnimation from './LoadingAnimation';
 import styled from 'styled-components';
-import Button from './Button';
+import Button from '@/app/components/Common/Button';
 
 const Header = styled.header`
   background-color: var(--color-header);
@@ -28,6 +28,11 @@ const BrandContainer = styled.div`
   align-items: center;
   gap: 1rem;
   margin: 0.4rem 2rem;
+`;
+
+const NaviButtonContainer = styled.div`
+  display: flex;
+  gap: 1rem;
 `;
 
 const Title = styled.div`
@@ -88,7 +93,7 @@ export default function Navigation() {
     <Header>
       <BrandContainer>
         <Title>MyApp</Title>
-        <div>
+        <NaviButtonContainer>
           {session ? (
             <Button
               bgColor='var(--color-button-logout)'
@@ -118,7 +123,7 @@ export default function Navigation() {
               </Button>
             </>
           )}
-        </div>
+        </NaviButtonContainer>
       </BrandContainer>
       {session && (
         <NavContainer>
