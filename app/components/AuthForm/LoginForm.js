@@ -63,9 +63,6 @@ export default function LoginForm({ onLogin, onOAuthLogin, error, onForgotPasswo
           <FormGroup>
             <LabelContainer>
               <Label htmlFor='password'>Password:</Label>
-              <ToggleVisibility onClick={() => setPasswordVisible(!passwordVisible)}>
-                {passwordVisible ? <PasswordVisibleIcon /> : <PasswordHiddenIcon />}
-              </ToggleVisibility>
             </LabelContainer>
             <InputContainer>
               <Input
@@ -75,6 +72,9 @@ export default function LoginForm({ onLogin, onOAuthLogin, error, onForgotPasswo
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
               />
+              <ToggleVisibility onClick={() => setPasswordVisible(!passwordVisible)}>
+                {passwordVisible ? <PasswordVisibleIcon /> : <PasswordHiddenIcon />}
+              </ToggleVisibility>
               {/* Hier kann ein Warnhinweis hinzugefügt werden, wenn nötig */}
             </InputContainer>
           </FormGroup>
