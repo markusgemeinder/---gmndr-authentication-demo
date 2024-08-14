@@ -18,7 +18,7 @@ import {
   WarningMessage,
   CheckIcon,
   ButtonContainer,
-} from './AuthFormStyles';
+} from '@/app/components/AuthForm/AuthFormStyles';
 import { ModalOverlay, ModalHeader, ModalContent, ModalButtonContainer } from '@/app/components/Common/ModalPopup';
 
 export default function SignupForm() {
@@ -194,8 +194,8 @@ export default function SignupForm() {
             <ModalButtonContainer>
               <Button
                 onClick={handleOkClick}
-                bgColor='var(--color-button-save)'
-                hoverColor='var(--color-button-save-hover)'
+                bgColor='var(--color-button-ok)'
+                hoverColor='var(--color-button-ok-hover)'
                 color='var(--color-button-text)'>
                 OK
               </Button>

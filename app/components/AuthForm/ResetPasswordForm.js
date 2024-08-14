@@ -1,5 +1,3 @@
-// /app/components/AuthForm/ResetPasswordForm.js
-
 'use client';
 
 import { useState } from 'react';
@@ -18,7 +16,11 @@ import {
   ToggleVisibility,
   PasswordVisibleIcon,
   PasswordHiddenIcon,
-} from './AuthFormStyles';
+  Modal,
+  ModalOverlay,
+  ModalContent,
+  ModalButtonContainer,
+} from '@/app/components/AuthForm/AuthFormStyles'; // Stelle sicher, dass Modal-Komponenten hier importiert sind
 
 export default function ResetPasswordForm({ token }) {
   const [password, setPassword] = useState('');
@@ -26,6 +28,7 @@ export default function ResetPasswordForm({ token }) {
   const [message, setMessage] = useState('');
   const [passwordVisible, setPasswordVisible] = useState(false);
   const [confirmPasswordVisible, setConfirmPasswordVisible] = useState(false);
+  const [showSuccessModal, setShowSuccessModal] = useState(false);
   const router = useRouter();
 
   const handleSubmit = async (e) => {
@@ -43,55 +46,90 @@ export default function ResetPasswordForm({ token }) {
     });
     const data = await response.json();
     if (data.success) {
-      router.push('/login');
+      setShowSuccessModal(true); // Show the success modal
     } else {
       setMessage(data.message);
     }
   };
 
+  const handlePasswordToggle = (e) => {
+    e.preventDefault(); // Prevent the default button behavior
+    setPasswordVisible(!passwordVisible);
+  };
+
+  const handleConfirmPasswordToggle = (e) => {
+    e.preventDefault(); // Prevent the default button behavior
+    setConfirmPasswordVisible(!confirmPasswordVisible);
+  };
+
+  const handleModalClose = () => {
+    setShowSuccessModal(false);
+    router.push('/'); // Redirect to home page after closing the modal
+  };
+
   return (
-    <FormContainer onSubmit={handleSubmit}>
-      <Title>Reset Password</Title>
-      <FormGroup>
-        <LabelContainer>
-          <Label htmlFor='password'>New Password:</Label>
-          <ToggleVisibility onClick={() => setPasswordVisible(!passwordVisible)}>
-            {passwordVisible ? <PasswordVisibleIcon /> : <PasswordHiddenIcon />}
-          </ToggleVisibility>
-        </LabelContainer>
-        <InputContainer>
-          <Input
-            id='password'
-            type={passwordVisible ? 'text' : 'password'}
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            required
-          />
-        </InputContainer>
-      </FormGroup>
-      <FormGroup>
-        <LabelContainer>
-          <Label htmlFor='confirm-password'>Confirm Password:</Label>
-          <ToggleVisibility onClick={() => setConfirmPasswordVisible(!confirmPasswordVisible)}>
-            {confirmPasswordVisible ? <PasswordVisibleIcon /> : <PasswordHiddenIcon />}
-          </ToggleVisibility>
-        </LabelContainer>
-        <InputContainer>
-          <Input
-            id='confirm-password'
-            type={confirmPasswordVisible ? 'text' : 'password'}
-            value={confirmPassword}
-            onChange={(e) => setConfirmPassword(e.target.value)}
-            required
-          />
-        </InputContainer>
-      </FormGroup>
-      <ButtonContainer>
-        <Button type='submit' bgColor='var(--color-button-save)' hoverColor='var(--color-button-save-hover)'>
-          Reset Password
-        </Button>
-      </ButtonContainer>
-      {message && <WarningMessage>{message}</WarningMessage>}
-    </FormContainer>
+    <>
+      <FormContainer onSubmit={handleSubmit}>
+        <Title>Reset Password</Title>
+        <FormGroup>
+          <LabelContainer>
+            <Label htmlFor='password'>New Password:</Label>
+            <ToggleVisibility onClick={handlePasswordToggle}>
+              {passwordVisible ? <PasswordVisibleIcon /> : <PasswordHiddenIcon />}
+            </ToggleVisibility>
+          </LabelContainer>
+          <InputContainer>
+            <Input
+              id='password'
+              type={passwordVisible ? 'text' : 'password'}
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              required
+            />
+          </InputContainer>
+        </FormGroup>
+        <FormGroup>
+          <LabelContainer>
+            <Label htmlFor='confirm-password'>Confirm Password:</Label>
+            <ToggleVisibility onClick={handleConfirmPasswordToggle}>
+              {confirmPasswordVisible ? <PasswordVisibleIcon /> : <PasswordHiddenIcon />}
+            </ToggleVisibility>
+          </LabelContainer>
+          <InputContainer>
+            <Input
+              id='confirm-password'
+              type={confirmPasswordVisible ? 'text' : 'password'}
+              value={confirmPassword}
+              onChange={(e) => setConfirmPassword(e.target.value)}
+              required
+            />
+          </InputContainer>
+        </FormGroup>
+        <ButtonContainer>
+          <Button type='submit' bgColor='var(--color-button-ok)' hoverColor='var(--color-button-ok-hover)'>
+            Reset Password
+          </Button>
+        </ButtonContainer>
+        {message && <WarningMessage>{message}</WarningMessage>}
+      </FormContainer>
+
+      {showSuccessModal && (
+        <Modal>
+          <ModalOverlay onClick={handleModalClose} />
+          <ModalContent>
+            <h2>Success</h2>
+            <p>New password successfully set! Please login.</p>
+            <ModalButtonContainer>
+              <Button
+                onClick={handleModalClose}
+                bgColor='var(--color-button-ok)'
+                hoverColor='var(--color-button-ok-hover)'>
+                OK
+              </Button>
+            </ModalButtonContainer>
+          </ModalContent>
+        </Modal>
+      )}
+    </>
   );
 }

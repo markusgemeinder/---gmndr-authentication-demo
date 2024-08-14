@@ -5,7 +5,14 @@
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Button from '@/app/components/Common/Button';
-import { FormContainer, FormGroup, LabelContainer, Label, Input, ButtonContainer } from './AuthFormStyles';
+import {
+  FormContainer,
+  FormGroup,
+  LabelContainer,
+  Label,
+  Input,
+  ButtonContainer,
+} from '@/app/components/AuthForm/AuthFormStyles';
 import {
   BlinkingText,
   ModalOverlay,
@@ -70,8 +77,8 @@ export default function ForgotPasswordForm() {
               <ModalButtonContainer>
                 <Button
                   onClick={handleOkClick}
-                  bgColor='var(--color-button-save)'
-                  hoverColor='var(--color-button-save-hover)'
+                  bgColor='var(--color-button-ok)'
+                  hoverColor='var(--color-button-ok-hover)'
                   color='var(--color-button-text)'>
                   OK
                 </Button>

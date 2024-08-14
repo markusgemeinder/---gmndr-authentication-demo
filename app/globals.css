@@ -31,8 +31,8 @@
   --color-button-signup-hover: var(--color-button-hover);
   --color-button-logout: var(--color-button-delete);
   --color-button-logout-hover: var(--color-button-delete-hover);
-  --color-button-save: var(--color-button-review);
-  --color-button-save-hover: var(--color-button-review-hover);
+  --color-button-ok: var(--color-button-review);
+  --color-button-ok-hover: var(--color-button-review-hover);
   --color-button-cancel: var(--color-button);
   --color-button-cancel-hover: var(--color-button-hover);
 }

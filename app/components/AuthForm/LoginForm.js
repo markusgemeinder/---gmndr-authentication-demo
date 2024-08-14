@@ -18,7 +18,7 @@ import {
   PasswordVisibleIcon,
   PasswordHiddenIcon,
   ButtonContainer,
-} from './AuthFormStyles';
+} from '@/app/components/AuthForm/AuthFormStyles';
 
 export default function LoginForm({ onLogin, onOAuthLogin, error, onForgotPassword }) {
   const [email, setEmail] = useState('');

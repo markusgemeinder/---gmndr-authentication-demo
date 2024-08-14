@@ -105,7 +105,7 @@ export default function ReviewForm({ review, onSave, onCancel }) {
         <HiddenInput type='hidden' id='rating' value={rating} onChange={(e) => setRating(parseInt(e.target.value))} />
       </FormGroup>
       <ButtonContainer>
-        <Button type='submit' bgColor='var(--color-button-save)' hoverColor='var(--color-button-save-hover)'>
+        <Button type='submit' bgColor='var(--color-button-ok)' hoverColor='var(--color-button-ok-hover)'>
           Save
         </Button>
         <Button
