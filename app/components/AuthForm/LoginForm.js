@@ -63,25 +63,23 @@ export default function LoginForm({ onLogin, onOAuthLogin, error, onForgotPasswo
             </LabelContainer>
             <Input id='email' type='email' name='email' value={email} onChange={handleEmailChange} />
           </FormGroup>
-          {email && (
-            <FormGroup>
-              <LabelContainer>
-                <Label htmlFor='password'>Password:</Label>
-              </LabelContainer>
-              <InputContainer>
-                <Input
-                  id='password'
-                  type={passwordVisible ? 'text' : 'password'}
-                  name='password'
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                />
-                <ToggleVisibility onClick={() => setPasswordVisible(!passwordVisible)}>
-                  {passwordVisible ? <PasswordVisibleIcon /> : <PasswordHiddenIcon />}
-                </ToggleVisibility>
-              </InputContainer>
-            </FormGroup>
-          )}
+          <FormGroup>
+            <LabelContainer>
+              <Label htmlFor='password'>Password:</Label>
+            </LabelContainer>
+            <InputContainer>
+              <Input
+                id='password'
+                type={passwordVisible ? 'text' : 'password'}
+                name='password'
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+              />
+              <ToggleVisibility onClick={() => setPasswordVisible(!passwordVisible)}>
+                {passwordVisible ? <PasswordVisibleIcon /> : <PasswordHiddenIcon />}
+              </ToggleVisibility>
+            </InputContainer>
+          </FormGroup>
           {error && <WarningMessage>{error}</WarningMessage>}
           <Button
             type='submit'
