@@ -6,7 +6,7 @@ import { format } from 'date-fns';
 import { FaStar, FaStarHalfAlt, FaRegStar } from 'react-icons/fa';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
-import Button from '../Common/Button';
+import Button from '@/app/components/Common/Button';
 import { useSession } from 'next-auth/react';
 import {
   CardContainer,

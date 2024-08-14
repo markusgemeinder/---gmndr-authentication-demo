@@ -5,7 +5,7 @@
 import { useState, useEffect } from 'react';
 import { useSession } from 'next-auth/react';
 import { FaStar, FaStarHalfAlt, FaRegStar } from 'react-icons/fa';
-import Button from '../Common/Button';
+import Button from '@/app/components/Common/Button';
 import { maskEmail } from '@/utils/maskEmail';
 import {
   FormContainer,

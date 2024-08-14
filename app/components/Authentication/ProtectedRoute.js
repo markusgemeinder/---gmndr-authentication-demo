@@ -5,7 +5,7 @@
 import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
 import { useEffect } from 'react';
-import LoadingAnimation from '../Common/LoadingAnimation';
+import LoadingAnimation from '@/app/components/Common/LoadingAnimation';
 
 const ProtectedRoute = ({ children }) => {
   const { data: session, status } = useSession();

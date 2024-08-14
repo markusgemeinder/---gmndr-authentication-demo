@@ -5,7 +5,8 @@
 import { useSession, signIn, signOut } from 'next-auth/react';
 import styled from 'styled-components';
 import { useEffect, useState } from 'react';
-import Button from '../Common/Button';
+import Button from '@/app/components/Common/Button';
+import { ModalOverlay, ModalHeader, ModalContent, ModalButtonContainer } from '@/app/components/Common/ModalPopup';
 
 const StatusContainer = styled.div`
   margin-bottom: 0.4rem;
@@ -22,44 +23,10 @@ const LoginLink = styled.a`
   }
 `;
 
-const ModalOverlay = styled.div`
-  position: fixed;
-  inset: 0;
-  background-color: rgba(31, 41, 55, 0.5);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: 50;
-`;
-
-const ModalContent = styled.div`
-  background-color: #ffffff;
-  padding: 1.5rem;
-  border-radius: 0.25rem;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-`;
-
-const ModalHeader = styled.h2`
-  font-size: 1.125rem;
-  font-weight: bold;
-  margin-bottom: 1rem;
-  text-align: center;
-`;
-
 const Timer = styled.div`
   font-size: 2rem;
   margin-bottom: 1rem;
   text-align: center;
-`;
-
-const ModalButtonContainer = styled.div`
-  display: flex;
-  gap: 1rem;
-  justify-content: center;
 `;
 
 const SessionStatus = () => {
