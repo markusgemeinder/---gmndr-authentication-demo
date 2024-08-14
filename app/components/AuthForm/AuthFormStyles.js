@@ -37,13 +37,13 @@ export const LabelContainer = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-bottom: 0.5rem;
+  margin-bottom: 0.6rem;
 `;
 
 export const Label = styled.label`
   font-size: 0.875rem;
-  font-weight: bold;
-  color: #4a5568;
+  font-weight: 600;
+  color: var(--color-text-light);
   margin: 0 0.5rem;
   line-height: 1.5;
 `;
@@ -113,6 +113,6 @@ export const Divider = styled.div`
 export const ButtonContainer = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 0.5rem;
+  gap: 0.6rem;
   width: 100%;
 `;

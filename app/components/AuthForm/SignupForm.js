@@ -157,8 +157,8 @@ export default function SignupForm() {
       <ButtonContainer>
         <Button
           type='submit'
-          bgColor='var(--color-button-save)'
-          hoverColor='var(--color-button-save-hover)'
+          bgColor='var(--color-button-login)'
+          hoverColor='var(--color-button-login-hover)'
           disabled={password !== repeatPassword || passwordQuality !== ''}>
           Confirm
         </Button>

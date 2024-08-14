@@ -15,10 +15,11 @@ const StyledButton = styled.button.withConfig({
 })`
   background-color: ${(props) => props.bgColor || 'var(--color-button)'};
   color: ${(props) => props.color || 'var(--color-button-text)'};
-  padding: 0.5rem 1rem;
+  padding: 0.6rem 1rem;
   border-radius: 0.25rem;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  margin: 0.8rem 0;
+  margin: 0.6rem 0;
+  /* font-weight: 500; */
   cursor: pointer;
 
   &:hover {

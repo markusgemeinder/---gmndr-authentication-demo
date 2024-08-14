@@ -4,7 +4,15 @@
 
 import { useState } from 'react';
 import Button from '@/app/components/Common/Button';
-import { FormContainer, Label, Input, ButtonContainer, WarningMessage } from './AuthFormStyles';
+import {
+  FormContainer,
+  FormGroup,
+  LabelContainer,
+  Label,
+  Input,
+  ButtonContainer,
+  WarningMessage,
+} from './AuthFormStyles';
 
 export default function ForgotPasswordForm() {
   const [email, setEmail] = useState('');
@@ -25,10 +33,14 @@ export default function ForgotPasswordForm() {
 
   return (
     <FormContainer onSubmit={handleSubmit}>
-      <Label htmlFor='email'>Email:</Label>
-      <Input id='email' type='email' value={email} onChange={(e) => setEmail(e.target.value)} required />
+      <FormGroup>
+        <LabelContainer>
+          <Label htmlFor='email'>Email:</Label>
+        </LabelContainer>
+        <Input id='email' type='email' value={email} onChange={(e) => setEmail(e.target.value)} required />
+      </FormGroup>
       <ButtonContainer>
-        <Button type='submit' bgColor='var(--color-button-save)' hoverColor='var(--color-button-save-hover)'>
+        <Button type='submit' bgColor='var(--color-button-login)' hoverColor='var(--color-button-login-hover)'>
           Send Reset Link
         </Button>
       </ButtonContainer>
