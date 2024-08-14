@@ -14,22 +14,28 @@ export default function ResetPasswordPage({ params }) {
   const { token } = params;
 
   useEffect(() => {
-    console.log('Token from params:', token); // Debugging: Überprüfen des Tokens
+    console.log('Token from params:', token); // Verifizieren, dass der Token korrekt ist
   }, [token]);
 
   const handleSubmit = async (password) => {
-    const response = await fetch('/api/auth/reset-password', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ token, password }),
-    });
-    const data = await response.json();
-    if (data.success) {
-      router.push('/login');
-    } else {
-      setMessage(data.message);
+    try {
+      const response = await fetch('/api/auth/reset-password', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ token, password }),
+      });
+      const data = await response.json();
+
+      if (data.success) {
+        router.push('/login');
+      } else {
+        setMessage(data.message);
+      }
+    } catch (error) {
+      console.error('Error during password reset:', error);
+      setMessage('An error occurred during password reset.');
     }
   };
 

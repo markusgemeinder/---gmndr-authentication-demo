@@ -39,39 +39,42 @@
     39	│   │   │   └── SessionStatus.js
     40	│   │   ├── Common
     41	│   │   │   ├── Button.js
-    42	│   │   │   ├── Footer.js
-    43	│   │   │   ├── LoadingAnimation.js
-    44	│   │   │   ├── Navigation.js
-    45	│   │   │   └── ScrollToTop.js
-    46	│   │   └── Review
-    47	│   │       ├── ReviewCard.js
-    48	│   │       └── ReviewForm.js
-    49	│   ├── globals.css
-    50	│   ├── layout.js
-    51	│   ├── page.js
-    52	│   └── reviews
-    53	│       ├── [id]
-    54	│       │   └── page.js
-    55	│       ├── create
-    56	│       │   └── page.js
-    57	│       └── page.js
-    58	├── db
-    59	│   ├── connect.js
-    60	│   └── models
-    61	│       ├── PasswordResetToken.js
-    62	│       ├── Review.js
-    63	│       └── User.js
-    64	├── jsconfig.json
-    65	├── lib
-    66	│   └── auth.js
-    67	├── middleware.js
-    68	├── next.config.mjs
-    69	├── package.json
-    70	├── postcss.config.mjs
-    71	├── tailwind.config.js
-    72	├── tree_with_numbers.txt
-    73	└── utils
-    74	    ├── db.js
-    75	    └── maskEmail.js
+    42	│   │   │   ├── CommonStyles.js
+    43	│   │   │   ├── Footer.js
+    44	│   │   │   ├── LoadingAnimation.js
+    45	│   │   │   ├── ModalPopup.js
+    46	│   │   │   ├── Navigation.js
+    47	│   │   │   └── ScrollToTop.js
+    48	│   │   └── Review
+    49	│   │       ├── ReviewCard.js
+    50	│   │       ├── ReviewForm.js
+    51	│   │       └── ReviewStyles.js
+    52	│   ├── globals.css
+    53	│   ├── layout.js
+    54	│   ├── page.js
+    55	│   └── reviews
+    56	│       ├── [id]
+    57	│       │   └── page.js
+    58	│       ├── create
+    59	│       │   └── page.js
+    60	│       └── page.js
+    61	├── db
+    62	│   ├── connect.js
+    63	│   └── models
+    64	│       ├── PasswordResetToken.js
+    65	│       ├── Review.js
+    66	│       └── User.js
+    67	├── jsconfig.json
+    68	├── lib
+    69	│   └── auth.js
+    70	├── middleware.js
+    71	├── next.config.mjs
+    72	├── package.json
+    73	├── postcss.config.mjs
+    74	├── tailwind.config.js
+    75	├── tree_with_numbers.txt
+    76	└── utils
+    77	    ├── db.js
+    78	    └── maskEmail.js
       	
-    76	28 directories, 47 files
+    79	28 directories, 50 files

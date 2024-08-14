@@ -1,5 +1,6 @@
 // /app/api/auth/[...nextauth]/options.js
 
+import NextAuth from 'next-auth';
 import GitHubProvider from 'next-auth/providers/github';
 import GoogleProvider from 'next-auth/providers/google';
 import CredentialsProvider from 'next-auth/providers/credentials';
@@ -87,9 +88,22 @@ export const options = {
       return session;
     },
   },
-
   session: {
+    strategy: 'jwt', // JWT-Strategie verwenden
     maxAge: 60 * 60, // 1 Stunde
     updateAge: 60 * 5, // alle 5 Minuten
   },
+  cookies: {
+    sessionToken: {
+      name: `next-auth.session-token`,
+      options: {
+        httpOnly: true,
+        secure: process.env.NODE_ENV === 'production', // Nur in der Produktion sicher
+        sameSite: 'lax', // Lax-SameSite-Option
+      },
+    },
+  },
+  secret: process.env.NEXTAUTH_SECRET, // Geheimnis für die JWT-Signatur
 };
+
+export default NextAuth(options);

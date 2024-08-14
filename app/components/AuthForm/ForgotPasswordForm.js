@@ -14,7 +14,7 @@ import {
   ButtonContainer,
 } from '@/app/components/AuthForm/AuthFormStyles';
 import {
-  BlinkingText,
+  BlinkingText, // Blinken für den Ladezustand
   ModalOverlay,
   ModalHeader,
   ModalContent,
@@ -26,29 +26,49 @@ export default function ForgotPasswordForm() {
   const [showModal, setShowModal] = useState(false);
   const [modalMessage, setModalMessage] = useState('');
   const [isLinkSent, setIsLinkSent] = useState(false);
+  const [isLoading, setIsLoading] = useState(false); // UX-Verbesserung: Ladezustand hinzufügen
   const router = useRouter();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setShowModal(true);
     setModalMessage('Preparing email with reset link...');
+    setIsLoading(true); // Ladezustand aktivieren
 
-    const response = await fetch('/api/auth/forgot-password', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ email }),
-    });
+    try {
+      const response = await fetch('/api/auth/forgot-password', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ email }),
+      });
 
-    const data = await response.json();
-    setModalMessage('Reset link sent to email');
-    setIsLinkSent(true);
+      const data = await response.json();
+
+      if (response.status === 200) {
+        // Erfolg: Passwort-Reset-Link wurde gesendet
+        setModalMessage('Reset link sent to email');
+        setIsLinkSent(true);
+      } else {
+        // Fehler: Benutzer nicht gefunden oder andere Fehler
+        setModalMessage(data.message || 'An error occurred');
+        setIsLinkSent(false);
+      }
+    } catch (error) {
+      setModalMessage('An unexpected error occurred. Please try again.');
+      setIsLinkSent(false);
+    } finally {
+      setIsLoading(false); // Ladezustand beenden
+    }
   };
 
   const handleOkClick = () => {
     setShowModal(false);
-    router.push('/');
+    if (isLinkSent) {
+      // Nur bei Erfolg weiterleiten
+      router.push('/');
+    }
   };
 
   return (
@@ -61,8 +81,13 @@ export default function ForgotPasswordForm() {
           <Input id='email' type='email' value={email} onChange={(e) => setEmail(e.target.value)} required />
         </FormGroup>
         <ButtonContainer>
-          <Button type='submit' bgColor='var(--color-button-login)' hoverColor='var(--color-button-login-hover)'>
-            Send Reset Link
+          <Button
+            type='submit'
+            bgColor='var(--color-button-login)'
+            hoverColor='var(--color-button-login-hover)'
+            disabled={isLoading} // Button deaktivieren, wenn der Ladezustand aktiv ist
+          >
+            {isLoading ? 'Sending...' : 'Send Reset Link'} {/* Ladezustand anzeigen */}
           </Button>
         </ButtonContainer>
       </FormContainer>
@@ -71,9 +96,13 @@ export default function ForgotPasswordForm() {
         <ModalOverlay>
           <ModalContent>
             <ModalHeader>
-              {modalMessage !== 'Reset link sent to email' ? <BlinkingText>{modalMessage}</BlinkingText> : modalMessage}
+              {isLoading ? ( // Blinken während des Ladevorgangs
+                <BlinkingText>{modalMessage}</BlinkingText>
+              ) : (
+                modalMessage // Nach Abschluss statische Nachricht
+              )}
             </ModalHeader>
-            {isLinkSent && (
+            {!isLoading && ( // OK-Button nur nach Abschluss der Anfrage anzeigen
               <ModalButtonContainer>
                 <Button
                   onClick={handleOkClick}

@@ -1,4 +1,4 @@
-// // middleware.js
+// middleware.js
 
 import { getToken } from 'next-auth/jwt';
 import { NextResponse } from 'next/server';
@@ -7,8 +7,10 @@ export async function middleware(req) {
   const token = await getToken({ req, secret: process.env.NEXTAUTH_SECRET });
   const { pathname } = req.nextUrl;
 
+  console.log('Cookies:', req.headers.get('cookie'));
   console.log('Middleware - Pathname:', pathname);
   console.log('Middleware - Token:', token);
+  console.log('NEXTAUTH_SECRET:', process.env.NEXTAUTH_SECRET);
 
   // Allow requests for:
   // 1. Next-auth session & provider fetching
@@ -29,9 +31,10 @@ export async function middleware(req) {
   if (!token && !pathname.startsWith('/(auth)/')) {
     return NextResponse.redirect(new URL('/(auth)/login', req.url));
   }
+
+  return NextResponse.next();
 }
 
-// Specify the paths to be protected
 export const config = {
   matcher: [
     '/api/:path*',
@@ -42,11 +45,3 @@ export const config = {
     '/(auth)/signup',
   ],
 };
-
-// // Specify the paths to be protected
-// export const config = {
-//   matcher: [
-//     '/api/:path*',
-//     '/reviews/:path*',
-//     // Add other protected paths if needed
-//   ],
