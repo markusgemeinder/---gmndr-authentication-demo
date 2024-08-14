@@ -24,7 +24,7 @@ import {
 export default function ForgotPasswordForm() {
   const [email, setEmail] = useState('');
   const [showModal, setShowModal] = useState(false);
-  const [modalMessage, setModalMessage] = useState('Preparing email with reset link...');
+  const [modalMessage, setModalMessage] = useState('');
   const [isLinkSent, setIsLinkSent] = useState(false);
   const router = useRouter();
 

@@ -16,11 +16,8 @@ import {
   ToggleVisibility,
   PasswordVisibleIcon,
   PasswordHiddenIcon,
-  Modal,
-  ModalOverlay,
-  ModalContent,
-  ModalButtonContainer,
-} from '@/app/components/AuthForm/AuthFormStyles'; // Stelle sicher, dass Modal-Komponenten hier importiert sind
+} from '@/app/components/AuthForm/AuthFormStyles';
+import { ModalOverlay, ModalContent, ModalHeader, ModalButtonContainer } from '@/app/components/Common/ModalPopup';
 
 export default function ResetPasswordForm({ token }) {
   const [password, setPassword] = useState('');
@@ -117,8 +114,7 @@ export default function ResetPasswordForm({ token }) {
         <Modal>
           <ModalOverlay onClick={handleModalClose} />
           <ModalContent>
-            <h2>Success</h2>
-            <p>New password successfully set! Please login.</p>
+            <ModalHeader>New password successfully set! Please login.</ModalHeader>
             <ModalButtonContainer>
               <Button
                 onClick={handleModalClose}
