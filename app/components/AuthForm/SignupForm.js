@@ -19,6 +19,7 @@ import {
   CheckIcon,
   ButtonContainer,
 } from './AuthFormStyles';
+import { ModalOverlay, ModalHeader, ModalContent, ModalButtonContainer } from '@/app/components/Common/ModalPopup';
 
 export default function SignupForm() {
   const [username, setUsername] = useState('');
@@ -28,6 +29,9 @@ export default function SignupForm() {
   const [passwordVisible, setPasswordVisible] = useState(false);
   const [error, setError] = useState('');
   const [passwordQuality, setPasswordQuality] = useState('');
+  const [showModal, setShowModal] = useState(false);
+  const [modalMessage, setModalMessage] = useState('');
+  const [isError, setIsError] = useState(false);
   const router = useRouter();
 
   const checkPasswordQuality = (pwd) => {
@@ -58,8 +62,6 @@ export default function SignupForm() {
     }
     const data = { username, email, password };
 
-    console.log('Submitting data:', data);
-
     try {
       const response = await fetch('/api/users', {
         method: 'POST',
@@ -69,107 +71,138 @@ export default function SignupForm() {
         body: JSON.stringify(data),
       });
 
-      console.log('Signup response status:', response.status);
-
       if (response.ok) {
-        router.push('/');
+        setModalMessage('Account successfully created! Please login.');
+        setIsError(false);
+        setShowModal(true);
       } else {
         const errorText = await response.json();
         if (errorText.message === 'Duplicate Email') {
-          setError('An account with this email already exists. Please try logging in.');
+          setModalMessage(`Account with email ${email} already exists. Please try logging in.`);
         } else {
-          setError(`Signup failed: ${errorText.message}`);
+          setModalMessage(`Signup failed: ${errorText.message}`);
         }
-        console.error('Signup failed:', errorText);
+        setIsError(true);
+        setShowModal(true);
       }
     } catch (error) {
-      setError('An unexpected error occurred.');
-      console.error('Error signing up:', error);
+      setModalMessage('An unexpected error occurred.');
+      setIsError(true);
+      setShowModal(true);
     }
+  };
+
+  const handleOkClick = () => {
+    setShowModal(false);
+    router.push('/');
   };
 
   const handleCancel = () => {
     router.push('/');
   };
 
+  const handleToggleVisibility = (event) => {
+    event.preventDefault();
+    setPasswordVisible(!passwordVisible);
+  };
+
   return (
-    <FormContainer onSubmit={handleSubmit}>
-      <FormGroup>
-        <LabelContainer>
-          <Label htmlFor='username'>Username:</Label>
-        </LabelContainer>
-        <Input id='username' type='text' value={username} onChange={(e) => setUsername(e.target.value)} required />
-      </FormGroup>
-      <FormGroup>
-        <LabelContainer>
-          <Label htmlFor='email'>Email:</Label>
-        </LabelContainer>
-        <Input id='email' type='email' value={email} onChange={(e) => setEmail(e.target.value)} required />
-      </FormGroup>
-      <FormGroup>
-        <LabelContainer>
-          <Label htmlFor='password'>Password:</Label>
-          {passwordQuality === '' && password.length > 0 ? (
-            <CheckIcon />
-          ) : (
-            <WarningMessage>{passwordQuality}</WarningMessage>
-          )}
-        </LabelContainer>
-        <InputContainer>
-          <Input
-            id='password'
-            type={passwordVisible ? 'text' : 'password'}
-            value={password}
-            onChange={(e) => {
-              setPassword(e.target.value);
-              checkPasswordQuality(e.target.value);
-            }}
-            required
-          />
-          <ToggleVisibility onClick={() => setPasswordVisible(!passwordVisible)}>
-            {passwordVisible ? <PasswordVisibleIcon /> : <PasswordHiddenIcon />}
-          </ToggleVisibility>
-        </InputContainer>
-      </FormGroup>
-      <FormGroup>
-        <LabelContainer>
-          <Label htmlFor='repeat-password'>Repeat Password:</Label>
-          {password === repeatPassword && repeatPassword ? (
-            <CheckIcon />
-          ) : (
-            password.length > 0 && repeatPassword === '' && <WarningMessage>Please enter.</WarningMessage>
-          )}
-          {password !== repeatPassword && repeatPassword && password.length > 0 && (
-            <WarningMessage>Passwords do not match.</WarningMessage>
-          )}
-        </LabelContainer>
-        <InputContainer>
-          <Input
-            id='repeat-password'
-            type={passwordVisible ? 'text' : 'password'}
-            value={repeatPassword}
-            onChange={(e) => setRepeatPassword(e.target.value)}
-            required
-          />
-        </InputContainer>
-      </FormGroup>
-      {error && <WarningMessage>{error}</WarningMessage>}
-      <ButtonContainer>
-        <Button
-          type='submit'
-          bgColor='var(--color-button-login)'
-          hoverColor='var(--color-button-login-hover)'
-          disabled={password !== repeatPassword || passwordQuality !== ''}>
-          Confirm
-        </Button>
-        <Button
-          type='button'
-          onClick={handleCancel}
-          bgColor='var(--color-button-cancel)'
-          hoverColor='var(--color-button-cancel-hover)'>
-          Cancel
-        </Button>
-      </ButtonContainer>
-    </FormContainer>
+    <>
+      <FormContainer onSubmit={handleSubmit}>
+        <FormGroup>
+          <LabelContainer>
+            <Label htmlFor='username'>Username:</Label>
+          </LabelContainer>
+          <Input id='username' type='text' value={username} onChange={(e) => setUsername(e.target.value)} required />
+        </FormGroup>
+        <FormGroup>
+          <LabelContainer>
+            <Label htmlFor='email'>Email:</Label>
+          </LabelContainer>
+          <Input id='email' type='email' value={email} onChange={(e) => setEmail(e.target.value)} required />
+        </FormGroup>
+        <FormGroup>
+          <LabelContainer>
+            <Label htmlFor='password'>Password:</Label>
+            {passwordQuality === '' && password.length > 0 ? (
+              <CheckIcon />
+            ) : (
+              <WarningMessage>{passwordQuality}</WarningMessage>
+            )}
+          </LabelContainer>
+          <InputContainer>
+            <Input
+              id='password'
+              type={passwordVisible ? 'text' : 'password'}
+              value={password}
+              onChange={(e) => {
+                setPassword(e.target.value);
+                checkPasswordQuality(e.target.value);
+              }}
+              required
+            />
+            <ToggleVisibility onClick={handleToggleVisibility}>
+              {passwordVisible ? <PasswordVisibleIcon /> : <PasswordHiddenIcon />}
+            </ToggleVisibility>
+          </InputContainer>
+        </FormGroup>
+        <FormGroup>
+          <LabelContainer>
+            <Label htmlFor='repeat-password'>Repeat Password:</Label>
+            {password === repeatPassword && repeatPassword ? (
+              <CheckIcon />
+            ) : (
+              password.length > 0 && repeatPassword === '' && <WarningMessage>Please enter.</WarningMessage>
+            )}
+            {password !== repeatPassword && repeatPassword && password.length > 0 && (
+              <WarningMessage>Passwords do not match.</WarningMessage>
+            )}
+          </LabelContainer>
+          <InputContainer>
+            <Input
+              id='repeat-password'
+              type={passwordVisible ? 'text' : 'password'}
+              value={repeatPassword}
+              onChange={(e) => setRepeatPassword(e.target.value)}
+              required
+            />
+          </InputContainer>
+        </FormGroup>
+        {error && <WarningMessage>{error}</WarningMessage>}
+        <ButtonContainer>
+          <Button
+            type='submit'
+            bgColor='var(--color-button-login)'
+            hoverColor='var(--color-button-login-hover)'
+            disabled={password !== repeatPassword || passwordQuality !== ''}>
+            Confirm
+          </Button>
+          <Button
+            type='button'
+            onClick={handleCancel}
+            bgColor='var(--color-button-cancel)'
+            hoverColor='var(--color-button-cancel-hover)'>
+            Cancel
+          </Button>
+        </ButtonContainer>
+      </FormContainer>
+
+      {showModal && (
+        <ModalOverlay>
+          <ModalContent>
+            <ModalHeader>{modalMessage}</ModalHeader>
+            <ModalButtonContainer>
+              <Button
+                onClick={handleOkClick}
+                bgColor='var(--color-button-save)'
+                hoverColor='var(--color-button-save-hover)'
+                color='var(--color-button-text)'>
+                OK
+              </Button>
+            </ModalButtonContainer>
+          </ModalContent>
+        </ModalOverlay>
+      )}
+    </>
   );
 }

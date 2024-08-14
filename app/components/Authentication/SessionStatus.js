@@ -6,7 +6,13 @@ import { useSession, signIn, signOut } from 'next-auth/react';
 import styled from 'styled-components';
 import { useEffect, useState } from 'react';
 import Button from '@/app/components/Common/Button';
-import { ModalOverlay, ModalHeader, ModalContent, ModalButtonContainer } from '@/app/components/Common/ModalPopup';
+import {
+  ModalOverlay,
+  ModalHeader,
+  ModalContent,
+  ModalButtonContainer,
+  BlinkingText,
+} from '@/app/components/Common/ModalPopup';
 
 const StatusContainer = styled.div`
   margin-bottom: 0.4rem;
@@ -108,7 +114,9 @@ const SessionStatus = () => {
           {showPopup && (
             <ModalOverlay>
               <ModalContent>
-                <ModalHeader>Session Expiring Soon</ModalHeader>
+                <ModalHeader>
+                  <BlinkingText>Session Expiring Soon</BlinkingText>
+                </ModalHeader>
                 <Timer>{formatTime(timeLeft)}</Timer>
                 <ModalButtonContainer>
                   <Button

@@ -29,6 +29,15 @@ export default function LoginForm({ onLogin, onOAuthLogin, error, onForgotPasswo
     setEmail(e.target.value);
   };
 
+  const handlePasswordChange = (e) => {
+    setPassword(e.target.value);
+  };
+
+  const handleToggleVisibility = (e) => {
+    e.preventDefault(); // Prevent the default button behavior
+    setPasswordVisible(!passwordVisible);
+  };
+
   return (
     <>
       <ScrollToTop />
@@ -73,9 +82,9 @@ export default function LoginForm({ onLogin, onOAuthLogin, error, onForgotPasswo
                 type={passwordVisible ? 'text' : 'password'}
                 name='password'
                 value={password}
-                onChange={(e) => setPassword(e.target.value)}
+                onChange={handlePasswordChange}
               />
-              <ToggleVisibility onClick={() => setPasswordVisible(!passwordVisible)}>
+              <ToggleVisibility onClick={handleToggleVisibility}>
                 {passwordVisible ? <PasswordVisibleIcon /> : <PasswordHiddenIcon />}
               </ToggleVisibility>
             </InputContainer>
