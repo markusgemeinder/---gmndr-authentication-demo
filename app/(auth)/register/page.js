@@ -1,4 +1,4 @@
-// /app/(auth)/signup/page.js
+// /app/(auth)/register/page.js
 
 'use client';
 
@@ -7,9 +7,9 @@ import { useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import ScrollToTop from '@/app/components/Common/ScrollToTop';
 import { Main, Title } from '@/app/components/AuthForm/AuthFormStyles';
-import SignupForm from '@/app/components/AuthForm/SignupForm';
+import RegisterForm from '@/app/components/AuthForm/RegisterForm';
 
-export default function SignupPage() {
+export default function RegisterPage() {
   const { data: session, status } = useSession();
   const router = useRouter();
 
@@ -27,8 +27,8 @@ export default function SignupPage() {
     <>
       <ScrollToTop />
       <Main>
-        <Title>Signup</Title>
-        <SignupForm />
+        <Title>Register</Title>
+        <RegisterForm />
       </Main>
     </>
   );

@@ -76,7 +76,7 @@ export default function Navigation() {
     if (
       status === 'unauthenticated' &&
       pathname !== '/login' &&
-      pathname !== '/signup' &&
+      pathname !== '/register' &&
       pathname !== '/forgot-password'
     ) {
       router.push('/'); // Redirect to homepage if not authenticated
@@ -110,10 +110,10 @@ export default function Navigation() {
                 Login
               </Button>
               <Button
-                bgColor='var(--color-button-signup)'
-                hoverColor='var(--color-button-signup-hover)'
-                onClick={() => router.push('/signup')}>
-                Signup
+                bgColor='var(--color-button-register)'
+                hoverColor='var(--color-button-register-hover)'
+                onClick={() => router.push('/register')}>
+                Register
               </Button>
               <Button
                 bgColor='var(--color-button-forgot-password)'

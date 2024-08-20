@@ -15,6 +15,9 @@ export default function ResetPasswordPage({ params }) {
 
   useEffect(() => {
     console.log('Token from params:', token); // Verifizieren, dass der Token korrekt ist
+    if (!token) {
+      router.push('/'); // Leite nur weiter, wenn der Token wirklich nicht existiert
+    }
   }, [token]);
 
   const handleSubmit = async (password) => {

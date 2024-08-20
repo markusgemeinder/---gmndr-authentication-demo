@@ -1,4 +1,4 @@
-// /app/components/AuthForm/SignupForm.js
+// /app/components/AuthForm/RegisterForm.js
 
 'use client';
 
@@ -21,7 +21,7 @@ import {
 } from '@/app/components/AuthForm/AuthFormStyles';
 import { ModalOverlay, ModalHeader, ModalContent, ModalButtonContainer } from '@/app/components/Common/ModalPopup';
 
-export default function SignupForm() {
+export default function RegisterForm() {
   const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -80,7 +80,7 @@ export default function SignupForm() {
         if (errorText.message === 'Duplicate Email') {
           setModalMessage(`Account with email ${email} already exists. Please try logging in.`);
         } else {
-          setModalMessage(`Signup failed: ${errorText.message}`);
+          setModalMessage(`Register failed: ${errorText.message}`);
         }
         setIsError(true);
         setShowModal(true);

@@ -6,11 +6,11 @@
      6	│   │   │   └── page.js
      7	│   │   ├── login
      8	│   │   │   └── page.js
-     9	│   │   ├── reset-password
-    10	│   │   │   └── [token]
-    11	│   │   │       └── page.js
-    12	│   │   └── signup
-    13	│   │       └── page.js
+     9	│   │   ├── register
+    10	│   │   │   └── page.js
+    11	│   │   └── reset-password
+    12	│   │       └── [token]
+    13	│   │           └── page.js
     14	│   ├── api
     15	│   │   ├── auth
     16	│   │   │   ├── [...nextauth]
@@ -31,8 +31,8 @@
     31	│   │   │   ├── AuthFormStyles.js
     32	│   │   │   ├── ForgotPasswordForm.js
     33	│   │   │   ├── LoginForm.js
-    34	│   │   │   ├── ResetPasswordForm.js
-    35	│   │   │   └── SignupForm.js
+    34	│   │   │   ├── RegisterForm.js
+    35	│   │   │   └── ResetPasswordForm.js
     36	│   │   ├── Authentication
     37	│   │   │   ├── AuthProvider.js
     38	│   │   │   ├── ProtectedRoute.js
@@ -66,15 +66,16 @@
     66	│       └── User.js
     67	├── jsconfig.json
     68	├── lib
-    69	│   └── auth.js
-    70	├── middleware.js
-    71	├── next.config.mjs
-    72	├── package.json
-    73	├── postcss.config.mjs
-    74	├── tailwind.config.js
-    75	├── tree_with_numbers.txt
-    76	└── utils
-    77	    ├── db.js
-    78	    └── maskEmail.js
+    69	│   ├── auth.js
+    70	│   └── auth.js.bak
+    71	├── middleware.js
+    72	├── next.config.mjs
+    73	├── package.json
+    74	├── postcss.config.mjs
+    75	├── tailwind.config.js
+    76	├── tree_with_numbers.txt
+    77	└── utils
+    78	    ├── db.js
+    79	    └── maskEmail.js
       	
-    79	28 directories, 50 files
+    80	28 directories, 51 files

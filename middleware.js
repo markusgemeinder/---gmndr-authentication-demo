@@ -1,4 +1,4 @@
-// // middleware.js
+// /middleware.js
 
 import { getToken } from 'next-auth/jwt';
 import { NextResponse } from 'next/server';
@@ -39,14 +39,6 @@ export const config = {
     '/(auth)/forgot-password',
     '/(auth)/login',
     '/(auth)/reset-password/:token',
-    '/(auth)/signup',
+    '/(auth)/register',
   ],
 };
-
-// // Specify the paths to be protected
-// export const config = {
-//   matcher: [
-//     '/api/:path*',
-//     '/reviews/:path*',
-//     // Add other protected paths if needed
-//   ],
