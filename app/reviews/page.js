@@ -2,38 +2,16 @@
 
 'use client';
 
-import ProtectedRoute from '../components/Authentication/ProtectedRoute';
+import ProtectedRoute from '@/app/components/Authentication/ProtectedRoute';
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
-import styled from 'styled-components';
-import ReviewCard from '../components/Review/ReviewCard';
-import SessionStatus from '../components/Authentication/SessionStatus';
-import LoadingAnimation from '../components/Common/LoadingAnimation';
-import Button from '../components/Common/Button';
-import ScrollToTop from '../components/Common/ScrollToTop';
-
-const Main = styled.main`
-  padding: 1rem;
-`;
-
-const Title = styled.h1`
-  font-size: 1.5rem;
-  font-weight: bold;
-  margin-bottom: 0.25rem;
-`;
-
-const ReviewsContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-  margin-top: 1rem;
-`;
-
-const ReviewWrapper = styled.div`
-  width: 100%;
-  max-width: 40rem;
-  margin: 0 auto;
-`;
+import ReviewCard from '@/app/components/Review/ReviewCard';
+import SessionStatus from '@/app/components/Authentication/SessionStatus';
+import LoadingAnimation from '@/app/components/Common/LoadingAnimation';
+import Button from '@/app/components/Common/Button';
+import { Main, Title } from '@/app/components/Common/CommonStyles';
+import { ReviewsContainer } from '@/app/components/Review/ReviewStyles';
+import ScrollToTop from '@/app/components/Common/ScrollToTop';
 
 export default function ReviewsPage() {
   const [reviews, setReviews] = useState([]);
@@ -117,9 +95,7 @@ export default function ReviewsPage() {
         )}
         <ReviewsContainer>
           {reviews.map((review) => (
-            <ReviewWrapper key={review._id}>
-              <ReviewCard review={review} onDelete={handleDelete} />
-            </ReviewWrapper>
+            <ReviewCard key={review._id} review={review} onDelete={handleDelete} />
           ))}
         </ReviewsContainer>
       </Main>

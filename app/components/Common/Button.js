@@ -2,6 +2,11 @@
 
 import styled from 'styled-components';
 
+export const ButtonContainer = styled.div`
+  display: flex;
+  gap: 0.2rem;
+`;
+
 // StyledButton with transient props (props that are not forwarded to the DOM element)
 const StyledButton = styled.button.withConfig({
   shouldForwardProp: (prop) => !['bgColor', 'hoverColor', 'color'].includes(prop),

@@ -9,17 +9,17 @@ export async function middleware(req) {
   // 1. It's a request for next-auth session & provider fetching
   // 2. It's a request for register
   // 3. the token exists
-  if (pathname.includes('/api/auth') || pathname.includes('/api/users') || token) {
+  if (pathname.includes('/api/auth') || pathname.includes('/api/users') || pathname.startsWith('/(auth)/') || token) {
     return NextResponse.next();
   }
 
-  // Redirect them to login if they don't have a token
-  if (!token && pathname !== '/login') {
-    return NextResponse.redirect(new URL('/login', req.url));
+  // Redirect to login if not authenticated and not on auth pages
+  if (!token && !pathname.startsWith('/(auth)/')) {
+    return NextResponse.redirect(new URL('/(auth)/login', req.url));
   }
 }
 
 // Specify the paths to be protected
 export const config = {
-  matcher: ['/api/:path*'],
+  matcher: ['/api/:path*', '/reviews/:path*', '/(auth)/login', '/(auth)/register'],
 };

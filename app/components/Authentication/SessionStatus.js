@@ -5,7 +5,15 @@
 import { useSession, signIn, signOut } from 'next-auth/react';
 import styled from 'styled-components';
 import { useEffect, useState } from 'react';
-import Button from '../Common/Button';
+import Button from '@/app/components/Common/Button';
+import {
+  ModalOverlay,
+  ModalHeader,
+  ModalContent,
+  ModalButtonContainer,
+  BlinkingText,
+} from '@/app/components/Common/ModalPopup';
+import Link from 'next/link';
 
 const StatusContainer = styled.div`
   margin-bottom: 0.4rem;
@@ -13,7 +21,7 @@ const StatusContainer = styled.div`
   color: var(--color-text-light);
 `;
 
-const LoginLink = styled.a`
+const LoginLink = styled(Link)`
   color: var(--color-link);
   text-decoration: underline;
 
@@ -22,49 +30,15 @@ const LoginLink = styled.a`
   }
 `;
 
-const ModalOverlay = styled.div`
-  position: fixed;
-  inset: 0;
-  background-color: rgba(31, 41, 55, 0.5);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: 50;
-`;
-
-const ModalContent = styled.div`
-  background-color: #ffffff;
-  padding: 1.5rem;
-  border-radius: 0.25rem;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-`;
-
-const ModalHeader = styled.h2`
-  font-size: 1.125rem;
-  font-weight: bold;
-  margin-bottom: 1rem;
-  text-align: center;
-`;
-
 const Timer = styled.div`
   font-size: 2rem;
   margin-bottom: 1rem;
   text-align: center;
 `;
 
-const ModalButtonContainer = styled.div`
-  display: flex;
-  gap: 1rem;
-  justify-content: center;
-`;
-
 const SessionStatus = () => {
   const { data: session } = useSession();
-  const [timeLeft, setTimeLeft] = useState(300); // Standardwert 5 Minuten (300 Sekunden)
+  const [timeLeft, setTimeLeft] = useState(300);
   const [showPopup, setShowPopup] = useState(false);
 
   useEffect(() => {
@@ -131,7 +105,7 @@ const SessionStatus = () => {
       {session ? (
         <>
           <p>
-            Welcome, {session.user.email}. You are logged in as {session.user.role}. Login expires in{' '}
+            Welcome, {session.user.username}. You are logged in as {session.user.role}. Login expires in{' '}
             {formatTime(timeLeft)}{' '}
             <LoginLink href='#' onClick={renewSession}>
               (renew session)
@@ -141,7 +115,9 @@ const SessionStatus = () => {
           {showPopup && (
             <ModalOverlay>
               <ModalContent>
-                <ModalHeader>Session Expiring Soon</ModalHeader>
+                <ModalHeader>
+                  <BlinkingText>Session Expiring Soon</BlinkingText>
+                </ModalHeader>
                 <Timer>{formatTime(timeLeft)}</Timer>
                 <ModalButtonContainer>
                   <Button
@@ -165,10 +141,7 @@ const SessionStatus = () => {
         </>
       ) : (
         <p>
-          Welcome, unknown user.{' '}
-          <LoginLink href='#' onClick={() => signIn()}>
-            Please login.
-          </LoginLink>
+          Welcome, unknown user. <LoginLink href='/login'>Please login.</LoginLink>
         </p>
       )}
     </StatusContainer>

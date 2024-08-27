@@ -1,13 +1,14 @@
-// app/components/Common/Navigation.js
+// /app/components/Common/Navigation.js
 
 'use client';
 
 import { useSession, signIn, signOut } from 'next-auth/react';
 import { useRouter, usePathname } from 'next/navigation';
 import { useEffect } from 'react';
-import LoadingAnimation from './LoadingAnimation';
+import LoadingAnimation from '@/app/components/Common/LoadingAnimation';
 import styled from 'styled-components';
-import Button from './Button';
+import Link from 'next/link';
+import Button, { ButtonContainer } from '@/app/components/Common/Button';
 
 const Header = styled.header`
   background-color: var(--color-header);
@@ -50,7 +51,7 @@ const NavItem = styled.li`
   list-style: none;
 `;
 
-const NavLink = styled.a`
+const NavLink = styled(Link)`
   color: var(--color-header-text);
   text-decoration: none;
 
@@ -62,19 +63,15 @@ const NavLink = styled.a`
 export default function Navigation() {
   const { data: session, status } = useSession();
   const router = useRouter();
-  const pathname = usePathname(); // Aktuelle Pathname holen
+  const pathname = usePathname();
 
   useEffect(() => {
-    if (status === 'unauthenticated' && pathname === '/register') {
-      // Falls nicht authentifiziert und auf der Register-Seite
-      return;
-    }
-    if (status === 'unauthenticated' && pathname !== '/register') {
-      // Falls nicht authentifiziert und nicht auf der Register-Seite
-      router.push('/');
+    if (status === 'loading') return;
+
+    if (status === 'unauthenticated' && pathname !== '/login' && pathname !== '/register') {
+      router.push('/'); // Redirect to homepage if not authenticated
     } else if (status === 'authenticated' && pathname === '/') {
-      // Falls authentifiziert und auf der Startseite
-      router.push('/reviews');
+      router.push('/reviews'); // Redirect to reviews if authenticated and on home page
     }
   }, [status, router, pathname]);
 
@@ -86,12 +83,12 @@ export default function Navigation() {
     <Header>
       <BrandContainer>
         <Title>MyApp</Title>
-        <div>
+        <ButtonContainer>
           {session ? (
             <Button
               bgColor='var(--color-button-logout)'
               hoverColor='var(--color-button-logout-hover)'
-              onClick={() => signOut()}>
+              onClick={() => signOut({ callbackUrl: '/' })}>
               Logout
             </Button>
           ) : (
@@ -99,16 +96,7 @@ export default function Navigation() {
               <Button
                 bgColor='var(--color-button-login)'
                 hoverColor='var(--color-button-login-hover)'
-                onClick={() =>
-                  signIn({ redirect: false }) // Redirect false verhindern
-                    .then((result) => {
-                      if (result.ok) {
-                        router.push('/reviews'); // Redirect to reviews after successful login
-                      } else {
-                        router.push('/'); // Redirect to homepage on login failure
-                      }
-                    })
-                }>
+                onClick={() => router.push('/login')}>
                 Login
               </Button>
               <Button
@@ -119,7 +107,7 @@ export default function Navigation() {
               </Button>
             </>
           )}
-        </div>
+        </ButtonContainer>
       </BrandContainer>
       {session && (
         <NavContainer>

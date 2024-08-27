@@ -1,51 +1,57 @@
 // /app/components/Review/ReviewCard.js
-// /app/components/Review/ReviewCard.js
 
 'use client';
 
 import { format } from 'date-fns';
-import { FaStar, FaStarHalfAlt, FaRegStar } from 'react-icons/fa';
-import { useRouter } from 'next/navigation';
 import { useState } from 'react';
-import Button from '@/app/components/Common/Button';
+import { useRouter } from 'next/navigation';
 import { useSession } from 'next-auth/react';
+import { FaStar, FaStarHalfAlt, FaRegStar } from 'react-icons/fa';
+import Button, { ButtonContainer } from '@/app/components/Common/Button';
 import {
   CardContainer,
   IDLabel,
-  Username,
   Email,
   Note,
   StarsContainer,
   CreatedUpdated,
-  ButtonContainer,
+} from '@/app/components/Review/ReviewStyles';
+import {
   ModalOverlay,
   ModalContent,
   ModalHeader,
   ModalParagraph,
   ModalInput,
   ModalButtonContainer,
-} from './ReviewStyles';
+} from '@/app/components/Common/ModalPopup';
+import { maskEmail } from '@/utils/maskEmail';
 
 const renderStars = (rating) => {
   const stars = [];
   for (let i = 1; i <= 5; i++) {
     if (rating >= i) {
-      stars.push(<FaStar key={i} style={{ color: '#fbbf24' }} />);
+      stars.push(<FaStar key={i} style={{ color: 'var(--star-color)' }} />);
     } else if (rating > i - 1) {
-      stars.push(<FaStarHalfAlt key={i} style={{ color: '#fbbf24' }} />);
+      stars.push(<FaStarHalfAlt key={i} style={{ color: 'var(--star-color)' }} />);
     } else {
-      stars.push(<FaRegStar key={i} style={{ color: '#d1d5db' }} />);
+      stars.push(<FaRegStar key={i} style={{ color: 'var(--star-empty-color)' }} />);
     }
   }
   return stars;
 };
 
 export default function ReviewCard({ review, onDelete }) {
-  const { _id, username, note, rating, createdAt, updatedAt, email } = review;
+  const { _id, note, rating, createdAt, updatedAt, email } = review;
   const [confirmDelete, setConfirmDelete] = useState(false);
   const [inputValue, setInputValue] = useState('');
   const router = useRouter();
   const { data: session } = useSession();
+
+  const isOwner = session && session.user.email === email;
+  const isAdmin = session && session.user.role === 'admin';
+
+  const showEmail = isOwner || isAdmin ? email : maskEmail(email);
+  const showButtons = isOwner || isAdmin || _id.startsWith('demo-');
 
   const handleDelete = async () => {
     if (inputValue === _id.slice(-4)) {
@@ -67,16 +73,10 @@ export default function ReviewCard({ review, onDelete }) {
     }
   };
 
-  const isCreatorOrAdmin =
-    session && ((session.user.name === username && session.user.email === email) || session.user.role === 'admin');
-
-  const showButtons = _id.startsWith('demo-') || isCreatorOrAdmin;
-
   return (
     <CardContainer>
       <IDLabel>ID: {_id}</IDLabel>
-      <Username>{username}</Username>
-      <Email>{email}</Email>
+      <Email>{showEmail}</Email>
       <Note>{note}</Note>
       <StarsContainer>{renderStars(rating)}</StarsContainer>
       <CreatedUpdated>

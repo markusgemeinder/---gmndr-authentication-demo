@@ -5,7 +5,7 @@
 import { useState, useEffect } from 'react';
 import { useSession } from 'next-auth/react';
 import { FaStar, FaStarHalfAlt, FaRegStar } from 'react-icons/fa';
-import Button from '@/app/components/Common/Button';
+import Button, { ButtonContainer } from '@/app/components/Common/Button';
 import { maskEmail } from '@/utils/maskEmail';
 import {
   FormContainer,
@@ -15,8 +15,7 @@ import {
   Textarea,
   RatingContainer,
   HiddenInput,
-  ButtonContainer,
-} from './ReviewStyles';
+} from '@/app/components/Review/ReviewStyles';
 
 const renderStars = (rating, setRating) => {
   const stars = [];
@@ -26,7 +25,7 @@ const renderStars = (rating, setRating) => {
     stars.push(
       <div
         key={i}
-        style={{ cursor: 'pointer', color: isFilled ? '#fbbf24' : '#e5e7eb' }}
+        style={{ cursor: 'pointer', color: isFilled ? 'var(--star-color)' : 'var(--star-empty-color)' }}
         onClick={() => setRating(i)}
         onMouseEnter={() => setRating(i)}
         onMouseLeave={() => setRating(rating)}>
@@ -87,10 +86,6 @@ export default function ReviewForm({ review, onSave, onCancel }) {
 
   return (
     <FormContainer onSubmit={handleSubmit}>
-      {/* <FormGroup>
-        <Label htmlFor='username'>Username</Label>
-        <Input id='username' type='text' value={username} readOnly />
-      </FormGroup> */}
       <FormGroup>
         <Label htmlFor='email'>Email</Label>
         <Input id='email' type='email' value={email} readOnly />
