@@ -6,6 +6,7 @@ import { useSession, signIn, signOut } from 'next-auth/react';
 import styled from 'styled-components';
 import { useEffect, useState } from 'react';
 import Button from '../Common/Button';
+import { maskEmail } from '@/utils/maskEmail';
 
 const StatusContainer = styled.div`
   margin-bottom: 0.4rem;
@@ -131,7 +132,7 @@ const SessionStatus = () => {
       {session ? (
         <>
           <p>
-            Welcome, {session.user.username}. You are logged in as {session.user.role}. Login expires in{' '}
+            Welcome, {maskEmail(session.user.email)}. You are logged in as {session.user.role}. Login expires in{' '}
             {formatTime(timeLeft)}{' '}
             <LoginLink href='#' onClick={renewSession}>
               (renew session)

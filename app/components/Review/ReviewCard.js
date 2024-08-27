@@ -9,6 +9,7 @@ import { useState } from 'react';
 import styled from 'styled-components';
 import Button from '../Common/Button';
 import { useSession } from 'next-auth/react';
+import { maskEmail } from '@/utils/maskEmail';
 
 // Styled components
 const CardContainer = styled.div`
@@ -135,12 +136,18 @@ export default function ReviewCard({ review, onEdit }) {
     setShowModal(false);
   };
 
-  const isUserReview = session?.user.email === review.email; // Vergleiche email
+  const userEmail = session?.user.email;
+
+  // Überprüfen, ob der aktuelle Benutzer der Autor des Reviews ist oder ein Admin ist
+  const isUserReview = userEmail === review.email || session?.user.role === 'admin';
+
+  // Maskiere die E-Mail-Adresse für die Anzeige
+  const maskedEmail = maskEmail(review.email);
 
   return (
     <CardContainer>
       <IDLabel>ID: {review._id}</IDLabel>
-      <Email>Email: {review.email}</Email> {/* Username entfernt */}
+      <Email>{isUserReview ? `User: ${review.email}` : `User: ${maskedEmail}`}</Email>
       <StarsContainer>{renderStars(review.rating)}</StarsContainer>
       <Note>{review.note}</Note>
       <CreatedUpdated>

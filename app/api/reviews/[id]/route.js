@@ -5,13 +5,8 @@ import Review from '@/db/models/Review';
 import mongoose from 'mongoose';
 import { getToken } from 'next-auth/jwt';
 import CryptoJS from 'crypto-js';
-// import { maskEmail } from '@/utils/maskEmail'; // Kommentiert, falls erforderlich
 
 const secretKey = process.env.SECRET_KEY || 'my_secret_key';
-
-const encryptEmail = (email) => {
-  return CryptoJS.AES.encrypt(email, secretKey).toString();
-};
 
 const decryptEmail = (cipherText) => {
   const bytes = CryptoJS.AES.decrypt(cipherText, secretKey);
@@ -39,18 +34,15 @@ export async function GET(request, { params }) {
       return new Response(JSON.stringify({ status: 'Not found' }), { status: 404 });
     }
 
-    let decryptedEmail = 'Email only visible to review creator or admin';
-    if (token.email === decryptEmail(review.email) || token.role === 'admin') {
-      decryptedEmail = decryptEmail(review.email);
-      // decryptedEmail = maskEmail(decryptedEmail); // Optional, falls die Email maskiert werden soll
-    }
+    const email = decryptEmail(review.email);
 
-    const decryptedReview = {
-      ...review.toObject(),
-      email: decryptedEmail,
-    };
-
-    return new Response(JSON.stringify(decryptedReview), { status: 200 });
+    return new Response(
+      JSON.stringify({
+        ...review.toObject(),
+        email,
+      }),
+      { status: 200 }
+    );
   } catch (error) {
     return new Response(JSON.stringify({ status: 'Server error', error: error.message }), { status: 500 });
   }
@@ -78,11 +70,10 @@ export async function PATCH(request, { params }) {
       return new Response(JSON.stringify({ status: 'Review not found' }), { status: 404 });
     }
 
-    // Do not update email if already set
     if (existingReview.email) {
       reviewData.email = existingReview.email;
     } else {
-      reviewData.email = encryptEmail(reviewData.email);
+      reviewData.email = CryptoJS.AES.encrypt(reviewData.email, secretKey).toString();
     }
 
     const updatedReview = await Review.findByIdAndUpdate(id, { $set: reviewData }, { new: true });
@@ -103,9 +94,20 @@ export async function DELETE(request, { params }) {
   await dbConnect();
   const { id } = params;
 
+  if (!mongoose.Types.ObjectId.isValid(id)) {
+    return new Response(JSON.stringify({ status: 'Invalid ID' }), { status: 400 });
+  }
+
   try {
-    await Review.findByIdAndDelete(id);
-    return new Response(JSON.stringify({ status: 'Review successfully deleted.' }), { status: 200 });
+    const review = await Review.findById(id);
+
+    if (!review) {
+      return new Response(JSON.stringify({ status: 'Review not found' }), { status: 404 });
+    }
+
+    await review.deleteOne();
+
+    return new Response(JSON.stringify({ status: 'Review deleted' }), { status: 200 });
   } catch (error) {
     return new Response(JSON.stringify({ status: 'Server error', error: error.message }), { status: 500 });
   }
