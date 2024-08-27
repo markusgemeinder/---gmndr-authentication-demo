@@ -127,7 +127,7 @@ export default function RegisterForm() {
     }
     const data = { email, password };
 
-    console.log('Submitting data:', data); // Logging data to ensure it's correct
+    console.log('Submitting data:', data);
 
     try {
       const response = await fetch('/api/users', {

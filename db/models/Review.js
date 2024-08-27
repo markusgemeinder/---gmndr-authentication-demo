@@ -6,7 +6,7 @@ const { Schema } = mongoose;
 
 const reviewSchema = new Schema(
   {
-    email: { type: String, required: true }, // Nur email wird verwendet
+    email: { type: String, required: true },
     note: { type: String, required: true },
     rating: { type: Number, required: true, min: 1, max: 5 },
   },

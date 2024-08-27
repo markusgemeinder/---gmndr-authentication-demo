@@ -12,25 +12,20 @@ export async function POST(req) {
     const body = await req.json();
     const { email, password } = body;
 
-    // Validierung der Eingabedaten
     if (!email || !password) {
       return NextResponse.json({ message: 'All fields are required.' }, { status: 400 });
     }
 
-    // Überprüfung auf doppelte E-Mails
     const duplicate = await User.findOne({ email }).lean().exec();
     if (duplicate) {
       return NextResponse.json({ message: 'Duplicate Email' }, { status: 409 });
     }
 
-    // Hashen des Passworts
     const hashedPassword = await bcrypt.hash(password, 10);
 
-    // Erstellen eines neuen Users mit Standardwert für "role"
     const user = await User.create({
       email,
       password: hashedPassword,
-      // "role" wird auf den Standardwert "Unverified User" gesetzt
     });
 
     return NextResponse.json({ message: 'User Created.', user }, { status: 201 });

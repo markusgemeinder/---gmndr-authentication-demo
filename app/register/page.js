@@ -25,12 +25,12 @@ export default function RegisterPage() {
 
   useEffect(() => {
     if (status === 'authenticated') {
-      router.push('/reviews'); // Umleitung zu Reviews-Seite, wenn der Benutzer eingeloggt ist
+      router.push('/reviews');
     }
   }, [status, router]);
 
   if (status === 'loading') {
-    return <div>Loading...</div>; // Optional: Ladeanzeige
+    return <div>Loading...</div>;
   }
 
   return (
