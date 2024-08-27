@@ -91,7 +91,6 @@ const CheckIcon = styled(FaCheck)`
 `;
 
 export default function RegisterForm() {
-  const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [repeatPassword, setRepeatPassword] = useState('');
@@ -126,7 +125,7 @@ export default function RegisterForm() {
       setError('Please fix the password quality issues.');
       return;
     }
-    const data = { username, email, password };
+    const data = { email, password };
 
     console.log('Submitting data:', data); // Logging data to ensure it's correct
 
@@ -162,13 +161,7 @@ export default function RegisterForm() {
     <FormContainer onSubmit={handleSubmit}>
       <FormGroup>
         <LabelContainer>
-          <Label htmlFor='username'>Username</Label>
-        </LabelContainer>
-        <Input id='username' type='text' value={username} onChange={(e) => setUsername(e.target.value)} required />
-      </FormGroup>
-      <FormGroup>
-        <LabelContainer>
-          <Label htmlFor='email'>Email</Label>
+          <Label htmlFor='email'>User Email</Label>
         </LabelContainer>
         <Input id='email' type='email' value={email} onChange={(e) => setEmail(e.target.value)} required />
       </FormGroup>

@@ -15,7 +15,7 @@ export const options = {
         if (profile?.email === 'info@gemeinder-coaching.de') {
           userRole = 'admin';
         }
-        return { ...profile, id: profile.id, role: userRole, username: profile.login }; // Benutzername von GitHub einfügen
+        return { ...profile, id: profile.id, role: userRole }; // Benutzername entfernt
       },
       clientId: process.env.GITHUB_ID,
       clientSecret: process.env.GITHUB_SECRET,
@@ -24,7 +24,7 @@ export const options = {
       profile(profile) {
         console.log('Profile Google: ', profile);
         let userRole = 'Google User';
-        return { ...profile, id: profile.sub, role: userRole, username: profile.name }; // Benutzername von Google einfügen
+        return { ...profile, id: profile.sub, role: userRole }; // Benutzername entfernt
       },
       clientId: process.env.GOOGLE_ID,
       clientSecret: process.env.GOOGLE_SECRET,
@@ -49,7 +49,6 @@ export const options = {
             console.log('Password match');
             const userPayload = {
               id: foundUser._id,
-              username: foundUser.username, // Benutzername
               email: foundUser.email,
               role: foundUser.role || 'Unverified User', // Rolle oder Standardwert
             };
@@ -70,7 +69,6 @@ export const options = {
     async jwt({ token, user }) {
       if (user) {
         token.role = user.role;
-        token.name = user.username; // Benutzername zum Token hinzufügen
         token.createdAt = Date.now(); // Behalte das Erstellungsdatum bei
         console.log('JWT Callback - Token:', token); // Logge den JWT-Token
       }
@@ -79,7 +77,6 @@ export const options = {
     async session({ session, token }) {
       if (session?.user) {
         session.user.role = token.role;
-        session.user.username = token.name; // Benutzername zur Session hinzufügen
         console.log('Session Callback - Session:', session); // Logge die Session-Daten
       }
       return session;

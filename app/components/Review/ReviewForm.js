@@ -7,7 +7,6 @@ import { useSession } from 'next-auth/react';
 import { FaStar, FaStarHalfAlt, FaRegStar } from 'react-icons/fa';
 import styled from 'styled-components';
 import Button from '../Common/Button';
-import { maskEmail } from '@/utils/maskEmail';
 
 const FormContainer = styled.form`
   background-color: #f5f5f5;
@@ -86,15 +85,13 @@ const renderStars = (rating, setRating) => {
 
 export default function ReviewForm({ review, onSave, onCancel }) {
   const { data: session } = useSession();
-  const [username, setUsername] = useState('');
-  const [email, setEmail] = useState('');
+  const [email, setEmail] = useState(''); // Username entfernt
   const [note, setNote] = useState('');
   const [rating, setRating] = useState(1);
 
   useEffect(() => {
     if (session) {
-      setUsername(session.user.username);
-      setEmail(session.user.email);
+      setEmail(session.user.email); // Setze email aus session
     }
 
     if (review) {
@@ -106,7 +103,7 @@ export default function ReviewForm({ review, onSave, onCancel }) {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    const data = { username, email, note, rating };
+    const data = { email, note, rating }; // Nur email verwendet
 
     try {
       if (review?._id) {
@@ -135,12 +132,8 @@ export default function ReviewForm({ review, onSave, onCancel }) {
   return (
     <FormContainer onSubmit={handleSubmit}>
       <FormGroup>
-        <Label htmlFor='username'>Username</Label>
-        <Input id='username' type='text' value={username} readOnly />
-      </FormGroup>
-      <FormGroup>
-        <Label htmlFor='email'>Email</Label>
-        <Input id='email' type='email' value={email} readOnly />
+        <Label htmlFor='email'>Email</Label> {/* Username Label entfernt */}
+        <Input id='email' type='email' value={email} readOnly /> {/* Nur email */}
       </FormGroup>
       <FormGroup>
         <Label htmlFor='note'>Note</Label>

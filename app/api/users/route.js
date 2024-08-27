@@ -1,3 +1,5 @@
+// /app/api/users/route.js
+
 import dbConnect from '@/db/connect';
 import User from '@/db/models/User';
 import { NextResponse } from 'next/server';
@@ -8,10 +10,10 @@ export async function POST(req) {
 
   try {
     const body = await req.json();
-    const { username, email, password } = body;
+    const { email, password } = body;
 
     // Validierung der Eingabedaten
-    if (!username || !email || !password) {
+    if (!email || !password) {
       return NextResponse.json({ message: 'All fields are required.' }, { status: 400 });
     }
 
@@ -26,7 +28,6 @@ export async function POST(req) {
 
     // Erstellen eines neuen Users mit Standardwert für "role"
     const user = await User.create({
-      username,
       email,
       password: hashedPassword,
       // "role" wird auf den Standardwert "Unverified User" gesetzt

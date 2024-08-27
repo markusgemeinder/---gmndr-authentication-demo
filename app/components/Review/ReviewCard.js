@@ -1,3 +1,5 @@
+// /app/components/Review/ReviewCard.js
+
 'use client';
 
 import { format } from 'date-fns';
@@ -6,7 +8,7 @@ import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import styled from 'styled-components';
 import Button from '../Common/Button';
-import { useSession } from 'next-auth/react'; // Import useSession
+import { useSession } from 'next-auth/react';
 
 // Styled components
 const CardContainer = styled.div`
@@ -28,12 +30,6 @@ const IDLabel = styled.div`
   background-color: #f3f4f6;
   padding: 0.25rem 0.5rem;
   border-radius: 0.25rem;
-`;
-
-const Username = styled.div`
-  font-size: 1.125rem;
-  font-weight: bold;
-  margin-bottom: 0.5rem;
 `;
 
 const Email = styled.div`
@@ -86,133 +82,111 @@ const ModalHeader = styled.h2`
   margin-bottom: 1rem;
 `;
 
-const ModalParagraph = styled.p`
-  margin-bottom: 1rem;
+const ModalMessage = styled.p`
+  margin-bottom: 1.5rem;
 `;
 
-const ModalInput = styled.input`
-  border: 1px solid #d1d5db;
-  padding: 0.5rem;
-  border-radius: 0.25rem;
-  margin-bottom: 1rem;
-  width: 100%;
-`;
-
-const ModalButtonContainer = styled.div`
+const ModalActions = styled.div`
   display: flex;
+  justify-content: flex-end;
   gap: 1rem;
 `;
 
-// Render stars function
 const renderStars = (rating) => {
   const stars = [];
   for (let i = 1; i <= 5; i++) {
-    if (rating >= i) {
-      stars.push(<FaStar key={i} style={{ color: '#fbbf24' }} />);
-    } else if (rating > i - 1) {
-      stars.push(<FaStarHalfAlt key={i} style={{ color: '#fbbf24' }} />);
-    } else {
-      stars.push(<FaRegStar key={i} style={{ color: '#d1d5db' }} />);
-    }
+    const isFilled = rating >= i;
+    const isHalf = rating > i - 1 && rating < i;
+    stars.push(
+      <div key={i} style={{ color: isFilled ? '#fbbf24' : '#e5e7eb' }}>
+        {isFilled ? <FaStar /> : isHalf ? <FaStarHalfAlt /> : <FaRegStar />}
+      </div>
+    );
   }
   return stars;
 };
 
-// Main component
-export default function ReviewCard({ review, onDelete }) {
-  const { _id, username, note, rating, createdAt, updatedAt, email } = review;
-  const [confirmDelete, setConfirmDelete] = useState(false);
-  const [inputValue, setInputValue] = useState('');
+export default function ReviewCard({ review, onEdit }) {
+  const { data: session } = useSession();
   const router = useRouter();
-  const { data: session } = useSession(); // Get session data
+  const [showModal, setShowModal] = useState(false);
 
-  // Handle delete function
   const handleDelete = async () => {
-    if (inputValue === _id.slice(-4)) {
-      try {
-        if (_id.startsWith('demo-')) {
-          const storedReviews = JSON.parse(sessionStorage.getItem('reviews') || '[]');
-          const updatedReviews = storedReviews.filter((r) => r._id !== _id);
-          sessionStorage.setItem('reviews', JSON.stringify(updatedReviews));
-          if (onDelete) onDelete();
-        } else {
-          await fetch(`/api/reviews/${_id}`, { method: 'DELETE' });
-          if (onDelete) onDelete();
-        }
-      } catch (error) {
-        console.error('Error deleting review:', error);
-      }
-    } else {
-      alert('The last 4 digits do not match. Please try again.');
+    try {
+      await fetch(`/api/reviews/${review._id}`, {
+        method: 'DELETE',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+      router.refresh();
+    } catch (error) {
+      console.error('Error deleting review:', error);
+    } finally {
+      setShowModal(false);
     }
   };
 
-  // Check if current user is the creator or an admin
-  const isCreatorOrAdmin =
-    session && ((session.user.name === username && session.user.email === email) || session.user.role === 'admin');
+  const handleDeleteClick = () => {
+    setShowModal(true);
+  };
 
-  // Always show buttons for demo reviews
-  const showButtons = _id.startsWith('demo-') || isCreatorOrAdmin;
+  const handleCancel = () => {
+    setShowModal(false);
+  };
+
+  const isUserReview = session?.user.email === review.email; // Vergleiche email
 
   return (
     <CardContainer>
-      <IDLabel>ID: {_id}</IDLabel>
-      <Username>{username}</Username>
-      <Email>{email}</Email>
-      <Note>{note}</Note>
-      <StarsContainer>{renderStars(rating)}</StarsContainer>
+      <IDLabel>ID: {review._id}</IDLabel>
+      <Email>Email: {review.email}</Email> {/* Username entfernt */}
+      <StarsContainer>{renderStars(review.rating)}</StarsContainer>
+      <Note>{review.note}</Note>
       <CreatedUpdated>
-        Created: {format(new Date(createdAt), 'dd.MM.yyyy (HH:mm:ss)')} | Updated:{' '}
-        {format(new Date(updatedAt), 'dd.MM.yyyy (HH:mm:ss)')}
+        Created: {format(new Date(review.createdAt), 'PPP p')}
+        {review.createdAt !== review.updatedAt && (
+          <>
+            <br />
+            Updated: {format(new Date(review.updatedAt), 'PPP p')}
+          </>
+        )}
       </CreatedUpdated>
-      {showButtons && (
+      {isUserReview && (
         <ButtonContainer>
           <Button
-            onClick={() => router.push(`/reviews/${_id}`)}
+            onClick={() => onEdit(review)}
             bgColor='var(--color-button-edit)'
-            hoverColor='var(--color-button-edit-hover)'
-            color='var(--color-button-text)'>
+            hoverColor='var(--color-button-edit-hover)'>
             Edit
           </Button>
           <Button
-            onClick={() => setConfirmDelete(true)}
+            onClick={handleDeleteClick}
             bgColor='var(--color-button-delete)'
-            hoverColor='var(--color-button-delete-hover)'
-            color='var(--color-button-text)'>
+            hoverColor='var(--color-button-delete-hover)'>
             Delete
           </Button>
         </ButtonContainer>
       )}
-      {confirmDelete && (
+      {showModal && (
         <ModalOverlay>
           <ModalContent>
-            <ModalHeader>Confirm Deletion Object ID {_id}</ModalHeader>
-            <ModalParagraph>
-              Are you sure you want to delete? Please enter the last 4 digits of the ID to confirm.
-            </ModalParagraph>
-            <ModalInput
-              type='text'
-              value={inputValue}
-              onChange={(e) => setInputValue(e.target.value)}
-              placeholder='Last 4 digits'
-              maxLength={4}
-            />
-            <ModalButtonContainer>
+            <ModalHeader>Confirm Deletion</ModalHeader>
+            <ModalMessage>Are you sure you want to delete this review?</ModalMessage>
+            <ModalActions>
               <Button
                 onClick={handleDelete}
                 bgColor='var(--color-button-delete)'
-                hoverColor='var(--color-button-delete-hover)'
-                color='var(--color-button-text)'>
-                Confirm
+                hoverColor='var(--color-button-delete-hover)'>
+                Yes, delete it
               </Button>
               <Button
-                onClick={() => setConfirmDelete(false)}
-                bgColor='var(--color-button)'
-                hoverColor='var(--color-button-hover)'
-                color='var(--color-button-text)'>
+                onClick={handleCancel}
+                bgColor='var(--color-button-cancel)'
+                hoverColor='var(--color-button-cancel-hover)'>
                 Cancel
               </Button>
-            </ModalButtonContainer>
+            </ModalActions>
           </ModalContent>
         </ModalOverlay>
       )}

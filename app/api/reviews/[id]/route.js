@@ -5,7 +5,7 @@ import Review from '@/db/models/Review';
 import mongoose from 'mongoose';
 import { getToken } from 'next-auth/jwt';
 import CryptoJS from 'crypto-js';
-// import { maskEmail } from '@/utils/maskEmail';
+// import { maskEmail } from '@/utils/maskEmail'; // Kommentiert, falls erforderlich
 
 const secretKey = process.env.SECRET_KEY || 'my_secret_key';
 
@@ -42,7 +42,7 @@ export async function GET(request, { params }) {
     let decryptedEmail = 'Email only visible to review creator or admin';
     if (token.email === decryptEmail(review.email) || token.role === 'admin') {
       decryptedEmail = decryptEmail(review.email);
-      // decryptedEmail = maskEmail(decryptedEmail);
+      // decryptedEmail = maskEmail(decryptedEmail); // Optional, falls die Email maskiert werden soll
     }
 
     const decryptedReview = {
@@ -52,7 +52,7 @@ export async function GET(request, { params }) {
 
     return new Response(JSON.stringify(decryptedReview), { status: 200 });
   } catch (error) {
-    return new Response(JSON.stringify({ status: 'Server error' }), { status: 500 });
+    return new Response(JSON.stringify({ status: 'Server error', error: error.message }), { status: 500 });
   }
 }
 
@@ -78,22 +78,18 @@ export async function PATCH(request, { params }) {
       return new Response(JSON.stringify({ status: 'Review not found' }), { status: 404 });
     }
 
-    // Do not update email and username if they are already set
+    // Do not update email if already set
     if (existingReview.email) {
       reviewData.email = existingReview.email;
     } else {
       reviewData.email = encryptEmail(reviewData.email);
     }
 
-    if (existingReview.username) {
-      reviewData.username = existingReview.username;
-    }
-
     const updatedReview = await Review.findByIdAndUpdate(id, { $set: reviewData }, { new: true });
 
     return new Response(JSON.stringify({ status: 'Review updated', updatedReview }), { status: 200 });
   } catch (error) {
-    return new Response(JSON.stringify({ status: 'Server error' }), { status: 500 });
+    return new Response(JSON.stringify({ status: 'Server error', error: error.message }), { status: 500 });
   }
 }
 
@@ -111,6 +107,6 @@ export async function DELETE(request, { params }) {
     await Review.findByIdAndDelete(id);
     return new Response(JSON.stringify({ status: 'Review successfully deleted.' }), { status: 200 });
   } catch (error) {
-    return new Response(JSON.stringify({ status: 'Server error' }), { status: 500 });
+    return new Response(JSON.stringify({ status: 'Server error', error: error.message }), { status: 500 });
   }
 }
