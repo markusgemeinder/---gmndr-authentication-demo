@@ -1,4 +1,4 @@
-// /app/reviews/signup/page.js
+// /app/reviews/register/page.js
 
 'use client';
 
@@ -6,7 +6,7 @@ import { useSession } from 'next-auth/react';
 import { useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import styled from 'styled-components';
-import SignupForm from '@/app/components/Signup/SignupForm';
+import RegisterForm from '@/app/components/Register/RegisterForm';
 import ScrollToTop from '@/app/components/Common/ScrollToTop';
 
 const Main = styled.main`
@@ -19,7 +19,7 @@ const Title = styled.h1`
   margin-bottom: 0.25rem;
 `;
 
-export default function SignupPage() {
+export default function RegisterPage() {
   const { data: session, status } = useSession();
   const router = useRouter();
 
@@ -37,8 +37,8 @@ export default function SignupPage() {
     <>
       <ScrollToTop />
       <Main>
-        <Title>Signup</Title>
-        <SignupForm />
+        <Title>Register</Title>
+        <RegisterForm />
       </Main>
     </>
   );

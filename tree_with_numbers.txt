@@ -23,21 +23,21 @@
     23	│   │   │   ├── LoadingAnimation.js
     24	│   │   │   ├── Navigation.js
     25	│   │   │   └── ScrollToTop.js
-    26	│   │   ├── Review
-    27	│   │   │   ├── ReviewCard.js
-    28	│   │   │   └── ReviewForm.js
-    29	│   │   └── Signup
-    30	│   │       └── SignupForm.js
+    26	│   │   ├── Register
+    27	│   │   │   └── RegisterForm.js
+    28	│   │   └── Review
+    29	│   │       ├── ReviewCard.js
+    30	│   │       └── ReviewForm.js
     31	│   ├── globals.css
     32	│   ├── layout.js
     33	│   ├── page.js
-    34	│   ├── reviews
-    35	│   │   ├── [id]
-    36	│   │   │   └── page.js
-    37	│   │   ├── create
-    38	│   │   │   └── page.js
-    39	│   │   └── page.js
-    40	│   └── signup
+    34	│   ├── register
+    35	│   │   └── page.js
+    36	│   └── reviews
+    37	│       ├── [id]
+    38	│       │   └── page.js
+    39	│       ├── create
+    40	│       │   └── page.js
     41	│       └── page.js
     42	├── db
     43	│   ├── connect.js

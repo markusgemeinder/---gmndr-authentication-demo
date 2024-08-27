@@ -1,4 +1,4 @@
-// /app/components/Signup/SignupForm.js
+// /app/components/Register/RegisterForm.js
 
 'use client';
 
@@ -90,7 +90,7 @@ const CheckIcon = styled(FaCheck)`
   margin-right: 0.5rem;
 `;
 
-export default function SignupForm() {
+export default function RegisterForm() {
   const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -139,14 +139,14 @@ export default function SignupForm() {
         body: JSON.stringify(data),
       });
 
-      console.log('Signup response status:', response.status); // Log the response status
+      console.log('Register response status:', response.status); // Log the response status
 
       if (response.ok) {
-        router.push('/'); // Navigate to home after signup
+        router.push('/'); // Navigate to home after register
       } else {
         const errorText = await response.text();
-        setError(`Signup failed: ${errorText}`);
-        console.error('Signup failed:', errorText);
+        setError(`Register failed: ${errorText}`);
+        console.error('Register failed:', errorText);
       }
     } catch (error) {
       setError('An unexpected error occurred.');

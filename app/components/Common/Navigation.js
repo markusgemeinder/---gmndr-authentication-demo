@@ -65,12 +65,12 @@ export default function Navigation() {
   const pathname = usePathname(); // Aktuelle Pathname holen
 
   useEffect(() => {
-    if (status === 'unauthenticated' && pathname === '/signup') {
-      // Falls nicht authentifiziert und auf der Signup-Seite
+    if (status === 'unauthenticated' && pathname === '/register') {
+      // Falls nicht authentifiziert und auf der Register-Seite
       return;
     }
-    if (status === 'unauthenticated' && pathname !== '/signup') {
-      // Falls nicht authentifiziert und nicht auf der Signup-Seite
+    if (status === 'unauthenticated' && pathname !== '/register') {
+      // Falls nicht authentifiziert und nicht auf der Register-Seite
       router.push('/');
     } else if (status === 'authenticated' && pathname === '/') {
       // Falls authentifiziert und auf der Startseite
@@ -112,10 +112,10 @@ export default function Navigation() {
                 Login
               </Button>
               <Button
-                bgColor='var(--color-button-signup)'
-                hoverColor='var(--color-button-signup-hover)'
-                onClick={() => router.push('/signup')}>
-                Signup
+                bgColor='var(--color-button-register)'
+                hoverColor='var(--color-button-register-hover)'
+                onClick={() => router.push('/register')}>
+                Register
               </Button>
             </>
           )}

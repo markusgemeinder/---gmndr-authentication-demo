@@ -27,8 +27,8 @@
   --color-button-delete-hover: #f44336;
   --color-button-login: var(--color-button-edit);
   --color-button-login-hover: var(--color-button-edit-hover);
-  --color-button-signup: var(--color-button);
-  --color-button-signup-hover: var(--color-button-hover);
+  --color-button-register: var(--color-button);
+  --color-button-register-hover: var(--color-button-hover);
   --color-button-logout: var(--color-button-delete);
   --color-button-logout-hover: var(--color-button-delete-hover);
   --color-button-save: var(--color-button-review);
