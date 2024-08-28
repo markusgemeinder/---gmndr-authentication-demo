@@ -17,10 +17,7 @@ export const BlinkingText = styled.p`
 // Styled component for modal overlay
 export const ModalOverlay = styled.div`
   position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
+  inset: 0;
   background-color: var(--color-modal); /* Use color variable from globals.css */
   display: flex;
   justify-content: center;

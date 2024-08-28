@@ -74,33 +74,36 @@ export default function ReviewCard({ review, onDelete }) {
   };
 
   return (
-    <CardContainer>
-      <IDLabel>ID: {_id}</IDLabel>
-      <Email>{showEmail}</Email>
-      <Note>{note}</Note>
-      <StarsContainer>{renderStars(rating)}</StarsContainer>
-      <CreatedUpdated>
-        Created: {format(new Date(createdAt), 'dd.MM.yyyy (HH:mm:ss)')} | Updated:{' '}
-        {format(new Date(updatedAt), 'dd.MM.yyyy (HH:mm:ss)')}
-      </CreatedUpdated>
-      {showButtons && (
-        <ButtonContainer>
-          <Button
-            onClick={() => router.push(`/reviews/${_id}`)}
-            bgColor='var(--color-button-edit)'
-            hoverColor='var(--color-button-edit-hover)'
-            color='var(--color-button-text)'>
-            Edit
-          </Button>
-          <Button
-            onClick={() => setConfirmDelete(true)}
-            bgColor='var(--color-button-delete)'
-            hoverColor='var(--color-button-delete-hover)'
-            color='var(--color-button-text)'>
-            Delete
-          </Button>
-        </ButtonContainer>
-      )}
+    <>
+      <CardContainer>
+        <IDLabel>ID: {_id}</IDLabel>
+        <Email>{showEmail}</Email>
+        <Note>{note}</Note>
+        <StarsContainer>{renderStars(rating)}</StarsContainer>
+        <CreatedUpdated>
+          Created: {format(new Date(createdAt), 'dd.MM.yyyy (HH:mm:ss)')} | Updated:{' '}
+          {format(new Date(updatedAt), 'dd.MM.yyyy (HH:mm:ss)')}
+        </CreatedUpdated>
+        {showButtons && (
+          <ButtonContainer>
+            <Button
+              onClick={() => router.push(`/reviews/${_id}`)}
+              bgColor='var(--color-button-edit)'
+              hoverColor='var(--color-button-edit-hover)'
+              color='var(--color-button-text)'>
+              Edit
+            </Button>
+            <Button
+              onClick={() => setConfirmDelete(true)}
+              bgColor='var(--color-button-delete)'
+              hoverColor='var(--color-button-delete-hover)'
+              color='var(--color-button-text)'>
+              Delete
+            </Button>
+          </ButtonContainer>
+        )}
+      </CardContainer>
+
       {confirmDelete && (
         <ModalOverlay>
           <ModalContent>
@@ -134,6 +137,6 @@ export default function ReviewCard({ review, onDelete }) {
           </ModalContent>
         </ModalOverlay>
       )}
-    </CardContainer>
+    </>
   );
 }

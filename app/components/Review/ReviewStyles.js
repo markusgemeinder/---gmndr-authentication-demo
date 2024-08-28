@@ -2,8 +2,6 @@
 
 import styled from 'styled-components';
 
-// Review Card Styles
-
 export const ReviewsContainer = styled.div`
   display: flex;
   flex-direction: column;
@@ -18,10 +16,10 @@ export const CardContainer = styled.div`
   box-shadow: 0 0.3rem 0.5rem rgba(0, 0, 0, 0.1);
   margin: 0.6rem 0;
   transition: transform 0.3s, box-shadow 0.3s;
-  position: relative; /* Make sure the IDLabel can be positioned absolutely within this container */
+  position: relative;
 
   &:first-of-type {
-    margin-top: 1.5rem; /* Spezielle Margin für den ersten Container */
+    margin-top: 1.5rem;
   }
 
   &:hover {
@@ -38,8 +36,6 @@ export const IDLabel = styled.div`
   right: 0.5rem;
   margin: 0;
   padding: 0.2rem 0.5rem;
-  /* background-color: var(--color-review-card-background); 
-  border-radius: 0.3rem; */
 `;
 
 export const Email = styled.div`
@@ -47,16 +43,19 @@ export const Email = styled.div`
   font-weight: 700;
   color: var(--color-text-medium);
   margin-bottom: 0.6rem;
+  background-color: transparent;
+  padding: 0.5rem;
+  border-radius: 0.3rem;
 `;
 
 export const Note = styled.p`
   font-size: 1rem;
   color: var(--color-review-text);
   margin-bottom: 0.9rem;
-  padding: 0.6rem; /* 10px */
+  padding: 0.6rem;
   border: 1px solid var(--color-input-border);
   border-radius: 0.3rem;
-  background-color: var(--color-input-background);
+  background-color: transparent;
 `;
 
 export const StarsContainer = styled.div`
@@ -71,7 +70,6 @@ export const CreatedUpdated = styled.div`
   margin-bottom: 0.2rem;
 `;
 
-// Form Styles
 export const FormContainer = styled.form`
   background-color: var(--color-form-background);
   padding: 1.3rem;
@@ -99,7 +97,7 @@ export const Input = styled.input`
   border-radius: 0.3rem;
   font-size: 1rem;
   color: var(--color-text);
-  background-color: var(--color-input-background);
+  background-color: transparent;
 `;
 
 export const Textarea = styled.textarea`

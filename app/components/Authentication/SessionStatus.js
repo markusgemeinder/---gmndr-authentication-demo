@@ -36,6 +36,10 @@ const Timer = styled.div`
   text-align: center;
 `;
 
+const SessionStatusModalOverlay = styled(ModalOverlay)`
+  z-index: 1100; /* Höherer z-index als andere Modals */
+`;
+
 const SessionStatus = () => {
   const { data: session } = useSession();
   const [timeLeft, setTimeLeft] = useState(300);
@@ -105,7 +109,7 @@ const SessionStatus = () => {
       {session ? (
         <>
           <p>
-            Welcome, {session.user.username}. You are logged in as {session.user.role}. Login expires in{' '}
+            Welcome, {session.user.email}. You are logged in as {session.user.role}. Login expires in{' '}
             {formatTime(timeLeft)}{' '}
             <LoginLink href='#' onClick={renewSession}>
               (renew session)
@@ -113,7 +117,7 @@ const SessionStatus = () => {
             .
           </p>
           {showPopup && (
-            <ModalOverlay>
+            <SessionStatusModalOverlay>
               <ModalContent>
                 <ModalHeader>
                   <BlinkingText>Session Expiring Soon</BlinkingText>
@@ -136,7 +140,7 @@ const SessionStatus = () => {
                   </Button>
                 </ModalButtonContainer>
               </ModalContent>
-            </ModalOverlay>
+            </SessionStatusModalOverlay>
           )}
         </>
       ) : (
