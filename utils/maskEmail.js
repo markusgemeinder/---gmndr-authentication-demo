@@ -1,7 +1,5 @@
 // /app/utils/maskEmail.js
 
-// actually not in use
-
 export function maskEmail(email) {
   if (!email) return 'Email not available';
 
@@ -13,11 +11,9 @@ export function maskEmail(email) {
 
   const tld = tldParts.join('.');
 
-  // Mask the local part: first two characters visible, rest masked
-  const maskedLocalPart = localPart.length > 2 ? localPart.slice(0, 2) + '*'.repeat(localPart.length - 2) : localPart;
+  // Mask the domain name with a fixed format
+  const maskedDomainName =
+    domainName.length > 2 ? domainName[0] + `[...]` + domainName[domainName.length - 1] : domainName;
 
-  // Mask the domain name: first character visible, rest masked
-  const maskedDomainName = domainName.length > 1 ? domainName[0] + '*'.repeat(domainName.length - 1) : domainName;
-
-  return `${maskedLocalPart}@${maskedDomainName}.${tld}`;
+  return `${localPart}@${maskedDomainName}.${tld}`;
 }

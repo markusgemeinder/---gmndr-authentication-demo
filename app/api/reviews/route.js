@@ -4,7 +4,6 @@ import dbConnect from '@/db/connect';
 import Review from '@/db/models/Review';
 import { getToken } from 'next-auth/jwt';
 import CryptoJS from 'crypto-js';
-// import { maskEmail } from '@/utils/maskEmail';
 
 const secretKey = process.env.SECRET_KEY || 'my_secret_key';
 
@@ -29,14 +28,10 @@ export async function GET(request) {
   try {
     const reviews = await Review.find();
     const decryptedReviews = reviews.map((review) => {
-      let decryptedEmail = 'Email only visible to review creator or admin';
-      if (token.email === decryptEmail(review.email) || token.role === 'admin') {
-        decryptedEmail = decryptEmail(review.email);
-        // decryptedEmail = maskEmail(decryptedEmail);
-      }
+      const email = decryptEmail(review.email);
       return {
         ...review.toObject(),
-        email: decryptedEmail,
+        email,
       };
     });
     return new Response(JSON.stringify(decryptedReviews), { status: 200 });
@@ -57,11 +52,16 @@ export async function POST(request) {
 
   try {
     const reviewData = await request.json();
+
+    // Encrypt the email before saving
     reviewData.email = encryptEmail(reviewData.email);
-    await Review.create(reviewData);
-    return new Response(JSON.stringify({ status: 'Review added' }), { status: 201 });
+
+    const newReview = new Review(reviewData);
+    await newReview.save();
+
+    return new Response(JSON.stringify({ status: 'Review created', newReview }), { status: 201 });
   } catch (error) {
     console.error(error);
-    return new Response(JSON.stringify({ error: error.message }), { status: 400 });
+    return new Response(JSON.stringify({ error: error.message }), { status: 500 });
   }
 }

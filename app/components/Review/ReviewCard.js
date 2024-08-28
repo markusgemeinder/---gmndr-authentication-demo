@@ -1,132 +1,58 @@
+// /app/components/Review/ReviewCard.js
+
 'use client';
 
 import { format } from 'date-fns';
-import { FaStar, FaStarHalfAlt, FaRegStar } from 'react-icons/fa';
-import { useRouter } from 'next/navigation';
 import { useState } from 'react';
-import styled from 'styled-components';
-import Button from '../Common/Button';
-import { useSession } from 'next-auth/react'; // Import useSession
+import { useRouter } from 'next/navigation';
+import { useSession } from 'next-auth/react';
+import { FaStar, FaStarHalfAlt, FaRegStar } from 'react-icons/fa';
+import Button, { ButtonContainer } from '@/app/components/Common/Button';
+import {
+  CardContainer,
+  IDLabel,
+  Email,
+  Note,
+  StarsContainer,
+  CreatedUpdated,
+} from '@/app/components/Review/ReviewStyles';
+import {
+  ModalOverlay,
+  ModalContent,
+  ModalHeader,
+  ModalParagraph,
+  ModalInput,
+  ModalButtonContainer,
+} from '@/app/components/Common/ModalPopup';
+import { maskEmail } from '@/utils/maskEmail';
 
-// Styled components
-const CardContainer = styled.div`
-  background-color: #f9fafb;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  border-radius: 0.5rem;
-  overflow: hidden;
-  padding: 1rem;
-  margin-bottom: 1rem;
-  position: relative;
-`;
-
-const IDLabel = styled.div`
-  position: absolute;
-  top: 0.5rem;
-  right: 0.5rem;
-  font-size: 0.75rem;
-  color: #6b7280;
-  background-color: #f3f4f6;
-  padding: 0.25rem 0.5rem;
-  border-radius: 0.25rem;
-`;
-
-const Username = styled.div`
-  font-size: 1.125rem;
-  font-weight: bold;
-  margin-bottom: 0.5rem;
-`;
-
-const Email = styled.div`
-  font-size: 1rem;
-  color: #6b7280;
-  margin-bottom: 1rem;
-`;
-
-const Note = styled.div`
-  color: #1f2937;
-  margin-bottom: 1rem;
-  white-space: pre-wrap; /* Ensure whitespace and newlines are preserved */
-`;
-
-const StarsContainer = styled.div`
-  display: flex;
-  gap: 0.25rem;
-  margin-bottom: 1rem;
-`;
-
-const CreatedUpdated = styled.div`
-  font-size: 0.75rem;
-  color: #6b7280;
-`;
-
-const ButtonContainer = styled.div`
-  display: flex;
-`;
-
-const ModalOverlay = styled.div`
-  position: fixed;
-  inset: 0;
-  background-color: rgba(31, 41, 55, 0.5);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: 50;
-`;
-
-const ModalContent = styled.div`
-  background-color: #ffffff;
-  padding: 1.5rem;
-  border-radius: 0.25rem;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-`;
-
-const ModalHeader = styled.h2`
-  font-size: 1.125rem;
-  font-weight: bold;
-  margin-bottom: 1rem;
-`;
-
-const ModalParagraph = styled.p`
-  margin-bottom: 1rem;
-`;
-
-const ModalInput = styled.input`
-  border: 1px solid #d1d5db;
-  padding: 0.5rem;
-  border-radius: 0.25rem;
-  margin-bottom: 1rem;
-  width: 100%;
-`;
-
-const ModalButtonContainer = styled.div`
-  display: flex;
-  gap: 1rem;
-`;
-
-// Render stars function
 const renderStars = (rating) => {
   const stars = [];
   for (let i = 1; i <= 5; i++) {
     if (rating >= i) {
-      stars.push(<FaStar key={i} style={{ color: '#fbbf24' }} />);
+      stars.push(<FaStar key={i} style={{ color: 'var(--star-color)' }} />);
     } else if (rating > i - 1) {
-      stars.push(<FaStarHalfAlt key={i} style={{ color: '#fbbf24' }} />);
+      stars.push(<FaStarHalfAlt key={i} style={{ color: 'var(--star-color)' }} />);
     } else {
-      stars.push(<FaRegStar key={i} style={{ color: '#d1d5db' }} />);
+      stars.push(<FaRegStar key={i} style={{ color: 'var(--star-empty-color)' }} />);
     }
   }
   return stars;
 };
 
-// Main component
 export default function ReviewCard({ review, onDelete }) {
-  const { _id, username, note, rating, createdAt, updatedAt, email } = review;
+  const { _id, note, rating, createdAt, updatedAt, email } = review;
   const [confirmDelete, setConfirmDelete] = useState(false);
   const [inputValue, setInputValue] = useState('');
   const router = useRouter();
-  const { data: session } = useSession(); // Get session data
+  const { data: session } = useSession();
 
-  // Handle delete function
+  const isOwner = session && session.user.email === email;
+  const isAdmin = session && session.user.role === 'admin';
+
+  const showEmail = isOwner || isAdmin ? email : maskEmail(email);
+  const showButtons = isOwner || isAdmin || _id.startsWith('demo-');
+
   const handleDelete = async () => {
     if (inputValue === _id.slice(-4)) {
       try {
@@ -147,42 +73,37 @@ export default function ReviewCard({ review, onDelete }) {
     }
   };
 
-  // Check if current user is the creator or an admin
-  const isCreatorOrAdmin =
-    session && ((session.user.name === username && session.user.email === email) || session.user.role === 'admin');
-
-  // Always show buttons for demo reviews
-  const showButtons = _id.startsWith('demo-') || isCreatorOrAdmin;
-
   return (
-    <CardContainer>
-      <IDLabel>ID: {_id}</IDLabel>
-      <Username>{username}</Username>
-      <Email>{email}</Email>
-      <Note>{note}</Note>
-      <StarsContainer>{renderStars(rating)}</StarsContainer>
-      <CreatedUpdated>
-        Created: {format(new Date(createdAt), 'dd.MM.yyyy (HH:mm:ss)')} | Updated:{' '}
-        {format(new Date(updatedAt), 'dd.MM.yyyy (HH:mm:ss)')}
-      </CreatedUpdated>
-      {showButtons && (
-        <ButtonContainer>
-          <Button
-            onClick={() => router.push(`/reviews/${_id}`)}
-            bgColor='var(--color-button-edit)'
-            hoverColor='var(--color-button-edit-hover)'
-            color='var(--color-button-text)'>
-            Edit
-          </Button>
-          <Button
-            onClick={() => setConfirmDelete(true)}
-            bgColor='var(--color-button-delete)'
-            hoverColor='var(--color-button-delete-hover)'
-            color='var(--color-button-text)'>
-            Delete
-          </Button>
-        </ButtonContainer>
-      )}
+    <>
+      <CardContainer>
+        <IDLabel>ID: {_id}</IDLabel>
+        <Email>{showEmail}</Email>
+        <Note>{note}</Note>
+        <StarsContainer>{renderStars(rating)}</StarsContainer>
+        <CreatedUpdated>
+          Created: {format(new Date(createdAt), 'dd.MM.yyyy (HH:mm:ss)')} | Updated:{' '}
+          {format(new Date(updatedAt), 'dd.MM.yyyy (HH:mm:ss)')}
+        </CreatedUpdated>
+        {showButtons && (
+          <ButtonContainer>
+            <Button
+              onClick={() => router.push(`/reviews/${_id}`)}
+              bgColor='var(--color-button-edit)'
+              hoverColor='var(--color-button-edit-hover)'
+              color='var(--color-button-text)'>
+              Edit
+            </Button>
+            <Button
+              onClick={() => setConfirmDelete(true)}
+              bgColor='var(--color-button-delete)'
+              hoverColor='var(--color-button-delete-hover)'
+              color='var(--color-button-text)'>
+              Delete
+            </Button>
+          </ButtonContainer>
+        )}
+      </CardContainer>
+
       {confirmDelete && (
         <ModalOverlay>
           <ModalContent>
@@ -216,6 +137,6 @@ export default function ReviewCard({ review, onDelete }) {
           </ModalContent>
         </ModalOverlay>
       )}
-    </CardContainer>
+    </>
   );
 }
