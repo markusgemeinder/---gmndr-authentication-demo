@@ -1,5 +1,4 @@
 // /app/components/Common/Navigation.js
-// File: /app/components/Common/Navigation.js
 
 'use client';
 

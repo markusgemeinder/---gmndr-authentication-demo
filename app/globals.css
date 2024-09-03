@@ -4,15 +4,14 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Color Variables */
-
+/* Light Theme Colors */
 :root {
   /* Link Colors */
   --color-link: #3b82f6;
   --color-link-hover: #2563eb;
 
   /* Text Colors */
-  --color-text: #111827;
+  --color-text: #111827; /* Dark text */
   --color-text-medium: #6b7280;
   --color-text-light: #9ca3af;
 
@@ -25,14 +24,14 @@
   --color-footer-text: var(--color-header-text);
 
   /* Background Colors */
-  --color-background: #ffffff;
-  --color-form-background: #f9f6e8;
+  --color-background: #ffffff; /* Light background */
+  --color-form-background: #f9f9f9; /* Light form background */
   --color-modal-background: #f9fafb;
   --color-input-background: #ffffff;
 
   /* Border Colors */
-  --color-border: #e1d7c6;
-  --color-input-border: #d0bfa4;
+  --color-border: #e1e7eb;
+  --color-input-border: #d0d5dd;
 
   /* Modal Colors */
   --color-modal: rgba(31, 41, 55, 0.65);
@@ -45,21 +44,21 @@
   --color-review-note: var(--color-text-light);
 
   /* Button Colors */
-  --color-button: #1976d2;
-  --color-button-hover: #2196f3;
+  --color-button-primary: #1976d2;
+  --color-button-primary-hover: #1565c0;
   --color-button-secondary: #78909c;
-  --color-button-secondary-hover: #b0bec5;
+  --color-button-secondary-hover: #607d8b;
   --color-button-text: #ffffff;
 
   /* Action Button Colors */
   --color-button-review: #388e3c;
-  --color-button-review-hover: #4caf50;
+  --color-button-review-hover: #2e7d32;
   --color-button-demo-review: #ee7f2b;
-  --color-button-demo-review-hover: #f5a161;
-  --color-button-edit: var(--color-button);
-  --color-button-edit-hover: var(--color-button-hover);
+  --color-button-demo-review-hover: #f57c00;
+  --color-button-edit: var(--color-button-primary);
+  --color-button-edit-hover: var(--color-button-primary-hover);
   --color-button-delete: #d32f2f;
-  --color-button-delete-hover: var(--color-button-delete);
+  --color-button-delete-hover: #c62828;
 
   /* Authentication Button Colors */
   --color-button-login: var(--color-button-edit);
@@ -79,6 +78,82 @@
   /* Star Colors */
   --star-color: #fbbf24;
   --star-empty-color: #d1d5db;
+}
+
+/* Dark Theme Colors */
+[data-theme='dark'] {
+  /* Link Colors */
+  --color-link: #90cdf4;
+  --color-link-hover: #63b3ed;
+
+  /* Text Colors */
+  --color-text: #e5e7eb; /* Light text */
+  --color-text-medium: #9ca3af;
+  --color-text-light: #6b7280;
+
+  /* Header Colors */
+  --color-header: #1f2937;
+  --color-header-text: #ffffff;
+
+  /* Footer Colors */
+  --color-footer: var(--color-header);
+  --color-footer-text: var(--color-header-text);
+
+  /* Background Colors */
+  --color-background: #121212; /* Dark background */
+  --color-form-background: #1e1e1e; /* Dark form background */
+  --color-modal-background: #1e1e1e;
+  --color-input-background: #333333;
+
+  /* Border Colors */
+  --color-border: #333333;
+  --color-input-border: #444444;
+
+  /* Modal Colors */
+  --color-modal: rgba(31, 41, 55, 0.65);
+
+  /* Review Card Colors */
+  --color-review-card-background: var(--color-form-background);
+  --color-review-card-border: #444444;
+  --color-review-header: var(--color-text);
+  --color-review-text: var(--color-text-medium);
+  --color-review-note: var(--color-text-light);
+
+  /* Button Colors */
+  --color-button-primary: #bb86fc;
+  --color-button-primary-hover: #8c3f9f;
+  --color-button-secondary: #546e7a;
+  --color-button-secondary-hover: #455a64;
+  --color-button-text: #121212;
+
+  /* Action Button Colors */
+  --color-button-review: #69f0ae;
+  --color-button-review-hover: #00e676;
+  --color-button-demo-review: #ffb74d;
+  --color-button-demo-review-hover: #ff9800;
+  --color-button-edit: var(--color-button-primary);
+  --color-button-edit-hover: var(--color-button-primary-hover);
+  --color-button-delete: #d32f2f;
+  --color-button-delete-hover: #c62828;
+
+  /* Authentication Button Colors */
+  --color-button-login: var(--color-button-edit);
+  --color-button-login-hover: var(--color-button-edit-hover);
+  --color-button-register: var(--color-button-secondary);
+  --color-button-register-hover: var(--color-button-secondary-hover);
+  --color-button-logout: var(--color-button-delete);
+  --color-button-logout-hover: var(--color-button-delete-hover);
+  --color-button-ok: var(--color-button-review);
+  --color-button-ok-hover: var(--color-button-review-hover);
+  --color-button-cancel: var(--color-button-secondary);
+  --color-button-cancel-hover: var(--color-button-secondary-hover);
+
+  /* Warning Colors */
+  --color-warning: #f44336;
+
+  /* Star Colors */
+  --star-color: #fbbf24;
+  --star-empty-color: #616161;
 }
 
 body {
@@ -108,40 +183,4 @@ main {
 
 .blinking-text {
   animation: blink 1s infinite;
-}
-
-/* Dark Mode Support */
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --color-background: #1c1c1c;
-    --color-text: #e5e7eb;
-    --color-text-medium: #9ca3af;
-    --color-text-light: #6b7280;
-    --color-link: #90cdf4;
-    --color-link-hover: #63b3ed;
-    --color-header: #1f2937;
-    --color-header-text: #ffffff;
-    --color-footer: var(--color-header);
-    --color-footer-text: var(--color-header-text);
-    --color-button: #546e7a;
-    --color-button-hover: #b0bec5;
-    --color-button-text: #ffffff;
-  }
-}
-
-[data-theme='dark'] {
-  --color-background: #1c1c1c;
-  --color-text: #e5e7eb;
-  --color-text-medium: #9ca3af;
-  --color-text-light: #6b7280;
-  --color-link: #90cdf4;
-  --color-link-hover: #63b3ed;
-  --color-header: #1f2937;
-  --color-header-text: #ffffff;
-  --color-footer: var(--color-header);
-  --color-footer-text: var(--color-header-text);
-  --color-button: #546e7a;
-  --color-button-hover: #b0bec5;
-  --color-button-text: #ffffff;
 }
