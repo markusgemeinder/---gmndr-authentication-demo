@@ -1,5 +1,3 @@
-/* /app/styles/globals.css */
-
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -16,7 +14,7 @@
   --color-text-light: #9ca3af;
 
   /* Header Colors */
-  --color-header: #1f2937;
+  --color-header: #1d4ed8; /* Slightly darker blue */
   --color-header-text: #ffffff;
 
   /* Footer Colors */
@@ -24,21 +22,21 @@
   --color-footer-text: var(--color-header-text);
 
   /* Background Colors */
-  --color-background: #ffffff; /* Light background */
-  --color-form-background: #f9f9f9; /* Light form background */
-  --color-modal-background: #f9fafb;
+  --color-background: #f5f7fa; /* Lighter background, less contrast with header */
+  --color-form-background: #ffffff; /* Light form background */
+  --color-modal-background: #f0f4f8;
   --color-input-background: #ffffff;
 
   /* Border Colors */
-  --color-border: #e1e7eb;
-  --color-input-border: #d0d5dd;
+  --color-border: #d1d5db;
+  --color-input-border: #cbd5e1;
 
   /* Modal Colors */
   --color-modal: rgba(31, 41, 55, 0.65);
 
   /* Review Card Colors */
   --color-review-card-background: var(--color-form-background);
-  --color-review-card-border: #e2e8f0;
+  --color-review-card-border: #d1d5db;
   --color-review-header: var(--color-text);
   --color-review-text: var(--color-text-medium);
   --color-review-note: var(--color-text-light);
@@ -92,7 +90,7 @@
   --color-text-light: #6b7280;
 
   /* Header Colors */
-  --color-header: #1f2937;
+  --color-header: #1e3a8a; /* Darker blue */
   --color-header-text: #ffffff;
 
   /* Footer Colors */
@@ -100,21 +98,21 @@
   --color-footer-text: var(--color-header-text);
 
   /* Background Colors */
-  --color-background: #121212; /* Dark background */
-  --color-form-background: #1e1e1e; /* Dark form background */
+  --color-background: #2d3748; /* Dark background, lighter than header */
+  --color-form-background: #4a5568; /* Slightly lighter than background */
   --color-modal-background: #1e1e1e;
   --color-input-background: #333333;
 
   /* Border Colors */
-  --color-border: #333333;
-  --color-input-border: #444444;
+  --color-border: #4a5568;
+  --color-input-border: #6b7280;
 
   /* Modal Colors */
   --color-modal: rgba(31, 41, 55, 0.65);
 
   /* Review Card Colors */
   --color-review-card-background: var(--color-form-background);
-  --color-review-card-border: #444444;
+  --color-review-card-border: #6b7280;
   --color-review-header: var(--color-text);
   --color-review-text: var(--color-text-medium);
   --color-review-note: var(--color-text-light);
@@ -127,9 +125,9 @@
   --color-button-text: #121212;
 
   /* Action Button Colors */
-  --color-button-review: #69f0ae;
-  --color-button-review-hover: #00e676;
-  --color-button-demo-review: #ffb74d;
+  --color-button-review: #4caf50; /* Softer green */
+  --color-button-review-hover: #388e3c;
+  --color-button-demo-review: #ffb74d; /* Softer orange */
   --color-button-demo-review-hover: #ff9800;
   --color-button-edit: var(--color-button-primary);
   --color-button-edit-hover: var(--color-button-primary-hover);
