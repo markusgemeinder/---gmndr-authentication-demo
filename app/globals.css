@@ -85,6 +85,7 @@ body {
   margin: 0;
   font-family: system-ui, sans-serif;
   color: var(--color-text);
+  background-color: var(--color-background);
 }
 
 main {
@@ -107,4 +108,40 @@ main {
 
 .blinking-text {
   animation: blink 1s infinite;
+}
+
+/* Dark Mode Support */
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --color-background: #1c1c1c;
+    --color-text: #e5e7eb;
+    --color-text-medium: #9ca3af;
+    --color-text-light: #6b7280;
+    --color-link: #90cdf4;
+    --color-link-hover: #63b3ed;
+    --color-header: #1f2937;
+    --color-header-text: #ffffff;
+    --color-footer: var(--color-header);
+    --color-footer-text: var(--color-header-text);
+    --color-button: #546e7a;
+    --color-button-hover: #b0bec5;
+    --color-button-text: #ffffff;
+  }
+}
+
+[data-theme='dark'] {
+  --color-background: #1c1c1c;
+  --color-text: #e5e7eb;
+  --color-text-medium: #9ca3af;
+  --color-text-light: #6b7280;
+  --color-link: #90cdf4;
+  --color-link-hover: #63b3ed;
+  --color-header: #1f2937;
+  --color-header-text: #ffffff;
+  --color-footer: var(--color-header);
+  --color-footer-text: var(--color-header-text);
+  --color-button: #546e7a;
+  --color-button-hover: #b0bec5;
+  --color-button-text: #ffffff;
 }

@@ -1,3 +1,5 @@
+// /app/layout.js
+
 import './globals.css';
 import Navigation from './components/Common/Navigation';
 import AuthProvider from './components/Authentication/AuthProvider';
