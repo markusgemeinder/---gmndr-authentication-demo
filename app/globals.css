@@ -24,7 +24,7 @@
   /* Background Colors */
   --color-background: #f5f7fa; /* Lighter background, less contrast with header */
   --color-form-background: #ffffff; /* Light form background */
-  --color-modal-background: #f0f4f8;
+  --color-modal-background: #ffffff; /* Light modal background */
   --color-input-background: #ffffff;
 
   /* Border Colors */
@@ -100,7 +100,7 @@
   /* Background Colors */
   --color-background: #2d3748; /* Dark background, lighter than header */
   --color-form-background: #4a5568; /* Slightly lighter than background */
-  --color-modal-background: #1e1e1e;
+  --color-modal-background: #374151; /* Darker modal background for better contrast */
   --color-input-background: #333333;
 
   /* Border Colors */
@@ -109,6 +109,7 @@
 
   /* Modal Colors */
   --color-modal: rgba(31, 41, 55, 0.65);
+  --color-modal-text: #e5e7eb; /* Lighter text color for modal */
 
   /* Review Card Colors */
   --color-review-card-background: var(--color-form-background);

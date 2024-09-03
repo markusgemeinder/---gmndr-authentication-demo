@@ -132,8 +132,8 @@ export default function Navigation() {
           )}
         </ButtonContainer>
       </BrandContainer>
-      {session && (
-        <NavContainer>
+      <NavContainer>
+        {session && (
           <NavList>
             <NavItem>
               <NavLink href='/'>Home</NavLink>
@@ -147,11 +147,11 @@ export default function Navigation() {
               </NavItem>
             )}
           </NavList>
-          <ThemeToggle onClick={toggleTheme} aria-label='Toggle Theme'>
-            {theme === 'light' ? <SunIcon className='h-6 w-6' /> : <MoonIcon className='h-6 w-6' />}
-          </ThemeToggle>
-        </NavContainer>
-      )}
+        )}
+        <ThemeToggle onClick={toggleTheme} aria-label='Toggle Theme'>
+          {theme === 'light' ? <SunIcon className='h-6 w-6' /> : <MoonIcon className='h-6 w-6' />}
+        </ThemeToggle>
+      </NavContainer>
     </Header>
   );
 }

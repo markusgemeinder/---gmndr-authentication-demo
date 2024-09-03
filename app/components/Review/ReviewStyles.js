@@ -111,7 +111,7 @@ export const Textarea = styled.textarea`
 `;
 
 export const RatingContainer = styled.div`
-  display: flex;
+x;
   gap: 0.3rem;
   margin-bottom: 0.6rem;
 `;
