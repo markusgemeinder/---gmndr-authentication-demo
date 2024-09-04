@@ -1,3 +1,5 @@
+// /app/components/Authentication/ProtectedRoute.js
+
 'use client';
 
 import { useSession } from 'next-auth/react';

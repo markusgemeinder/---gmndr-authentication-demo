@@ -62,6 +62,7 @@ const NavLink = styled(Link)`
 `;
 
 const ThemeToggle = styled.button`
+  margin-left: 2rem;
   background: none;
   border: none;
   color: var(--color-header-text);
@@ -80,6 +81,21 @@ export default function Navigation() {
   const pathname = usePathname();
   const [theme, setTheme] = useState('light');
 
+  // Load theme from localStorage on initial render
+  useEffect(() => {
+    const storedTheme = localStorage.getItem('theme') || 'light';
+    console.log('Loaded theme from localStorage:', storedTheme); // Debugging log
+    setTheme(storedTheme);
+  }, []);
+
+  // Update theme in localStorage and on document element
+  useEffect(() => {
+    console.log('Setting theme:', theme); // Debugging log
+    localStorage.setItem('theme', theme);
+    document.documentElement.setAttribute('data-theme', theme);
+  }, [theme]);
+
+  // Handle authentication and redirection
   useEffect(() => {
     if (status === 'loading') return;
 
@@ -90,10 +106,7 @@ export default function Navigation() {
     }
   }, [status, router, pathname]);
 
-  useEffect(() => {
-    document.documentElement.setAttribute('data-theme', theme);
-  }, [theme]);
-
+  // Handle theme toggle
   const toggleTheme = () => {
     setTheme((prevTheme) => (prevTheme === 'light' ? 'dark' : 'light'));
   };
@@ -136,9 +149,6 @@ export default function Navigation() {
         {session && (
           <NavList>
             <NavItem>
-              <NavLink href='/'>Home</NavLink>
-            </NavItem>
-            <NavItem>
               <NavLink href='/reviews'>Reviews</NavLink>
             </NavItem>
             {session.user.role === 'admin' && (
@@ -149,7 +159,7 @@ export default function Navigation() {
           </NavList>
         )}
         <ThemeToggle onClick={toggleTheme} aria-label='Toggle Theme'>
-          {theme === 'light' ? <SunIcon className='h-6 w-6' /> : <MoonIcon className='h-6 w-6' />}
+          {theme === 'light' ? <MoonIcon className='h-6 w-6' /> : <SunIcon className='h-6 w-6' />}
         </ThemeToggle>
       </NavContainer>
     </Header>

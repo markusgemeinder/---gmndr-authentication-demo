@@ -1,11 +1,13 @@
+// /app/components/Common/Footer.js
+
 'use client';
 
 import styled from 'styled-components';
 
 // Footer container with fixed positioning at the bottom
 const FooterContainer = styled.footer`
-  background-color: var(--color-footer);
-  color: var(--color-footer-text);
+  background-color: var(--color-header); /* Identisch mit Header */
+  color: var(--color-header-text); /* Identisch mit Header-Textfarbe */
   position: fixed;
   bottom: 0;
   left: 0;

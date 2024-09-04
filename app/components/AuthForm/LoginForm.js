@@ -100,8 +100,8 @@ export default function LoginForm({ onLogin, onOAuthLogin, error, onForgotPasswo
           <Button
             type='button'
             onClick={onForgotPassword}
-            bgColor='var(--color-button)'
-            hoverColor='var(--color-button-hover)'
+            bgColor='var(--color-button-forgot-password)'
+            hoverColor='var(--color-button-forgot-password-hover)'
             style={{ width: '100%' }}>
             Forgot Password
           </Button>

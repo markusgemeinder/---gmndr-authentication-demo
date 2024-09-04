@@ -1,3 +1,5 @@
+/* /app/globals.css */
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -5,34 +7,32 @@
 /* Light Theme Colors */
 :root {
   /* Link Colors */
-  --color-link: #3b82f6;
-  --color-link-hover: #2563eb;
+  --color-link: #1e40af;
+  --color-link-hover: #1d4ed8;
 
   /* Text Colors */
-  --color-text: #111827; /* Dark text */
-  --color-text-medium: #6b7280;
-  --color-text-light: #9ca3af;
+  --color-text: #111827;
+  --color-text-medium: #374151;
+  --color-text-light: #6b7280;
 
-  /* Header Colors */
-  --color-header: #1d4ed8; /* Slightly darker blue */
+  /* Header & Footer Colors */
+  --color-header: #1e3a8a;
   --color-header-text: #ffffff;
-
-  /* Footer Colors */
-  --color-footer: var(--color-header);
-  --color-footer-text: var(--color-header-text);
+  --color-modal-header: #07498b;
 
   /* Background Colors */
-  --color-background: #f5f7fa; /* Lighter background, less contrast with header */
-  --color-form-background: #ffffff; /* Light form background */
-  --color-modal-background: #ffffff; /* Light modal background */
-  --color-input-background: #ffffff;
+  --color-background: #f9fafb;
+  --color-form-background: #ffffff;
+  --color-modal-background: #ffffff;
+  --color-input-background: #f3f4f6;
 
   /* Border Colors */
-  --color-border: #d1d5db;
-  --color-input-border: #cbd5e1;
+  --color-border: #e5e7eb;
+  --color-input-border: #d1d5db;
 
   /* Modal Colors */
-  --color-modal: rgba(31, 41, 55, 0.65);
+  --color-modal: rgba(31, 41, 55, 0.75);
+  --color-modal-text: #f3f4f6;
 
   /* Review Card Colors */
   --color-review-card-background: var(--color-form-background);
@@ -42,21 +42,21 @@
   --color-review-note: var(--color-text-light);
 
   /* Button Colors */
-  --color-button-primary: #1976d2;
-  --color-button-primary-hover: #1565c0;
-  --color-button-secondary: #78909c;
-  --color-button-secondary-hover: #607d8b;
+  --color-button-primary: #1d4ed8;
+  --color-button-primary-hover: #2563eb;
+  --color-button-secondary: #4b5563;
+  --color-button-secondary-hover: #374151;
   --color-button-text: #ffffff;
 
   /* Action Button Colors */
-  --color-button-review: #388e3c;
-  --color-button-review-hover: #2e7d32;
-  --color-button-demo-review: #ee7f2b;
-  --color-button-demo-review-hover: #f57c00;
+  --color-button-review: #22c55e;
+  --color-button-review-hover: #16a34a;
+  --color-button-demo-review: #f97316;
+  --color-button-demo-review-hover: #ea580c;
   --color-button-edit: var(--color-button-primary);
   --color-button-edit-hover: var(--color-button-primary-hover);
-  --color-button-delete: #d32f2f;
-  --color-button-delete-hover: #c62828;
+  --color-button-delete: #ef4444;
+  --color-button-delete-hover: #dc2626;
 
   /* Authentication Button Colors */
   --color-button-login: var(--color-button-edit);
@@ -69,9 +69,11 @@
   --color-button-ok-hover: var(--color-button-review-hover);
   --color-button-cancel: var(--color-button-secondary);
   --color-button-cancel-hover: var(--color-button-secondary-hover);
+  --color-button-forgot-password: var(--color-button-secondary);
+  --color-button-forgot-password-hover: var(--color-button-secondary-hover);
 
   /* Warning Colors */
-  --color-warning: #d97777;
+  --color-warning: #f87171;
 
   /* Star Colors */
   --star-color: #fbbf24;
@@ -81,59 +83,56 @@
 /* Dark Theme Colors */
 [data-theme='dark'] {
   /* Link Colors */
-  --color-link: #90cdf4;
-  --color-link-hover: #63b3ed;
+  --color-link: #93c5fd;
+  --color-link-hover: #60a5fa;
 
   /* Text Colors */
-  --color-text: #e5e7eb; /* Light text */
+  --color-text: #e5e7eb;
   --color-text-medium: #9ca3af;
   --color-text-light: #6b7280;
 
-  /* Header Colors */
-  --color-header: #1e3a8a; /* Darker blue */
+  /* Header & Footer Colors */
+  --color-header: #1e3a8a;
   --color-header-text: #ffffff;
-
-  /* Footer Colors */
-  --color-footer: var(--color-header);
-  --color-footer-text: var(--color-header-text);
+  --color-modal-header: #e3eafe;
 
   /* Background Colors */
-  --color-background: #2d3748; /* Dark background, lighter than header */
-  --color-form-background: #4a5568; /* Slightly lighter than background */
-  --color-modal-background: #374151; /* Darker modal background for better contrast */
+  --color-background: #1f2937;
+  --color-form-background: #2d3748;
+  --color-modal-background: #374151;
   --color-input-background: #333333;
 
   /* Border Colors */
-  --color-border: #4a5568;
-  --color-input-border: #6b7280;
+  --color-border: #4b5563;
+  --color-input-border: #4b5563;
 
   /* Modal Colors */
-  --color-modal: rgba(31, 41, 55, 0.65);
-  --color-modal-text: #e5e7eb; /* Lighter text color for modal */
+  --color-modal: rgba(31, 41, 55, 0.85);
+  --color-modal-text: #f3f4f6;
 
   /* Review Card Colors */
   --color-review-card-background: var(--color-form-background);
-  --color-review-card-border: #6b7280;
+  --color-review-card-border: #4b5563;
   --color-review-header: var(--color-text);
   --color-review-text: var(--color-text-medium);
   --color-review-note: var(--color-text-light);
 
   /* Button Colors */
-  --color-button-primary: #bb86fc;
-  --color-button-primary-hover: #8c3f9f;
-  --color-button-secondary: #546e7a;
-  --color-button-secondary-hover: #455a64;
-  --color-button-text: #121212;
+  --color-button-primary: #004ecb;
+  --color-button-primary-hover: #427eff;
+  --color-button-secondary: #4b5563;
+  --color-button-secondary-hover: #374151;
+  --color-button-text: #ffffff;
 
   /* Action Button Colors */
-  --color-button-review: #4caf50; /* Softer green */
-  --color-button-review-hover: #388e3c;
-  --color-button-demo-review: #ffb74d; /* Softer orange */
-  --color-button-demo-review-hover: #ff9800;
+  --color-button-review: #15803d;
+  --color-button-review-hover: #166534;
+  --color-button-demo-review: #ea580c;
+  --color-button-demo-review-hover: #c2410c;
   --color-button-edit: var(--color-button-primary);
   --color-button-edit-hover: var(--color-button-primary-hover);
-  --color-button-delete: #d32f2f;
-  --color-button-delete-hover: #c62828;
+  --color-button-delete: #b91c1c;
+  --color-button-delete-hover: #991b1b;
 
   /* Authentication Button Colors */
   --color-button-login: var(--color-button-edit);
@@ -146,9 +145,11 @@
   --color-button-ok-hover: var(--color-button-review-hover);
   --color-button-cancel: var(--color-button-secondary);
   --color-button-cancel-hover: var(--color-button-secondary-hover);
+  --color-button-forgot-password: var(--color-button-secondary);
+  --color-button-forgot-password-hover: var(--color-button-secondary-hover);
 
   /* Warning Colors */
-  --color-warning: #f44336;
+  --color-warning: #f87171;
 
   /* Star Colors */
   --star-color: #fbbf24;
