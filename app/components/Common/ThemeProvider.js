@@ -8,7 +8,12 @@ import { createContext, useState, useEffect } from 'react';
 export const ThemeContext = createContext();
 
 export default function ThemeProvider({ children }) {
-  const [theme, setTheme] = useState('light');
+  const [theme, setTheme] = useState(() => {
+    if (typeof window !== 'undefined') {
+      return localStorage.getItem('theme') || 'light';
+    }
+    return 'light'; // Default während des Server-Side Renderings
+  });
 
   // Load theme from localStorage on initial render
   useEffect(() => {
