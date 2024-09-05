@@ -7,8 +7,8 @@
 /* Light Theme Colors */
 :root {
   /* Link Colors */
-  --color-link: #1e40af;
-  --color-link-hover: #1d4ed8;
+  --color-link: #2563eb;
+  --color-link-hover: #4187f7;
 
   /* Text Colors */
   --color-text: #111827;
@@ -83,8 +83,8 @@
 /* Dark Theme Colors */
 [data-theme='dark'] {
   /* Link Colors */
-  --color-link: #93c5fd;
-  --color-link-hover: #60a5fa;
+  --color-link: #60a5fa;
+  --color-link-hover: #93c5fd;
 
   /* Text Colors */
   --color-text: #e5e7eb;
@@ -92,9 +92,9 @@
   --color-text-light: #6b7280;
 
   /* Header & Footer Colors */
-  --color-header: #1e3a8a;
+  --color-header: #152d6d;
   --color-header-text: #ffffff;
-  --color-modal-header: #e3eafe;
+  --color-modal-header: #bbcdff;
 
   /* Background Colors */
   --color-background: #1f2937;

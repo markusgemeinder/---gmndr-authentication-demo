@@ -2,14 +2,15 @@
 
 'use client';
 
-import { useSession, signIn, signOut } from 'next-auth/react';
+import { useSession, signOut } from 'next-auth/react';
 import { useRouter, usePathname } from 'next/navigation';
-import { useEffect, useState } from 'react';
-import LoadingAnimation from '@/app/components/Common/LoadingAnimation';
+import { useContext } from 'react';
 import styled from 'styled-components';
 import Link from 'next/link';
 import Button, { ButtonContainer } from '@/app/components/Common/Button';
 import { SunIcon, MoonIcon } from '@heroicons/react/24/solid';
+import LoadingAnimation from '@/app/components/Common/LoadingAnimation';
+import { ThemeContext } from '@/app/components/Common/ThemeProvider';
 
 const Header = styled.header`
   background-color: var(--color-header);
@@ -79,38 +80,9 @@ export default function Navigation() {
   const { data: session, status } = useSession();
   const router = useRouter();
   const pathname = usePathname();
-  const [theme, setTheme] = useState('light');
-
-  // Load theme from localStorage on initial render
-  useEffect(() => {
-    const storedTheme = localStorage.getItem('theme') || 'light';
-    console.log('Loaded theme from localStorage:', storedTheme); // Debugging log
-    setTheme(storedTheme);
-  }, []);
-
-  // Update theme in localStorage and on document element
-  useEffect(() => {
-    console.log('Setting theme:', theme); // Debugging log
-    localStorage.setItem('theme', theme);
-    document.documentElement.setAttribute('data-theme', theme);
-  }, [theme]);
+  const { theme, toggleTheme } = useContext(ThemeContext);
 
   // Handle authentication and redirection
-  useEffect(() => {
-    if (status === 'loading') return;
-
-    if (status === 'unauthenticated' && pathname !== '/login' && pathname !== '/register') {
-      router.push('/'); // Redirect to homepage if not authenticated
-    } else if (status === 'authenticated' && pathname === '/') {
-      router.push('/reviews'); // Redirect to reviews if authenticated and on home page
-    }
-  }, [status, router, pathname]);
-
-  // Handle theme toggle
-  const toggleTheme = () => {
-    setTheme((prevTheme) => (prevTheme === 'light' ? 'dark' : 'light'));
-  };
-
   if (status === 'loading') {
     return <LoadingAnimation />;
   }
