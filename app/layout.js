@@ -1,7 +1,10 @@
+// /app/layout.js
+
 import './globals.css';
 import Navigation from './components/Common/Navigation';
 import AuthProvider from './components/Authentication/AuthProvider';
 import Footer from './components/Common/Footer';
+import ThemeProvider from './components/Common/ThemeProvider';
 
 export const metadata = {
   title: '#GMNDR Authentication Demo',
@@ -13,9 +16,11 @@ export default function Layout({ children }) {
     <html lang='en'>
       <body>
         <AuthProvider>
-          <Navigation />
-          <main>{children}</main>
-          <Footer />
+          <ThemeProvider>
+            <Navigation />
+            <main>{children}</main>
+            <Footer />
+          </ThemeProvider>
         </AuthProvider>
       </body>
     </html>

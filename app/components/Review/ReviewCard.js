@@ -128,8 +128,8 @@ export default function ReviewCard({ review, onDelete }) {
               </Button>
               <Button
                 onClick={() => setConfirmDelete(false)}
-                bgColor='var(--color-button)'
-                hoverColor='var(--color-button-hover)'
+                bgColor='var(--color-button-cancel)'
+                hoverColor='var(--color-button-cancel-hover)'
                 color='var(--color-button-text)'>
                 Cancel
               </Button>

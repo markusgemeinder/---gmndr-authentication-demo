@@ -9,7 +9,7 @@ export const Container = styled.div`
   justify-content: flex-start;
   min-height: 100vh;
   padding: 0.5rem;
-  margin-top: 5rem;
+  margin-top: 5rem; /* Adjust based on header height */
 `;
 
 export const Title = styled.h1`

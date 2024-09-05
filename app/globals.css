@@ -1,65 +1,62 @@
-/* /app/styles/globals.css */
+/* /app/globals.css */
 
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-/* Color Variables */
-
+/* Light Theme Colors */
 :root {
   /* Link Colors */
-  --color-link: #3b82f6;
-  --color-link-hover: #2563eb;
+  --color-link: #2563eb;
+  --color-link-hover: #4187f7;
 
   /* Text Colors */
   --color-text: #111827;
-  --color-text-medium: #6b7280;
-  --color-text-light: #9ca3af;
+  --color-text-medium: #374151;
+  --color-text-light: #6b7280;
 
-  /* Header Colors */
-  --color-header: #1f2937;
+  /* Header & Footer Colors */
+  --color-header: #1e3a8a;
   --color-header-text: #ffffff;
-
-  /* Footer Colors */
-  --color-footer: var(--color-header);
-  --color-footer-text: var(--color-header-text);
+  --color-modal-header: #07498b;
 
   /* Background Colors */
-  --color-background: #ffffff;
-  --color-form-background: #f9f6e8;
-  --color-modal-background: #f9fafb;
-  --color-input-background: #ffffff;
+  --color-background: #f9fafb;
+  --color-form-background: #ffffff;
+  --color-modal-background: #ffffff;
+  --color-input-background: #f3f4f6;
 
   /* Border Colors */
-  --color-border: #e1d7c6;
-  --color-input-border: #d0bfa4;
+  --color-border: #e5e7eb;
+  --color-input-border: #d1d5db;
 
   /* Modal Colors */
-  --color-modal: rgba(31, 41, 55, 0.65);
+  --color-modal: rgba(31, 41, 55, 0.75);
+  --color-modal-text: #f3f4f6;
 
   /* Review Card Colors */
   --color-review-card-background: var(--color-form-background);
-  --color-review-card-border: #e2e8f0;
+  --color-review-card-border: #d1d5db;
   --color-review-header: var(--color-text);
   --color-review-text: var(--color-text-medium);
   --color-review-note: var(--color-text-light);
 
   /* Button Colors */
-  --color-button: #1976d2;
-  --color-button-hover: #2196f3;
-  --color-button-secondary: #78909c;
-  --color-button-secondary-hover: #b0bec5;
+  --color-button-primary: #1d4ed8;
+  --color-button-primary-hover: #2563eb;
+  --color-button-secondary: #4b5563;
+  --color-button-secondary-hover: #374151;
   --color-button-text: #ffffff;
 
   /* Action Button Colors */
-  --color-button-review: #388e3c;
-  --color-button-review-hover: #4caf50;
-  --color-button-demo-review: #ee7f2b;
-  --color-button-demo-review-hover: #f5a161;
-  --color-button-edit: var(--color-button);
-  --color-button-edit-hover: var(--color-button-hover);
-  --color-button-delete: #d32f2f;
-  --color-button-delete-hover: var(--color-button-delete);
+  --color-button-review: #22c55e;
+  --color-button-review-hover: #16a34a;
+  --color-button-demo-review: #f97316;
+  --color-button-demo-review-hover: #ea580c;
+  --color-button-edit: var(--color-button-primary);
+  --color-button-edit-hover: var(--color-button-primary-hover);
+  --color-button-delete: #ef4444;
+  --color-button-delete-hover: #dc2626;
 
   /* Authentication Button Colors */
   --color-button-login: var(--color-button-edit);
@@ -72,19 +69,98 @@
   --color-button-ok-hover: var(--color-button-review-hover);
   --color-button-cancel: var(--color-button-secondary);
   --color-button-cancel-hover: var(--color-button-secondary-hover);
+  --color-button-forgot-password: var(--color-button-secondary);
+  --color-button-forgot-password-hover: var(--color-button-secondary-hover);
 
   /* Warning Colors */
-  --color-warning: #d97777;
+  --color-warning: #f87171;
 
   /* Star Colors */
   --star-color: #fbbf24;
   --star-empty-color: #d1d5db;
 }
 
+/* Dark Theme Colors */
+[data-theme='dark'] {
+  /* Link Colors */
+  --color-link: #60a5fa;
+  --color-link-hover: #93c5fd;
+
+  /* Text Colors */
+  --color-text: #e5e7eb;
+  --color-text-medium: #9ca3af;
+  --color-text-light: #6b7280;
+
+  /* Header & Footer Colors */
+  --color-header: #152d6d;
+  --color-header-text: #ffffff;
+  --color-modal-header: #bbcdff;
+
+  /* Background Colors */
+  --color-background: #1f2937;
+  --color-form-background: #2d3748;
+  --color-modal-background: #374151;
+  --color-input-background: #333333;
+
+  /* Border Colors */
+  --color-border: #4b5563;
+  --color-input-border: #4b5563;
+
+  /* Modal Colors */
+  --color-modal: rgba(31, 41, 55, 0.85);
+  --color-modal-text: #f3f4f6;
+
+  /* Review Card Colors */
+  --color-review-card-background: var(--color-form-background);
+  --color-review-card-border: #4b5563;
+  --color-review-header: var(--color-text);
+  --color-review-text: var(--color-text-medium);
+  --color-review-note: var(--color-text-light);
+
+  /* Button Colors */
+  --color-button-primary: #004ecb;
+  --color-button-primary-hover: #427eff;
+  --color-button-secondary: #4b5563;
+  --color-button-secondary-hover: #374151;
+  --color-button-text: #ffffff;
+
+  /* Action Button Colors */
+  --color-button-review: #15803d;
+  --color-button-review-hover: #166534;
+  --color-button-demo-review: #ea580c;
+  --color-button-demo-review-hover: #c2410c;
+  --color-button-edit: var(--color-button-primary);
+  --color-button-edit-hover: var(--color-button-primary-hover);
+  --color-button-delete: #b91c1c;
+  --color-button-delete-hover: #991b1b;
+
+  /* Authentication Button Colors */
+  --color-button-login: var(--color-button-edit);
+  --color-button-login-hover: var(--color-button-edit-hover);
+  --color-button-register: var(--color-button-secondary);
+  --color-button-register-hover: var(--color-button-secondary-hover);
+  --color-button-logout: var(--color-button-delete);
+  --color-button-logout-hover: var(--color-button-delete-hover);
+  --color-button-ok: var(--color-button-review);
+  --color-button-ok-hover: var(--color-button-review-hover);
+  --color-button-cancel: var(--color-button-secondary);
+  --color-button-cancel-hover: var(--color-button-secondary-hover);
+  --color-button-forgot-password: var(--color-button-secondary);
+  --color-button-forgot-password-hover: var(--color-button-secondary-hover);
+
+  /* Warning Colors */
+  --color-warning: #f87171;
+
+  /* Star Colors */
+  --star-color: #fbbf24;
+  --star-empty-color: #616161;
+}
+
 body {
   margin: 0;
   font-family: system-ui, sans-serif;
   color: var(--color-text);
+  background-color: var(--color-background);
 }
 
 main {

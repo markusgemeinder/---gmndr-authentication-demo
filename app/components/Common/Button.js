@@ -7,9 +7,8 @@ export const ButtonContainer = styled.div`
   gap: 0.2rem;
 `;
 
-// StyledButton with transient props (props that are not forwarded to the DOM element)
 const StyledButton = styled.button.withConfig({
-  shouldForwardProp: (prop) => !['bgColor', 'hoverColor', 'color'].includes(prop),
+  shouldForwardProp: (prop) => !['bgColor', 'hoverColor', 'color', 'disabled'].includes(prop),
 })`
   background-color: ${(props) => props.bgColor || 'var(--color-button)'};
   color: ${(props) => props.color || 'var(--color-button-text)'};
@@ -19,17 +18,17 @@ const StyledButton = styled.button.withConfig({
   margin-top: 1rem;
   margin-bottom: 1rem;
   margin-right: 1rem;
-  cursor: pointer;
+  cursor: ${(props) => (props.disabled ? 'not-allowed' : 'pointer')};
+  opacity: ${(props) => (props.disabled ? 0.6 : 1)};
 
   &:hover {
-    background-color: ${(props) => props.hoverColor || 'var(--color-button-hover)'};
+    background-color: ${(props) => (props.disabled ? undefined : props.hoverColor || 'var(--color-button-hover)')};
   }
 `;
 
-// Button component utilizing transient props to avoid passing unwanted props to the DOM
-const Button = ({ children, bgColor, hoverColor, color, ...rest }) => {
+const Button = ({ children, bgColor, hoverColor, color, disabled, ...rest }) => {
   return (
-    <StyledButton bgColor={bgColor} hoverColor={hoverColor} color={color} {...rest}>
+    <StyledButton bgColor={bgColor} hoverColor={hoverColor} color={color} disabled={disabled} {...rest}>
       {children}
     </StyledButton>
   );
