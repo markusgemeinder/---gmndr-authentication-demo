@@ -1,10 +1,10 @@
 // /app/layout.js
 
-import './globals.css';
-import Navigation from './components/Common/Navigation';
-import AuthProvider from './components/Authentication/AuthProvider';
-import Footer from './components/Common/Footer';
-import ThemeProvider from './components/Common/ThemeProvider';
+import '@/app/globals.css';
+import Navigation from '@/app/components/Common/Navigation';
+import AuthProvider from '@/app/components/Authentication/AuthProvider';
+import Footer from '@/app/components/Common/Footer';
+import ThemeProvider from '@/app/components/Common/ThemeProvider';
 
 export const metadata = {
   title: '#GMNDR Authentication Demo',
