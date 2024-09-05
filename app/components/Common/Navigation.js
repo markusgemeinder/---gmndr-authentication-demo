@@ -3,7 +3,7 @@
 'use client';
 
 import { useSession, signOut } from 'next-auth/react';
-import { useRouter, usePathname } from 'next/navigation';
+import { useRouter, usePathname } from 'next/navigation'; // Verwenden Sie usePathname, um den aktuellen Pfad zu erhalten
 import { useContext } from 'react';
 import styled from 'styled-components';
 import Link from 'next/link';
@@ -56,9 +56,11 @@ const NavItem = styled.li`
 const NavLink = styled(Link)`
   color: var(--color-header-text);
   text-decoration: none;
+  border-bottom: ${({ isActive }) => (isActive ? '2px solid var(--color-header-text)' : 'none')};
 
   &:hover {
-    text-decoration: underline;
+    /* text-decoration: underline; */
+    color: var(--color-link-hover);
   }
 `;
 
@@ -79,7 +81,7 @@ const ThemeToggle = styled.button`
 export default function Navigation() {
   const { data: session, status } = useSession();
   const router = useRouter();
-  const pathname = usePathname();
+  const pathname = usePathname(); // Der aktuelle Pfad der Seite
   const { theme, toggleTheme } = useContext(ThemeContext);
 
   // Handle authentication and redirection
@@ -118,18 +120,35 @@ export default function Navigation() {
         </ButtonContainer>
       </BrandContainer>
       <NavContainer>
-        {session && (
-          <NavList>
-            <NavItem>
-              <NavLink href='/reviews'>Reviews</NavLink>
-            </NavItem>
-            {session.user.role === 'admin' && (
+        <NavList>
+          <NavItem>
+            <NavLink href='/' isActive={pathname === '/'}>
+              Home
+            </NavLink>
+          </NavItem>
+          {session && (
+            <>
               <NavItem>
-                <NavLink href='/api/reviews'>API</NavLink>
+                <NavLink href='/reviews' isActive={pathname === '/reviews'}>
+                  Reviews
+                </NavLink>
               </NavItem>
-            )}
-          </NavList>
-        )}
+              {session.user.role === 'admin' && (
+                <NavItem>
+                  <NavLink href='/api/reviews' isActive={pathname === '/api/reviews'}>
+                    API
+                  </NavLink>
+                </NavItem>
+              )}
+            </>
+          )}
+          {/* About Item verschoben */}
+          <NavItem>
+            <NavLink href='/about' isActive={pathname === '/about'}>
+              About
+            </NavLink>
+          </NavItem>
+        </NavList>
         <ThemeToggle onClick={toggleTheme} aria-label='Toggle Theme'>
           {theme === 'light' ? <MoonIcon className='h-6 w-6' /> : <SunIcon className='h-6 w-6' />}
         </ThemeToggle>
