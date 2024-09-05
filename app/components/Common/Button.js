@@ -1,10 +1,9 @@
-// app/components/Common/Button.js
+// /app/components/Common/Button.js
 
 import styled from 'styled-components';
 
 export const ButtonContainer = styled.div`
   display: flex;
-  gap: 0.2rem;
 `;
 
 const StyledButton = styled.button.withConfig({
@@ -17,21 +16,18 @@ const StyledButton = styled.button.withConfig({
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   margin-top: 1rem;
   margin-bottom: 1rem;
-  margin-right: 1rem;
+  margin-right: 0.6rem;
   cursor: ${(props) => (props.disabled ? 'not-allowed' : 'pointer')};
-  opacity: ${(props) => (props.disabled ? 0.6 : 1)};
 
   &:hover {
-    background-color: ${(props) => (props.disabled ? undefined : props.hoverColor || 'var(--color-button-hover)')};
+    background-color: ${(props) => props.hoverColor || 'var(--color-button-hover)'};
   }
 `;
 
-const Button = ({ children, bgColor, hoverColor, color, disabled, ...rest }) => {
+export default function Button({ children, onClick, disabled, ...rest }) {
   return (
-    <StyledButton bgColor={bgColor} hoverColor={hoverColor} color={color} disabled={disabled} {...rest}>
+    <StyledButton onClick={onClick} disabled={disabled} {...rest}>
       {children}
     </StyledButton>
   );
-};
-
-export default Button;
+}

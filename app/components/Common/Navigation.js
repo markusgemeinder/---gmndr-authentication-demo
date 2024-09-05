@@ -23,7 +23,7 @@ const Header = styled.header`
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   z-index: 10;
   display: flex;
-  justify-content: space-between; /* Align items to the left and right */
+  justify-content: space-between;
   align-items: center;
   padding: 0 1rem;
   height: 4rem;
@@ -32,23 +32,23 @@ const Header = styled.header`
 const BrandContainer = styled.div`
   display: flex;
   align-items: center;
-  gap: 0.5rem; /* Adjusted gap for smaller spacing */
 `;
 
 const Title = styled.div`
   font-size: 1.25rem;
   font-weight: bold;
+  margin-right: 1rem;
 `;
 
 const NavContainer = styled.div`
   display: flex;
   align-items: center;
-  gap: 0.5rem; /* Adjusted gap for smaller spacing */
+  gap: 1rem;
 `;
 
 const NavList = styled.ul`
   display: flex;
-  gap: 0.5rem; /* Adjusted gap for smaller spacing */
+  gap: 1rem;
   list-style: none;
   padding: 0;
   margin: 0;
@@ -114,11 +114,11 @@ const BurgerMenuButtonSvg = styled.svg`
 const BurgerMenuNavigation = styled.nav`
   position: fixed;
   top: 4rem;
-  right: 0;
+  left: 0;
   width: 60%;
   height: 100vh;
-  background-color: var(--color-header);
-  transform: ${({ isOpen }) => (isOpen ? 'translateX(0)' : 'translateX(100%)')};
+  background-color: var(--color-burger-menu-background);
+  transform: ${({ isOpen }) => (isOpen ? 'translateX(0)' : 'translateX(-100%)')};
   transition: transform 0.3s ease-in-out;
   z-index: 10;
 
@@ -135,11 +135,7 @@ const BurgerMenuList = styled.ul`
 
 const BurgerMenuItem = styled.li`
   padding: 1rem;
-  border-bottom: 1px solid var(--color-border);
-
-  &:last-child {
-    border-bottom: none;
-  }
+  /* border-bottom: 1px solid var(--color-border); */ /* Entfernt die Linie */
 `;
 
 export default function Navigation() {
