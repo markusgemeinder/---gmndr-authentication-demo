@@ -69,6 +69,6 @@ export const ModalInput = styled.input`
 // Styled component for modal button container
 export const ModalButtonContainer = styled.div`
   display: flex;
-  gap: 1rem;
+  /* gap: 0.6rem; */
   justify-content: center;
 `;

@@ -119,3 +119,9 @@ x;
 export const HiddenInput = styled.input`
   display: none;
 `;
+
+export const HorizontalButtonContainer = styled.div`
+  display: flex;
+  /* gap: 0.4rem; */
+  justify-content: end;
+`;
