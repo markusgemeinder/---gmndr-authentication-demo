@@ -61,7 +61,7 @@ export default function RegisterForm() {
     const data = { email, password };
 
     try {
-      const response = await fetch('/api/users', {
+      const response = await fetch('/api/register', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -69,17 +69,18 @@ export default function RegisterForm() {
         body: JSON.stringify(data),
       });
 
-      if (response.ok) {
+      if (response.status === 201) {
         setModalMessage('Account successfully created! Please login.');
         setIsError(false);
         setShowModal(true);
+      } else if (response.status === 409) {
+        const errorText = await response.json();
+        setModalMessage(`Account with email ${email} already exists. Please try logging in.`);
+        setIsError(true);
+        setShowModal(true);
       } else {
         const errorText = await response.json();
-        if (errorText.message === 'Duplicate Email') {
-          setModalMessage(`Account with email ${email} already exists. Please try logging in.`);
-        } else {
-          setModalMessage(`Register failed: ${errorText.message}`);
-        }
+        setModalMessage(`Register failed: ${errorText.message}`);
         setIsError(true);
         setShowModal(true);
       }
