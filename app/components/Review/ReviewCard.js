@@ -7,7 +7,7 @@ import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { useSession } from 'next-auth/react';
 import { FaStar, FaStarHalfAlt, FaRegStar } from 'react-icons/fa';
-import Button, { ButtonContainer } from '@/app/components/Common/Button';
+import Button from '@/app/components/Common/Button';
 import {
   CardContainer,
   IDLabel,
@@ -15,6 +15,7 @@ import {
   Note,
   StarsContainer,
   CreatedUpdated,
+  HorizontalButtonContainer,
 } from '@/app/components/Review/ReviewStyles';
 import {
   ModalOverlay,
@@ -66,7 +67,7 @@ export default function ReviewCard({ review, onDelete }) {
           if (onDelete) onDelete();
         }
       } catch (error) {
-        console.error('Error deleting review:', error);
+        console.error('Error deleting the review:', error);
       }
     } else {
       alert('The last 4 digits do not match. Please try again.');
@@ -81,11 +82,11 @@ export default function ReviewCard({ review, onDelete }) {
         <Note>{note}</Note>
         <StarsContainer>{renderStars(rating)}</StarsContainer>
         <CreatedUpdated>
-          Created: {format(new Date(createdAt), 'dd.MM.yyyy (HH:mm:ss)')} | Updated:{' '}
-          {format(new Date(updatedAt), 'dd.MM.yyyy (HH:mm:ss)')}
+          Created: {format(new Date(createdAt), 'MM/dd/yyyy (HH:mm:ss)')} | Updated:{' '}
+          {format(new Date(updatedAt), 'MM/dd/yyyy (HH:mm:ss)')}
         </CreatedUpdated>
         {showButtons && (
-          <ButtonContainer>
+          <HorizontalButtonContainer>
             <Button
               onClick={() => router.push(`/reviews/${_id}`)}
               bgColor='var(--color-button-edit)'
@@ -100,16 +101,16 @@ export default function ReviewCard({ review, onDelete }) {
               color='var(--color-button-text)'>
               Delete
             </Button>
-          </ButtonContainer>
+          </HorizontalButtonContainer>
         )}
       </CardContainer>
 
       {confirmDelete && (
         <ModalOverlay>
           <ModalContent>
-            <ModalHeader>Confirm Deletion Object ID {_id}</ModalHeader>
+            <ModalHeader>Confirm deletion of item ID {_id}</ModalHeader>
             <ModalParagraph>
-              Are you sure you want to delete? Please enter the last 4 digits of the ID to confirm.
+              Are you sure you want to delete this? Please enter the last 4 digits of the ID to confirm.
             </ModalParagraph>
             <ModalInput
               type='text'

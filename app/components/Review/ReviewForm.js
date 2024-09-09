@@ -5,8 +5,7 @@
 import { useState, useEffect } from 'react';
 import { useSession } from 'next-auth/react';
 import { FaStar, FaStarHalfAlt, FaRegStar } from 'react-icons/fa';
-import Button, { ButtonContainer } from '@/app/components/Common/Button';
-import { maskEmail } from '@/utils/maskEmail';
+import Button from '@/app/components/Common/Button';
 import {
   FormContainer,
   FormGroup,
@@ -15,6 +14,7 @@ import {
   Textarea,
   RatingContainer,
   HiddenInput,
+  HorizontalButtonContainer,
 } from '@/app/components/Review/ReviewStyles';
 
 const renderStars = (rating, setRating) => {
@@ -25,7 +25,11 @@ const renderStars = (rating, setRating) => {
     stars.push(
       <div
         key={i}
-        style={{ cursor: 'pointer', color: isFilled ? 'var(--star-color)' : 'var(--star-empty-color)' }}
+        style={{
+          cursor: 'pointer',
+          color: isFilled ? 'var(--star-color)' : 'var(--star-empty-color)',
+          display: 'inline-block',
+        }}
         onClick={() => setRating(i)}
         onMouseEnter={() => setRating(i)}
         onMouseLeave={() => setRating(rating)}>
@@ -36,7 +40,7 @@ const renderStars = (rating, setRating) => {
   return stars;
 };
 
-export default function ReviewForm({ review, onSave, onCancel }) {
+export default function ReviewForm({ review, onSave, onCancel, isDemoReview }) {
   const { data: session } = useSession();
   const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
@@ -61,7 +65,12 @@ export default function ReviewForm({ review, onSave, onCancel }) {
     const data = { email, note, rating };
 
     try {
-      if (review?._id) {
+      if (isDemoReview) {
+        // Speichern des DemoReviews in sessionStorage
+        const storedReviews = JSON.parse(sessionStorage.getItem('reviews') || '[]');
+        const updatedReviews = storedReviews.map((r) => (r._id === review._id ? { ...r, note, rating } : r));
+        sessionStorage.setItem('reviews', JSON.stringify(updatedReviews));
+      } else if (review?._id) {
         await fetch(`/api/reviews/${review._id}`, {
           method: 'PATCH',
           headers: {
@@ -99,7 +108,7 @@ export default function ReviewForm({ review, onSave, onCancel }) {
         <RatingContainer>{renderStars(rating, setRating)}</RatingContainer>
         <HiddenInput type='hidden' id='rating' value={rating} onChange={(e) => setRating(parseInt(e.target.value))} />
       </FormGroup>
-      <ButtonContainer>
+      <HorizontalButtonContainer>
         <Button type='submit' bgColor='var(--color-button-ok)' hoverColor='var(--color-button-ok-hover)'>
           Save
         </Button>
@@ -110,7 +119,7 @@ export default function ReviewForm({ review, onSave, onCancel }) {
           hoverColor='var(--color-button-cancel-hover)'>
           Cancel
         </Button>
-      </ButtonContainer>
+      </HorizontalButtonContainer>
     </FormContainer>
   );
 }
