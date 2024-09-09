@@ -1,11 +1,9 @@
-// /app/components/Review/ReviewForm.js
-
 'use client';
 
 import { useState, useEffect } from 'react';
 import { useSession } from 'next-auth/react';
 import { FaStar, FaStarHalfAlt, FaRegStar } from 'react-icons/fa';
-import Button, { ButtonContainer } from '@/app/components/Common/Button';
+import Button from '@/app/components/Common/Button';
 import { maskEmail } from '@/utils/maskEmail';
 import {
   FormContainer,
@@ -15,6 +13,7 @@ import {
   Textarea,
   RatingContainer,
   HiddenInput,
+  HorizontalButtonContainer, // Importiere den neuen ButtonContainer
 } from '@/app/components/Review/ReviewStyles';
 
 const renderStars = (rating, setRating) => {
@@ -25,7 +24,11 @@ const renderStars = (rating, setRating) => {
     stars.push(
       <div
         key={i}
-        style={{ cursor: 'pointer', color: isFilled ? 'var(--star-color)' : 'var(--star-empty-color)' }}
+        style={{
+          cursor: 'pointer',
+          color: isFilled ? 'var(--star-color)' : 'var(--star-empty-color)',
+          display: 'inline-block',
+        }}
         onClick={() => setRating(i)}
         onMouseEnter={() => setRating(i)}
         onMouseLeave={() => setRating(rating)}>
@@ -99,7 +102,7 @@ export default function ReviewForm({ review, onSave, onCancel }) {
         <RatingContainer>{renderStars(rating, setRating)}</RatingContainer>
         <HiddenInput type='hidden' id='rating' value={rating} onChange={(e) => setRating(parseInt(e.target.value))} />
       </FormGroup>
-      <ButtonContainer>
+      <HorizontalButtonContainer>
         <Button type='submit' bgColor='var(--color-button-ok)' hoverColor='var(--color-button-ok-hover)'>
           Save
         </Button>
@@ -110,7 +113,7 @@ export default function ReviewForm({ review, onSave, onCancel }) {
           hoverColor='var(--color-button-cancel-hover)'>
           Cancel
         </Button>
-      </ButtonContainer>
+      </HorizontalButtonContainer>
     </FormContainer>
   );
 }
