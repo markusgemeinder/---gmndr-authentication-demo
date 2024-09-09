@@ -1,10 +1,11 @@
+// /app/components/Review/ReviewForm.js
+
 'use client';
 
 import { useState, useEffect } from 'react';
 import { useSession } from 'next-auth/react';
 import { FaStar, FaStarHalfAlt, FaRegStar } from 'react-icons/fa';
 import Button from '@/app/components/Common/Button';
-import { maskEmail } from '@/utils/maskEmail';
 import {
   FormContainer,
   FormGroup,
@@ -13,7 +14,7 @@ import {
   Textarea,
   RatingContainer,
   HiddenInput,
-  HorizontalButtonContainer, // Importiere den neuen ButtonContainer
+  HorizontalButtonContainer,
 } from '@/app/components/Review/ReviewStyles';
 
 const renderStars = (rating, setRating) => {
@@ -39,7 +40,7 @@ const renderStars = (rating, setRating) => {
   return stars;
 };
 
-export default function ReviewForm({ review, onSave, onCancel }) {
+export default function ReviewForm({ review, onSave, onCancel, isDemoReview }) {
   const { data: session } = useSession();
   const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
@@ -64,7 +65,12 @@ export default function ReviewForm({ review, onSave, onCancel }) {
     const data = { email, note, rating };
 
     try {
-      if (review?._id) {
+      if (isDemoReview) {
+        // Speichern des DemoReviews in sessionStorage
+        const storedReviews = JSON.parse(sessionStorage.getItem('reviews') || '[]');
+        const updatedReviews = storedReviews.map((r) => (r._id === review._id ? { ...r, note, rating } : r));
+        sessionStorage.setItem('reviews', JSON.stringify(updatedReviews));
+      } else if (review?._id) {
         await fetch(`/api/reviews/${review._id}`, {
           method: 'PATCH',
           headers: {
