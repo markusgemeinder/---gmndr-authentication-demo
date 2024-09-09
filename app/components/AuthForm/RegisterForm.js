@@ -4,7 +4,7 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import Button from '@/app/components/Common/Button';
+import Button, { ButtonContainer } from '@/app/components/Common/Button';
 import {
   FormContainer,
   FormGroup,
@@ -17,7 +17,6 @@ import {
   PasswordVisibleIcon,
   WarningMessage,
   CheckIcon,
-  ButtonContainer,
 } from '@/app/components/AuthForm/AuthFormStyles';
 import { ModalOverlay, ModalHeader, ModalContent, ModalButtonContainer } from '@/app/components/Common/ModalPopup';
 

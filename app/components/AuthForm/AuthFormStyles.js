@@ -34,7 +34,7 @@ export const FormContainer = styled.form`
 
 // Group of form fields
 export const FormGroup = styled.div`
-  margin-bottom: 1rem;
+  margin-bottom: 0.6rem;
   display: flex;
   flex-direction: column;
 `;
@@ -53,7 +53,7 @@ export const Label = styled.label`
   font-weight: 600;
   color: var(--color-label);
   margin: 0 0.5rem;
-  line-height: 1.5;
+  line-height: 1.2;
 `;
 
 // Container for input fields
@@ -64,10 +64,10 @@ export const InputContainer = styled.div`
 // Input field styling
 export const Input = styled.input`
   width: 100%;
-  padding: 0.75rem;
+  padding: 0.6rem;
   background-color: var(--color-input-background);
   border: 1px solid var(--color-input-border);
-  border-radius: 0.375rem;
+  border-radius: 0.4rem;
   box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
   box-sizing: border-box;
 `;
@@ -108,7 +108,7 @@ export const Divider = styled.div`
   display: flex;
   align-items: center;
   width: 100%;
-  margin: 1rem 0;
+  margin: 0.6rem 0;
 
   &::before,
   &::after {
@@ -122,12 +122,4 @@ export const Divider = styled.div`
     color: var(--color-text-light);
     font-size: 0.875rem;
   }
-`;
-
-// Container for buttons
-export const ButtonContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: 0.5rem; /* Increased gap for better spacing */
-  width: 100%;
 `;

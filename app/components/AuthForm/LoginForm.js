@@ -4,7 +4,7 @@
 
 import { useState } from 'react';
 import ScrollToTop from '@/app/components/Common/ScrollToTop';
-import Button from '@/app/components/Common/Button';
+import Button, { ButtonContainer } from '@/app/components/Common/Button';
 import {
   FormContainer,
   FormGroup,
@@ -17,7 +17,6 @@ import {
   ToggleVisibility,
   PasswordVisibleIcon,
   PasswordHiddenIcon,
-  ButtonContainer,
 } from '@/app/components/AuthForm/AuthFormStyles';
 
 export default function LoginForm({ onLogin, onOAuthLogin, error, onForgotPassword }) {
@@ -52,17 +51,21 @@ export default function LoginForm({ onLogin, onOAuthLogin, error, onForgotPasswo
             bgColor='var(--color-button-login)'
             hoverColor='var(--color-button-login-hover)'
             onClick={() => onOAuthLogin('github')}
-            style={{ width: '100%' }}>
+            style={{ width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+            <img src='/github-logo.svg' alt='GitHub Logo' style={{ width: '20px', marginRight: '8px' }} />
             Login with GitHub
           </Button>
+
           <Button
             type='button'
             bgColor='var(--color-button-login)'
             hoverColor='var(--color-button-login-hover)'
             onClick={() => onOAuthLogin('google')}
-            style={{ width: '100%' }}>
+            style={{ width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+            <img src='/google-logo.svg' alt='Google Logo' style={{ width: '20px', marginRight: '8px' }} />
             Login with Google
           </Button>
+
           <Divider>
             <span>or</span>
           </Divider>
