@@ -1,7 +1,5 @@
 // /app/api/auth/[...nextauth]/options.js
 
-// /app/api/auth/[...nextauth]/options.js
-
 import GitHubProvider from 'next-auth/providers/github';
 import GoogleProvider from 'next-auth/providers/google';
 import CredentialsProvider from 'next-auth/providers/credentials';
