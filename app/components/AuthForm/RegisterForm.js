@@ -20,6 +20,32 @@ import {
 } from '@/app/components/AuthForm/AuthFormStyles';
 import { ModalOverlay, ModalHeader, ModalContent, ModalButtonContainer } from '@/app/components/Common/ModalPopup';
 
+const validatePassword = (pwd) => {
+  if (pwd.length < 8) return 'Must be at least 8 characters.';
+  if (!/[A-Z]/.test(pwd)) return 'Must contain an uppercase letter.';
+  if (!/[a-z]/.test(pwd)) return 'Must contain a lowercase letter.';
+  if (!/[0-9]/.test(pwd)) return 'Must contain a number.';
+  if (!/[!@#$%^&*]/.test(pwd)) return 'Must contain a special character.';
+  return '';
+};
+
+const ModalPopup = ({ message, onOkClick, isError }) => (
+  <ModalOverlay>
+    <ModalContent>
+      <ModalHeader>{message}</ModalHeader>
+      <ModalButtonContainer>
+        <Button
+          onClick={onOkClick}
+          bgColor='var(--color-button-ok)'
+          hoverColor='var(--color-button-ok-hover)'
+          color='var(--color-button-text)'>
+          OK
+        </Button>
+      </ModalButtonContainer>
+    </ModalContent>
+  </ModalOverlay>
+);
+
 export default function RegisterForm() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -32,59 +58,44 @@ export default function RegisterForm() {
   const [isError, setIsError] = useState(false);
   const router = useRouter();
 
-  const checkPasswordQuality = (pwd) => {
-    if (pwd.length < 8) {
-      setPasswordQuality('Must be at least 8 characters.');
-    } else if (!/[A-Z]/.test(pwd)) {
-      setPasswordQuality('Must contain an uppercase letter.');
-    } else if (!/[a-z]/.test(pwd)) {
-      setPasswordQuality('Must contain a lowercase letter.');
-    } else if (!/[0-9]/.test(pwd)) {
-      setPasswordQuality('Must contain a number.');
-    } else if (!/[!@#$%^&*]/.test(pwd)) {
-      setPasswordQuality('Must contain a special character.');
-    } else {
-      setPasswordQuality('');
-    }
+  const handlePasswordChange = (pwd) => {
+    setPassword(pwd);
+    setPasswordQuality(validatePassword(pwd));
   };
 
   const handleSubmit = async (event) => {
     event.preventDefault();
+
     if (password !== repeatPassword) {
       setError('Passwords do not match.');
       return;
     }
+
     if (passwordQuality) {
       setError('Please fix the password quality issues.');
       return;
     }
+
     const data = { email, password };
 
     try {
       const response = await fetch('/api/register', {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(data),
       });
 
-      if (response.status === 201) {
-        setModalMessage('Account successfully created! Please login.');
-        setIsError(false);
-        setShowModal(true);
-      } else if (response.status === 409) {
-        const errorText = await response.json();
-        setModalMessage(`Account with email ${email} already exists. Please try logging in.`);
-        setIsError(true);
-        setShowModal(true);
-      } else {
-        const errorText = await response.json();
-        setModalMessage(`Register failed: ${errorText.message}`);
-        setIsError(true);
-        setShowModal(true);
-      }
-    } catch (error) {
+      const success = response.status === 201;
+      const message = success
+        ? 'Account successfully created! Please login.'
+        : response.status === 409
+        ? `Account with email ${email} already exists. Please try logging in.`
+        : (await response.json()).message || 'Register failed.';
+
+      setModalMessage(message);
+      setIsError(!success);
+      setShowModal(true);
+    } catch {
       setModalMessage('An unexpected error occurred.');
       setIsError(true);
       setShowModal(true);
@@ -93,17 +104,10 @@ export default function RegisterForm() {
 
   const handleOkClick = () => {
     setShowModal(false);
-    router.push('/');
+    router.push(isError ? '/' : '/login');
   };
 
-  const handleCancel = () => {
-    router.push('/');
-  };
-
-  const handleToggleVisibility = (event) => {
-    event.preventDefault();
-    setPasswordVisible(!passwordVisible);
-  };
+  const togglePasswordVisibility = () => setPasswordVisible(!passwordVisible);
 
   return (
     <>
@@ -114,6 +118,7 @@ export default function RegisterForm() {
           </LabelContainer>
           <Input id='email' type='email' value={email} onChange={(e) => setEmail(e.target.value)} required />
         </FormGroup>
+
         <FormGroup>
           <LabelContainer>
             <Label htmlFor='password'>Password:</Label>
@@ -128,17 +133,15 @@ export default function RegisterForm() {
               id='password'
               type={passwordVisible ? 'text' : 'password'}
               value={password}
-              onChange={(e) => {
-                setPassword(e.target.value);
-                checkPasswordQuality(e.target.value);
-              }}
+              onChange={(e) => handlePasswordChange(e.target.value)}
               required
             />
-            <ToggleVisibility onClick={handleToggleVisibility}>
+            <ToggleVisibility onClick={togglePasswordVisibility}>
               {passwordVisible ? <PasswordVisibleIcon /> : <PasswordHiddenIcon />}
             </ToggleVisibility>
           </InputContainer>
         </FormGroup>
+
         <FormGroup>
           <LabelContainer>
             <Label htmlFor='repeat-password'>Repeat Password:</Label>
@@ -161,7 +164,9 @@ export default function RegisterForm() {
             />
           </InputContainer>
         </FormGroup>
+
         {error && <WarningMessage>{error}</WarningMessage>}
+
         <ButtonContainer>
           <Button
             type='submit'
@@ -172,7 +177,7 @@ export default function RegisterForm() {
           </Button>
           <Button
             type='button'
-            onClick={handleCancel}
+            onClick={() => router.push('/')}
             bgColor='var(--color-button-cancel)'
             hoverColor='var(--color-button-cancel-hover)'>
             Cancel
@@ -180,22 +185,7 @@ export default function RegisterForm() {
         </ButtonContainer>
       </FormContainer>
 
-      {showModal && (
-        <ModalOverlay>
-          <ModalContent>
-            <ModalHeader>{modalMessage}</ModalHeader>
-            <ModalButtonContainer>
-              <Button
-                onClick={handleOkClick}
-                bgColor='var(--color-button-ok)'
-                hoverColor='var(--color-button-ok-hover)'
-                color='var(--color-button-text)'>
-                OK
-              </Button>
-            </ModalButtonContainer>
-          </ModalContent>
-        </ModalOverlay>
-      )}
+      {showModal && <ModalPopup message={modalMessage} onOkClick={handleOkClick} isError={isError} />}
     </>
   );
 }

@@ -26,6 +26,7 @@ export async function POST(req) {
     const user = await User.create({
       email,
       password: hashedPassword,
+      role: 'Credentials User',
     });
 
     return NextResponse.json({ message: 'User Created.', user }, { status: 201 });

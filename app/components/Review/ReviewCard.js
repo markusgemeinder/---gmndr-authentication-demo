@@ -49,7 +49,7 @@ export default function ReviewCard({ review, onDelete }) {
   const { data: session } = useSession();
 
   const isOwner = session && session.user.email === email;
-  const isAdmin = session && session.user.role === 'admin';
+  const isAdmin = session && session.user.role.includes('Admin');
 
   const showEmail = isOwner || isAdmin ? email : maskEmail(email);
   const showButtons = isOwner || isAdmin || _id.startsWith('demo-');
