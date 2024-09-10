@@ -162,7 +162,7 @@ export default function Navigation() {
               Reviews
             </NavLink>
           </NavItem>
-          {session.user.role === 'Admin' && (
+          {session.user.role.includes('Admin') && (
             <NavItem>
               <NavLink href='/api/reviews' isActive={pathname === '/api/reviews'}>
                 API
@@ -193,7 +193,7 @@ export default function Navigation() {
               Reviews
             </NavLink>
           </BurgerMenuItem>
-          {session.user.role === 'Admin' && (
+          {session.user.role.includes('Admin') && (
             <BurgerMenuItem>
               <NavLink href='/api/reviews' isActive={pathname === '/api/reviews'}>
                 API
