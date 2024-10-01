@@ -2,14 +2,33 @@
 
 'use client';
 
-import { Container, Title } from '@/app/components/Common/CommonStyles';
+import { useState } from 'react';
 import ScrollToTop from '@/app/components/Common/ScrollToTop';
+import { Main, Title } from '@/app/components/AuthForm/AuthFormStyles';
+import ForgotPasswordForm from '@/app/components/AuthForm/ForgotPasswordForm';
 
-export default function ForgotPassword() {
+export default function ForgotPasswordPage() {
+  const [message, setMessage] = useState('');
+
+  const handleSubmit = async (email) => {
+    const response = await fetch('/api/auth/forgot-password', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ email }),
+    });
+    const data = await response.json();
+    setMessage(data.message);
+  };
+
   return (
-    <Container>
+    <>
       <ScrollToTop />
-      <Title>Forgot Password</Title>
-    </Container>
+      <Main>
+        <Title>Forgot Password</Title>
+        <ForgotPasswordForm onSubmit={handleSubmit} message={message} />
+      </Main>
+    </>
   );
 }

@@ -11,7 +11,7 @@ export async function middleware(req) {
   // 3. the token exists
   if (
     pathname.includes('/api/auth') ||
-    pathname.includes('/api/register') ||
+    pathname.includes('/api/auth/register') ||
     pathname.startsWith('/(auth)/') ||
     token
   ) {
