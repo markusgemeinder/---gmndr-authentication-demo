@@ -171,6 +171,15 @@ export default function Navigation() {
           )}
         </>
       )}
+      {!session && (
+        <>
+          <NavItem>
+            <NavLink href='/forgot-password' isActive={pathname === '/forgot-password'}>
+              Forgot Password?
+            </NavLink>
+          </NavItem>
+        </>
+      )}
       <NavItem>
         <NavLink href='/about' isActive={pathname === '/about'}>
           About
@@ -202,6 +211,16 @@ export default function Navigation() {
           )}
         </>
       )}
+      {!session && (
+        <>
+          <BurgerMenuItem>
+            <NavLink href='/forgot-password' isActive={pathname === '/forgot-password'}>
+              Forgot Password?
+            </NavLink>
+          </BurgerMenuItem>
+        </>
+      )}
+
       <BurgerMenuItem>
         <NavLink href='/about' isActive={pathname === '/about'}>
           About

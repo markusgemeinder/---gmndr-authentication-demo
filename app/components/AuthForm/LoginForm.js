@@ -18,6 +18,7 @@ import {
   PasswordVisibleIcon,
   PasswordHiddenIcon,
 } from '@/app/components/AuthForm/AuthFormStyles';
+import Link from 'next/link';
 
 export default function LoginForm({ onLogin, onOAuthLogin, error, onForgotPassword }) {
   const [email, setEmail] = useState('');
@@ -100,14 +101,16 @@ export default function LoginForm({ onLogin, onOAuthLogin, error, onForgotPasswo
             style={{ width: '100%' }}>
             Login
           </Button>
-          <Button
-            type='button'
-            onClick={onForgotPassword}
-            bgColor='var(--color-button-forgot-password)'
-            hoverColor='var(--color-button-forgot-password-hover)'
-            style={{ width: '100%' }}>
-            Forgot Password
-          </Button>
+          <Link href='/forgot-password'>
+            <Button
+              type='button'
+              // onClick={onForgotPassword}
+              bgColor='var(--color-button-forgot-password)'
+              hoverColor='var(--color-button-forgot-password-hover)'
+              style={{ width: '100%' }}>
+              Forgot Password?
+            </Button>
+          </Link>
         </ButtonContainer>
       </FormContainer>
     </>

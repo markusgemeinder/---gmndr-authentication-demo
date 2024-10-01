@@ -13,11 +13,11 @@
     13	│   │   │   └── [...nextauth]
     14	│   │   │       ├── options.js
     15	│   │   │       └── route.js
-    16	│   │   ├── reviews
-    17	│   │   │   ├── [id]
-    18	│   │   │   │   └── route.js
-    19	│   │   │   └── route.js
-    20	│   │   └── users
+    16	│   │   ├── register
+    17	│   │   │   └── route.js
+    18	│   │   └── reviews
+    19	│   │       ├── [id]
+    20	│   │       │   └── route.js
     21	│   │       └── route.js
     22	│   ├── components
     23	│   │   ├── AuthForm
