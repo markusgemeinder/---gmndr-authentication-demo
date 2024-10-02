@@ -57,12 +57,15 @@ export async function POST(req) {
       greeting = 'Good evening';
     }
 
+    // Benutzer-E-Mail mit "(at)" anstelle von "@" und Entfernen der Domain-Endung
+    const user = existingUser.email.replace('@', '(at)').replace(/\.\w+$/, ''); // Entfernt .com, .de, etc.
+
     // E-Mail-Optionen
     const mailOptions = {
       to: email,
       from: process.env.EMAIL_USER,
       subject: 'Password Reset',
-      text: `${greeting} ${existingUser.email},\n\nYou are receiving this because you (or someone else) have requested the reset of the password for your account. Please click on the following link, or paste this into your browser to complete the process:\n\n${resetUrl}\n\nIf you did not request this, please ignore this email and your password will remain unchanged.\n\nBest regards,\nMarkus from #GMNDR Authentication Demo`,
+      text: `${greeting} ${user},\n\nYou are receiving this because you (or someone else) have requested the reset of the password for your account. Please click on the following link, or paste this into your browser to complete the process:\n\n${resetUrl}\n\nIf you did not request this, please ignore this email and your password will remain unchanged.\n\nBest regards,\nMarkus from #GMNDR Authentication Demo`,
     };
 
     // E-Mail senden
