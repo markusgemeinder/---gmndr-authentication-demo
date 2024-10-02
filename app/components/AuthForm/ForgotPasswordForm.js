@@ -72,6 +72,8 @@ export default function ForgotPasswordForm() {
   const handleOkClick = () => {
     setShowModal(false);
     if (!isError) {
+      router.push('/login');
+    } else {
       router.push('/');
     }
   };
