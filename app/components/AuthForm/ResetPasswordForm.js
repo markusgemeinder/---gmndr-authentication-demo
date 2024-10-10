@@ -1,7 +1,8 @@
-// /app/components/AuthForm/RegisterForm.js
+// /app/components/AuthForm/ResetPasswordForm.js
+
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import Button, { ButtonContainer } from '@/app/components/Common/Button';
 import {
@@ -17,19 +18,9 @@ import {
   WarningMessage,
   CheckIcon,
 } from '@/app/components/AuthForm/AuthFormStyles';
-import ModalPopup from '@/app/components/Common/ModalPopup'; // Import der ausgelagerten ModalPopup-Komponente
+import ModalPopup from '@/app/components/Common/ModalPopup';
 
-const validatePassword = (pwd) => {
-  if (pwd.length < 8) return 'Must be at least 8 characters.';
-  if (!/[A-Z]/.test(pwd)) return 'Must contain an uppercase letter.';
-  if (!/[a-z]/.test(pwd)) return 'Must contain a lowercase letter.';
-  if (!/[0-9]/.test(pwd)) return 'Must contain a number.';
-  if (!/[!@#$%^&*]/.test(pwd)) return 'Must contain a special character.';
-  return '';
-};
-
-export default function RegisterForm() {
-  const [email, setEmail] = useState('');
+export default function ResetPasswordForm() {
   const [password, setPassword] = useState('');
   const [repeatPassword, setRepeatPassword] = useState('');
   const [passwordVisible, setPasswordVisible] = useState(false);
@@ -38,7 +29,58 @@ export default function RegisterForm() {
   const [showModal, setShowModal] = useState(false);
   const [modalMessage, setModalMessage] = useState('');
   const [isError, setIsError] = useState(false);
+  const [isTokenExpired, setIsTokenExpired] = useState(false);
   const router = useRouter();
+
+  // Validate the token before proceeding
+  useEffect(() => {
+    const checkToken = async () => {
+      // Token aus der URL abrufen
+      const token = window.location.pathname.split('/').pop(); // Holt den letzten Teil der URL
+
+      if (!token) {
+        setModalMessage('Token is required.');
+        setIsTokenExpired(true);
+        setShowModal(true);
+        return;
+      }
+
+      try {
+        const response = await fetch('/api/check-token', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ token }), // Token im Body der Anfrage senden
+        });
+
+        const result = await response.json();
+
+        if (response.status === 401) {
+          setModalMessage(result.message); // Invalid token
+          setIsError(true);
+          setShowModal(true);
+        } else if (response.status === 410) {
+          setModalMessage(result.message); // Token has expired
+          setIsTokenExpired(true);
+          setShowModal(true);
+        }
+      } catch {
+        setModalMessage('An error occurred while checking the token.');
+        setIsTokenExpired(true);
+        setShowModal(true);
+      }
+    };
+
+    checkToken();
+  }, []);
+
+  const validatePassword = (pwd) => {
+    if (pwd.length < 8) return 'Must be at least 8 characters.';
+    if (!/[A-Z]/.test(pwd)) return 'Must contain an uppercase letter.';
+    if (!/[a-z]/.test(pwd)) return 'Must contain a lowercase letter.';
+    if (!/[0-9]/.test(pwd)) return 'Must contain a number.';
+    if (!/[!@#$%^&*]/.test(pwd)) return 'Must contain a special character.';
+    return '';
+  };
 
   const handlePasswordChange = (pwd) => {
     setPassword(pwd);
@@ -58,10 +100,10 @@ export default function RegisterForm() {
       return;
     }
 
-    const data = { email, password };
+    const data = { password }; // Nur das Passwort, kein E-Mail erforderlich
 
     try {
-      const response = await fetch('/api/auth/register', {
+      const response = await fetch('/api/auth/reset-password', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(data),
@@ -69,16 +111,14 @@ export default function RegisterForm() {
 
       const success = response.status === 201;
       const message = success
-        ? 'Account successfully created! Please login.'
-        : response.status === 409
-        ? `Account with email ${email} already exists. Please try logging in.`
-        : (await response.json()).message || 'Register failed.';
+        ? 'New password saved. You can now log in.'
+        : (await response.json()).message || 'Failed to save password. Please try again.';
 
       setModalMessage(message);
       setIsError(!success);
       setShowModal(true);
     } catch {
-      setModalMessage('An unexpected error occurred.');
+      setModalMessage('An error occurred. Please try again.');
       setIsError(true);
       setShowModal(true);
     }
@@ -86,7 +126,7 @@ export default function RegisterForm() {
 
   const handleOkClick = () => {
     setShowModal(false);
-    router.push(isError ? '/' : '/login');
+    router.push(isError || isTokenExpired ? '/' : '/login');
   };
 
   const togglePasswordVisibility = () => setPasswordVisible(!passwordVisible);
@@ -96,14 +136,7 @@ export default function RegisterForm() {
       <FormContainer onSubmit={handleSubmit}>
         <FormGroup>
           <LabelContainer>
-            <Label htmlFor='email'>Email:</Label>
-          </LabelContainer>
-          <Input id='email' type='email' value={email} onChange={(e) => setEmail(e.target.value)} required />
-        </FormGroup>
-
-        <FormGroup>
-          <LabelContainer>
-            <Label htmlFor='password'>Password:</Label>
+            <Label htmlFor='password'>New Password:</Label>
             {passwordQuality === '' && password.length > 0 ? (
               <CheckIcon />
             ) : (
@@ -117,6 +150,7 @@ export default function RegisterForm() {
               value={password}
               onChange={(e) => handlePasswordChange(e.target.value)}
               required
+              disabled={isTokenExpired} // Disable input if token expired
             />
             <ToggleVisibility onClick={togglePasswordVisibility}>
               {passwordVisible ? <PasswordVisibleIcon /> : <PasswordHiddenIcon />}
@@ -143,6 +177,7 @@ export default function RegisterForm() {
               value={repeatPassword}
               onChange={(e) => setRepeatPassword(e.target.value)}
               required
+              disabled={isTokenExpired} // Disable input if token expired
             />
           </InputContainer>
         </FormGroup>
@@ -154,7 +189,8 @@ export default function RegisterForm() {
             type='submit'
             bgColor='var(--color-button-login)'
             hoverColor='var(--color-button-login-hover)'
-            disabled={password !== repeatPassword || passwordQuality !== ''}>
+            disabled={password !== repeatPassword || passwordQuality !== '' || isTokenExpired} // Disable button if token expired
+          >
             Confirm
           </Button>
           <Button
@@ -167,7 +203,7 @@ export default function RegisterForm() {
         </ButtonContainer>
       </FormContainer>
 
-      {showModal && <ModalPopup message={modalMessage} onOkClick={handleOkClick} isError={isError} />}
+      {showModal && <ModalPopup message={modalMessage} onOkClick={handleOkClick} isError={isError || isTokenExpired} />}
     </>
   );
 }

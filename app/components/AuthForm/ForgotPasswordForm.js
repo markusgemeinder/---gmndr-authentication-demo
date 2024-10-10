@@ -2,47 +2,48 @@
 
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
+import { useSession } from 'next-auth/react';
 import Button, { ButtonContainer } from '@/app/components/Common/Button';
 import { FormContainer, FormGroup, LabelContainer, Label, Input } from '@/app/components/AuthForm/AuthFormStyles';
-import { ModalOverlay, ModalHeader, ModalContent, ModalButtonContainer } from '@/app/components/Common/ModalPopup';
-
-const ModalPopup = ({ message, onOkClick, isSending }) => (
-  <ModalOverlay>
-    <ModalContent>
-      <ModalHeader>{message}</ModalHeader>
-      <ModalButtonContainer>
-        {!isSending && ( // Nur den OK-Button anzeigen, wenn die E-Mail gesendet wurde oder ein Fehler auftrat
-          <Button
-            onClick={onOkClick}
-            bgColor='var(--color-button-ok)'
-            hoverColor='var(--color-button-ok-hover)'
-            color='var(--color-button-text)'>
-            OK
-          </Button>
-        )}
-      </ModalButtonContainer>
-    </ModalContent>
-  </ModalOverlay>
-);
+import ModalPopup from '@/app/components/Common/ModalPopup'; // Import der ausgelagerten ModalPopup-Komponente
 
 export default function ForgotPasswordForm() {
   const [email, setEmail] = useState('');
   const [showModal, setShowModal] = useState(false);
   const [modalMessage, setModalMessage] = useState('');
-  const [isError, setIsError] = useState(false);
-  const [isSending, setIsSending] = useState(false); // Neuer Zustand für "Sending"
+  const [isSuccess, setIsSuccess] = useState(false); // Indicates if the request was successful
+  const [isSending, setIsSending] = useState(false);
   const router = useRouter();
+  const { data: session, status: sessionStatus } = useSession();
+
+  // Redirect user if already authenticated
+  useEffect(() => {
+    if (sessionStatus === 'authenticated') {
+      router.replace('/reviews');
+    }
+  }, [sessionStatus, router]);
+
+  const isValidEmail = (email) => {
+    const emailRegex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i;
+    return emailRegex.test(email);
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // Initial: Zeige "Preparing email..." Nachricht und setze isSending auf true
+    if (!isValidEmail(email)) {
+      setModalMessage('Email not valid!');
+      setShowModal(true);
+      setIsSending(false);
+      return; // Stop execution if email is invalid
+    }
+
     setModalMessage('Preparing email with reset link...');
     setShowModal(true);
-    setIsSending(true); // Setze den Status auf "Sending"
-    setIsError(false);
+    setIsSending(true);
+    setIsSuccess(false); // Reset success flag
 
     const data = { email };
 
@@ -53,35 +54,30 @@ export default function ForgotPasswordForm() {
         body: JSON.stringify(data),
       });
 
+      const result = await response.json();
+
       if (response.status === 200) {
-        // Erfolgreich: Reset-Link wurde gesendet
         setModalMessage('Reset link sent to email.');
-        setIsError(false);
-      } else if (response.status === 400) {
-        // Fehler: Email existiert nicht
-        const result = await response.json();
-        setModalMessage(result.message || 'No user registered with this email.');
-        setIsError(true);
+        setIsSuccess(true); // Set success flag
       } else {
-        // Allgemeiner Fehlerfall
-        const result = await response.json();
+        // Show API's error message if response status is not 200
         setModalMessage(result.message || 'An error occurred.');
-        setIsError(true);
+        setIsSuccess(false); // Set failure flag
       }
     } catch (error) {
-      setModalMessage('An unexpected error occurred.');
-      setIsError(true);
+      setModalMessage('An unexpected error occurred, please try again later.');
+      setIsSuccess(false); // Set failure flag
     } finally {
-      setIsSending(false); // Setze isSending auf false, wenn die Anfrage abgeschlossen ist
+      setIsSending(false); // Email sending process complete
     }
   };
 
   const handleOkClick = () => {
     setShowModal(false);
-    if (!isError) {
+
+    // Only redirect if the email was successfully sent
+    if (isSuccess) {
       router.push('/login');
-    } else {
-      router.push('/');
     }
   };
 

@@ -1,15 +1,17 @@
 // /app/components/Common/ModalPopup.js
 
+import React from 'react';
 import styled, { keyframes } from 'styled-components';
+import Button from './Button'; // Import des Button-Components
 
-// Keyframes for blinking animation
+// Keyframes for blinking animation (if needed in future)
 const blinkAnimation = keyframes`
   0% { opacity: 1; }
   50% { opacity: 0.5; }
   100% { opacity: 1; }
 `;
 
-// Styled component for blinking text
+// Styled component for blinking text (if needed)
 export const BlinkingText = styled.p`
   animation: ${blinkAnimation} 1s infinite;
 `;
@@ -46,29 +48,30 @@ export const ModalHeader = styled.h2`
   color: var(--color-modal-header);
 `;
 
-// Styled component for modal paragraph
-export const ModalParagraph = styled.p`
-  font-size: 1rem;
-  margin-bottom: 1.5rem;
-  color: var(--color-text);
-  text-align: center;
-`;
-
-// Styled component for modal input
-export const ModalInput = styled.input`
-  width: 100%;
-  padding: 0.5rem;
-  border: 1px solid var(--color-input-border);
-  border-radius: 0.3rem;
-  margin-bottom: 1rem;
-  font-size: 1rem;
-  color: var(--color-text);
-  background-color: var(--color-input-background);
-`;
-
 // Styled component for modal button container
 export const ModalButtonContainer = styled.div`
   display: flex;
-  /* gap: 0.6rem; */
   justify-content: center;
 `;
+
+// ModalPopup component with message, button and dynamic states
+const ModalPopup = ({ message, onOkClick, isSending }) => (
+  <ModalOverlay>
+    <ModalContent>
+      <ModalHeader>{message}</ModalHeader>
+      <ModalButtonContainer>
+        {!isSending && (
+          <Button
+            onClick={onOkClick}
+            bgColor='var(--color-button-ok)'
+            hoverColor='var(--color-button-ok-hover)'
+            color='var(--color-button-text)'>
+            OK
+          </Button>
+        )}
+      </ModalButtonContainer>
+    </ModalContent>
+  </ModalOverlay>
+);
+
+export default ModalPopup;
