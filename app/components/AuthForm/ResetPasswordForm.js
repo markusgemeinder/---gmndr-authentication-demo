@@ -1,5 +1,3 @@
-// /app/components/AuthForm/ResetPasswordForm.js
-
 'use client';
 
 import { useState, useEffect } from 'react';
@@ -32,10 +30,9 @@ export default function ResetPasswordForm() {
   const [isTokenExpired, setIsTokenExpired] = useState(false);
   const router = useRouter();
 
-  // Validate the token before proceeding
   useEffect(() => {
     const checkToken = async () => {
-      const token = window.location.pathname.split('/').pop(); // Holt den letzten Teil der URL
+      const token = window.location.pathname.split('/').pop();
 
       if (!token) {
         setModalMessage('Token is required.');
@@ -48,17 +45,17 @@ export default function ResetPasswordForm() {
         const response = await fetch('/api/auth/check-token', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ token }), // Token im Body der Anfrage senden
+          body: JSON.stringify({ token }),
         });
 
         const result = await response.json();
 
         if (response.status === 401) {
-          setModalMessage(result.message); // Invalid token
+          setModalMessage(result.message);
           setIsError(true);
           setShowModal(true);
         } else if (response.status === 410) {
-          setModalMessage(result.message); // Token has expired
+          setModalMessage(result.message);
           setIsTokenExpired(true);
           setShowModal(true);
         }
@@ -99,7 +96,8 @@ export default function ResetPasswordForm() {
       return;
     }
 
-    const data = { password };
+    const token = window.location.pathname.split('/').pop();
+    const data = { password, token };
 
     try {
       const response = await fetch('/api/auth/reset-password', {
