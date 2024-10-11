@@ -35,7 +35,6 @@ export default function ResetPasswordForm() {
   // Validate the token before proceeding
   useEffect(() => {
     const checkToken = async () => {
-      // Token aus der URL abrufen
       const token = window.location.pathname.split('/').pop(); // Holt den letzten Teil der URL
 
       if (!token) {
@@ -46,7 +45,7 @@ export default function ResetPasswordForm() {
       }
 
       try {
-        const response = await fetch('/api/check-token', {
+        const response = await fetch('/api/auth/check-token', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ token }), // Token im Body der Anfrage senden
@@ -100,7 +99,7 @@ export default function ResetPasswordForm() {
       return;
     }
 
-    const data = { password }; // Nur das Passwort, kein E-Mail erforderlich
+    const data = { password };
 
     try {
       const response = await fetch('/api/auth/reset-password', {
@@ -150,7 +149,7 @@ export default function ResetPasswordForm() {
               value={password}
               onChange={(e) => handlePasswordChange(e.target.value)}
               required
-              disabled={isTokenExpired} // Disable input if token expired
+              disabled={isTokenExpired}
             />
             <ToggleVisibility onClick={togglePasswordVisibility}>
               {passwordVisible ? <PasswordVisibleIcon /> : <PasswordHiddenIcon />}
@@ -177,7 +176,7 @@ export default function ResetPasswordForm() {
               value={repeatPassword}
               onChange={(e) => setRepeatPassword(e.target.value)}
               required
-              disabled={isTokenExpired} // Disable input if token expired
+              disabled={isTokenExpired}
             />
           </InputContainer>
         </FormGroup>
@@ -189,8 +188,7 @@ export default function ResetPasswordForm() {
             type='submit'
             bgColor='var(--color-button-login)'
             hoverColor='var(--color-button-login-hover)'
-            disabled={password !== repeatPassword || passwordQuality !== '' || isTokenExpired} // Disable button if token expired
-          >
+            disabled={password !== repeatPassword || passwordQuality !== '' || isTokenExpired}>
             Confirm
           </Button>
           <Button

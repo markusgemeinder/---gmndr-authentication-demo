@@ -17,23 +17,15 @@ export async function POST(req) {
     const user = await User.findOne({ resetToken: hashedToken });
 
     if (!user) {
-      return NextResponse.json(
-        { message: 'Invalid token.' },
-        { status: 401 } // Ungültiger Token
-      );
+      return NextResponse.json({ message: 'Invalid token.' }, { status: 401 });
     }
 
     if (user.resetTokenExpiry <= Date.now()) {
-      return NextResponse.json(
-        { message: 'Token has expired.' },
-        { status: 410 } // Token abgelaufen (410 Gone)
-      );
+      return NextResponse.json({ message: 'Token has expired.' }, { status: 410 });
     }
 
-    // Erfolgreiche Antwort zurückgeben
     return NextResponse.json({ message: 'Token is valid.' }, { status: 200 });
   } catch (error) {
-    console.error('Token error:', error);
     return NextResponse.json({ message: 'An error occurred, please try again later.' }, { status: 500 });
   }
 }
