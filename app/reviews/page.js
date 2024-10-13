@@ -18,7 +18,7 @@ export default function ReviewsPage() {
   const [loading, setLoading] = useState(true);
   const router = useRouter();
 
-  const fetchReviews = async () => {
+  async function fetchReviews() {
     setLoading(true);
     try {
       const response = await fetch('/api/reviews');
@@ -37,17 +37,17 @@ export default function ReviewsPage() {
     } finally {
       setLoading(false);
     }
-  };
+  }
 
   useEffect(() => {
     fetchReviews();
   }, []);
 
-  const handleDelete = async () => {
+  async function handleDelete() {
     await fetchReviews();
-  };
+  }
 
-  const handleCreateDemoReview = () => {
+  function handleCreateDemoReview() {
     const demoReview = {
       _id: `demo-${Math.random().toString(36).substr(2, 12)}`,
       username: 'Demo User',
@@ -63,7 +63,7 @@ export default function ReviewsPage() {
     sessionStorage.setItem('reviews', JSON.stringify(storedReviews));
 
     setReviews([demoReview, ...reviews]);
-  };
+  }
 
   const demoReviewExists = reviews.some((review) => review._id.startsWith('demo-'));
 

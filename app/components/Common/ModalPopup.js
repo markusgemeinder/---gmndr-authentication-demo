@@ -1,20 +1,19 @@
 // /app/components/Common/ModalPopup.js
 
+import React from 'react';
 import styled, { keyframes } from 'styled-components';
+import Button from './Button';
 
-// Keyframes for blinking animation
 const blinkAnimation = keyframes`
   0% { opacity: 1; }
   50% { opacity: 0.5; }
   100% { opacity: 1; }
 `;
 
-// Styled component for blinking text
 export const BlinkingText = styled.p`
   animation: ${blinkAnimation} 1s infinite;
 `;
 
-// Styled component for modal overlay
 export const ModalOverlay = styled.div`
   position: fixed;
   inset: 0;
@@ -22,10 +21,9 @@ export const ModalOverlay = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  z-index: 1001; /* Ensure it is above other content */
+  z-index: 1001;
 `;
 
-// Styled component for modal content
 export const ModalContent = styled.div`
   background-color: var(--color-modal-background);
   padding: 1.5rem;
@@ -37,7 +35,6 @@ export const ModalContent = styled.div`
   justify-content: center;
 `;
 
-// Styled component for modal header
 export const ModalHeader = styled.h2`
   font-size: 1.125rem;
   font-weight: bold;
@@ -46,29 +43,46 @@ export const ModalHeader = styled.h2`
   color: var(--color-modal-header);
 `;
 
-// Styled component for modal paragraph
 export const ModalParagraph = styled.p`
   font-size: 1rem;
-  margin-bottom: 1.5rem;
-  color: var(--color-text);
-  text-align: center;
-`;
-
-// Styled component for modal input
-export const ModalInput = styled.input`
-  width: 100%;
-  padding: 0.5rem;
-  border: 1px solid var(--color-input-border);
-  border-radius: 0.3rem;
   margin-bottom: 1rem;
-  font-size: 1rem;
-  color: var(--color-text);
-  background-color: var(--color-input-background);
+  text-align: center;
+  color: var(--color-modal-paragraph);
 `;
 
-// Styled component for modal button container
+export const ModalInput = styled.input`
+  font-size: 1rem;
+  padding: 0.5rem;
+  margin-bottom: 1rem;
+  border-radius: 0.25rem;
+  border: 1px solid var(--color-input-border);
+  width: 100%;
+  text-align: center;
+  color: var(--color-input-text);
+`;
+
 export const ModalButtonContainer = styled.div`
   display: flex;
-  /* gap: 0.6rem; */
   justify-content: center;
 `;
+
+const ModalPopup = ({ message, onOkClick, isSending }) => (
+  <ModalOverlay>
+    <ModalContent>
+      <ModalHeader>{message}</ModalHeader>
+      <ModalButtonContainer>
+        {!isSending && (
+          <Button
+            onClick={onOkClick}
+            bgColor='var(--color-button-ok)'
+            hoverColor='var(--color-button-ok-hover)'
+            color='var(--color-button-text)'>
+            OK
+          </Button>
+        )}
+      </ModalButtonContainer>
+    </ModalContent>
+  </ModalOverlay>
+);
+
+export default ModalPopup;

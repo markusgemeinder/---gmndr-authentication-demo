@@ -13,7 +13,7 @@ export default function LoginPage() {
   const [error, setError] = useState('');
   const router = useRouter();
 
-  const handleLogin = async (email, password) => {
+  async function handleLogin(email, password) {
     if (!email || !password) {
       setError('Please enter both email and password.');
       return;
@@ -30,24 +30,19 @@ export default function LoginPage() {
     } else if (result?.ok) {
       router.push('/reviews');
     }
-  };
+  }
 
-  const handleOAuthLogin = (provider) => {
-    setError(''); // Reset error when using OAuth
+  function handleOAuthLogin(provider) {
+    setError('');
     signIn(provider, { callbackUrl: '/reviews' });
-  };
+  }
 
   return (
     <>
       <ScrollToTop />
       <Main>
         <Title>Login</Title>
-        <LoginForm
-          onLogin={handleLogin}
-          onOAuthLogin={handleOAuthLogin}
-          error={error}
-          // onForgotPassword={() => router.push('/forgot-password')}
-        />
+        <LoginForm onLogin={handleLogin} onOAuthLogin={handleOAuthLogin} error={error} />
       </Main>
     </>
   );

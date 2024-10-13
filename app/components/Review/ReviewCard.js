@@ -6,7 +6,6 @@ import { format } from 'date-fns';
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { useSession } from 'next-auth/react';
-import { FaStar, FaStarHalfAlt, FaRegStar } from 'react-icons/fa';
 import Button from '@/app/components/Common/Button';
 import {
   CardContainer,
@@ -26,20 +25,7 @@ import {
   ModalButtonContainer,
 } from '@/app/components/Common/ModalPopup';
 import { maskEmail } from '@/utils/maskEmail';
-
-const renderStars = (rating) => {
-  const stars = [];
-  for (let i = 1; i <= 5; i++) {
-    if (rating >= i) {
-      stars.push(<FaStar key={i} style={{ color: 'var(--star-color)' }} />);
-    } else if (rating > i - 1) {
-      stars.push(<FaStarHalfAlt key={i} style={{ color: 'var(--star-color)' }} />);
-    } else {
-      stars.push(<FaRegStar key={i} style={{ color: 'var(--star-empty-color)' }} />);
-    }
-  }
-  return stars;
-};
+import renderStars from '@/utils/renderStars';
 
 export default function ReviewCard({ review, onDelete }) {
   const { _id, note, rating, createdAt, updatedAt, email } = review;
@@ -49,12 +35,12 @@ export default function ReviewCard({ review, onDelete }) {
   const { data: session } = useSession();
 
   const isOwner = session && session.user.email === email;
-  const isAdmin = session && session.user.role === 'admin';
+  const isAdmin = session && session.user.role.includes('Admin');
 
   const showEmail = isOwner || isAdmin ? email : maskEmail(email);
   const showButtons = isOwner || isAdmin || _id.startsWith('demo-');
 
-  const handleDelete = async () => {
+  async function handleDelete() {
     if (inputValue === _id.slice(-4)) {
       try {
         if (_id.startsWith('demo-')) {
@@ -72,7 +58,7 @@ export default function ReviewCard({ review, onDelete }) {
     } else {
       alert('The last 4 digits do not match. Please try again.');
     }
-  };
+  }
 
   return (
     <>
@@ -115,7 +101,7 @@ export default function ReviewCard({ review, onDelete }) {
             <ModalInput
               type='text'
               value={inputValue}
-              onChange={(e) => setInputValue(e.target.value)}
+              onChange={(event) => setInputValue(event.target.value)}
               placeholder='Last 4 digits'
               maxLength={4}
             />

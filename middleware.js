@@ -9,7 +9,12 @@ export async function middleware(req) {
   // 1. It's a request for next-auth session & provider fetching
   // 2. It's a request for register
   // 3. the token exists
-  if (pathname.includes('/api/auth') || pathname.includes('/api/users') || pathname.startsWith('/(auth)/') || token) {
+  if (
+    pathname.includes('/api/auth') ||
+    pathname.includes('/api/auth/register') ||
+    pathname.startsWith('/(auth)/') ||
+    token
+  ) {
     return NextResponse.next();
   }
 

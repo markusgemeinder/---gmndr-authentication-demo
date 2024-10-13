@@ -18,7 +18,7 @@ export default function EditPage({ params }) {
   const router = useRouter();
 
   useEffect(() => {
-    const fetchReview = async () => {
+    async function fetchReview() {
       setLoading(true);
       try {
         if (params.id.startsWith('demo-')) {
@@ -47,18 +47,18 @@ export default function EditPage({ params }) {
       } finally {
         setLoading(false);
       }
-    };
+    }
 
     fetchReview();
   }, [params.id]);
 
-  const handleSave = () => {
+  function handleSave() {
     router.push('/reviews');
-  };
+  }
 
-  const handleCancel = () => {
+  function handleCancel() {
     router.push('/reviews');
-  };
+  }
 
   if (loading) {
     return <LoadingAnimation />;

@@ -1,8 +1,8 @@
-// /app/components/AuthForm/RegisterForm.js
+// /app/components/AuthForm/ResetPasswordForm.js
 
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import Button, { ButtonContainer } from '@/app/components/Common/Button';
 import {
@@ -21,8 +21,7 @@ import {
 import ModalPopup from '@/app/components/Common/ModalPopup';
 import validatePassword from '@/utils/validatePassword';
 
-export default function RegisterForm() {
-  const [email, setEmail] = useState('');
+export default function ResetPasswordForm() {
   const [password, setPassword] = useState('');
   const [repeatPassword, setRepeatPassword] = useState('');
   const [passwordVisible, setPasswordVisible] = useState(false);
@@ -31,7 +30,47 @@ export default function RegisterForm() {
   const [showModal, setShowModal] = useState(false);
   const [modalMessage, setModalMessage] = useState('');
   const [isError, setIsError] = useState(false);
+  const [isTokenExpired, setIsTokenExpired] = useState(false);
   const router = useRouter();
+
+  useEffect(() => {
+    const checkToken = async function () {
+      const token = window.location.pathname.split('/').pop();
+
+      if (!token) {
+        setModalMessage('Token is required.');
+        setIsTokenExpired(true);
+        setShowModal(true);
+        return;
+      }
+
+      try {
+        const response = await fetch('/api/auth/check-token', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ token }),
+        });
+
+        const result = await response.json();
+
+        if (response.status === 401) {
+          setModalMessage(result.message);
+          setIsError(true);
+          setShowModal(true);
+        } else if (response.status === 410) {
+          setModalMessage(result.message);
+          setIsTokenExpired(true);
+          setShowModal(true);
+        }
+      } catch {
+        setModalMessage('An error occurred while checking the token.');
+        setIsTokenExpired(true);
+        setShowModal(true);
+      }
+    };
+
+    checkToken();
+  }, []);
 
   function handlePasswordChange(pwd) {
     setPassword(pwd);
@@ -51,10 +90,11 @@ export default function RegisterForm() {
       return;
     }
 
-    const data = { email, password };
+    const token = window.location.pathname.split('/').pop();
+    const data = { password, token };
 
     try {
-      const response = await fetch('/api/auth/register', {
+      const response = await fetch('/api/auth/reset-password', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(data),
@@ -62,16 +102,14 @@ export default function RegisterForm() {
 
       const success = response.status === 201;
       const message = success
-        ? 'Account successfully created! Please login.'
-        : response.status === 409
-        ? `Account with email ${email} already exists. Please try logging in.`
-        : (await response.json()).message || 'Register failed.';
+        ? 'New password saved. You can now log in.'
+        : (await response.json()).message || 'Failed to save password. Please try again.';
 
       setModalMessage(message);
       setIsError(!success);
       setShowModal(true);
     } catch {
-      setModalMessage('An unexpected error occurred.');
+      setModalMessage('An error occurred. Please try again.');
       setIsError(true);
       setShowModal(true);
     }
@@ -79,7 +117,7 @@ export default function RegisterForm() {
 
   function handleOkClick() {
     setShowModal(false);
-    router.push(isError ? '/' : '/login');
+    router.push(isError || isTokenExpired ? '/' : '/login');
   }
 
   function togglePasswordVisibility() {
@@ -91,14 +129,7 @@ export default function RegisterForm() {
       <FormContainer onSubmit={handleSubmit}>
         <FormGroup>
           <LabelContainer>
-            <Label htmlFor='email'>Email:</Label>
-          </LabelContainer>
-          <Input id='email' type='email' value={email} onChange={(event) => setEmail(event.target.value)} required />
-        </FormGroup>
-
-        <FormGroup>
-          <LabelContainer>
-            <Label htmlFor='password'>Password:</Label>
+            <Label htmlFor='password'>New Password:</Label>
             {passwordQuality === '' && password.length > 0 ? (
               <CheckIcon />
             ) : (
@@ -112,8 +143,9 @@ export default function RegisterForm() {
               value={password}
               onChange={(event) => handlePasswordChange(event.target.value)}
               required
+              disabled={isTokenExpired}
             />
-            <ToggleVisibility onClick={togglePasswordVisibility}>
+            <ToggleVisibility onClick={togglePasswordVisibility} type='button'>
               {passwordVisible ? <PasswordVisibleIcon /> : <PasswordHiddenIcon />}
             </ToggleVisibility>
           </InputContainer>
@@ -139,6 +171,7 @@ export default function RegisterForm() {
               value={repeatPassword}
               onChange={(event) => setRepeatPassword(event.target.value)}
               required
+              disabled={isTokenExpired}
             />
           </InputContainer>
         </FormGroup>
@@ -150,7 +183,7 @@ export default function RegisterForm() {
             type='submit'
             bgColor='var(--color-button-login)'
             hoverColor='var(--color-button-login-hover)'
-            disabled={password !== repeatPassword || passwordQuality !== ''}>
+            disabled={password !== repeatPassword || passwordQuality !== '' || isTokenExpired}>
             Confirm
           </Button>
           <Button
@@ -163,7 +196,7 @@ export default function RegisterForm() {
         </ButtonContainer>
       </FormContainer>
 
-      {showModal && <ModalPopup message={modalMessage} onOkClick={handleOkClick} isError={isError} />}
+      {showModal && <ModalPopup message={modalMessage} onOkClick={handleOkClick} isError={isError || isTokenExpired} />}
     </>
   );
 }

@@ -2,7 +2,7 @@
 
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import ScrollToTop from '@/app/components/Common/ScrollToTop';
 import Button, { ButtonContainer } from '@/app/components/Common/Button';
 import {
@@ -11,40 +11,68 @@ import {
   LabelContainer,
   Label,
   Input,
-  WarningMessage,
   Divider,
   InputContainer,
   ToggleVisibility,
   PasswordVisibleIcon,
   PasswordHiddenIcon,
 } from '@/app/components/AuthForm/AuthFormStyles';
+import Link from 'next/link';
+import ModalPopup from '@/app/components/Common/ModalPopup';
 
-export default function LoginForm({ onLogin, onOAuthLogin, error, onForgotPassword }) {
+export default function LoginForm({ onLogin, onOAuthLogin, error }) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [passwordVisible, setPasswordVisible] = useState(false);
+  const [showModal, setShowModal] = useState(false);
+  const [modalMessage, setModalMessage] = useState('');
+  const [isSending, setIsSending] = useState(false);
 
-  const handleEmailChange = (e) => {
-    setEmail(e.target.value);
-  };
+  useEffect(() => {
+    if (error) {
+      showError(error);
+    }
+  }, [error]);
 
-  const handlePasswordChange = (e) => {
-    setPassword(e.target.value);
-  };
+  function handleEmailChange(event) {
+    setEmail(event.target.value);
+  }
 
-  const handleToggleVisibility = (e) => {
-    e.preventDefault(); // Prevent the default button behavior
+  function handlePasswordChange(event) {
+    setPassword(event.target.value);
+  }
+
+  function handleToggleVisibility(event) {
+    event.preventDefault();
     setPasswordVisible(!passwordVisible);
-  };
+  }
+
+  function showError(message) {
+    setModalMessage(message);
+    setShowModal(true);
+  }
+
+  async function handleSubmit(event) {
+    event.preventDefault();
+    setIsSending(true);
+
+    try {
+      const loginSuccess = await onLogin(email, password);
+
+      if (!loginSuccess) {
+        showError(error);
+      }
+    } catch (error) {
+      showError(error.message);
+    } finally {
+      setIsSending(false);
+    }
+  }
 
   return (
     <>
       <ScrollToTop />
-      <FormContainer
-        onSubmit={(e) => {
-          e.preventDefault();
-          onLogin(email, password);
-        }}>
+      <FormContainer onSubmit={handleSubmit}>
         <ButtonContainer>
           <Button
             type='button'
@@ -53,7 +81,7 @@ export default function LoginForm({ onLogin, onOAuthLogin, error, onForgotPasswo
             onClick={() => onOAuthLogin('github')}
             style={{ width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
             <img src='/github-logo.svg' alt='GitHub Logo' style={{ width: '20px', marginRight: '8px' }} />
-            Login with GitHub
+            GitHub
           </Button>
 
           <Button
@@ -63,7 +91,7 @@ export default function LoginForm({ onLogin, onOAuthLogin, error, onForgotPasswo
             onClick={() => onOAuthLogin('google')}
             style={{ width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
             <img src='/google-logo.svg' alt='Google Logo' style={{ width: '20px', marginRight: '8px' }} />
-            Login with Google
+            Google
           </Button>
 
           <Divider>
@@ -73,7 +101,7 @@ export default function LoginForm({ onLogin, onOAuthLogin, error, onForgotPasswo
             <LabelContainer>
               <Label htmlFor='email'>Email:</Label>
             </LabelContainer>
-            <Input id='email' type='email' name='email' value={email} onChange={handleEmailChange} />
+            <Input id='email' type='email' name='email' value={email} onChange={handleEmailChange} required />
           </FormGroup>
           <FormGroup>
             <LabelContainer>
@@ -86,13 +114,13 @@ export default function LoginForm({ onLogin, onOAuthLogin, error, onForgotPasswo
                 name='password'
                 value={password}
                 onChange={handlePasswordChange}
+                required
               />
-              <ToggleVisibility onClick={handleToggleVisibility}>
+              <ToggleVisibility onClick={handleToggleVisibility} type='button'>
                 {passwordVisible ? <PasswordVisibleIcon /> : <PasswordHiddenIcon />}
               </ToggleVisibility>
             </InputContainer>
           </FormGroup>
-          {error && <WarningMessage>{error}</WarningMessage>}
           <Button
             type='submit'
             bgColor='var(--color-button-login)'
@@ -100,16 +128,18 @@ export default function LoginForm({ onLogin, onOAuthLogin, error, onForgotPasswo
             style={{ width: '100%' }}>
             Login
           </Button>
-          <Button
-            type='button'
-            onClick={onForgotPassword}
-            bgColor='var(--color-button-forgot-password)'
-            hoverColor='var(--color-button-forgot-password-hover)'
-            style={{ width: '100%' }}>
-            Forgot Password
-          </Button>
+          <Link href='/forgot-password'>
+            <Button
+              type='button'
+              bgColor='var(--color-button-forgot-password)'
+              hoverColor='var(--color-button-forgot-password-hover)'
+              style={{ width: '100%' }}>
+              Forgot Password
+            </Button>
+          </Link>
         </ButtonContainer>
       </FormContainer>
+      {showModal && <ModalPopup message={modalMessage} onOkClick={() => setShowModal(false)} isSending={isSending} />}
     </>
   );
 }

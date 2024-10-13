@@ -12,7 +12,7 @@ import { SunIcon, MoonIcon } from '@heroicons/react/24/solid';
 import LoadingAnimation from '@/app/components/Common/LoadingAnimation';
 import { ThemeContext } from '@/app/components/Common/ThemeProvider';
 
-// Styled components
+// Styled components (same as before)
 const Header = styled.header`
   background-color: var(--color-header);
   color: var(--color-header-text);
@@ -135,7 +135,6 @@ const BurgerMenuList = styled.ul`
 
 const BurgerMenuItem = styled.li`
   padding: 1rem;
-  /* border-bottom: 1px solid var(--color-border); */ /* Entfernt die Linie */
 `;
 
 export default function Navigation() {
@@ -149,61 +148,123 @@ export default function Navigation() {
     return <LoadingAnimation />;
   }
 
+  const renderNavLinks = () => (
+    <>
+      <NavItem>
+        <NavLink href='/' isActive={pathname === '/'}>
+          Home
+        </NavLink>
+      </NavItem>
+      {!session && (
+        <>
+          <NavItem>
+            <NavLink href='/forgot-password' isActive={pathname === '/forgot-password'}>
+              Forgot Password
+            </NavLink>
+          </NavItem>
+        </>
+      )}
+      {session && (
+        <>
+          <NavItem>
+            <NavLink href='/reviews' isActive={pathname === '/reviews'}>
+              Reviews
+            </NavLink>
+          </NavItem>
+          {/* {session.user.role.includes('Admin') && (
+            <NavItem>
+              <NavLink href='/api/reviews' isActive={pathname === '/api/reviews'}>
+                API
+              </NavLink>
+            </NavItem>
+          )} */}
+        </>
+      )}
+      <NavItem>
+        <NavLink href='/about' isActive={pathname === '/about'}>
+          About
+        </NavLink>
+      </NavItem>
+    </>
+  );
+
+  const renderBurgerMenuLinks = () => (
+    <>
+      <BurgerMenuItem>
+        <NavLink href='/' isActive={pathname === '/'}>
+          Home
+        </NavLink>
+      </BurgerMenuItem>
+      {session && (
+        <>
+          <BurgerMenuItem>
+            <NavLink href='/reviews' isActive={pathname === '/reviews'}>
+              Reviews
+            </NavLink>
+          </BurgerMenuItem>
+          {/* {session.user.role.includes('Admin') && (
+            <BurgerMenuItem>
+            <NavLink href='/api/reviews' isActive={pathname === '/api/reviews'}>
+            API
+            </NavLink>
+            </BurgerMenuItem>
+            )} */}
+        </>
+      )}
+      {!session && (
+        <>
+          <BurgerMenuItem>
+            <NavLink href='/forgot-password' isActive={pathname === '/forgot-password'}>
+              Forgot Password
+            </NavLink>
+          </BurgerMenuItem>
+        </>
+      )}
+      <BurgerMenuItem>
+        <NavLink href='/about' isActive={pathname === '/about'}>
+          About
+        </NavLink>
+      </BurgerMenuItem>
+    </>
+  );
+
+  const renderSessionButtons = () => (
+    <>
+      <Button
+        bgColor='var(--color-button-logout)'
+        hoverColor='var(--color-button-logout-hover)'
+        onClick={() => signOut({ callbackUrl: '/' })}>
+        Logout
+      </Button>
+    </>
+  );
+
+  const renderNoSessionButtons = () => (
+    <>
+      <Button
+        bgColor='var(--color-button-login)'
+        hoverColor='var(--color-button-login-hover)'
+        onClick={() => router.push('/login')}>
+        Login
+      </Button>
+      <Button
+        bgColor='var(--color-button-register)'
+        hoverColor='var(--color-button-register-hover)'
+        onClick={() => router.push('/register')}>
+        Register
+      </Button>
+    </>
+  );
+
   return (
     <>
       <Header>
         <BrandContainer>
           <Title>MyApp</Title>
-          <Button
-            bgColor={session ? 'var(--color-button-logout)' : 'var(--color-button-login)'}
-            hoverColor={session ? 'var(--color-button-logout-hover)' : 'var(--color-button-login-hover)'}
-            onClick={() => {
-              if (session) {
-                signOut({ callbackUrl: '/' });
-              } else {
-                router.push('/login');
-              }
-            }}>
-            {session ? 'Logout' : 'Login'}
-          </Button>
-          {!session && (
-            <Button
-              bgColor='var(--color-button-register)'
-              hoverColor='var(--color-button-register-hover)'
-              onClick={() => router.push('/register')}>
-              Register
-            </Button>
-          )}
+          {session ? renderSessionButtons() : renderNoSessionButtons()}
         </BrandContainer>
         <NavContainer>
-          <NavList>
-            <NavItem>
-              <NavLink href='/' isActive={pathname === '/'}>
-                Home
-              </NavLink>
-            </NavItem>
-            {session && (
-              <>
-                <NavItem>
-                  <NavLink href='/reviews' isActive={pathname === '/reviews'}>
-                    Reviews
-                  </NavLink>
-                </NavItem>
-                {session.user.role === 'admin' && (
-                  <NavItem>
-                    <NavLink href='/api/reviews' isActive={pathname === '/api/reviews'}>
-                      API
-                    </NavLink>
-                  </NavItem>
-                )}
-              </>
-            )}
-            <NavItem>
-              <NavLink href='/about' isActive={pathname === '/about'}>
-                About
-              </NavLink>
-            </NavItem>
-          </NavList>
+          <NavList>{renderNavLinks()}</NavList>
           <ThemeToggle onClick={toggleTheme} aria-label='Toggle Theme'>
             {theme === 'light' ? <MoonIcon className='h-6 w-6' /> : <SunIcon className='h-6 w-6' />}
           </ThemeToggle>
@@ -226,34 +287,7 @@ export default function Navigation() {
         </NavContainer>
       </Header>
       <BurgerMenuNavigation isOpen={isBurgerOpen}>
-        <BurgerMenuList>
-          <BurgerMenuItem>
-            <NavLink href='/' isActive={pathname === '/'}>
-              Home
-            </NavLink>
-          </BurgerMenuItem>
-          {session && (
-            <>
-              <BurgerMenuItem>
-                <NavLink href='/reviews' isActive={pathname === '/reviews'}>
-                  Reviews
-                </NavLink>
-              </BurgerMenuItem>
-              {session.user.role === 'admin' && (
-                <BurgerMenuItem>
-                  <NavLink href='/api/reviews' isActive={pathname === '/api/reviews'}>
-                    API
-                  </NavLink>
-                </BurgerMenuItem>
-              )}
-            </>
-          )}
-          <BurgerMenuItem>
-            <NavLink href='/about' isActive={pathname === '/about'}>
-              About
-            </NavLink>
-          </BurgerMenuItem>
-        </BurgerMenuList>
+        <BurgerMenuList>{renderBurgerMenuLinks()}</BurgerMenuList>
       </BurgerMenuNavigation>
     </>
   );
