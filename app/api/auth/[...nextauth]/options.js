@@ -23,13 +23,13 @@ export const options = {
 
           if (!existingUser) {
             console.log('No user found with this email:', credentials.email);
-            throw new Error('No user found with this email.');
+            throw new Error('No account with this email address exists. Please try again.');
           }
 
           const match = await bcrypt.compare(credentials.password, existingUser.password);
           if (!match) {
             console.log('Password does not match for email:', credentials.email);
-            throw new Error('Invalid password.');
+            throw new Error('Incorrect password. Please try again.');
           }
 
           console.log('Login successful for email:', credentials.email);
@@ -44,7 +44,8 @@ export const options = {
           return userPayload;
         } catch (error) {
           console.error('Error during authorization:', error);
-          throw new Error('Authentication failed.');
+          throw error;
+          // throw new Error('Authentication failed. Please try again.'); overwrites original error
         }
       },
     }),
@@ -127,7 +128,7 @@ export const options = {
     },
   },
   session: {
-    maxAge: 60 * 60, // 1 Stunde
-    updateAge: 60 * 5, // alle 5 Minuten
+    maxAge: 60 * 60, // 1 hour
+    updateAge: 60 * 5, // every 5 minutes
   },
 };

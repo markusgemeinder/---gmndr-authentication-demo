@@ -10,7 +10,7 @@ import ResetPasswordForm from '@/app/components/AuthForm/ResetPasswordForm';
 export default function ResetPasswordPage({ params }) {
   const [password, setPassword] = useState('');
 
-  const handleSubmit = async (password) => {
+  async function handleSubmit(password) {
     const response = await fetch('/api/auth/reset-password', {
       method: 'POST',
       headers: {
@@ -20,7 +20,7 @@ export default function ResetPasswordPage({ params }) {
     });
     const data = await response.json();
     setPassword(data.password);
-  };
+  }
 
   return (
     <>

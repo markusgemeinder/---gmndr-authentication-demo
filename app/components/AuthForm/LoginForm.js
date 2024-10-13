@@ -2,7 +2,7 @@
 
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import ScrollToTop from '@/app/components/Common/ScrollToTop';
 import Button, { ButtonContainer } from '@/app/components/Common/Button';
 import {
@@ -18,52 +18,56 @@ import {
   PasswordHiddenIcon,
 } from '@/app/components/AuthForm/AuthFormStyles';
 import Link from 'next/link';
-import ModalPopup from '@/app/components/Common/ModalPopup'; // Import ModalPopup
+import ModalPopup from '@/app/components/Common/ModalPopup';
 
-export default function LoginForm({ onLogin, onOAuthLogin, error, onForgotPassword }) {
+export default function LoginForm({ onLogin, onOAuthLogin, error }) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [passwordVisible, setPasswordVisible] = useState(false);
-  const [showModal, setShowModal] = useState(false); // Modal state
-  const [modalMessage, setModalMessage] = useState(''); // Modal message
-  const [isSending, setIsSending] = useState(false); // State to handle loading
+  const [showModal, setShowModal] = useState(false);
+  const [modalMessage, setModalMessage] = useState('');
+  const [isSending, setIsSending] = useState(false);
 
-  const handleEmailChange = (e) => {
-    setEmail(e.target.value);
-  };
+  useEffect(() => {
+    if (error) {
+      showError(error);
+    }
+  }, [error]);
 
-  const handlePasswordChange = (e) => {
-    setPassword(e.target.value);
-  };
+  function handleEmailChange(event) {
+    setEmail(event.target.value);
+  }
 
-  const handleToggleVisibility = (e) => {
-    e.preventDefault(); // Prevent the default button behavior
+  function handlePasswordChange(event) {
+    setPassword(event.target.value);
+  }
+
+  function handleToggleVisibility(event) {
+    event.preventDefault();
     setPasswordVisible(!passwordVisible);
-  };
+  }
 
-  // Neue Funktion zur Anzeige von Fehlern
-  const showError = (message) => {
+  function showError(message) {
     setModalMessage(message);
     setShowModal(true);
-  };
+  }
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+  async function handleSubmit(event) {
+    event.preventDefault();
     setIsSending(true);
 
     try {
-      // Call the onLogin function to trigger the login process
       const loginSuccess = await onLogin(email, password);
 
       if (!loginSuccess) {
-        showError('Login failed. Please check your email and password.');
+        showError(error);
       }
     } catch (error) {
-      showError('An error occurred. Please try again later.');
+      showError(error.message);
     } finally {
       setIsSending(false);
     }
-  };
+  }
 
   return (
     <>
@@ -130,7 +134,7 @@ export default function LoginForm({ onLogin, onOAuthLogin, error, onForgotPasswo
               bgColor='var(--color-button-forgot-password)'
               hoverColor='var(--color-button-forgot-password-hover)'
               style={{ width: '100%' }}>
-              Forgot Password?
+              Forgot Password
             </Button>
           </Link>
         </ButtonContainer>

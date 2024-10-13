@@ -155,6 +155,15 @@ export default function Navigation() {
           Home
         </NavLink>
       </NavItem>
+      {!session && (
+        <>
+          <NavItem>
+            <NavLink href='/forgot-password' isActive={pathname === '/forgot-password'}>
+              Forgot Password
+            </NavLink>
+          </NavItem>
+        </>
+      )}
       {session && (
         <>
           <NavItem>
@@ -162,22 +171,13 @@ export default function Navigation() {
               Reviews
             </NavLink>
           </NavItem>
-          {session.user.role.includes('Admin') && (
+          {/* {session.user.role.includes('Admin') && (
             <NavItem>
               <NavLink href='/api/reviews' isActive={pathname === '/api/reviews'}>
                 API
               </NavLink>
             </NavItem>
-          )}
-        </>
-      )}
-      {!session && (
-        <>
-          <NavItem>
-            <NavLink href='/forgot-password' isActive={pathname === '/forgot-password'}>
-              Forgot Password?
-            </NavLink>
-          </NavItem>
+          )} */}
         </>
       )}
       <NavItem>
@@ -202,25 +202,24 @@ export default function Navigation() {
               Reviews
             </NavLink>
           </BurgerMenuItem>
-          {session.user.role.includes('Admin') && (
+          {/* {session.user.role.includes('Admin') && (
             <BurgerMenuItem>
-              <NavLink href='/api/reviews' isActive={pathname === '/api/reviews'}>
-                API
-              </NavLink>
+            <NavLink href='/api/reviews' isActive={pathname === '/api/reviews'}>
+            API
+            </NavLink>
             </BurgerMenuItem>
-          )}
+            )} */}
         </>
       )}
       {!session && (
         <>
           <BurgerMenuItem>
             <NavLink href='/forgot-password' isActive={pathname === '/forgot-password'}>
-              Forgot Password?
+              Forgot Password
             </NavLink>
           </BurgerMenuItem>
         </>
       )}
-
       <BurgerMenuItem>
         <NavLink href='/about' isActive={pathname === '/about'}>
           About

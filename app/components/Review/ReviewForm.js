@@ -17,7 +17,7 @@ import {
   HorizontalButtonContainer,
 } from '@/app/components/Review/ReviewStyles';
 
-const renderStars = (rating, setRating) => {
+function renderStars(rating, setRating) {
   const stars = [];
   for (let i = 1; i <= 5; i++) {
     const isFilled = rating >= i;
@@ -38,7 +38,7 @@ const renderStars = (rating, setRating) => {
     );
   }
   return stars;
-};
+}
 
 export default function ReviewForm({ review, onSave, onCancel, isDemoReview }) {
   const { data: session } = useSession();
@@ -60,13 +60,12 @@ export default function ReviewForm({ review, onSave, onCancel, isDemoReview }) {
     }
   }, [review, session]);
 
-  const handleSubmit = async (event) => {
+  async function handleSubmit(event) {
     event.preventDefault();
     const data = { email, note, rating };
 
     try {
       if (isDemoReview) {
-        // Speichern des DemoReviews in sessionStorage
         const storedReviews = JSON.parse(sessionStorage.getItem('reviews') || '[]');
         const updatedReviews = storedReviews.map((r) => (r._id === review._id ? { ...r, note, rating } : r));
         sessionStorage.setItem('reviews', JSON.stringify(updatedReviews));
@@ -91,7 +90,7 @@ export default function ReviewForm({ review, onSave, onCancel, isDemoReview }) {
     } catch (error) {
       console.error('Error saving review:', error);
     }
-  };
+  }
 
   return (
     <FormContainer onSubmit={handleSubmit}>
@@ -101,12 +100,17 @@ export default function ReviewForm({ review, onSave, onCancel, isDemoReview }) {
       </FormGroup>
       <FormGroup>
         <Label htmlFor='note'>Note</Label>
-        <Textarea id='note' rows='8' value={note} onChange={(e) => setNote(e.target.value)} required />
+        <Textarea id='note' rows='8' value={note} onChange={(event) => setNote(event.target.value)} required />
       </FormGroup>
       <FormGroup>
         <Label htmlFor='rating'>Rating</Label>
         <RatingContainer>{renderStars(rating, setRating)}</RatingContainer>
-        <HiddenInput type='hidden' id='rating' value={rating} onChange={(e) => setRating(parseInt(e.target.value))} />
+        <HiddenInput
+          type='hidden'
+          id='rating'
+          value={rating}
+          onChange={(event) => setRating(parseInt(event.target.value))}
+        />
       </FormGroup>
       <HorizontalButtonContainer>
         <Button type='submit' bgColor='var(--color-button-ok)' hoverColor='var(--color-button-ok-hover)'>

@@ -7,31 +7,30 @@ import { useRouter } from 'next/navigation';
 import { useSession } from 'next-auth/react';
 import Button, { ButtonContainer } from '@/app/components/Common/Button';
 import { FormContainer, FormGroup, LabelContainer, Label, Input } from '@/app/components/AuthForm/AuthFormStyles';
-import ModalPopup from '@/app/components/Common/ModalPopup'; // Import der ausgelagerten ModalPopup-Komponente
+import ModalPopup from '@/app/components/Common/ModalPopup';
 
 export default function ForgotPasswordForm() {
   const [email, setEmail] = useState('');
   const [showModal, setShowModal] = useState(false);
   const [modalMessage, setModalMessage] = useState('');
-  const [isSuccess, setIsSuccess] = useState(false); // Indicates if the request was successful
+  const [isSuccess, setIsSuccess] = useState(false);
   const [isSending, setIsSending] = useState(false);
   const router = useRouter();
   const { data: session, status: sessionStatus } = useSession();
 
-  // Redirect user if already authenticated
   useEffect(() => {
     if (sessionStatus === 'authenticated') {
       router.replace('/reviews');
     }
   }, [sessionStatus, router]);
 
-  const isValidEmail = (email) => {
+  function isValidEmail(email) {
     const emailRegex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i;
     return emailRegex.test(email);
-  };
+  }
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+  async function handleSubmit(event) {
+    event.preventDefault();
 
     if (!isValidEmail(email)) {
       setModalMessage('Please enter a valid email address.');
@@ -69,16 +68,15 @@ export default function ForgotPasswordForm() {
     } finally {
       setIsSending(false);
     }
-  };
+  }
 
-  const handleOkClick = () => {
+  function handleOkClick() {
     setShowModal(false);
 
-    // Only redirect if the email was successfully sent
     if (isSuccess) {
       router.push('/login');
     }
-  };
+  }
 
   return (
     <>
@@ -87,7 +85,7 @@ export default function ForgotPasswordForm() {
           <LabelContainer>
             <Label htmlFor='email'>Email:</Label>
           </LabelContainer>
-          <Input id='email' type='email' value={email} onChange={(e) => setEmail(e.target.value)} required />
+          <Input id='email' type='email' value={email} onChange={(event) => setEmail(event.target.value)} required />
         </FormGroup>
         <ButtonContainer>
           <Button type='submit' bgColor='var(--color-button-login)' hoverColor='var(--color-button-login-hover)'>

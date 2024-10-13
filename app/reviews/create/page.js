@@ -12,13 +12,13 @@ import ScrollToTop from '@/app/components/Common/ScrollToTop';
 export default function CreatePage() {
   const router = useRouter();
 
-  const handleSave = () => {
+  function handleSave() {
     router.push('/reviews');
-  };
+  }
 
-  const handleCancel = () => {
+  function handleCancel() {
     router.push('/reviews');
-  };
+  }
 
   return (
     <ProtectedRoute>

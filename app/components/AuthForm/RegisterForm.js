@@ -17,16 +17,16 @@ import {
   WarningMessage,
   CheckIcon,
 } from '@/app/components/AuthForm/AuthFormStyles';
-import ModalPopup from '@/app/components/Common/ModalPopup'; // Import der ausgelagerten ModalPopup-Komponente
+import ModalPopup from '@/app/components/Common/ModalPopup';
 
-const validatePassword = (pwd) => {
+function validatePassword(pwd) {
   if (pwd.length < 8) return 'Must be at least 8 characters long.';
   if (!/[A-Z]/.test(pwd)) return 'Must contain at least one uppercase letter.';
   if (!/[a-z]/.test(pwd)) return 'Must contain at least one lowercase letter.';
   if (!/[0-9]/.test(pwd)) return 'Must contain at least one number.';
   if (!/[!@#$%^&*]/.test(pwd)) return 'Must contain at least one special character.';
   return '';
-};
+}
 
 export default function RegisterForm() {
   const [email, setEmail] = useState('');
@@ -40,12 +40,12 @@ export default function RegisterForm() {
   const [isError, setIsError] = useState(false);
   const router = useRouter();
 
-  const handlePasswordChange = (pwd) => {
+  function handlePasswordChange(pwd) {
     setPassword(pwd);
     setPasswordQuality(validatePassword(pwd));
-  };
+  }
 
-  const handleSubmit = async (event) => {
+  async function handleSubmit(event) {
     event.preventDefault();
 
     if (password !== repeatPassword) {
@@ -82,14 +82,16 @@ export default function RegisterForm() {
       setIsError(true);
       setShowModal(true);
     }
-  };
+  }
 
-  const handleOkClick = () => {
+  function handleOkClick() {
     setShowModal(false);
     router.push(isError ? '/' : '/login');
-  };
+  }
 
-  const togglePasswordVisibility = () => setPasswordVisible(!passwordVisible);
+  function togglePasswordVisibility() {
+    setPasswordVisible(!passwordVisible);
+  }
 
   return (
     <>
@@ -98,7 +100,7 @@ export default function RegisterForm() {
           <LabelContainer>
             <Label htmlFor='email'>Email:</Label>
           </LabelContainer>
-          <Input id='email' type='email' value={email} onChange={(e) => setEmail(e.target.value)} required />
+          <Input id='email' type='email' value={email} onChange={(event) => setEmail(event.target.value)} required />
         </FormGroup>
 
         <FormGroup>
@@ -115,7 +117,7 @@ export default function RegisterForm() {
               id='password'
               type={passwordVisible ? 'text' : 'password'}
               value={password}
-              onChange={(e) => handlePasswordChange(e.target.value)}
+              onChange={(event) => handlePasswordChange(event.target.value)}
               required
             />
             <ToggleVisibility onClick={togglePasswordVisibility}>
@@ -142,7 +144,7 @@ export default function RegisterForm() {
               id='repeat-password'
               type={passwordVisible ? 'text' : 'password'}
               value={repeatPassword}
-              onChange={(e) => setRepeatPassword(e.target.value)}
+              onChange={(event) => setRepeatPassword(event.target.value)}
               required
             />
           </InputContainer>

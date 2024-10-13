@@ -10,7 +10,7 @@ import ForgotPasswordForm from '@/app/components/AuthForm/ForgotPasswordForm';
 export default function ForgotPasswordPage() {
   const [message, setMessage] = useState('');
 
-  const handleSubmit = async (email) => {
+  async function handleSubmit(email) {
     const response = await fetch('/api/auth/forgot-password', {
       method: 'POST',
       headers: {
@@ -20,7 +20,7 @@ export default function ForgotPasswordPage() {
     });
     const data = await response.json();
     setMessage(data.message);
-  };
+  }
 
   return (
     <>

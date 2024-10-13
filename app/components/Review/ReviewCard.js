@@ -27,7 +27,7 @@ import {
 } from '@/app/components/Common/ModalPopup';
 import { maskEmail } from '@/utils/maskEmail';
 
-const renderStars = (rating) => {
+function renderStars(rating) {
   const stars = [];
   for (let i = 1; i <= 5; i++) {
     if (rating >= i) {
@@ -39,7 +39,7 @@ const renderStars = (rating) => {
     }
   }
   return stars;
-};
+}
 
 export default function ReviewCard({ review, onDelete }) {
   const { _id, note, rating, createdAt, updatedAt, email } = review;
@@ -54,7 +54,7 @@ export default function ReviewCard({ review, onDelete }) {
   const showEmail = isOwner || isAdmin ? email : maskEmail(email);
   const showButtons = isOwner || isAdmin || _id.startsWith('demo-');
 
-  const handleDelete = async () => {
+  async function handleDelete() {
     if (inputValue === _id.slice(-4)) {
       try {
         if (_id.startsWith('demo-')) {
@@ -72,7 +72,7 @@ export default function ReviewCard({ review, onDelete }) {
     } else {
       alert('The last 4 digits do not match. Please try again.');
     }
-  };
+  }
 
   return (
     <>
@@ -115,7 +115,7 @@ export default function ReviewCard({ review, onDelete }) {
             <ModalInput
               type='text'
               value={inputValue}
-              onChange={(e) => setInputValue(e.target.value)}
+              onChange={(event) => setInputValue(event.target.value)}
               placeholder='Last 4 digits'
               maxLength={4}
             />

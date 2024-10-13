@@ -33,7 +33,7 @@ export default function ResetPasswordForm() {
   const router = useRouter();
 
   useEffect(() => {
-    const checkToken = async () => {
+    const checkToken = async function () {
       const token = window.location.pathname.split('/').pop();
 
       if (!token) {
@@ -71,21 +71,21 @@ export default function ResetPasswordForm() {
     checkToken();
   }, []);
 
-  const validatePassword = (pwd) => {
+  function validatePassword(pwd) {
     if (pwd.length < 8) return 'Must be at least 8 characters long.';
     if (!/[A-Z]/.test(pwd)) return 'Must contain at least one uppercase letter.';
     if (!/[a-z]/.test(pwd)) return 'Must contain at least one lowercase letter.';
     if (!/[0-9]/.test(pwd)) return 'Must contain at least one number.';
     if (!/[!@#$%^&*]/.test(pwd)) return 'Must contain at least one special character.';
     return '';
-  };
+  }
 
-  const handlePasswordChange = (pwd) => {
+  function handlePasswordChange(pwd) {
     setPassword(pwd);
     setPasswordQuality(validatePassword(pwd));
-  };
+  }
 
-  const handleSubmit = async (event) => {
+  async function handleSubmit(event) {
     event.preventDefault();
 
     if (password !== repeatPassword) {
@@ -121,14 +121,16 @@ export default function ResetPasswordForm() {
       setIsError(true);
       setShowModal(true);
     }
-  };
+  }
 
-  const handleOkClick = () => {
+  function handleOkClick() {
     setShowModal(false);
     router.push(isError || isTokenExpired ? '/' : '/login');
-  };
+  }
 
-  const togglePasswordVisibility = () => setPasswordVisible(!passwordVisible);
+  function togglePasswordVisibility() {
+    setPasswordVisible(!passwordVisible);
+  }
 
   return (
     <>
@@ -147,7 +149,7 @@ export default function ResetPasswordForm() {
               id='password'
               type={passwordVisible ? 'text' : 'password'}
               value={password}
-              onChange={(e) => handlePasswordChange(e.target.value)}
+              onChange={(event) => handlePasswordChange(event.target.value)}
               required
               disabled={isTokenExpired}
             />
@@ -175,7 +177,7 @@ export default function ResetPasswordForm() {
               id='repeat-password'
               type={passwordVisible ? 'text' : 'password'}
               value={repeatPassword}
-              onChange={(e) => setRepeatPassword(e.target.value)}
+              onChange={(event) => setRepeatPassword(event.target.value)}
               required
               disabled={isTokenExpired}
             />
