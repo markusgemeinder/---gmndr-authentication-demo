@@ -19,38 +19,38 @@ export const options = {
       async authorize(credentials) {
         await dbConnect();
         try {
-          if (!credentials.email || !credentials.password) {
-            throw new Error('Email or Password is missing.');
-          }
-
           const existingUser = await User.findOne({ email: credentials.email }).lean().exec();
 
           if (!existingUser) {
-            console.log('No user found for email:', credentials.email);
-            throw new Error('No account found with this email address.'); // Benutzer nicht gefunden
+            console.log('No user found with this email:', credentials.email);
+            throw new Error('No user found with this email.');
           }
 
           const match = await bcrypt.compare(credentials.password, existingUser.password);
           if (!match) {
-            console.log('Password mismatch for email:', credentials.email);
-            throw new Error('Password is incorrect.'); // Passwort falsch
+            console.log('Password does not match for email:', credentials.email);
+            throw new Error('Invalid password.');
           }
+
+          console.log('Login successful for email:', credentials.email);
 
           const userPayload = {
             id: existingUser._id,
             email: existingUser.email,
             role: existingUser.role || 'Credentials User',
           };
+          console.log('Returning user payload:', userPayload);
 
           return userPayload;
         } catch (error) {
-          console.error('Authorization error:', error);
+          console.error('Error during authorization:', error);
           throw new Error('Authentication failed.');
         }
       },
     }),
     GitHubProvider({
       profile(profile) {
+        console.log('GitHub Profile:', profile);
         let userRole = 'GitHub User';
         if (profile?.email === 'info@gemeinder-coaching.de') {
           userRole = 'GitHub User (Admin)';
@@ -62,6 +62,7 @@ export const options = {
     }),
     GoogleProvider({
       profile(profile) {
+        console.log('Google Profile:', profile);
         let userRole = 'Google User';
         if (profile?.email === '190774@gmx.de') {
           userRole = 'Google User (Admin)';
@@ -96,8 +97,10 @@ export const options = {
 
             const newUser = new User({ email: user.email, role: userRole });
             await newUser.save();
+            console.log('New user created for email:', user.email);
           } else {
             await User.updateOne({ email: user.email }, { $set: { updatedAt: new Date() } });
+            console.log('Existing user updated for email:', user.email);
           }
 
           return true;
@@ -111,18 +114,20 @@ export const options = {
       if (user) {
         token.role = user.role;
         token.createdAt = Date.now();
+        console.log('JWT Callback - Token:', token);
       }
       return token;
     },
     async session({ session, token }) {
       if (session?.user) {
         session.user.role = token.role;
+        console.log('Session Callback - Session:', session);
       }
       return session;
     },
   },
   session: {
-    maxAge: 60 * 60,
-    updateAge: 60 * 5,
+    maxAge: 60 * 60, // 1 Stunde
+    updateAge: 60 * 5, // alle 5 Minuten
   },
 };

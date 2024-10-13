@@ -18,15 +18,15 @@ import {
   PasswordHiddenIcon,
 } from '@/app/components/AuthForm/AuthFormStyles';
 import Link from 'next/link';
-import ModalPopup from '@/app/components/Common/ModalPopup';
+import ModalPopup from '@/app/components/Common/ModalPopup'; // Import ModalPopup
 
 export default function LoginForm({ onLogin, onOAuthLogin, error, onForgotPassword }) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [passwordVisible, setPasswordVisible] = useState(false);
-  const [showModal, setShowModal] = useState(false);
-  const [modalMessage, setModalMessage] = useState('');
-  const [isSending, setIsSending] = useState(false);
+  const [showModal, setShowModal] = useState(false); // Modal state
+  const [modalMessage, setModalMessage] = useState(''); // Modal message
+  const [isSending, setIsSending] = useState(false); // State to handle loading
 
   const handleEmailChange = (e) => {
     setEmail(e.target.value);
@@ -37,10 +37,11 @@ export default function LoginForm({ onLogin, onOAuthLogin, error, onForgotPasswo
   };
 
   const handleToggleVisibility = (e) => {
-    e.preventDefault();
+    e.preventDefault(); // Prevent the default button behavior
     setPasswordVisible(!passwordVisible);
   };
 
+  // Neue Funktion zur Anzeige von Fehlern
   const showError = (message) => {
     setModalMessage(message);
     setShowModal(true);
@@ -51,23 +52,14 @@ export default function LoginForm({ onLogin, onOAuthLogin, error, onForgotPasswo
     setIsSending(true);
 
     try {
-      const loginResponse = await onLogin(email, password);
+      // Call the onLogin function to trigger the login process
+      const loginSuccess = await onLogin(email, password);
 
-      if (!loginResponse) {
-        showError('No account found with this email address.');
-      } else if (!loginResponse.passwordCorrect) {
-        showError('Password is incorrect.');
-      } else {
-        console.log('Login successful!');
+      if (!loginSuccess) {
+        showError('Login failed. Please check your email and password.');
       }
     } catch (error) {
-      if (error.message.includes('No account found')) {
-        showError('No account found with this email address.');
-      } else if (error.message.includes('Password is incorrect')) {
-        showError('Password is incorrect.');
-      } else {
-        showError('An error occurred. Please try again later.');
-      }
+      showError('An error occurred. Please try again later.');
     } finally {
       setIsSending(false);
     }
@@ -129,17 +121,21 @@ export default function LoginForm({ onLogin, onOAuthLogin, error, onForgotPasswo
             type='submit'
             bgColor='var(--color-button-login)'
             hoverColor='var(--color-button-login-hover)'
-            isSending={isSending}>
-            Log in
+            style={{ width: '100%' }}>
+            Login
           </Button>
-
-          <Button type='button' onClick={onForgotPassword}>
-            Forgot password?
-          </Button>
+          <Link href='/forgot-password'>
+            <Button
+              type='button'
+              bgColor='var(--color-button-forgot-password)'
+              hoverColor='var(--color-button-forgot-password-hover)'
+              style={{ width: '100%' }}>
+              Forgot Password?
+            </Button>
+          </Link>
         </ButtonContainer>
       </FormContainer>
-
-      {showModal && <ModalPopup message={modalMessage} onClose={() => setShowModal(false)} />}
+      {showModal && <ModalPopup message={modalMessage} onOkClick={() => setShowModal(false)} isSending={isSending} />}
     </>
   );
 }
