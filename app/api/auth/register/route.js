@@ -13,12 +13,12 @@ export async function POST(req) {
     const { email, password } = body;
 
     if (!email || !password) {
-      return NextResponse.json({ message: 'All fields are required.' }, { status: 400 });
+      return NextResponse.json({ message: 'Both email and password are required.' }, { status: 400 });
     }
 
     const duplicate = await User.findOne({ email }).lean().exec();
     if (duplicate) {
-      return NextResponse.json({ message: 'Duplicate Email' }, { status: 409 });
+      return NextResponse.json({ message: 'Email already in use.' }, { status: 409 });
     }
 
     const hashedPassword = await bcrypt.hash(password, 10);
@@ -29,9 +29,9 @@ export async function POST(req) {
       role: 'Credentials User',
     });
 
-    return NextResponse.json({ message: 'User Created.', user }, { status: 201 });
+    return NextResponse.json({ message: 'User successfully registered! Please log in.' }, { status: 201 });
   } catch (error) {
     console.error('Register error:', error);
-    return NextResponse.json({ message: 'Error', error }, { status: 500 });
+    return NextResponse.json({ message: 'Registration failed. Please try again later.' }, { status: 500 });
   }
 }

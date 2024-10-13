@@ -34,16 +34,16 @@ export default function ForgotPasswordForm() {
     e.preventDefault();
 
     if (!isValidEmail(email)) {
-      setModalMessage('Email not valid!');
+      setModalMessage('Please enter a valid email address.');
       setShowModal(true);
       setIsSending(false);
-      return; // Stop execution if email is invalid
+      return;
     }
 
-    setModalMessage('Preparing email with reset link...');
+    setModalMessage('Preparing to send your password reset link...');
     setShowModal(true);
     setIsSending(true);
-    setIsSuccess(false); // Reset success flag
+    setIsSuccess(false);
 
     const data = { email };
 
@@ -57,18 +57,17 @@ export default function ForgotPasswordForm() {
       const result = await response.json();
 
       if (response.status === 200) {
-        setModalMessage('Reset link sent to email.');
-        setIsSuccess(true); // Set success flag
+        setModalMessage('A password reset link has been sent to your email.');
+        setIsSuccess(true);
       } else {
-        // Show API's error message if response status is not 200
-        setModalMessage(result.message || 'An error occurred.');
-        setIsSuccess(false); // Set failure flag
+        setModalMessage(result.message || 'An unexpected error occurred. Please try again later.');
+        setIsSuccess(false);
       }
     } catch (error) {
-      setModalMessage('An unexpected error occurred, please try again later.');
-      setIsSuccess(false); // Set failure flag
+      setModalMessage('An unexpected error occurred. Please try again later.');
+      setIsSuccess(false);
     } finally {
-      setIsSending(false); // Email sending process complete
+      setIsSending(false);
     }
   };
 

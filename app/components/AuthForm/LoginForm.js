@@ -11,7 +11,6 @@ import {
   LabelContainer,
   Label,
   Input,
-  WarningMessage,
   Divider,
   InputContainer,
   ToggleVisibility,
@@ -19,11 +18,15 @@ import {
   PasswordHiddenIcon,
 } from '@/app/components/AuthForm/AuthFormStyles';
 import Link from 'next/link';
+import ModalPopup from '@/app/components/Common/ModalPopup';
 
 export default function LoginForm({ onLogin, onOAuthLogin, error, onForgotPassword }) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [passwordVisible, setPasswordVisible] = useState(false);
+  const [showModal, setShowModal] = useState(false);
+  const [modalMessage, setModalMessage] = useState('');
+  const [isSending, setIsSending] = useState(false);
 
   const handleEmailChange = (e) => {
     setEmail(e.target.value);
@@ -34,18 +37,46 @@ export default function LoginForm({ onLogin, onOAuthLogin, error, onForgotPasswo
   };
 
   const handleToggleVisibility = (e) => {
-    e.preventDefault(); // Prevent the default button behavior
+    e.preventDefault();
     setPasswordVisible(!passwordVisible);
+  };
+
+  const showError = (message) => {
+    setModalMessage(message);
+    setShowModal(true);
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setIsSending(true);
+
+    try {
+      const loginResponse = await onLogin(email, password);
+
+      if (!loginResponse) {
+        showError('No account found with this email address.');
+      } else if (!loginResponse.passwordCorrect) {
+        showError('Password is incorrect.');
+      } else {
+        console.log('Login successful!');
+      }
+    } catch (error) {
+      if (error.message.includes('No account found')) {
+        showError('No account found with this email address.');
+      } else if (error.message.includes('Password is incorrect')) {
+        showError('Password is incorrect.');
+      } else {
+        showError('An error occurred. Please try again later.');
+      }
+    } finally {
+      setIsSending(false);
+    }
   };
 
   return (
     <>
       <ScrollToTop />
-      <FormContainer
-        onSubmit={(e) => {
-          e.preventDefault();
-          onLogin(email, password);
-        }}>
+      <FormContainer onSubmit={handleSubmit}>
         <ButtonContainer>
           <Button
             type='button'
@@ -74,7 +105,7 @@ export default function LoginForm({ onLogin, onOAuthLogin, error, onForgotPasswo
             <LabelContainer>
               <Label htmlFor='email'>Email:</Label>
             </LabelContainer>
-            <Input id='email' type='email' name='email' value={email} onChange={handleEmailChange} />
+            <Input id='email' type='email' name='email' value={email} onChange={handleEmailChange} required />
           </FormGroup>
           <FormGroup>
             <LabelContainer>
@@ -87,32 +118,28 @@ export default function LoginForm({ onLogin, onOAuthLogin, error, onForgotPasswo
                 name='password'
                 value={password}
                 onChange={handlePasswordChange}
+                required
               />
-              <ToggleVisibility onClick={handleToggleVisibility}>
+              <ToggleVisibility onClick={handleToggleVisibility} type='button'>
                 {passwordVisible ? <PasswordVisibleIcon /> : <PasswordHiddenIcon />}
               </ToggleVisibility>
             </InputContainer>
           </FormGroup>
-          {error && <WarningMessage>{error}</WarningMessage>}
           <Button
             type='submit'
             bgColor='var(--color-button-login)'
             hoverColor='var(--color-button-login-hover)'
-            style={{ width: '100%' }}>
-            Login
+            isSending={isSending}>
+            Log in
           </Button>
-          <Link href='/forgot-password'>
-            <Button
-              type='button'
-              // onClick={onForgotPassword}
-              bgColor='var(--color-button-forgot-password)'
-              hoverColor='var(--color-button-forgot-password-hover)'
-              style={{ width: '100%' }}>
-              Forgot Password?
-            </Button>
-          </Link>
+
+          <Button type='button' onClick={onForgotPassword}>
+            Forgot password?
+          </Button>
         </ButtonContainer>
       </FormContainer>
+
+      {showModal && <ModalPopup message={modalMessage} onClose={() => setShowModal(false)} />}
     </>
   );
 }

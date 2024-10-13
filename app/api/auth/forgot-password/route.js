@@ -16,49 +16,42 @@ export async function POST(req) {
     const existingUser = await User.findOne({ email }).exec();
 
     if (!existingUser) {
-      // E-Mail existiert nicht
-      return NextResponse.json({ message: 'No user registered with this email.' }, { status: 400 });
+      return NextResponse.json({ message: 'No account found with this email address.' }, { status: 400 });
     }
 
-    // Token erstellen und Benutzerdaten aktualisieren
     const resetToken = crypto.randomBytes(20).toString('hex');
     const passwordResetToken = crypto.createHash('sha256').update(resetToken).digest('hex');
-    const passwordResetExpires = Date.now() + 3600000; // 1 Stunde
+    const passwordResetExpires = Date.now() + 3600000; // 1 hour
 
-    // Setze den Reset-Token und Ablaufdatum
     existingUser.resetToken = passwordResetToken;
     existingUser.resetTokenExpiry = passwordResetExpires;
 
-    // Speichere den Benutzer
     await existingUser.save();
 
     const baseUrl =
       process.env.NODE_ENV === 'production' ? 'https://gmndr-authentication-demo.vercel.app' : 'http://localhost:3000';
     const resetUrl = `${baseUrl}/reset-password/${resetToken}`;
 
-    // Umwandlung des Ablaufsdatums in das gewünschte 12-Stunden-Format mit AM/PM und Datum
     const formattedExpiryTime = new Date(passwordResetExpires).toLocaleString('en-US', {
-      timeZone: 'Europe/Berlin', // Optional: spezifische Zeitzone
+      timeZone: 'Europe/Berlin',
       hour: '2-digit',
       minute: '2-digit',
       day: '2-digit',
       month: '2-digit',
       year: 'numeric',
-      hour12: true, // 12-Stunden-Format mit AM/PM
+      hour12: true,
     });
 
-    // SMTP-Transporter einrichten
     const transporter = nodemailer.createTransport({
       host: process.env.EMAIL_HOST,
       port: process.env.EMAIL_PORT,
-      secure: process.env.EMAIL_SECURE === 'true', // Verwende die Umgebungsvariable
+      secure: process.env.EMAIL_SECURE === 'true',
       auth: {
         user: process.env.EMAIL_USER,
         pass: process.env.EMAIL_PASS,
       },
     });
 
-    // Zeitgesteuerte Anrede
     const currentHour = new Date().getHours();
     let greeting;
     if (currentHour < 12) {
@@ -69,24 +62,20 @@ export async function POST(req) {
       greeting = 'Good evening';
     }
 
-    // Benutzer-E-Mail mit "(at)" anstelle von "@" und Entfernen der Domain-Endung
-    const user = existingUser.email.replace('@', '(at)').replace(/\.\w+$/, ''); // Entfernt .com, .de, etc.
+    const user = existingUser.email.replace('@', '(at)').replace(/\.\w+$/, '');
 
-    // E-Mail-Optionen
     const mailOptions = {
       to: email,
       from: process.env.EMAIL_USER,
       subject: 'Password Reset',
-      text: `${greeting} ${user},\n\nYou are receiving this because you (or someone else) have requested the reset of the password for your account. Please click on the following link, or paste this into your browser to complete the process:\n\n${resetUrl}\n\n(This link is valid for one hour until ${formattedExpiryTime}.)\n\nIf you did not request this, please ignore this email and your password will remain unchanged.\n\nBest regards,\nMarkus from #GMNDR Authentication Demo`,
+      text: `${greeting} ${user},\n\nYou requested a password reset. Click the link below or paste it into your browser:\n\n${resetUrl}\n\nThe link is valid until ${formattedExpiryTime}.\n\nIf you didn't request this, you can ignore this email.\n\nBest regards,\nMarkus from #GMNDR Authentication Demo`,
     };
 
-    // E-Mail senden
     await transporter.sendMail(mailOptions);
 
-    // Erfolgreiche Antwort zurückgeben
-    return NextResponse.json({ message: 'Reset link sent to email.' }, { status: 200 });
+    return NextResponse.json({ message: 'A password reset link has been sent to your email.' }, { status: 200 });
   } catch (error) {
     console.error('Forgot password error:', error);
-    return NextResponse.json({ message: 'An error occurred, please try again later.' }, { status: 500 });
+    return NextResponse.json({ message: 'Something went wrong. Please try again later.' }, { status: 500 });
   }
 }

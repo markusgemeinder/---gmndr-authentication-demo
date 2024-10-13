@@ -21,11 +21,11 @@ export async function POST(req) {
     const user = await User.findOne({ resetToken: hashedToken });
 
     if (!user) {
-      return NextResponse.json({ message: 'Invalid token.' }, { status: 401 });
+      return NextResponse.json({ message: 'The reset link is invalid.' }, { status: 401 });
     }
 
     if (user.resetTokenExpiry <= Date.now()) {
-      return NextResponse.json({ message: 'Token has expired.' }, { status: 410 });
+      return NextResponse.json({ message: 'The reset link has expired.' }, { status: 410 });
     }
 
     const hashedPassword = await bcrypt.hash(password, 10);
@@ -34,9 +34,9 @@ export async function POST(req) {
       { password: hashedPassword, resetToken: null, resetTokenExpiry: null }
     );
 
-    return NextResponse.json({ message: 'Password updated successfully.' }, { status: 201 });
+    return NextResponse.json({ message: 'Password successfully updated.' }, { status: 201 });
   } catch (error) {
     console.error('Reset password error:', error);
-    return NextResponse.json({ message: 'Error updating password.', error }, { status: 500 });
+    return NextResponse.json({ message: 'Failed to update password. Please try again later.' }, { status: 500 });
   }
 }

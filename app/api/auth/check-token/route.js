@@ -17,15 +17,15 @@ export async function POST(req) {
     const user = await User.findOne({ resetToken: hashedToken });
 
     if (!user) {
-      return NextResponse.json({ message: 'Invalid token.' }, { status: 401 });
+      return NextResponse.json({ message: 'The provided token is invalid.' }, { status: 401 });
     }
 
     if (user.resetTokenExpiry <= Date.now()) {
-      return NextResponse.json({ message: 'Token has expired.' }, { status: 410 });
+      return NextResponse.json({ message: 'The token has expired. Please request a new link.' }, { status: 410 });
     }
 
-    return NextResponse.json({ message: 'Token is valid.' }, { status: 200 });
+    return NextResponse.json({ message: 'The token is valid. You can reset your password.' }, { status: 200 });
   } catch (error) {
-    return NextResponse.json({ message: 'An error occurred, please try again later.' }, { status: 500 });
+    return NextResponse.json({ message: 'Something went wrong. Please try again later.' }, { status: 500 });
   }
 }

@@ -20,11 +20,11 @@ import {
 import ModalPopup from '@/app/components/Common/ModalPopup'; // Import der ausgelagerten ModalPopup-Komponente
 
 const validatePassword = (pwd) => {
-  if (pwd.length < 8) return 'Must be at least 8 characters.';
-  if (!/[A-Z]/.test(pwd)) return 'Must contain an uppercase letter.';
-  if (!/[a-z]/.test(pwd)) return 'Must contain a lowercase letter.';
-  if (!/[0-9]/.test(pwd)) return 'Must contain a number.';
-  if (!/[!@#$%^&*]/.test(pwd)) return 'Must contain a special character.';
+  if (pwd.length < 8) return 'Must be at least 8 characters long.';
+  if (!/[A-Z]/.test(pwd)) return 'Must contain at least one uppercase letter.';
+  if (!/[a-z]/.test(pwd)) return 'Must contain at least one lowercase letter.';
+  if (!/[0-9]/.test(pwd)) return 'Must contain at least one number.';
+  if (!/[!@#$%^&*]/.test(pwd)) return 'Must contain at least one special character.';
   return '';
 };
 
@@ -54,7 +54,7 @@ export default function RegisterForm() {
     }
 
     if (passwordQuality) {
-      setError('Please fix the password quality issues.');
+      setError('Please improve your password.');
       return;
     }
 
@@ -130,7 +130,8 @@ export default function RegisterForm() {
             {password === repeatPassword && repeatPassword ? (
               <CheckIcon />
             ) : (
-              password.length > 0 && repeatPassword === '' && <WarningMessage>Please enter.</WarningMessage>
+              password.length > 0 &&
+              repeatPassword === '' && <WarningMessage>Please enter the password.</WarningMessage>
             )}
             {password !== repeatPassword && repeatPassword && password.length > 0 && (
               <WarningMessage>Passwords do not match.</WarningMessage>

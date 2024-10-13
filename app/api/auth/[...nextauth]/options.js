@@ -1,4 +1,4 @@
-// /app/api/auth/[...nextauth]/options.js
+// /app/api/auth|[...nextauth]/options.js
 
 import GitHubProvider from 'next-auth/providers/github';
 import GoogleProvider from 'next-auth/providers/google';
@@ -19,36 +19,38 @@ export const options = {
       async authorize(credentials) {
         await dbConnect();
         try {
+          if (!credentials.email || !credentials.password) {
+            throw new Error('Email or Password is missing.');
+          }
+
           const existingUser = await User.findOne({ email: credentials.email }).lean().exec();
 
           if (!existingUser) {
-            console.log('No user found with this email.');
-            return null;
+            console.log('No user found for email:', credentials.email);
+            throw new Error('No account found with this email address.'); // Benutzer nicht gefunden
           }
 
           const match = await bcrypt.compare(credentials.password, existingUser.password);
           if (!match) {
-            console.log('Password does not match');
-            return null;
+            console.log('Password mismatch for email:', credentials.email);
+            throw new Error('Password is incorrect.'); // Passwort falsch
           }
 
-          console.log('Password match');
           const userPayload = {
             id: existingUser._id,
             email: existingUser.email,
             role: existingUser.role || 'Credentials User',
           };
-          console.log('Returning user payload:', userPayload);
+
           return userPayload;
         } catch (error) {
-          console.log('Error during authorization:', error);
-          return null;
+          console.error('Authorization error:', error);
+          throw new Error('Authentication failed.');
         }
       },
     }),
     GitHubProvider({
       profile(profile) {
-        console.log('Profile GitHub: ', profile);
         let userRole = 'GitHub User';
         if (profile?.email === 'info@gemeinder-coaching.de') {
           userRole = 'GitHub User (Admin)';
@@ -60,7 +62,6 @@ export const options = {
     }),
     GoogleProvider({
       profile(profile) {
-        console.log('Profile Google: ', profile);
         let userRole = 'Google User';
         if (profile?.email === '190774@gmx.de') {
           userRole = 'Google User (Admin)';
@@ -79,8 +80,10 @@ export const options = {
           await User.updateOne({ email: user.email }, { $set: { updatedAt: new Date() } });
           return true;
         }
+
         if (account.provider === 'github' || account.provider === 'google') {
           const existingUser = await User.findOne({ email: user.email }).lean().exec();
+
           if (!existingUser) {
             const userRole =
               account.provider === 'github'
@@ -90,15 +93,17 @@ export const options = {
                 : user.role === 'Google User (Admin)'
                 ? 'Google User (Admin)'
                 : 'Google User';
+
             const newUser = new User({ email: user.email, role: userRole });
             await newUser.save();
           } else {
             await User.updateOne({ email: user.email }, { $set: { updatedAt: new Date() } });
           }
+
           return true;
         }
       } catch (err) {
-        console.log('Error saving user', err);
+        console.error('Error during signIn callback:', err);
         return false;
       }
     },
@@ -106,21 +111,18 @@ export const options = {
       if (user) {
         token.role = user.role;
         token.createdAt = Date.now();
-        console.log('JWT Callback - Token:', token);
       }
       return token;
     },
     async session({ session, token }) {
       if (session?.user) {
         session.user.role = token.role;
-        console.log('Session Callback - Session:', session);
       }
       return session;
     },
   },
-
   session: {
-    maxAge: 60 * 60, // 1 Stunde
-    updateAge: 60 * 5, // alle 5 Minuten
+    maxAge: 60 * 60,
+    updateAge: 60 * 5,
   },
 };
