@@ -4,7 +4,6 @@
 
 import { useState, useEffect } from 'react';
 import { useSession } from 'next-auth/react';
-import { FaStar, FaStarHalfAlt, FaRegStar } from 'react-icons/fa';
 import Button from '@/app/components/Common/Button';
 import {
   FormContainer,
@@ -16,29 +15,7 @@ import {
   HiddenInput,
   HorizontalButtonContainer,
 } from '@/app/components/Review/ReviewStyles';
-
-function renderStars(rating, setRating) {
-  const stars = [];
-  for (let i = 1; i <= 5; i++) {
-    const isFilled = rating >= i;
-    const isHalf = rating > i - 1 && rating < i;
-    stars.push(
-      <div
-        key={i}
-        style={{
-          cursor: 'pointer',
-          color: isFilled ? 'var(--star-color)' : 'var(--star-empty-color)',
-          display: 'inline-block',
-        }}
-        onClick={() => setRating(i)}
-        onMouseEnter={() => setRating(i)}
-        onMouseLeave={() => setRating(rating)}>
-        {isFilled ? <FaStar /> : isHalf ? <FaStarHalfAlt /> : <FaRegStar />}
-      </div>
-    );
-  }
-  return stars;
-}
+import renderStars from '@/utils/renderStars';
 
 export default function ReviewForm({ review, onSave, onCancel, isDemoReview }) {
   const { data: session } = useSession();

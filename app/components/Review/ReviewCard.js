@@ -6,7 +6,6 @@ import { format } from 'date-fns';
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { useSession } from 'next-auth/react';
-import { FaStar, FaStarHalfAlt, FaRegStar } from 'react-icons/fa';
 import Button from '@/app/components/Common/Button';
 import {
   CardContainer,
@@ -26,20 +25,7 @@ import {
   ModalButtonContainer,
 } from '@/app/components/Common/ModalPopup';
 import { maskEmail } from '@/utils/maskEmail';
-
-function renderStars(rating) {
-  const stars = [];
-  for (let i = 1; i <= 5; i++) {
-    if (rating >= i) {
-      stars.push(<FaStar key={i} style={{ color: 'var(--star-color)' }} />);
-    } else if (rating > i - 1) {
-      stars.push(<FaStarHalfAlt key={i} style={{ color: 'var(--star-color)' }} />);
-    } else {
-      stars.push(<FaRegStar key={i} style={{ color: 'var(--star-empty-color)' }} />);
-    }
-  }
-  return stars;
-}
+import renderStars from '@/utils/renderStars';
 
 export default function ReviewCard({ review, onDelete }) {
   const { _id, note, rating, createdAt, updatedAt, email } = review;

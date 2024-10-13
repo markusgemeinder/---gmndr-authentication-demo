@@ -19,6 +19,7 @@ import {
   CheckIcon,
 } from '@/app/components/AuthForm/AuthFormStyles';
 import ModalPopup from '@/app/components/Common/ModalPopup';
+import validatePassword from '@/utils/validatePassword';
 
 export default function ResetPasswordForm() {
   const [password, setPassword] = useState('');
@@ -70,15 +71,6 @@ export default function ResetPasswordForm() {
 
     checkToken();
   }, []);
-
-  function validatePassword(pwd) {
-    if (pwd.length < 8) return 'Must be at least 8 characters long.';
-    if (!/[A-Z]/.test(pwd)) return 'Must contain at least one uppercase letter.';
-    if (!/[a-z]/.test(pwd)) return 'Must contain at least one lowercase letter.';
-    if (!/[0-9]/.test(pwd)) return 'Must contain at least one number.';
-    if (!/[!@#$%^&*]/.test(pwd)) return 'Must contain at least one special character.';
-    return '';
-  }
 
   function handlePasswordChange(pwd) {
     setPassword(pwd);
