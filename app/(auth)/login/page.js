@@ -16,7 +16,7 @@ export default function LoginPage() {
   async function handleLogin(email, password) {
     if (!email || !password) {
       setError('Please enter both email and password.');
-      return;
+      return false;
     }
 
     const result = await signIn('credentials', {
@@ -27,8 +27,10 @@ export default function LoginPage() {
 
     if (result?.error) {
       setError(result.error);
+      return false;
     } else if (result?.ok) {
       router.push('/reviews');
+      return true;
     }
   }
 

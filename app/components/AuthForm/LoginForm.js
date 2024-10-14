@@ -61,6 +61,8 @@ export default function LoginForm({ onLogin, onOAuthLogin, error }) {
 
       if (!loginSuccess) {
         showError(error);
+      } else {
+        setShowModal(false);
       }
     } catch (error) {
       showError(error.message);
@@ -97,12 +99,14 @@ export default function LoginForm({ onLogin, onOAuthLogin, error }) {
           <Divider>
             <span>or</span>
           </Divider>
+
           <FormGroup>
             <LabelContainer>
               <Label htmlFor='email'>Email:</Label>
             </LabelContainer>
             <Input id='email' type='email' name='email' value={email} onChange={handleEmailChange} required />
           </FormGroup>
+
           <FormGroup>
             <LabelContainer>
               <Label htmlFor='password'>Password:</Label>
@@ -121,6 +125,7 @@ export default function LoginForm({ onLogin, onOAuthLogin, error }) {
               </ToggleVisibility>
             </InputContainer>
           </FormGroup>
+
           <Button
             type='submit'
             bgColor='var(--color-button-login)'
@@ -128,6 +133,7 @@ export default function LoginForm({ onLogin, onOAuthLogin, error }) {
             style={{ width: '100%' }}>
             Login
           </Button>
+
           <Link href='/forgot-password'>
             <Button
               type='button'
@@ -139,6 +145,7 @@ export default function LoginForm({ onLogin, onOAuthLogin, error }) {
           </Link>
         </ButtonContainer>
       </FormContainer>
+
       {showModal && <ModalPopup message={modalMessage} onOkClick={() => setShowModal(false)} isSending={isSending} />}
     </>
   );
