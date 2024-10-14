@@ -19,8 +19,38 @@ export async function POST(req) {
     }
 
     const duplicate = await User.findOne({ email }).lean().exec();
+
     if (duplicate) {
-      return NextResponse.json({ message: 'Email already in use.' }, { status: 409 });
+      // Prüfen, ob die E-Mail-Adresse bereits mit Google oder GitHub verbunden ist
+      if (duplicate.role === 'Google User' || duplicate.role === 'Google User (Admin)') {
+        return NextResponse.json(
+          { message: 'This email is already registered with Google. Please log in using Google.' },
+          { status: 409 }
+        );
+      }
+
+      if (duplicate.role === 'GitHub User' || duplicate.role === 'GitHub User (Admin)') {
+        return NextResponse.json(
+          { message: 'This email is already registered with GitHub. Please log in using GitHub.' },
+          { status: 409 }
+        );
+      }
+
+      // Prüfen, ob die E-Mail-Adresse registriert, aber noch nicht bestätigt wurde
+      if (!duplicate.isEmailConfirmed) {
+        return NextResponse.json(
+          { message: 'Your email address is already registered, but not confirmed yet. Please confirm and log in.' },
+          { status: 400 }
+        );
+      }
+
+      // Standardmeldung für doppelte E-Mail, die mit einem anderen Konto verknüpft ist
+      return NextResponse.json(
+        {
+          message: 'Email is already in use. Please try logging in or reset your password.',
+        },
+        { status: 409 }
+      );
     }
 
     const hashedPassword = await bcrypt.hash(password, 10);
@@ -65,7 +95,7 @@ export async function POST(req) {
 
     const userName = email.replace('@', '(at)').replace(/\.\w+$/, '');
 
-    const subject = 'Registration Confirmation | #GMNDR Authentication Demo';
+    const subject = 'Email Confirmation | #GMNDR Authentication Demo';
     const text = `${greeting} ${userName},\n\nYou have successfully registered for the #GMNDR Authentication Demo.\n\nTo confirm your email address and activate your account, click the link below or paste it into your browser:\n\n${confirmationUrl}\n\nThe link is valid until ${formattedExpiryTime}.\n\nIf you did not register, you can ignore this email.\n\nBest regards,\nMarkus from #GMNDR Authentication Demo`;
 
     await sendEmail({

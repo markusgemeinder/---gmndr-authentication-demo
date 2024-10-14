@@ -18,6 +18,7 @@ export const options = {
       },
       async authorize(credentials) {
         await dbConnect();
+
         try {
           const existingUser = await User.findOne({ email: credentials.email }).lean().exec();
 
@@ -25,15 +26,41 @@ export const options = {
             throw new Error('No account with this email address exists. Please register.');
           }
 
-          if (!existingUser.isEmailConfirmed) {
-            throw new Error(`Your email address isn't confirmed yet. Please check your inbox (and spam).`);
+          // 1. Überprüfen, ob der Benutzer über Credentials eingeloggt ist
+          if (existingUser.role === 'Credentials User') {
+            // E-Mail nicht bestätigt und Token gültig
+            if (!existingUser.isEmailConfirmed) {
+              if (existingUser.confirmationTokenExpiry && new Date() < existingUser.confirmationTokenExpiry) {
+                throw new Error('Your email address isn’t confirmed yet. Please check your inbox (and spam).');
+              }
+              // E-Mail nicht bestätigt und Token abgelaufen
+              if (!existingUser.confirmationTokenExpiry || new Date() > existingUser.confirmationTokenExpiry) {
+                throw new Error('Your confirmation link has expired. Please request a new confirmation email.');
+              }
+            }
           }
 
+          // 2. Benutzer existiert bereits über einen anderen Provider (GitHub/Google)
+          if (existingUser.role === 'GitHub User' || existingUser.role === 'GitHub User (Admin)') {
+            throw new Error('Email is already registered with GitHub. Please log in that way.');
+          }
+
+          if (existingUser.role === 'Google User' || existingUser.role === 'Google User (Admin)') {
+            throw new Error('Email is already registered with Google. Please log in that way.');
+          }
+
+          // 3. Passwort überprüfen
           const match = await bcrypt.compare(credentials.password, existingUser.password);
           if (!match) {
-            throw new Error('Incorrect password.');
+            throw new Error('Incorrect password. Please try again.');
           }
 
+          // Wenn das Passwort erfolgreich ist, resetToken und resetTokenExpiry auf null setzen
+          if (existingUser.resetToken || existingUser.resetTokenExpiry) {
+            await User.updateOne({ email: existingUser.email }, { $set: { resetToken: null, resetTokenExpiry: null } });
+          }
+
+          // Login erfolgreich
           return {
             id: existingUser._id,
             email: existingUser.email,

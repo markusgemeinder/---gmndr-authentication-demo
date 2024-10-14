@@ -4,7 +4,7 @@ import dbConnect from '@/db/connect';
 import User from '@/db/models/User';
 import crypto from 'crypto';
 import { NextResponse } from 'next/server';
-import sendEmail from '@/utils/sendEmail'; // Importiere die Hilfsfunktion
+import sendEmail from '@/utils/sendEmail';
 
 export async function POST(req) {
   await dbConnect();
@@ -19,9 +19,33 @@ export async function POST(req) {
       return NextResponse.json({ message: 'No account found with this email address.' }, { status: 400 });
     }
 
+    // 1. Prüfen, ob der Benutzer über Google oder GitHub registriert ist
+    if (existingUser.role === 'Google User' || existingUser.role === 'Google User (Admin)') {
+      return NextResponse.json(
+        { message: 'This email is linked to Google login. Password reset cannot be done here.' },
+        { status: 400 }
+      );
+    }
+
+    if (existingUser.role === 'GitHub User' || existingUser.role === 'GitHub User (Admin)') {
+      return NextResponse.json(
+        { message: 'This email is linked to GitHub login. Password reset cannot be done here.' },
+        { status: 400 }
+      );
+    }
+
+    // 2. Prüfen, ob die E-Mail-Adresse bestätigt wurde (isEmailConfirmed === true)
+    if (!existingUser.isEmailConfirmed) {
+      return NextResponse.json(
+        { message: 'Your email address is not confirmed yet. Please confirm before resetting your password.' },
+        { status: 400 }
+      );
+    }
+
+    // 3. Token und Ablaufzeit generieren
     const resetToken = crypto.randomBytes(20).toString('hex');
     const passwordResetToken = crypto.createHash('sha256').update(resetToken).digest('hex');
-    const passwordResetExpires = Date.now() + 3600000; // 1 hour
+    const passwordResetExpires = Date.now() + 3600000; // 1 Stunde
 
     existingUser.resetToken = passwordResetToken;
     existingUser.resetTokenExpiry = passwordResetExpires;
@@ -59,7 +83,6 @@ export async function POST(req) {
     const subject = 'Password Reset | #GMNDR Authentication Demo';
     const text = `${greeting} ${user},\n\nYou requested a password reset. Click the link below or paste it into your browser:\n\n${resetUrl}\n\nThe link is valid until ${formattedExpiryTime}.\n\nIf you didn't request this, you can ignore this email.\n\nBest regards,\nMarkus from #GMNDR Authentication Demo`;
 
-    // Verwende die sendEmail Hilfsfunktion, um die E-Mail zu senden.
     await sendEmail({
       to: email,
       subject: subject,

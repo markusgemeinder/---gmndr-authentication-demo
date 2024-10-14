@@ -17,7 +17,10 @@ export async function POST(req) {
     const user = await User.findOne({ resetToken: hashedToken });
 
     if (!user) {
-      return NextResponse.json({ message: 'The provided token is invalid.' }, { status: 401 });
+      return NextResponse.json(
+        { message: 'The provided token is invalid. Please request a new link.' },
+        { status: 401 }
+      );
     }
 
     if (user.resetTokenExpiry <= Date.now()) {

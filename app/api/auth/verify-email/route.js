@@ -23,6 +23,10 @@ export async function POST(req) {
       return NextResponse.json({ message: 'The verification link is invalid.' }, { status: 401 });
     }
 
+    if (user.isEmailConfirmed) {
+      return NextResponse.json({ message: 'Your email is already confirmed. Please try logging in.' }, { status: 400 });
+    }
+
     if (user.confirmationTokenExpiry <= Date.now()) {
       return NextResponse.json({ message: 'The verification link has expired.' }, { status: 410 });
     }
@@ -32,7 +36,12 @@ export async function POST(req) {
       { isEmailConfirmed: true, confirmationToken: null, confirmationTokenExpiry: null }
     );
 
-    return NextResponse.json({ message: 'Email successfully verified.' }, { status: 201 });
+    const responseData = {
+      message: 'Email successfully verified.',
+      email: user.email,
+    };
+
+    return NextResponse.json(responseData, { status: 201 });
   } catch (error) {
     console.error('Verify email error:', error);
     return NextResponse.json({ message: 'Failed to verify email. Please try again later.' }, { status: 500 });
