@@ -1,10 +1,10 @@
 // /app/api/forgot-password/route.js
 
-import nodemailer from 'nodemailer';
 import dbConnect from '@/db/connect';
 import User from '@/db/models/User';
 import crypto from 'crypto';
 import { NextResponse } from 'next/server';
+import sendEmail from '@/utils/sendEmail'; // Importiere die Hilfsfunktion
 
 export async function POST(req) {
   await dbConnect();
@@ -29,7 +29,9 @@ export async function POST(req) {
     await existingUser.save();
 
     const baseUrl =
-      process.env.NODE_ENV === 'production' ? 'https://gmndr-authentication-demo.vercel.app' : 'http://localhost:3000';
+      process.env.NODE_ENV === 'production'
+        ? 'https://gmndr-authentication-demo-prototype.vercel.app/'
+        : 'http://localhost:3000';
     const resetUrl = `${baseUrl}/reset-password/${resetToken}`;
 
     const formattedExpiryTime = new Date(passwordResetExpires).toLocaleString('en-US', {
@@ -40,16 +42,6 @@ export async function POST(req) {
       month: '2-digit',
       year: 'numeric',
       hour12: true,
-    });
-
-    const transporter = nodemailer.createTransport({
-      host: process.env.EMAIL_HOST,
-      port: process.env.EMAIL_PORT,
-      secure: process.env.EMAIL_SECURE === 'true',
-      auth: {
-        user: process.env.EMAIL_USER,
-        pass: process.env.EMAIL_PASS,
-      },
     });
 
     const currentHour = new Date().getHours();
@@ -64,14 +56,15 @@ export async function POST(req) {
 
     const user = existingUser.email.replace('@', '(at)').replace(/\.\w+$/, '');
 
-    const mailOptions = {
-      to: email,
-      from: process.env.EMAIL_USER,
-      subject: 'Password Reset',
-      text: `${greeting} ${user},\n\nYou requested a password reset. Click the link below or paste it into your browser:\n\n${resetUrl}\n\nThe link is valid until ${formattedExpiryTime}.\n\nIf you didn't request this, you can ignore this email.\n\nBest regards,\nMarkus from #GMNDR Authentication Demo`,
-    };
+    const subject = 'Password Reset | #GMNDR Authentication Demo';
+    const text = `${greeting} ${user},\n\nYou requested a password reset. Click the link below or paste it into your browser:\n\n${resetUrl}\n\nThe link is valid until ${formattedExpiryTime}.\n\nIf you didn't request this, you can ignore this email.\n\nBest regards,\nMarkus from #GMNDR Authentication Demo`;
 
-    await transporter.sendMail(mailOptions);
+    // Verwende die sendEmail Hilfsfunktion, um die E-Mail zu senden.
+    await sendEmail({
+      to: email,
+      subject: subject,
+      text: text,
+    });
 
     return NextResponse.json({ message: 'A password reset link has been sent to your email.' }, { status: 200 });
   } catch (error) {

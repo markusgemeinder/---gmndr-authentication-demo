@@ -22,36 +22,30 @@ export const options = {
           const existingUser = await User.findOne({ email: credentials.email }).lean().exec();
 
           if (!existingUser) {
-            console.log('No user found with this email:', credentials.email);
-            throw new Error('No account with this email address exists. Please try again.');
+            throw new Error('No account with this email address exists. Please register.');
+          }
+
+          if (!existingUser.isEmailConfirmed) {
+            throw new Error(`Your email address isn't confirmed yet. Please check your inbox (and spam).`);
           }
 
           const match = await bcrypt.compare(credentials.password, existingUser.password);
           if (!match) {
-            console.log('Password does not match for email:', credentials.email);
-            throw new Error('Incorrect password. Please try again.');
+            throw new Error('Incorrect password.');
           }
 
-          console.log('Login successful for email:', credentials.email);
-
-          const userPayload = {
+          return {
             id: existingUser._id,
             email: existingUser.email,
             role: existingUser.role || 'Credentials User',
           };
-          console.log('Returning user payload:', userPayload);
-
-          return userPayload;
         } catch (error) {
-          console.error('Error during authorization:', error);
           throw error;
-          // throw new Error('Authentication failed. Please try again.'); overwrites original error
         }
       },
     }),
     GitHubProvider({
       profile(profile) {
-        console.log('GitHub Profile:', profile);
         let userRole = 'GitHub User';
         if (profile?.email === 'info@gemeinder-coaching.de') {
           userRole = 'GitHub User (Admin)';
@@ -63,7 +57,6 @@ export const options = {
     }),
     GoogleProvider({
       profile(profile) {
-        console.log('Google Profile:', profile);
         let userRole = 'Google User';
         if (profile?.email === '190774@gmx.de') {
           userRole = 'Google User (Admin)';
@@ -115,14 +108,12 @@ export const options = {
       if (user) {
         token.role = user.role;
         token.createdAt = Date.now();
-        console.log('JWT Callback - Token:', token);
       }
       return token;
     },
     async session({ session, token }) {
       if (session?.user) {
         session.user.role = token.role;
-        console.log('Session Callback - Session:', session);
       }
       return session;
     },

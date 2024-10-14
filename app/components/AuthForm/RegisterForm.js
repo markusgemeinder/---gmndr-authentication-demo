@@ -31,6 +31,7 @@ export default function RegisterForm() {
   const [showModal, setShowModal] = useState(false);
   const [modalMessage, setModalMessage] = useState('');
   const [isError, setIsError] = useState(false);
+  const [isSending, setIsSending] = useState(false);
   const router = useRouter();
 
   function handlePasswordChange(pwd) {
@@ -53,6 +54,11 @@ export default function RegisterForm() {
 
     const data = { email, password };
 
+    setModalMessage('Preparing to create your account...');
+    setShowModal(true);
+    setIsSending(true);
+    setIsError(false);
+
     try {
       const response = await fetch('/api/auth/register', {
         method: 'POST',
@@ -62,7 +68,7 @@ export default function RegisterForm() {
 
       const success = response.status === 201;
       const message = success
-        ? 'Account successfully created! Please login.'
+        ? 'Account successfully created! Please verify your email and login.'
         : response.status === 409
         ? `Account with email ${email} already exists. Please try logging in.`
         : (await response.json()).message || 'Register failed.';
@@ -74,6 +80,8 @@ export default function RegisterForm() {
       setModalMessage('An unexpected error occurred.');
       setIsError(true);
       setShowModal(true);
+    } finally {
+      setIsSending(false);
     }
   }
 
@@ -126,7 +134,7 @@ export default function RegisterForm() {
               <CheckIcon />
             ) : (
               password.length > 0 &&
-              repeatPassword === '' && <WarningMessage>Please enter the password.</WarningMessage>
+              repeatPassword === '' && <WarningMessage>Please repeat the password.</WarningMessage>
             )}
             {password !== repeatPassword && repeatPassword && password.length > 0 && (
               <WarningMessage>Passwords do not match.</WarningMessage>
@@ -143,7 +151,7 @@ export default function RegisterForm() {
           </InputContainer>
         </FormGroup>
 
-        {error && <WarningMessage>{error}</WarningMessage>}
+        {/* {error && <WarningMessage>{error}</WarningMessage>} */}
 
         <ButtonContainer>
           <Button
