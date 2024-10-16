@@ -21,7 +21,9 @@ export async function POST(req) {
 
     if (!user) {
       return NextResponse.json(
-        { message: 'The verification link is incorrect or missing some parts. Please try copying the link again.' },
+        {
+          message: `The link is invalid. Either you’ve already confirmed your email, or the link was copied incorrectly.`,
+        },
         { status: 401 }
       );
     }
@@ -50,7 +52,7 @@ export async function POST(req) {
     );
 
     const responseData = {
-      message: 'Email successfully verified.',
+      message: 'Email successfully verified. Please log in.',
       email: user.email,
     };
 

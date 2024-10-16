@@ -39,6 +39,7 @@ export default function VerifyEmailPage({ params }) {
         setIsError(true);
         setErrorCode(response.status);
 
+        // Steuerung des Resend-Button Displays und E-Mail Speicherung bei Fehlern
         if (response.status === 400 || response.status === 401 || response.status === 410) {
           setShowResendButton(true);
 
@@ -46,6 +47,15 @@ export default function VerifyEmailPage({ params }) {
           if (response.status === 410 && data.email) {
             setUserEmail(data.email);
           }
+        }
+
+        // Bei 401 Fehler -> keine Weiterleitung, nur Modal anzeigen
+        if (response.status === 401) {
+          setModalMessage(
+            'The link is invalid. Either you’ve already confirmed your email, or the link was copied incorrectly.'
+          );
+          setShowModal(true);
+          return; // Keine automatische Weiterleitung
         }
       }
     } catch (error) {
@@ -87,10 +97,10 @@ export default function VerifyEmailPage({ params }) {
   }
 
   function handleOkClick() {
-    if (!isError) {
+    setShowModal(false);
+    // Nur auf die Login-Seite weiterleiten, wenn es ein anderer Fehler ist und kein Resend-Button angezeigt wird
+    if (!isError || !showResendButton) {
       router.push('/login');
-    } else {
-      setShowModal(false);
     }
   }
 
@@ -123,11 +133,7 @@ export default function VerifyEmailPage({ params }) {
                 Resend Verification Email
               </Button>
             </ButtonContainerMedium>
-            <Paragraph>
-              {errorCode === 401
-                ? 'The verification link is invalid. Please request a new one.'
-                : 'The verification link has expired. Please request a new one.'}
-            </Paragraph>
+            <Paragraph>{'The verification link has expired. Please request a new one.'}</Paragraph>
           </>
         )}
       </Main>
