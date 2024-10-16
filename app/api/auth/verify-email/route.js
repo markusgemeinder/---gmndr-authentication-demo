@@ -20,17 +20,30 @@ export async function POST(req) {
     const user = await User.findOne({ confirmationToken: hashedToken });
 
     if (!user) {
-      return NextResponse.json({ message: 'The verification link is invalid.' }, { status: 401 });
+      return NextResponse.json(
+        { message: 'The verification link is incorrect or missing some parts. Please try copying the link again.' },
+        { status: 401 }
+      );
     }
 
     if (user.isEmailConfirmed) {
-      return NextResponse.json({ message: 'Your email is already confirmed. Please try logging in.' }, { status: 400 });
+      return NextResponse.json(
+        { message: 'Your email is already confirmed, the verification link is invalid. Please try logging in.' },
+        { status: 400 }
+      );
     }
 
     if (user.confirmationTokenExpiry <= Date.now()) {
-      return NextResponse.json({ message: 'The verification link has expired.' }, { status: 410 });
+      return NextResponse.json(
+        {
+          message: 'The verification link has expired. Please request a new one.',
+          email: user.email, // E-Mail-Adresse für spätere Verwendung im Frontend
+        },
+        { status: 410 }
+      );
     }
 
+    // Wenn alle Checks bestehen, E-Mail bestätigen
     await User.findOneAndUpdate(
       { confirmationToken: hashedToken },
       { isEmailConfirmed: true, confirmationToken: null, confirmationTokenExpiry: null }

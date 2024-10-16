@@ -69,9 +69,12 @@ export async function POST(req) {
       text,
     });
 
-    return NextResponse.json({ message: 'A new confirmation email has been sent.' }, { status: 200 });
+    return NextResponse.json({ message: 'A new verification email has been sent.' }, { status: 200 });
   } catch (error) {
-    console.error('Resend verification email error:', error);
-    return NextResponse.json({ message: 'Something went wrong. Please try again later.' }, { status: 500 });
+    console.error('Resend verification error:', error);
+    return NextResponse.json(
+      { message: 'Failed to resend verification email. Please try again later.' },
+      { status: 500 }
+    );
   }
 }

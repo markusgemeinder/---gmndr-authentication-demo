@@ -41,6 +41,11 @@ export default function VerifyEmailPage({ params }) {
 
         if (response.status === 400 || response.status === 401 || response.status === 410) {
           setShowResendButton(true);
+
+          // Speichern der E-Mail-Adresse im Falle eines abgelaufenen Tokens
+          if (response.status === 410 && data.email) {
+            setUserEmail(data.email);
+          }
         }
       }
     } catch (error) {
@@ -53,7 +58,7 @@ export default function VerifyEmailPage({ params }) {
   async function handleResendVerification() {
     setResendLoading(true);
     try {
-      // Die tatsächliche E-Mail-Adresse des Benutzers aus dem Zustand holen
+      // Sicherstellen, dass die E-Mail-Adresse gesetzt wurde
       if (!userEmail) {
         throw new Error('No email available to resend verification.');
       }
@@ -61,7 +66,7 @@ export default function VerifyEmailPage({ params }) {
       const response = await fetch('/api/auth/verify-email-resend', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email: userEmail }), // Die E-Mail-Adresse an die API senden
+        body: JSON.stringify({ email: userEmail }),
       });
 
       const data = await response.json();
