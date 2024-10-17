@@ -32,35 +32,33 @@ export default function VerifyEmailPage({ params }) {
 
       if (response.ok) {
         setUserEmail(data.email);
-        setModalMessage(data.message || 'Your email has been successfully verified.');
+        setModalMessage(data.message);
         setIsError(false);
+        setShowResendButton(false);
       } else {
-        setModalMessage(data.message || 'An error occurred. Please try again.');
+        setModalMessage(data.message);
         setIsError(true);
         setErrorCode(response.status);
 
-        // Steuerung des Resend-Button Displays und E-Mail Speicherung bei Fehlern
-        if (response.status === 400 || response.status === 401 || response.status === 410) {
+        if (response.status === 410) {
           setShowResendButton(true);
-
-          // Speichern der E-Mail-Adresse im Falle eines abgelaufenen Tokens
-          if (response.status === 410 && data.email) {
+          if (data.email) {
             setUserEmail(data.email);
           }
+        } else {
+          setShowResendButton(false);
         }
 
-        // Bei 401 Fehler -> keine Weiterleitung, nur Modal anzeigen
         if (response.status === 401) {
-          setModalMessage(
-            'The link is invalid. Either you’ve already confirmed your email, or the link was copied incorrectly.'
-          );
+          setModalMessage(data.message);
           setShowModal(true);
-          return; // Keine automatische Weiterleitung
+          return;
         }
       }
     } catch (error) {
-      setModalMessage('There was an issue verifying your email.');
+      setModalMessage(error.message || 'An unknown error occurred.');
       setIsError(true);
+      setShowResendButton(false);
     }
     setShowModal(true);
   }
@@ -68,7 +66,6 @@ export default function VerifyEmailPage({ params }) {
   async function handleResendVerification() {
     setResendLoading(true);
     try {
-      // Sicherstellen, dass die E-Mail-Adresse gesetzt wurde
       if (!userEmail) {
         throw new Error('No email available to resend verification.');
       }
@@ -82,14 +79,14 @@ export default function VerifyEmailPage({ params }) {
       const data = await response.json();
 
       if (response.ok) {
-        setModalMessage(data.message || 'A new verification email has been sent.');
+        setModalMessage(data.message);
         setIsError(false);
       } else {
-        setModalMessage(data.message || 'Unable to resend verification email.');
+        setModalMessage(data.message);
         setIsError(true);
       }
     } catch (error) {
-      setModalMessage('There was an issue resending the verification email.');
+      setModalMessage(error.message || 'An unknown error occurred.');
       setIsError(true);
     }
     setResendLoading(false);
@@ -98,7 +95,6 @@ export default function VerifyEmailPage({ params }) {
 
   function handleOkClick() {
     setShowModal(false);
-    // Nur auf die Login-Seite weiterleiten, wenn es ein anderer Fehler ist und kein Resend-Button angezeigt wird
     if (!isError || !showResendButton) {
       router.push('/login');
     }
