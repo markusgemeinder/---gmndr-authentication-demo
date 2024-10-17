@@ -26,11 +26,12 @@ export default function RegisterForm() {
   const [password, setPassword] = useState('');
   const [repeatPassword, setRepeatPassword] = useState('');
   const [passwordVisible, setPasswordVisible] = useState(false);
-  const [error, setError] = useState('');
   const [passwordQuality, setPasswordQuality] = useState('');
   const [showModal, setShowModal] = useState(false);
   const [modalMessage, setModalMessage] = useState('');
   const [isError, setIsError] = useState(false);
+  const [isSending, setIsSending] = useState(false);
+
   const router = useRouter();
 
   function handlePasswordChange(pwd) {
@@ -42,16 +43,25 @@ export default function RegisterForm() {
     event.preventDefault();
 
     if (password !== repeatPassword) {
-      setError('Passwords do not match.');
+      setModalMessage(`Passwords don't match. Please check and try again.`);
+      setIsError(true);
+      setShowModal(true);
       return;
     }
 
     if (passwordQuality) {
-      setError('Please improve your password.');
+      setModalMessage('Password is too weak. Please follow the requirements and improve it.');
+      setIsError(true);
+      setShowModal(true);
       return;
     }
 
     const data = { email, password };
+
+    setModalMessage('Preparing to create your account...');
+    setShowModal(true);
+    setIsSending(true);
+    setIsError(false);
 
     try {
       const response = await fetch('/api/auth/register', {
@@ -60,26 +70,28 @@ export default function RegisterForm() {
         body: JSON.stringify(data),
       });
 
+      const responseData = await response.json();
       const success = response.status === 201;
-      const message = success
-        ? 'Account successfully created! Please login.'
-        : response.status === 409
-        ? `Account with email ${email} already exists. Please try logging in.`
-        : (await response.json()).message || 'Register failed.';
+
+      const message = responseData.message || 'Registration failed.';
 
       setModalMessage(message);
       setIsError(!success);
       setShowModal(true);
-    } catch {
+    } catch (error) {
       setModalMessage('An unexpected error occurred.');
       setIsError(true);
       setShowModal(true);
+    } finally {
+      setIsSending(false);
     }
   }
 
   function handleOkClick() {
+    if (!isError) {
+      router.push('/login');
+    }
     setShowModal(false);
-    router.push(isError ? '/' : '/login');
   }
 
   function togglePasswordVisibility() {
@@ -113,7 +125,7 @@ export default function RegisterForm() {
               onChange={(event) => handlePasswordChange(event.target.value)}
               required
             />
-            <ToggleVisibility onClick={togglePasswordVisibility}>
+            <ToggleVisibility onClick={togglePasswordVisibility} type='button'>
               {passwordVisible ? <PasswordVisibleIcon /> : <PasswordHiddenIcon />}
             </ToggleVisibility>
           </InputContainer>
@@ -126,7 +138,7 @@ export default function RegisterForm() {
               <CheckIcon />
             ) : (
               password.length > 0 &&
-              repeatPassword === '' && <WarningMessage>Please enter the password.</WarningMessage>
+              repeatPassword === '' && <WarningMessage>Please repeat the password.</WarningMessage>
             )}
             {password !== repeatPassword && repeatPassword && password.length > 0 && (
               <WarningMessage>Passwords do not match.</WarningMessage>
@@ -142,8 +154,6 @@ export default function RegisterForm() {
             />
           </InputContainer>
         </FormGroup>
-
-        {error && <WarningMessage>{error}</WarningMessage>}
 
         <ButtonContainer>
           <Button

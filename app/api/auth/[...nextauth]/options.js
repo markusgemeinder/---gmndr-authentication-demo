@@ -18,40 +18,61 @@ export const options = {
       },
       async authorize(credentials) {
         await dbConnect();
+
         try {
           const existingUser = await User.findOne({ email: credentials.email }).lean().exec();
 
           if (!existingUser) {
-            console.log('No user found with this email:', credentials.email);
-            throw new Error('No account with this email address exists. Please try again.');
+            throw new Error('No account with this email address exists. Please register.');
           }
 
+          // 1. Überprüfen, ob der Benutzer über Credentials eingeloggt ist
+          if (existingUser.role === 'Credentials User') {
+            // E-Mail nicht bestätigt und Token gültig
+            if (!existingUser.isEmailConfirmed) {
+              if (existingUser.confirmationTokenExpiry && new Date() < existingUser.confirmationTokenExpiry) {
+                throw new Error('Your email address isn’t confirmed yet. Please check your inbox (or spam folder).');
+              }
+              // E-Mail nicht bestätigt und Token abgelaufen
+              if (!existingUser.confirmationTokenExpiry || new Date() > existingUser.confirmationTokenExpiry) {
+                throw new Error('Your confirmation link has expired. Please request a new confirmation email.');
+              }
+            }
+          }
+
+          // 2. Benutzer existiert bereits über einen anderen Provider (GitHub/Google)
+          if (existingUser.role === 'GitHub User' || existingUser.role === 'GitHub User (Admin)') {
+            throw new Error('Email is already registered with GitHub. Please log in that way.');
+          }
+
+          if (existingUser.role === 'Google User' || existingUser.role === 'Google User (Admin)') {
+            throw new Error('Email is already registered with Google. Please log in that way.');
+          }
+
+          // 3. Passwort überprüfen
           const match = await bcrypt.compare(credentials.password, existingUser.password);
           if (!match) {
-            console.log('Password does not match for email:', credentials.email);
             throw new Error('Incorrect password. Please try again.');
           }
 
-          console.log('Login successful for email:', credentials.email);
+          // Wenn das Passwort erfolgreich ist, resetToken und resetTokenExpiry auf null setzen
+          if (existingUser.resetToken || existingUser.resetTokenExpiry) {
+            await User.updateOne({ email: existingUser.email }, { $set: { resetToken: null, resetTokenExpiry: null } });
+          }
 
-          const userPayload = {
+          // Login erfolgreich
+          return {
             id: existingUser._id,
             email: existingUser.email,
             role: existingUser.role || 'Credentials User',
           };
-          console.log('Returning user payload:', userPayload);
-
-          return userPayload;
         } catch (error) {
-          console.error('Error during authorization:', error);
           throw error;
-          // throw new Error('Authentication failed. Please try again.'); overwrites original error
         }
       },
     }),
     GitHubProvider({
       profile(profile) {
-        console.log('GitHub Profile:', profile);
         let userRole = 'GitHub User';
         if (profile?.email === 'info@gemeinder-coaching.de') {
           userRole = 'GitHub User (Admin)';
@@ -63,7 +84,6 @@ export const options = {
     }),
     GoogleProvider({
       profile(profile) {
-        console.log('Google Profile:', profile);
         let userRole = 'Google User';
         if (profile?.email === '190774@gmx.de') {
           userRole = 'Google User (Admin)';
@@ -115,14 +135,12 @@ export const options = {
       if (user) {
         token.role = user.role;
         token.createdAt = Date.now();
-        console.log('JWT Callback - Token:', token);
       }
       return token;
     },
     async session({ session, token }) {
       if (session?.user) {
         session.user.role = token.role;
-        console.log('Session Callback - Session:', session);
       }
       return session;
     },

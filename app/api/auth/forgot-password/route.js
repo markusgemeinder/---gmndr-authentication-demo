@@ -1,10 +1,10 @@
 // /app/api/forgot-password/route.js
 
-import nodemailer from 'nodemailer';
 import dbConnect from '@/db/connect';
 import User from '@/db/models/User';
 import crypto from 'crypto';
 import { NextResponse } from 'next/server';
+import sendEmail from '@/utils/sendEmail';
 
 export async function POST(req) {
   await dbConnect();
@@ -19,9 +19,33 @@ export async function POST(req) {
       return NextResponse.json({ message: 'No account found with this email address.' }, { status: 400 });
     }
 
+    // 1. Prüfen, ob der Benutzer über Google oder GitHub registriert ist
+    if (existingUser.role === 'Google User' || existingUser.role === 'Google User (Admin)') {
+      return NextResponse.json(
+        { message: 'This email is linked to Google login. Password reset cannot be done here.' },
+        { status: 400 }
+      );
+    }
+
+    if (existingUser.role === 'GitHub User' || existingUser.role === 'GitHub User (Admin)') {
+      return NextResponse.json(
+        { message: 'This email is linked to GitHub login. Password reset cannot be done here.' },
+        { status: 400 }
+      );
+    }
+
+    // 2. Prüfen, ob die E-Mail-Adresse bestätigt wurde (isEmailConfirmed === true)
+    if (!existingUser.isEmailConfirmed) {
+      return NextResponse.json(
+        { message: 'Your email address is not confirmed yet. Please confirm before resetting your password.' },
+        { status: 400 }
+      );
+    }
+
+    // 3. Token und Ablaufzeit generieren
     const resetToken = crypto.randomBytes(20).toString('hex');
     const passwordResetToken = crypto.createHash('sha256').update(resetToken).digest('hex');
-    const passwordResetExpires = Date.now() + 3600000; // 1 hour
+    const passwordResetExpires = Date.now() + 3600000; // 1 Stunde
 
     existingUser.resetToken = passwordResetToken;
     existingUser.resetTokenExpiry = passwordResetExpires;
@@ -29,7 +53,9 @@ export async function POST(req) {
     await existingUser.save();
 
     const baseUrl =
-      process.env.NODE_ENV === 'production' ? 'https://gmndr-authentication-demo.vercel.app' : 'http://localhost:3000';
+      process.env.NODE_ENV === 'production'
+        ? 'https://gmndr-authentication-demo-prototype.vercel.app/'
+        : 'http://localhost:3000';
     const resetUrl = `${baseUrl}/reset-password/${resetToken}`;
 
     const formattedExpiryTime = new Date(passwordResetExpires).toLocaleString('en-US', {
@@ -40,16 +66,6 @@ export async function POST(req) {
       month: '2-digit',
       year: 'numeric',
       hour12: true,
-    });
-
-    const transporter = nodemailer.createTransport({
-      host: process.env.EMAIL_HOST,
-      port: process.env.EMAIL_PORT,
-      secure: process.env.EMAIL_SECURE === 'true',
-      auth: {
-        user: process.env.EMAIL_USER,
-        pass: process.env.EMAIL_PASS,
-      },
     });
 
     const currentHour = new Date().getHours();
@@ -64,14 +80,14 @@ export async function POST(req) {
 
     const user = existingUser.email.replace('@', '(at)').replace(/\.\w+$/, '');
 
-    const mailOptions = {
-      to: email,
-      from: process.env.EMAIL_USER,
-      subject: 'Password Reset',
-      text: `${greeting} ${user},\n\nYou requested a password reset. Click the link below or paste it into your browser:\n\n${resetUrl}\n\nThe link is valid until ${formattedExpiryTime}.\n\nIf you didn't request this, you can ignore this email.\n\nBest regards,\nMarkus from #GMNDR Authentication Demo`,
-    };
+    const subject = 'Password Reset | #GMNDR Authentication Demo';
+    const text = `${greeting} ${user},\n\nYou requested a password reset. Click the link below or paste it into your browser:\n\n${resetUrl}\n\nThe link is valid until ${formattedExpiryTime}.\n\nIf you didn't request this, you can ignore this email.\n\nBest regards,\nMarkus from #GMNDR Authentication Demo`;
 
-    await transporter.sendMail(mailOptions);
+    await sendEmail({
+      to: email,
+      subject: subject,
+      text: text,
+    });
 
     return NextResponse.json({ message: 'A password reset link has been sent to your email.' }, { status: 200 });
   } catch (error) {

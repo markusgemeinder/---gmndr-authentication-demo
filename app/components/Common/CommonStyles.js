@@ -29,3 +29,9 @@ export const SmallTitle = styled.h2`
   margin-bottom: 0.25rem;
   color: var(--color-text);
 `;
+
+export const Paragraph = styled.p`
+  font-size: 1rem;
+  margin-top: 1rem;
+  color: var(--color-text);
+`;

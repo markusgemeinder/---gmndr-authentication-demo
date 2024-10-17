@@ -158,7 +158,7 @@ export default function ResetPasswordForm() {
               <CheckIcon />
             ) : (
               password.length > 0 &&
-              repeatPassword === '' && <WarningMessage>Please enter the password.</WarningMessage>
+              repeatPassword === '' && <WarningMessage>Please repeat the password.</WarningMessage>
             )}
             {password !== repeatPassword && repeatPassword && password.length > 0 && (
               <WarningMessage>Passwords do not match.</WarningMessage>
