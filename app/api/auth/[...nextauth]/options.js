@@ -31,7 +31,7 @@ export const options = {
             // E-Mail nicht bestätigt und Token gültig
             if (!existingUser.isEmailConfirmed) {
               if (existingUser.confirmationTokenExpiry && new Date() < existingUser.confirmationTokenExpiry) {
-                throw new Error('Your email address isn’t confirmed yet. Please check your inbox (and spam).');
+                throw new Error('Your email address isn’t confirmed yet. Please check your inbox (or spam folder).');
               }
               // E-Mail nicht bestätigt und Token abgelaufen
               if (!existingUser.confirmationTokenExpiry || new Date() > existingUser.confirmationTokenExpiry) {

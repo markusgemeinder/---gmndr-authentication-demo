@@ -105,7 +105,7 @@ export async function POST(req) {
     });
 
     return NextResponse.json(
-      { message: 'Registration successful! Please check your email to confirm your account.' },
+      { message: 'Registration successful! Please check your inbox (or spam folder) to confirm your account.' },
       { status: 201 }
     );
   } catch (error) {

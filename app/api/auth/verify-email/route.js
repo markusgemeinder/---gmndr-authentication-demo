@@ -22,7 +22,7 @@ export async function POST(req) {
     if (!user) {
       return NextResponse.json(
         {
-          message: `The link is invalid. Either you’ve already confirmed your email, or the link was copied incorrectly.`,
+          message: 'Invalid link. It may have already been used or was copied incorrectly.',
         },
         { status: 401 }
       );

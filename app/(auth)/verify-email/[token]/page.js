@@ -18,6 +18,8 @@ export default function VerifyEmailPage({ params }) {
   const [showResendButton, setShowResendButton] = useState(false);
   const [errorCode, setErrorCode] = useState(null);
   const [userEmail, setUserEmail] = useState(null);
+  const [isSending, setIsSending] = useState(false);
+  const [isSuccess, setIsSuccess] = useState(false);
   const router = useRouter();
 
   async function handleSubmit(token) {
@@ -65,37 +67,44 @@ export default function VerifyEmailPage({ params }) {
 
   async function handleResendVerification() {
     setResendLoading(true);
-    try {
-      if (!userEmail) {
-        throw new Error('No email available to resend verification.');
-      }
 
+    setModalMessage('Preparing to send your verification email...');
+    setShowModal(true);
+    setIsSending(true);
+    setIsSuccess(false);
+
+    try {
       const response = await fetch('/api/auth/verify-email-resend', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email: userEmail }),
       });
 
-      const data = await response.json();
+      const result = await response.json();
 
-      if (response.ok) {
-        setModalMessage(data.message);
-        setIsError(false);
+      if (response.status === 200) {
+        setModalMessage(
+          'A new verification email has been sent. Please check your inbox (or spam folder) to confirm your account.'
+        );
+        setIsSuccess(true);
       } else {
-        setModalMessage(data.message);
-        setIsError(true);
+        setModalMessage(result.message || 'An unexpected error occurred. Please try again later.');
+        setIsSuccess(false);
       }
     } catch (error) {
-      setModalMessage(error.message || 'An unknown error occurred.');
-      setIsError(true);
+      setModalMessage('An unexpected error occurred. Please try again later.');
+      setIsSuccess(false);
+    } finally {
+      setResendLoading(false);
+      setIsSending(false);
     }
-    setResendLoading(false);
-    setShowModal(true);
   }
 
   function handleOkClick() {
     setShowModal(false);
     if (!isError || !showResendButton) {
+      router.push('/login');
+    } else if (isSuccess) {
       router.push('/login');
     }
   }

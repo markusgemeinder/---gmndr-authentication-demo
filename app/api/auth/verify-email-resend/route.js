@@ -26,9 +26,16 @@ export async function POST(req) {
       return NextResponse.json({ message: 'Your email is already confirmed.' }, { status: 400 });
     }
 
+    const preparationResponse = NextResponse.json(
+      {
+        message: 'Preparing to send your verification email...',
+      },
+      { status: 202 }
+    );
+
     const token = crypto.randomBytes(20).toString('hex');
     const hashedToken = crypto.createHash('sha256').update(token).digest('hex');
-    const expiry = Date.now() + 86400000; // 24 hours
+    const expiry = Date.now() + 86400000; // 24 Stunden
 
     await User.updateOne({ email }, { $set: { confirmationToken: hashedToken, confirmationTokenExpiry: expiry } });
 
