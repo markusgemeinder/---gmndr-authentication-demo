@@ -22,6 +22,12 @@ export default function VerifyEmailPage({ params }) {
   const [isSuccess, setIsSuccess] = useState(false);
   const router = useRouter();
 
+  useEffect(() => {
+    if (params.token) {
+      handleSubmit(params.token);
+    }
+  }, [params.token]);
+
   async function handleSubmit(token) {
     try {
       const response = await fetch('/api/auth/verify-email', {
