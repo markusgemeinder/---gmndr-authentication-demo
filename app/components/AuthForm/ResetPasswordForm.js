@@ -25,12 +25,16 @@ export default function ResetPasswordForm() {
   const [password, setPassword] = useState('');
   const [repeatPassword, setRepeatPassword] = useState('');
   const [passwordVisible, setPasswordVisible] = useState(false);
-  const [error, setError] = useState('');
   const [passwordQuality, setPasswordQuality] = useState('');
-  const [showModal, setShowModal] = useState(false);
-  const [modalMessage, setModalMessage] = useState('');
-  const [isError, setIsError] = useState(false);
   const [isTokenExpired, setIsTokenExpired] = useState(false);
+
+  const [modalState, setModalState] = useState({
+    show: false,
+    message: '',
+    isSuccess: null,
+    showOkButton: true,
+  });
+
   const router = useRouter();
 
   useEffect(() => {
@@ -38,9 +42,13 @@ export default function ResetPasswordForm() {
       const token = window.location.pathname.split('/').pop();
 
       if (!token) {
-        setModalMessage('Token is required.');
+        setModalState({
+          show: true,
+          message: 'Token is required.',
+          isSuccess: false,
+          showOkButton: true,
+        });
         setIsTokenExpired(true);
-        setShowModal(true);
         return;
       }
 
@@ -53,19 +61,23 @@ export default function ResetPasswordForm() {
 
         const result = await response.json();
 
-        if (response.status === 401) {
-          setModalMessage(result.message);
-          setIsError(true);
-          setShowModal(true);
-        } else if (response.status === 410) {
-          setModalMessage(result.message);
+        if (response.status === 401 || response.status === 410) {
+          setModalState({
+            show: true,
+            message: result.message,
+            isSuccess: false,
+            showOkButton: true,
+          });
           setIsTokenExpired(true);
-          setShowModal(true);
         }
       } catch {
-        setModalMessage('An error occurred while checking the token.');
+        setModalState({
+          show: true,
+          message: 'An error occurred while checking the token.',
+          isSuccess: false,
+          showOkButton: true,
+        });
         setIsTokenExpired(true);
-        setShowModal(true);
       }
     };
 
@@ -81,17 +93,34 @@ export default function ResetPasswordForm() {
     event.preventDefault();
 
     if (password !== repeatPassword) {
-      setError('Passwords do not match.');
+      setModalState({
+        show: true,
+        message: 'Passwords do not match.',
+        isSuccess: false,
+        showOkButton: true,
+      });
       return;
     }
 
     if (passwordQuality) {
-      setError('Please improve your password.');
+      setModalState({
+        show: true,
+        message: 'Please improve your password.',
+        isSuccess: false,
+        showOkButton: true,
+      });
       return;
     }
 
     const token = window.location.pathname.split('/').pop();
     const data = { password, token };
+
+    setModalState({
+      show: true,
+      message: 'Resetting your password...',
+      isSuccess: null,
+      showOkButton: false,
+    });
 
     try {
       const response = await fetch('/api/auth/reset-password', {
@@ -105,19 +134,25 @@ export default function ResetPasswordForm() {
         ? 'New password saved. You can now log in.'
         : (await response.json()).message || 'Failed to save password. Please try again.';
 
-      setModalMessage(message);
-      setIsError(!success);
-      setShowModal(true);
+      setModalState({
+        show: true,
+        message,
+        isSuccess: success,
+        showOkButton: true,
+      });
     } catch {
-      setModalMessage('An error occurred. Please try again.');
-      setIsError(true);
-      setShowModal(true);
+      setModalState({
+        show: true,
+        message: 'An error occurred. Please try again.',
+        isSuccess: false,
+        showOkButton: true,
+      });
     }
   }
 
   function handleOkClick() {
-    setShowModal(false);
-    router.push(isError || isTokenExpired ? '/' : '/login');
+    setModalState((prevState) => ({ ...prevState, show: false }));
+    router.push(modalState.isSuccess ? '/login' : '/');
   }
 
   function togglePasswordVisibility() {
@@ -176,8 +211,6 @@ export default function ResetPasswordForm() {
           </InputContainer>
         </FormGroup>
 
-        {error && <WarningMessage>{error}</WarningMessage>}
-
         <ButtonContainer>
           <Button
             type='submit'
@@ -196,7 +229,9 @@ export default function ResetPasswordForm() {
         </ButtonContainer>
       </FormContainer>
 
-      {showModal && <ModalPopup message={modalMessage} onOkClick={handleOkClick} isError={isError || isTokenExpired} />}
+      {modalState.show && (
+        <ModalPopup message={modalState.message} onOkClick={handleOkClick} showOkButton={modalState.showOkButton} />
+      )}
     </>
   );
 }

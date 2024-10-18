@@ -1,7 +1,6 @@
 // /app/components/Common/ModalPopup.js
 
-import React from 'react';
-import styled, { keyframes } from 'styled-components';
+import styled, { keyframes, css } from 'styled-components';
 import Button from './Button';
 
 const blinkAnimation = keyframes`
@@ -33,6 +32,8 @@ export const ModalContent = styled.div`
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  width: 60%;
+  max-width: 600px;
 `;
 
 export const ModalHeader = styled.h2`
@@ -50,39 +51,32 @@ export const ModalParagraph = styled.p`
   color: var(--color-modal-paragraph);
 `;
 
-export const ModalInput = styled.input`
-  font-size: 1rem;
-  padding: 0.5rem;
-  margin-bottom: 1rem;
-  border-radius: 0.25rem;
-  border: 1px solid var(--color-input-border);
-  width: 100%;
-  text-align: center;
-  color: var(--color-input-text);
-`;
-
 export const ModalButtonContainer = styled.div`
   display: flex;
   justify-content: center;
 `;
 
-const ModalPopup = ({ message, onOkClick, isSending }) => (
-  <ModalOverlay>
-    <ModalContent>
-      <ModalHeader>{message}</ModalHeader>
-      <ModalButtonContainer>
-        {!isSending && (
-          <Button
-            onClick={onOkClick}
-            bgColor='var(--color-button-ok)'
-            hoverColor='var(--color-button-ok-hover)'
-            color='var(--color-button-text)'>
-            OK
-          </Button>
-        )}
-      </ModalButtonContainer>
-    </ModalContent>
-  </ModalOverlay>
-);
+const ModalPopup = ({ message, onOkClick, showOkButton }) => {
+  console.log('ModalPopup - showOkButton:', showOkButton);
+
+  return (
+    <ModalOverlay>
+      <ModalContent>
+        <ModalHeader>{message}</ModalHeader>
+        <ModalButtonContainer>
+          {showOkButton && (
+            <Button
+              onClick={onOkClick}
+              bgColor='var(--color-button-ok)'
+              hoverColor='var(--color-button-ok-hover)'
+              color='var(--color-button-text)'>
+              OK
+            </Button>
+          )}
+        </ModalButtonContainer>
+      </ModalContent>
+    </ModalOverlay>
+  );
+};
 
 export default ModalPopup;
