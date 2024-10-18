@@ -3,6 +3,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import { useRouter } from 'next/navigation';
 import ScrollToTop from '@/app/components/Common/ScrollToTop';
 import Button, { ButtonContainer } from '@/app/components/Common/Button';
 import {
@@ -24,9 +25,15 @@ export default function LoginForm({ onLogin, onOAuthLogin, error }) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [passwordVisible, setPasswordVisible] = useState(false);
-  const [showModal, setShowModal] = useState(false);
-  const [modalMessage, setModalMessage] = useState('');
-  const [isSending, setIsSending] = useState(false);
+
+  const [modalState, setModalState] = useState({
+    show: false,
+    message: '',
+    isSuccess: null,
+    showOkButton: true,
+  });
+
+  const router = useRouter();
 
   useEffect(() => {
     if (error) {
@@ -48,13 +55,22 @@ export default function LoginForm({ onLogin, onOAuthLogin, error }) {
   }
 
   function showError(message) {
-    setModalMessage(message);
-    setShowModal(true);
+    setModalState({
+      show: true,
+      message: message,
+      isSuccess: false,
+      showOkButton: true,
+    });
   }
 
   async function handleSubmit(event) {
     event.preventDefault();
-    setIsSending(true);
+    setModalState({
+      show: true,
+      message: 'Logging in...',
+      isSuccess: null,
+      showOkButton: false,
+    });
 
     try {
       const loginSuccess = await onLogin(email, password);
@@ -62,12 +78,23 @@ export default function LoginForm({ onLogin, onOAuthLogin, error }) {
       if (!loginSuccess) {
         showError(error);
       } else {
-        setShowModal(false);
+        setModalState({
+          show: true,
+          message: 'Login successful!',
+          isSuccess: true,
+          showOkButton: true,
+        });
       }
     } catch (error) {
       showError(error.message);
-    } finally {
-      setIsSending(false);
+    }
+  }
+
+  function handleOkClick() {
+    setModalState((prevState) => ({ ...prevState, show: false }));
+
+    if (modalState.isSuccess) {
+      router.push('/reviews');
     }
   }
 
@@ -146,7 +173,9 @@ export default function LoginForm({ onLogin, onOAuthLogin, error }) {
         </ButtonContainer>
       </FormContainer>
 
-      {showModal && <ModalPopup message={modalMessage} onOkClick={() => setShowModal(false)} isSending={isSending} />}
+      {modalState.show && (
+        <ModalPopup message={modalState.message} onOkClick={handleOkClick} showOkButton={modalState.showOkButton} />
+      )}
     </>
   );
 }

@@ -11,16 +11,21 @@ import { Paragraph } from '@/app/components/Common/CommonStyles';
 import { useRouter } from 'next/navigation';
 
 export default function VerifyEmailPage({ params }) {
-  const [showModal, setShowModal] = useState(false);
-  const [modalMessage, setModalMessage] = useState('');
-  const [isError, setIsError] = useState(false);
-  const [resendLoading, setResendLoading] = useState(false);
-  const [showResendButton, setShowResendButton] = useState(false);
-  const [errorCode, setErrorCode] = useState(null);
+  const [modalState, setModalState] = useState({
+    show: false,
+    message: '',
+    showResendButton: false,
+    isSuccess: null,
+    showOkButton: true,
+  });
   const [userEmail, setUserEmail] = useState(null);
-  const [isSending, setIsSending] = useState(false);
-  const [isSuccess, setIsSuccess] = useState(false);
   const router = useRouter();
+
+  useEffect(() => {
+    if (params.token) {
+      handleSubmit(params.token);
+    }
+  }, [params.token]);
 
   async function handleSubmit(token) {
     try {
@@ -34,44 +39,44 @@ export default function VerifyEmailPage({ params }) {
 
       if (response.ok) {
         setUserEmail(data.email);
-        setModalMessage(data.message);
-        setIsError(false);
-        setShowResendButton(false);
+        setModalState({
+          show: true,
+          message: data.message,
+          showResendButton: false,
+          isSuccess: true,
+          showOkButton: true,
+        });
       } else {
-        setModalMessage(data.message);
-        setIsError(true);
-        setErrorCode(response.status);
-
-        if (response.status === 410) {
-          setShowResendButton(true);
-          if (data.email) {
-            setUserEmail(data.email);
-          }
-        } else {
-          setShowResendButton(false);
-        }
-
-        if (response.status === 401) {
-          setModalMessage(data.message);
-          setShowModal(true);
-          return;
+        setModalState({
+          show: true,
+          message: data.message,
+          showResendButton: response.status === 410,
+          isSuccess: false,
+          showOkButton: true,
+        });
+        if (response.status === 410 && data.email) {
+          setUserEmail(data.email);
         }
       }
     } catch (error) {
-      setModalMessage(error.message || 'An unknown error occurred.');
-      setIsError(true);
-      setShowResendButton(false);
+      setModalState({
+        show: true,
+        message: error.message || 'An unknown error occurred.',
+        showResendButton: false,
+        isSuccess: false,
+        showOkButton: true,
+      });
     }
-    setShowModal(true);
   }
 
   async function handleResendVerification() {
-    setResendLoading(true);
-
-    setModalMessage('Preparing to send your verification email...');
-    setShowModal(true);
-    setIsSending(true);
-    setIsSuccess(false);
+    setModalState({
+      show: true,
+      message: 'Preparing to send your verification email...',
+      showResendButton: false,
+      isSuccess: null,
+      showOkButton: false,
+    });
 
     try {
       const response = await fetch('/api/auth/verify-email-resend', {
@@ -83,28 +88,38 @@ export default function VerifyEmailPage({ params }) {
       const result = await response.json();
 
       if (response.status === 200) {
-        setModalMessage(
-          'A new verification email has been sent. Please check your inbox (or spam folder) to confirm your account.'
-        );
-        setIsSuccess(true);
+        setModalState({
+          show: true,
+          message:
+            'A new verification email has been sent. Please check your inbox (or spam folder) to confirm your account.',
+          showResendButton: false,
+          isSuccess: true,
+          showOkButton: true,
+        });
       } else {
-        setModalMessage(result.message || 'An unexpected error occurred. Please try again later.');
-        setIsSuccess(false);
+        setModalState({
+          show: true,
+          message: result.message || 'An unexpected error occurred. Please try again later.',
+          showResendButton: false,
+          isSuccess: false,
+          showOkButton: true,
+        });
       }
     } catch (error) {
-      setModalMessage('An unexpected error occurred. Please try again later.');
-      setIsSuccess(false);
-    } finally {
-      setResendLoading(false);
-      setIsSending(false);
+      setModalState({
+        show: true,
+        message: 'An unexpected error occurred. Please try again later.',
+        showResendButton: false,
+        isSuccess: false,
+        showOkButton: true,
+      });
     }
   }
 
   function handleOkClick() {
-    setShowModal(false);
-    if (!isError || !showResendButton) {
-      router.push('/login');
-    } else if (isSuccess) {
+    setModalState((prevState) => ({ ...prevState, show: false }));
+
+    if (modalState.isSuccess) {
       router.push('/login');
     }
   }
@@ -115,7 +130,7 @@ export default function VerifyEmailPage({ params }) {
       <Main>
         <Title>Email Verification</Title>
 
-        {!showResendButton ? (
+        {!modalState.showResendButton ? (
           <>
             <ButtonContainerMedium>
               <Button
@@ -132,7 +147,6 @@ export default function VerifyEmailPage({ params }) {
             <ButtonContainerMedium>
               <Button
                 onClick={handleResendVerification}
-                disabled={resendLoading}
                 bgColor='var(--color-button-login)'
                 hoverColor='var(--color-button-login-hover)'>
                 Resend Verification Email
@@ -143,7 +157,9 @@ export default function VerifyEmailPage({ params }) {
         )}
       </Main>
 
-      {showModal && <ModalPopup message={modalMessage} onOkClick={handleOkClick} isError={isError} />}
+      {modalState.show && (
+        <ModalPopup message={modalState.message} onOkClick={handleOkClick} showOkButton={modalState.showOkButton} />
+      )}
     </>
   );
 }

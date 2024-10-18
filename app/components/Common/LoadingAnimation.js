@@ -1,3 +1,5 @@
+// /app/components/Common/LoadingAnimation.js
+
 'use client';
 
 import styled, { keyframes } from 'styled-components';

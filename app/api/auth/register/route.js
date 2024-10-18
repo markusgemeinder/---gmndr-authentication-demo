@@ -21,7 +21,6 @@ export async function POST(req) {
     const duplicate = await User.findOne({ email }).lean().exec();
 
     if (duplicate) {
-      // Prüfen, ob die E-Mail-Adresse bereits mit Google oder GitHub verbunden ist
       if (duplicate.role === 'Google User' || duplicate.role === 'Google User (Admin)') {
         return NextResponse.json(
           { message: 'This email is already registered with Google. Please log in using Google.' },
@@ -36,7 +35,6 @@ export async function POST(req) {
         );
       }
 
-      // Prüfen, ob die E-Mail-Adresse registriert, aber noch nicht bestätigt wurde
       if (!duplicate.isEmailConfirmed) {
         return NextResponse.json(
           { message: 'Your email address is already registered, but not confirmed yet. Please confirm and log in.' },
@@ -44,7 +42,6 @@ export async function POST(req) {
         );
       }
 
-      // Standardmeldung für doppelte E-Mail, die mit einem anderen Konto verknüpft ist
       return NextResponse.json(
         {
           message: 'Email is already in use. Please try logging in or reset your password.',

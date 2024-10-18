@@ -27,10 +27,13 @@ export default function RegisterForm() {
   const [repeatPassword, setRepeatPassword] = useState('');
   const [passwordVisible, setPasswordVisible] = useState(false);
   const [passwordQuality, setPasswordQuality] = useState('');
-  const [showModal, setShowModal] = useState(false);
-  const [modalMessage, setModalMessage] = useState('');
-  const [isError, setIsError] = useState(false);
-  const [isSending, setIsSending] = useState(false);
+
+  const [modalState, setModalState] = useState({
+    show: false,
+    message: '',
+    isSuccess: null,
+    showOkButton: true,
+  });
 
   const router = useRouter();
 
@@ -43,25 +46,33 @@ export default function RegisterForm() {
     event.preventDefault();
 
     if (password !== repeatPassword) {
-      setModalMessage(`Passwords don't match. Please check and try again.`);
-      setIsError(true);
-      setShowModal(true);
+      setModalState({
+        show: true,
+        message: "Passwords don't match. Please check and try again.",
+        isSuccess: false,
+        showOkButton: true,
+      });
       return;
     }
 
     if (passwordQuality) {
-      setModalMessage('Password is too weak. Please follow the requirements and improve it.');
-      setIsError(true);
-      setShowModal(true);
+      setModalState({
+        show: true,
+        message: 'Password is too weak. Please follow the requirements and improve it.',
+        isSuccess: false,
+        showOkButton: true,
+      });
       return;
     }
 
     const data = { email, password };
 
-    setModalMessage('Preparing to create your account...');
-    setShowModal(true);
-    setIsSending(true);
-    setIsError(false);
+    setModalState({
+      show: true,
+      message: 'Preparing to create your account...',
+      isSuccess: null,
+      showOkButton: false,
+    });
 
     try {
       const response = await fetch('/api/auth/register', {
@@ -73,25 +84,27 @@ export default function RegisterForm() {
       const responseData = await response.json();
       const success = response.status === 201;
 
-      const message = responseData.message || 'Registration failed.';
-
-      setModalMessage(message);
-      setIsError(!success);
-      setShowModal(true);
+      setModalState({
+        show: true,
+        message: responseData.message || 'Registration failed.',
+        isSuccess: success,
+        showOkButton: true,
+      });
     } catch (error) {
-      setModalMessage('An unexpected error occurred.');
-      setIsError(true);
-      setShowModal(true);
-    } finally {
-      setIsSending(false);
+      setModalState({
+        show: true,
+        message: 'An unexpected error occurred.',
+        isSuccess: false,
+        showOkButton: true,
+      });
     }
   }
 
   function handleOkClick() {
-    if (!isError) {
+    if (modalState.isSuccess) {
       router.push('/login');
     }
-    setShowModal(false);
+    setModalState((prevState) => ({ ...prevState, show: false }));
   }
 
   function togglePasswordVisibility() {
@@ -173,7 +186,9 @@ export default function RegisterForm() {
         </ButtonContainer>
       </FormContainer>
 
-      {showModal && <ModalPopup message={modalMessage} onOkClick={handleOkClick} isError={isError} />}
+      {modalState.show && (
+        <ModalPopup message={modalState.message} onOkClick={handleOkClick} showOkButton={modalState.showOkButton} />
+      )}
     </>
   );
 }

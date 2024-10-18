@@ -11,10 +11,13 @@ import ModalPopup from '@/app/components/Common/ModalPopup';
 
 export default function ForgotPasswordForm() {
   const [email, setEmail] = useState('');
-  const [showModal, setShowModal] = useState(false);
-  const [modalMessage, setModalMessage] = useState('');
-  const [isSuccess, setIsSuccess] = useState(false);
-  const [isSending, setIsSending] = useState(false);
+  const [modalState, setModalState] = useState({
+    show: false,
+    message: '',
+    isSuccess: null,
+    showOkButton: true,
+  });
+
   const router = useRouter();
   const { data: session, status: sessionStatus } = useSession();
 
@@ -33,16 +36,21 @@ export default function ForgotPasswordForm() {
     event.preventDefault();
 
     if (!isValidEmail(email)) {
-      setModalMessage('Please enter a valid email address.');
-      setShowModal(true);
-      setIsSending(false);
+      setModalState({
+        show: true,
+        message: 'Please enter a valid email address.',
+        isSuccess: false,
+        showOkButton: true,
+      });
       return;
     }
 
-    setModalMessage('Preparing to send your password reset link...');
-    setShowModal(true);
-    setIsSending(true);
-    setIsSuccess(false);
+    setModalState({
+      show: true,
+      message: 'Preparing to send your password reset link...',
+      isSuccess: null,
+      showOkButton: false,
+    });
 
     const data = { email };
 
@@ -56,24 +64,34 @@ export default function ForgotPasswordForm() {
       const result = await response.json();
 
       if (response.status === 200) {
-        setModalMessage('A password reset link has been sent to your email.');
-        setIsSuccess(true);
+        setModalState({
+          show: true,
+          message: 'A password reset link has been sent to your email.',
+          isSuccess: true,
+          showOkButton: true,
+        });
       } else {
-        setModalMessage(result.message || 'An unexpected error occurred. Please try again later.');
-        setIsSuccess(false);
+        setModalState({
+          show: true,
+          message: result.message || 'An unexpected error occurred. Please try again later.',
+          isSuccess: false,
+          showOkButton: true,
+        });
       }
     } catch (error) {
-      setModalMessage('An unexpected error occurred. Please try again later.');
-      setIsSuccess(false);
-    } finally {
-      setIsSending(false);
+      setModalState({
+        show: true,
+        message: 'An unexpected error occurred. Please try again later.',
+        isSuccess: false,
+        showOkButton: true,
+      });
     }
   }
 
   function handleOkClick() {
-    setShowModal(false);
+    setModalState((prevState) => ({ ...prevState, show: false }));
 
-    if (isSuccess) {
+    if (modalState.isSuccess) {
       router.push('/login');
     }
   }
@@ -94,7 +112,9 @@ export default function ForgotPasswordForm() {
         </ButtonContainer>
       </FormContainer>
 
-      {showModal && <ModalPopup message={modalMessage} onOkClick={handleOkClick} isSending={isSending} />}
+      {modalState.show && (
+        <ModalPopup message={modalState.message} onOkClick={handleOkClick} showOkButton={modalState.showOkButton} />
+      )}
     </>
   );
 }
