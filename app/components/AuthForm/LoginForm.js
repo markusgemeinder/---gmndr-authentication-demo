@@ -92,10 +92,6 @@ export default function LoginForm({ onLogin, onOAuthLogin, error }) {
 
   function handleOkClick() {
     setModalState((prevState) => ({ ...prevState, show: false }));
-
-    if (modalState.isSuccess) {
-      router.push('/reviews');
-    }
   }
 
   return (
