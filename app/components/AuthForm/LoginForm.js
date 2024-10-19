@@ -77,13 +77,6 @@ export default function LoginForm({ onLogin, onOAuthLogin, error, onDemoLogin })
 
       if (!loginSuccess) {
         showError(error);
-      } else {
-        setModalState({
-          show: true,
-          message: 'Login successful!',
-          isSuccess: true,
-          showOkButton: true,
-        });
       }
     } catch (error) {
       showError(error.message);
@@ -104,13 +97,6 @@ export default function LoginForm({ onLogin, onOAuthLogin, error, onDemoLogin })
 
       if (!demoSuccess) {
         showError('Error logging in as Demo User');
-      } else {
-        setModalState({
-          show: true,
-          message: 'Demo User login successful!',
-          isSuccess: true,
-          showOkButton: true,
-        });
       }
     } catch (error) {
       showError(error.message);

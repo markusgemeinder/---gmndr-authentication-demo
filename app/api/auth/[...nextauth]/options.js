@@ -21,7 +21,7 @@ export const options = {
 
         try {
           if (credentials.email === 'no-reply-demo-user@example.com' && credentials.password === 'DemoUser0815!') {
-            return { id: '6713c624bc52c45e30f37969', email: credentials.email, role: 'Demo User' };
+            return { id: '6713c624bc52c45e30f37969', email: credentials.email, role: 'Demo User', isDemoUser: true };
           }
 
           const existingUser = await User.findOne({ email: credentials.email }).lean().exec();
@@ -62,6 +62,7 @@ export const options = {
             id: existingUser._id,
             email: existingUser.email,
             role: existingUser.role || 'Credentials User',
+            isDemoUser: false,
           };
         } catch (error) {
           throw error;
@@ -131,6 +132,7 @@ export const options = {
     async jwt({ token, user }) {
       if (user) {
         token.role = user.role;
+        token.isDemoUser = user.isDemoUser;
         token.createdAt = Date.now();
       }
       return token;
@@ -138,6 +140,7 @@ export const options = {
     async session({ session, token }) {
       if (session?.user) {
         session.user.role = token.role;
+        session.user.isDemoUser = token.isDemoUser;
       }
       return session;
     },

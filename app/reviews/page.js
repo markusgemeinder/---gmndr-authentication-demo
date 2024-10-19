@@ -12,8 +12,10 @@ import Button from '@/app/components/Common/Button';
 import { Main, Title } from '@/app/components/Common/CommonStyles';
 import { ReviewsContainer } from '@/app/components/Review/ReviewStyles';
 import ScrollToTop from '@/app/components/Common/ScrollToTop';
+import { useSession } from 'next-auth/react';
 
 export default function ReviewsPage() {
+  const { data: session } = useSession();
   const [reviews, setReviews] = useState([]);
   const [loading, setLoading] = useState(true);
   const router = useRouter();
@@ -51,8 +53,8 @@ export default function ReviewsPage() {
     const demoReview = {
       _id: `demo-${Math.random().toString(36).substr(2, 12)}`,
       username: 'Demo User',
-      email: 'test@demo.de',
-      note: 'Signed in as Demo User. This review can be edited and deleted, but is not stored and will be lost when the browser is closed.\n\nAngemeldet als Demo-Nutzer. Diese Bewertung kann bearbeitet und gelöscht werden, wird aber nicht gespeichert und geht beim Schließen des Browsers verloren.',
+      email: 'no-reply-demo-user@example.com',
+      note: 'Logged in as a Demo User. You can edit and delete this review, but it will not be saved. When logging out or closing the browser it disappears.',
       rating: 5,
       createdAt: new Date().toISOString(),
       updatedAt: new Date().toISOString(),
@@ -65,8 +67,6 @@ export default function ReviewsPage() {
     setReviews([demoReview, ...reviews]);
   }
 
-  const demoReviewExists = reviews.some((review) => review._id.startsWith('demo-'));
-
   if (loading) {
     return <LoadingAnimation />;
   }
@@ -77,22 +77,25 @@ export default function ReviewsPage() {
       <Main>
         <Title>Reviews</Title>
         <SessionStatus />
-        <Button
-          onClick={() => router.push('/reviews/create')}
-          bgColor='var(--color-button-review)'
-          hoverColor='var(--color-button-review-hover)'
-          color='var(--color-button-text)'>
-          Create Review
-        </Button>
-        {!demoReviewExists && (
-          <Button
-            onClick={handleCreateDemoReview}
-            bgColor='var(--color-button-demo-review)'
-            hoverColor='var(--color-button-demo-review-hover)'
-            color='var(--color-button-text)'>
-            Create Demo Review
-          </Button>
-        )}
+        {session ? (
+          session.user.isDemoUser ? (
+            <Button
+              onClick={handleCreateDemoReview}
+              bgColor='var(--color-button-demo-review)'
+              hoverColor='var(--color-button-demo-review-hover)'
+              color='var(--color-button-text)'>
+              Create Demo Review
+            </Button>
+          ) : (
+            <Button
+              onClick={() => router.push('/reviews/create')}
+              bgColor='var(--color-button-review)'
+              hoverColor='var(--color-button-review-hover)'
+              color='var(--color-button-text)'>
+              Create Review
+            </Button>
+          )
+        ) : null}
         <ReviewsContainer>
           {reviews.map((review) => (
             <ReviewCard key={review._id} review={review} onDelete={handleDelete} />

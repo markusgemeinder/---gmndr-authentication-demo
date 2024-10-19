@@ -14,6 +14,7 @@ import {
   BlinkingText,
 } from '@/app/components/Common/ModalPopup';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 
 const StatusContainer = styled.div`
   margin-bottom: 0.4rem;
@@ -30,6 +31,16 @@ const LoginLink = styled(Link)`
   }
 `;
 
+const CountdownContainer = styled.span`
+  display: inline-block;
+  width: 2.1rem;
+  text-align: right;
+`;
+
+const Spacer = styled.div`
+  margin-bottom: 1.4rem;
+`;
+
 const Timer = styled.div`
   font-size: 2rem;
   margin-bottom: 1rem;
@@ -37,13 +48,14 @@ const Timer = styled.div`
 `;
 
 const SessionStatusModalOverlay = styled(ModalOverlay)`
-  z-index: 1100; /* Höherer z-index als andere Modals */
+  z-index: 1100;
 `;
 
-const SessionStatus = () => {
+export default function SessionStatus() {
   const { data: session } = useSession();
   const [timeLeft, setTimeLeft] = useState(300);
   const [showPopup, setShowPopup] = useState(false);
+  const router = useRouter();
 
   useEffect(() => {
     if (typeof window === 'undefined') return;
@@ -64,8 +76,9 @@ const SessionStatus = () => {
           const newTime = prevTime - 1;
           if (newTime <= 0) {
             clearInterval(interval);
-            signOut();
+            signOut({ redirect: false });
             sessionStorage.removeItem('timeLeft');
+            router.push('/login');
             return 0;
           }
           if (newTime === 30) {
@@ -78,7 +91,7 @@ const SessionStatus = () => {
     }
 
     return () => clearInterval(interval);
-  }, [session]);
+  }, [session, router]);
 
   useEffect(() => {
     if (!session) {
@@ -94,7 +107,8 @@ const SessionStatus = () => {
 
   const handleLogout = () => {
     sessionStorage.clear();
-    signOut();
+    signOut({ redirect: false });
+    router.push('/login');
     setShowPopup(false);
   };
 
@@ -104,22 +118,22 @@ const SessionStatus = () => {
     return `${minutes}:${remainingSeconds < 10 ? '0' : ''}${remainingSeconds}`;
   };
 
+  const userRole = session?.user.isDemoUser ? 'Demo User' : session?.user.role;
+
   return (
     <StatusContainer>
       {session ? (
         <>
-          {session.user.isDemoUser ? (
-            <p>Welcome, {session.user.email}. You are logged in as Demo User.</p>
-          ) : (
-            <p>
-              Welcome, {session.user.email}. You are logged in as {session.user.role}. Login expires in{' '}
-              {formatTime(timeLeft)}{' '}
-              <LoginLink href='#' onClick={renewSession}>
-                (renew session)
-              </LoginLink>
-              .
-            </p>
-          )}
+          <p>
+            Welcome, {session.user.email}. You are logged in as {userRole}.
+            <br />
+            Your login expires in
+            <CountdownContainer>{formatTime(timeLeft)}</CountdownContainer> minutes{' '}
+            <LoginLink href='#' onClick={renewSession}>
+              (Renew Session)
+            </LoginLink>
+          </p>
+          <Spacer />
           {showPopup && (
             <SessionStatusModalOverlay>
               <ModalContent>
@@ -154,6 +168,4 @@ const SessionStatus = () => {
       )}
     </StatusContainer>
   );
-};
-
-export default SessionStatus;
+}
