@@ -56,9 +56,9 @@
   --color-button-edit-hover: var(--color-button-primary-hover);
   --color-button-delete: #ef4444;
   --color-button-delete-hover: #dc2626;
-  --color-button-page-up: #152d6d;
-  --color-button-page-up-hover: #bbcdff;
-  --color-button-page-up-icon: #152d6d;
+  --color-button-page-up: #203a81;
+  --color-button-page-up-hover: #dee7ff;
+  --color-button-page-up-icon: #203a81;
 
   /* Authentication Button Colors */
   --color-button-login: var(--color-button-edit);
@@ -139,7 +139,7 @@
   --color-button-delete: #b91c1c;
   --color-button-delete-hover: #991b1b;
   --color-button-page-up: #c6c9cf;
-  --color-button-page-up-hover: #2c4daa;
+  --color-button-page-up-hover: #213c86;
   --color-button-page-up-icon: #c6c9cf;
 
   /* Authentication Button Colors */
