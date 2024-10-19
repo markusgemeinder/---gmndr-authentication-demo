@@ -39,13 +39,12 @@ export async function POST(req) {
       return NextResponse.json(
         {
           message: 'The verification link has expired. Please request a new one.',
-          email: user.email, // E-Mail-Adresse für spätere Verwendung im Frontend
+          email: user.email,
         },
         { status: 410 }
       );
     }
 
-    // Wenn alle Checks bestehen, E-Mail bestätigen
     await User.findOneAndUpdate(
       { confirmationToken: hashedToken },
       { isEmailConfirmed: true, confirmationToken: null, confirmationTokenExpiry: null }
