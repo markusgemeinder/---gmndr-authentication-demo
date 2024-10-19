@@ -6,7 +6,7 @@ import { signIn } from 'next-auth/react';
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import ScrollToTop from '@/app/components/Common/ScrollToTop';
-import { Main, Title } from '@/app/components/AuthForm/AuthFormStyles';
+import { Main, Title } from '@/app/components/Common/CommonStyles';
 import LoginForm from '@/app/components/AuthForm/LoginForm';
 
 export default function LoginPage() {

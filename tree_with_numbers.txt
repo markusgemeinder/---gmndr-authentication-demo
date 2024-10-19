@@ -55,37 +55,38 @@
     55	│   │   │   ├── LoadingAnimation.js
     56	│   │   │   ├── ModalPopup.js
     57	│   │   │   ├── Navigation.js
-    58	│   │   │   ├── ScrollToTop.js
-    59	│   │   │   └── ThemeProvider.js
-    60	│   │   └── Review
-    61	│   │       ├── ReviewCard.js
-    62	│   │       ├── ReviewForm.js
-    63	│   │       └── ReviewStyles.js
-    64	│   ├── globals.css
-    65	│   ├── layout.js
-    66	│   ├── page.js
-    67	│   └── reviews
-    68	│       ├── [id]
-    69	│       │   └── page.js
-    70	│       ├── create
-    71	│       │   └── page.js
-    72	│       └── page.js
-    73	├── db
-    74	│   ├── connect.js
-    75	│   └── models
-    76	│       ├── Review.js
-    77	│       └── User.js
-    78	├── jsconfig.json
-    79	├── middleware.js
-    80	├── next.config.mjs
-    81	├── package.json
-    82	├── postcss.config.mjs
-    83	├── tailwind.config.js
-    84	├── tree_with_numbers.txt
-    85	└── utils
-    86	    ├── maskEmail.js
-    87	    ├── renderStars.js
-    88	    ├── sendEmail.js
-    89	    └── validatePassword.js
+    58	│   │   │   ├── PageUpButton.js
+    59	│   │   │   ├── ScrollToTop.js
+    60	│   │   │   └── ThemeProvider.js
+    61	│   │   └── Review
+    62	│   │       ├── ReviewCard.js
+    63	│   │       ├── ReviewForm.js
+    64	│   │       └── ReviewStyles.js
+    65	│   ├── globals.css
+    66	│   ├── layout.js
+    67	│   ├── page.js
+    68	│   └── reviews
+    69	│       ├── [id]
+    70	│       │   └── page.js
+    71	│       ├── create
+    72	│       │   └── page.js
+    73	│       └── page.js
+    74	├── db
+    75	│   ├── connect.js
+    76	│   └── models
+    77	│       ├── Review.js
+    78	│       └── User.js
+    79	├── jsconfig.json
+    80	├── middleware.js
+    81	├── next.config.mjs
+    82	├── package.json
+    83	├── postcss.config.mjs
+    84	├── tailwind.config.js
+    85	├── tree_with_numbers.txt
+    86	└── utils
+    87	    ├── maskEmail.js
+    88	    ├── renderStars.js
+    89	    ├── sendEmail.js
+    90	    └── validatePassword.js
       	
-    90	33 directories, 56 files
+    91	33 directories, 57 files

@@ -12,15 +12,18 @@ export const Container = styled.div`
   margin-top: 5rem;
 `;
 
-export const Title = styled.h1`
-  font-size: 1.8rem;
-  font-weight: bold;
-  margin-bottom: 1rem;
-  color: var(--color-text);
-`;
-
 export const Main = styled.main`
   padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+`;
+
+export const Title = styled.h1`
+  font-size: 1.6rem;
+  font-weight: bold;
+  margin-bottom: 0.5rem;
+  color: var(--color-text);
 `;
 
 export const SmallTitle = styled.h2`
