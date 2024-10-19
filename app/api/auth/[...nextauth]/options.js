@@ -1,4 +1,4 @@
-// /app/api/auth|[...nextauth]/options.js
+// /app/api/auth/[...nextauth]/options.js
 
 import GitHubProvider from 'next-auth/providers/github';
 import GoogleProvider from 'next-auth/providers/google';
@@ -20,27 +20,27 @@ export const options = {
         await dbConnect();
 
         try {
+          if (credentials.email === 'no-reply-demo-user@example.com' && credentials.password === 'DemoUser0815!') {
+            return { id: '6713c624bc52c45e30f37969', email: credentials.email, role: 'Demo User', isDemoUser: true };
+          }
+
           const existingUser = await User.findOne({ email: credentials.email }).lean().exec();
 
           if (!existingUser) {
             throw new Error('No account with this email address exists. Please register.');
           }
 
-          // 1. Überprüfen, ob der Benutzer über Credentials eingeloggt ist
           if (existingUser.role === 'Credentials User') {
-            // E-Mail nicht bestätigt und Token gültig
             if (!existingUser.isEmailConfirmed) {
               if (existingUser.confirmationTokenExpiry && new Date() < existingUser.confirmationTokenExpiry) {
                 throw new Error('Your email address isn’t confirmed yet. Please check your inbox (or spam folder).');
               }
-              // E-Mail nicht bestätigt und Token abgelaufen
               if (!existingUser.confirmationTokenExpiry || new Date() > existingUser.confirmationTokenExpiry) {
                 throw new Error('Your confirmation link has expired. Please request a new confirmation email.');
               }
             }
           }
 
-          // 2. Benutzer existiert bereits über einen anderen Provider (GitHub/Google)
           if (existingUser.role === 'GitHub User' || existingUser.role === 'GitHub User (Admin)') {
             throw new Error('Email is already registered with GitHub. Please log in that way.');
           }
@@ -49,22 +49,20 @@ export const options = {
             throw new Error('Email is already registered with Google. Please log in that way.');
           }
 
-          // 3. Passwort überprüfen
           const match = await bcrypt.compare(credentials.password, existingUser.password);
           if (!match) {
             throw new Error('Incorrect password. Please try again.');
           }
 
-          // Wenn das Passwort erfolgreich ist, resetToken und resetTokenExpiry auf null setzen
           if (existingUser.resetToken || existingUser.resetTokenExpiry) {
             await User.updateOne({ email: existingUser.email }, { $set: { resetToken: null, resetTokenExpiry: null } });
           }
 
-          // Login erfolgreich
           return {
             id: existingUser._id,
             email: existingUser.email,
             role: existingUser.role || 'Credentials User',
+            isDemoUser: false,
           };
         } catch (error) {
           throw error;
@@ -134,6 +132,7 @@ export const options = {
     async jwt({ token, user }) {
       if (user) {
         token.role = user.role;
+        token.isDemoUser = user.isDemoUser;
         token.createdAt = Date.now();
       }
       return token;
@@ -141,12 +140,13 @@ export const options = {
     async session({ session, token }) {
       if (session?.user) {
         session.user.role = token.role;
+        session.user.isDemoUser = token.isDemoUser;
       }
       return session;
     },
   },
   session: {
-    maxAge: 60 * 60, // 1 hour
-    updateAge: 60 * 5, // every 5 minutes
+    maxAge: 60 * 60,
+    updateAge: 60 * 5,
   },
 };

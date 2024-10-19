@@ -1,6 +1,6 @@
 // /app/components/Common/ModalPopup.js
 
-import styled, { keyframes, css } from 'styled-components';
+import styled, { keyframes } from 'styled-components';
 import Button from './Button';
 
 const blinkAnimation = keyframes`
@@ -56,9 +56,16 @@ export const ModalButtonContainer = styled.div`
   justify-content: center;
 `;
 
-const ModalPopup = ({ message, onOkClick, showOkButton }) => {
-  console.log('ModalPopup - showOkButton:', showOkButton);
+export const ModalInput = styled.input`
+  width: 100%;
+  padding: 0.5rem;
+  margin-bottom: 1rem;
+  border: 1px solid var(--color-border);
+  border-radius: 0.25rem;
+  color: var(--color-text-medium);
+`;
 
+const ModalPopup = ({ message, onOkClick, showOkButton }) => {
   return (
     <ModalOverlay>
       <ModalContent>
@@ -69,7 +76,7 @@ const ModalPopup = ({ message, onOkClick, showOkButton }) => {
               onClick={onOkClick}
               bgColor='var(--color-button-ok)'
               hoverColor='var(--color-button-ok-hover)'
-              color='var(--color-button-text)'>
+              color='var(--color-text)'>
               OK
             </Button>
           )}

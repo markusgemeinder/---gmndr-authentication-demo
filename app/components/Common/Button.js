@@ -2,16 +2,10 @@
 
 import styled from 'styled-components';
 
-// export const ButtonContainer = styled.div`
-//   display: flex;
-//   gap: 0.6rem;
-// `;
-
-// Container for buttons
 export const ButtonContainer = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 0.5rem; /* Increased gap for better spacing */
+  gap: 0.5rem;
   width: 100%;
 `;
 

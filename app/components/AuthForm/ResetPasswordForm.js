@@ -95,7 +95,7 @@ export default function ResetPasswordForm() {
     if (password !== repeatPassword) {
       setModalState({
         show: true,
-        message: 'Passwords do not match.',
+        message: "Passwords don't match. Please check and try again.",
         isSuccess: false,
         showOkButton: true,
       });
@@ -105,7 +105,7 @@ export default function ResetPasswordForm() {
     if (passwordQuality) {
       setModalState({
         show: true,
-        message: 'Please improve your password.',
+        message: 'Password is too weak. Please follow the requirements and improve it.',
         isSuccess: false,
         showOkButton: true,
       });
@@ -152,7 +152,9 @@ export default function ResetPasswordForm() {
 
   function handleOkClick() {
     setModalState((prevState) => ({ ...prevState, show: false }));
-    router.push(modalState.isSuccess ? '/login' : '/');
+    if (modalState.isSuccess) {
+      router.push('/login');
+    }
   }
 
   function togglePasswordVisibility() {

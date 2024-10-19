@@ -72,6 +72,8 @@
   --color-button-cancel-hover: var(--color-button-secondary-hover);
   --color-button-forgot-password: var(--color-button-secondary);
   --color-button-forgot-password-hover: var(--color-button-secondary-hover);
+  --color-button-demo-user: var(--color-button-secondary);
+  --color-button-demo-user-hover: var(--color-button-secondary-hover);
 
   /* Warning Colors */
   --color-warning: #f87171;

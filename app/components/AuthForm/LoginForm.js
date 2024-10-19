@@ -21,7 +21,7 @@ import {
 import Link from 'next/link';
 import ModalPopup from '@/app/components/Common/ModalPopup';
 
-export default function LoginForm({ onLogin, onOAuthLogin, error }) {
+export default function LoginForm({ onLogin, onOAuthLogin, error, onDemoLogin }) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [passwordVisible, setPasswordVisible] = useState(false);
@@ -77,13 +77,26 @@ export default function LoginForm({ onLogin, onOAuthLogin, error }) {
 
       if (!loginSuccess) {
         showError(error);
-      } else {
-        setModalState({
-          show: true,
-          message: 'Login successful!',
-          isSuccess: true,
-          showOkButton: true,
-        });
+      }
+    } catch (error) {
+      showError(error.message);
+    }
+  }
+
+  async function handleDemoUserLogin(event) {
+    event.preventDefault();
+    setModalState({
+      show: true,
+      message: 'Logging in as Demo User...',
+      isSuccess: null,
+      showOkButton: false,
+    });
+
+    try {
+      const demoSuccess = await onDemoLogin();
+
+      if (!demoSuccess) {
+        showError('Error logging in as Demo User');
       }
     } catch (error) {
       showError(error.message);
@@ -92,9 +105,8 @@ export default function LoginForm({ onLogin, onOAuthLogin, error }) {
 
   function handleOkClick() {
     setModalState((prevState) => ({ ...prevState, show: false }));
-
     if (modalState.isSuccess) {
-      router.push('/reviews');
+      router.push('/');
     }
   }
 
@@ -103,6 +115,15 @@ export default function LoginForm({ onLogin, onOAuthLogin, error }) {
       <ScrollToTop />
       <FormContainer onSubmit={handleSubmit}>
         <ButtonContainer>
+          <Button
+            type='button'
+            bgColor='var(--color-button-demo-user)'
+            hoverColor='var(--color-button-demo-user-hover)'
+            style={{ width: '100%' }}
+            onClick={handleDemoUserLogin}>
+            Demo User
+          </Button>
+
           <Button
             type='button'
             bgColor='var(--color-button-login)'

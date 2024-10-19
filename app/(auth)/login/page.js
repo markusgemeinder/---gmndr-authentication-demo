@@ -39,12 +39,32 @@ export default function LoginPage() {
     signIn(provider, { callbackUrl: '/reviews' });
   }
 
+  async function handleDemoLogin() {
+    setError('');
+    const demoEmail = 'no-reply-demo-user@example.com';
+    const demoPassword = 'DemoUser0815!';
+
+    const result = await signIn('credentials', {
+      redirect: false,
+      email: demoEmail,
+      password: demoPassword,
+    });
+
+    if (result?.error) {
+      setError('Error logging in as Demo User');
+      return false;
+    } else if (result?.ok) {
+      router.push('/reviews');
+      return true;
+    }
+  }
+
   return (
     <>
       <ScrollToTop />
       <Main>
         <Title>Login</Title>
-        <LoginForm onLogin={handleLogin} onOAuthLogin={handleOAuthLogin} error={error} />
+        <LoginForm onLogin={handleLogin} onOAuthLogin={handleOAuthLogin} onDemoLogin={handleDemoLogin} error={error} />
       </Main>
     </>
   );
