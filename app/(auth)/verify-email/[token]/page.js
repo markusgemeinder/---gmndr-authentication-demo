@@ -4,7 +4,7 @@
 
 import { useState, useEffect } from 'react';
 import ScrollToTop from '@/app/components/Common/ScrollToTop';
-import { Main, Title } from '@/app/components/AuthForm/AuthFormStyles';
+import { Main, Title } from '@/app/components/Common/CommonStyles';
 import ModalPopup from '@/app/components/Common/ModalPopup';
 import Button, { ButtonContainerMedium } from '@/app/components/Common/Button';
 import { Paragraph } from '@/app/components/Common/CommonStyles';

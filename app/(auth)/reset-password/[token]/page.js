@@ -4,7 +4,7 @@
 
 import { useState } from 'react';
 import ScrollToTop from '@/app/components/Common/ScrollToTop';
-import { Main, Title } from '@/app/components/AuthForm/AuthFormStyles';
+import { Main, Title } from '@/app/components/Common/CommonStyles';
 import ResetPasswordForm from '@/app/components/AuthForm/ResetPasswordForm';
 
 export default function ResetPasswordPage({ params }) {
