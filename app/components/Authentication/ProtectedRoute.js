@@ -25,6 +25,11 @@ const ProtectedRoute = ({ children }) => {
     return null;
   }
 
+  // Demo User Zugriff gewähren
+  if (session.user.role === 'Demo User') {
+    return <>{children}</>;
+  }
+
   return <>{children}</>;
 };
 

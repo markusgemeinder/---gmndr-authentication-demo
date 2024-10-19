@@ -27,11 +27,11 @@
     27	│   │   │   │   └── route.js
     28	│   │   │   ├── register
     29	│   │   │   │   └── route.js
-    30	│   │   │   ├── verify-email-resend
+    30	│   │   │   ├── reset-password
     31	│   │   │   │   └── route.js
-    32	│   │   │   ├── reset-password
+    32	│   │   │   ├── verify-email
     33	│   │   │   │   └── route.js
-    34	│   │   │   └── verify-email
+    34	│   │   │   └── verify-email-resend
     35	│   │   │       └── route.js
     36	│   │   └── reviews
     37	│   │       ├── [id]

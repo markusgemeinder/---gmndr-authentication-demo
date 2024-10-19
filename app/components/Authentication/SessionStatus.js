@@ -108,14 +108,18 @@ const SessionStatus = () => {
     <StatusContainer>
       {session ? (
         <>
-          <p>
-            Welcome, {session.user.email}. You are logged in as {session.user.role}. Login expires in{' '}
-            {formatTime(timeLeft)}{' '}
-            <LoginLink href='#' onClick={renewSession}>
-              (renew session)
-            </LoginLink>
-            .
-          </p>
+          {session.user.isDemoUser ? (
+            <p>Welcome, {session.user.email}. You are logged in as Demo User.</p>
+          ) : (
+            <p>
+              Welcome, {session.user.email}. You are logged in as {session.user.role}. Login expires in{' '}
+              {formatTime(timeLeft)}{' '}
+              <LoginLink href='#' onClick={renewSession}>
+                (renew session)
+              </LoginLink>
+              .
+            </p>
+          )}
           {showPopup && (
             <SessionStatusModalOverlay>
               <ModalContent>

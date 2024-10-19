@@ -94,30 +94,25 @@ export default function ReviewCard({ review, onDelete }) {
       {confirmDelete && (
         <ModalOverlay>
           <ModalContent>
-            <ModalHeader>Confirm deletion of item ID {_id}</ModalHeader>
-            <ModalParagraph>
-              Are you sure you want to delete this? Please enter the last 4 digits of the ID to confirm.
-            </ModalParagraph>
+            <ModalHeader>Confirm Delete – ID: {_id}</ModalHeader>
+            <ModalParagraph>Are you sure you want to delete this review? This action is irreversible.</ModalParagraph>
             <ModalInput
               type='text'
+              placeholder='Enter last 4 digits of the review ID'
               value={inputValue}
-              onChange={(event) => setInputValue(event.target.value)}
-              placeholder='Last 4 digits'
-              maxLength={4}
+              onChange={(e) => setInputValue(e.target.value)}
             />
             <ModalButtonContainer>
               <Button
                 onClick={handleDelete}
                 bgColor='var(--color-button-delete)'
-                hoverColor='var(--color-button-delete-hover)'
-                color='var(--color-button-text)'>
+                hoverColor='var(--color-button-delete-hover)'>
                 Confirm
               </Button>
               <Button
                 onClick={() => setConfirmDelete(false)}
                 bgColor='var(--color-button-cancel)'
-                hoverColor='var(--color-button-cancel-hover)'
-                color='var(--color-button-text)'>
+                hoverColor='var(--color-button-cancel-hover)'>
                 Cancel
               </Button>
             </ModalButtonContainer>
