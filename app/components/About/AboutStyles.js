@@ -20,6 +20,7 @@ export const Avatar = styled.img`
   width: 200px;
   height: 200px;
   border-radius: 8px;
+  box-shadow: 0 0 2px rgba(0, 0, 0, 0.4);
   margin: 1rem 0;
 `;
 
@@ -88,20 +89,22 @@ export const AboutLink = styled.a`
   }
 `;
 
-export const AboutImageWithLink = styled.img`
-  width: 100%;
-  height: auto;
-  cursor: pointer;
-
-  &:hover {
-    opacity: 0.8;
-  }
-`;
-
 export const AboutImageContainer = styled.div`
   display: flex;
   gap: 1rem;
   flex-direction: column;
   margin: 1rem 0;
   justify-content: center;
+`;
+
+export const AboutImageWithLink = styled.img`
+  width: 100%;
+  height: auto;
+  border-radius: 8px;
+  box-shadow: 0 0 2px rgba(0, 0, 0, 0.4);
+  cursor: pointer;
+
+  &:hover {
+    opacity: 0.8;
+  }
 `;
