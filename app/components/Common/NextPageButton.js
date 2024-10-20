@@ -8,8 +8,7 @@ import styled from 'styled-components';
 const NextPageButtonContainer = styled.div`
   display: flex;
   position: fixed;
-  top: 25%;
-  /* transform: translateY(-10%); */
+  top: 30%;
   right: 1rem;
   margin: 0;
   justify-content: flex-end;
