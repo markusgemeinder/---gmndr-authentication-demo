@@ -4,7 +4,7 @@
 
 import { useState } from 'react';
 import ScrollToTop from '@/app/components/Common/ScrollToTop';
-import { Main, Title } from '@/app/components/Common/CommonStyles';
+import { Container, Title } from '@/app/components/Common/CommonStyles';
 import ForgotPasswordForm from '@/app/components/AuthForm/ForgotPasswordForm';
 
 export default function ForgotPasswordPage() {
@@ -24,11 +24,11 @@ export default function ForgotPasswordPage() {
 
   return (
     <>
-      <ScrollToTop />
-      <Main>
+      <Container>
+        <ScrollToTop />
         <Title>Forgot Password</Title>
         <ForgotPasswordForm onSubmit={handleSubmit} message={message} />
-      </Main>
+      </Container>
     </>
   );
 }

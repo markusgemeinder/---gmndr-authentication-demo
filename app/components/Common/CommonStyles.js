@@ -1,22 +1,22 @@
-// /app/components/Common/CommonStyles.js
+/* /app/components/Common/CommonStyles.js */
 
 import styled from 'styled-components';
+
+export const Main = styled.main`
+  margin: 5rem auto;
+  padding: 2.4rem 1rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+`;
 
 export const Container = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: flex-start;
-  min-height: 100vh;
-  padding: 0.5rem;
-  margin-top: 5rem;
-`;
-
-export const Main = styled.main`
-  padding: 1rem;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+  width: 75%;
+  max-width: 30rem;
 `;
 
 export const Title = styled.h1`

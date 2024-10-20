@@ -4,7 +4,7 @@
 
 import { useState, useEffect } from 'react';
 import ScrollToTop from '@/app/components/Common/ScrollToTop';
-import { Main, Title } from '@/app/components/Common/CommonStyles';
+import { Container, Title } from '@/app/components/Common/CommonStyles';
 import ModalPopup from '@/app/components/Common/ModalPopup';
 import Button, { ButtonContainerMedium } from '@/app/components/Common/Button';
 import { Paragraph } from '@/app/components/Common/CommonStyles';
@@ -126,10 +126,9 @@ export default function VerifyEmailPage({ params }) {
 
   return (
     <>
-      <ScrollToTop />
-      <Main>
+      <Container>
+        <ScrollToTop />
         <Title>Email Verification</Title>
-
         {!modalState.showResendButton ? (
           <>
             <ButtonContainerMedium>
@@ -155,11 +154,10 @@ export default function VerifyEmailPage({ params }) {
             <Paragraph>{'The verification link has expired. Please request a new one.'}</Paragraph>
           </>
         )}
-      </Main>
-
-      {modalState.show && (
-        <ModalPopup message={modalState.message} onOkClick={handleOkClick} showOkButton={modalState.showOkButton} />
-      )}
+        {modalState.show && (
+          <ModalPopup message={modalState.message} onOkClick={handleOkClick} showOkButton={modalState.showOkButton} />
+        )}
+      </Container>
     </>
   );
 }

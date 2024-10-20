@@ -6,7 +6,7 @@ import ProtectedRoute from '@/app/components/Authentication/ProtectedRoute';
 import ReviewForm from '@/app/components/Review/ReviewForm';
 import { useRouter } from 'next/navigation';
 import SessionStatus from '@/app/components/Authentication/SessionStatus';
-import { Main, Title } from '@/app/components/Common/CommonStyles';
+import { Title } from '@/app/components/Common/CommonStyles';
 import ScrollToTop from '@/app/components/Common/ScrollToTop';
 
 export default function CreatePage() {
@@ -23,11 +23,9 @@ export default function CreatePage() {
   return (
     <ProtectedRoute>
       <ScrollToTop />
-      <Main>
-        <Title>Create Review</Title>
-        <SessionStatus />
-        <ReviewForm onSave={handleSave} onCancel={handleCancel} />
-      </Main>
+      <Title>Create Review</Title>
+      <SessionStatus />
+      <ReviewForm onSave={handleSave} onCancel={handleCancel} />
     </ProtectedRoute>
   );
 }

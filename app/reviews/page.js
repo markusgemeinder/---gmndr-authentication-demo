@@ -9,7 +9,7 @@ import ReviewCard from '@/app/components/Review/ReviewCard';
 import SessionStatus from '@/app/components/Authentication/SessionStatus';
 import LoadingAnimation from '@/app/components/Common/LoadingAnimation';
 import Button from '@/app/components/Common/Button';
-import { Main, Title } from '@/app/components/Common/CommonStyles';
+import { Title } from '@/app/components/Common/CommonStyles';
 import { ReviewsContainer } from '@/app/components/Review/ReviewStyles';
 import ScrollToTop from '@/app/components/Common/ScrollToTop';
 import { useSession } from 'next-auth/react';
@@ -74,34 +74,32 @@ export default function ReviewsPage() {
   return (
     <ProtectedRoute>
       <ScrollToTop />
-      <Main>
-        <Title>Reviews</Title>
-        <SessionStatus />
-        {session ? (
-          session.user.isDemoUser ? (
-            <Button
-              onClick={handleCreateDemoReview}
-              bgColor='var(--color-button-demo-review)'
-              hoverColor='var(--color-button-demo-review-hover)'
-              color='var(--color-button-text)'>
-              Create Demo Review
-            </Button>
-          ) : (
-            <Button
-              onClick={() => router.push('/reviews/create')}
-              bgColor='var(--color-button-review)'
-              hoverColor='var(--color-button-review-hover)'
-              color='var(--color-button-text)'>
-              Create Review
-            </Button>
-          )
-        ) : null}
-        <ReviewsContainer>
-          {reviews.map((review) => (
-            <ReviewCard key={review._id} review={review} onDelete={handleDelete} />
-          ))}
-        </ReviewsContainer>
-      </Main>
+      <Title>Reviews</Title>
+      <SessionStatus />
+      {session ? (
+        session.user.isDemoUser ? (
+          <Button
+            onClick={handleCreateDemoReview}
+            bgColor='var(--color-button-demo-review)'
+            hoverColor='var(--color-button-demo-review-hover)'
+            color='var(--color-button-text)'>
+            Create Demo Review
+          </Button>
+        ) : (
+          <Button
+            onClick={() => router.push('/reviews/create')}
+            bgColor='var(--color-button-review)'
+            hoverColor='var(--color-button-review-hover)'
+            color='var(--color-button-text)'>
+            Create Review
+          </Button>
+        )
+      ) : null}
+      <ReviewsContainer>
+        {reviews.map((review) => (
+          <ReviewCard key={review._id} review={review} onDelete={handleDelete} />
+        ))}
+      </ReviewsContainer>
     </ProtectedRoute>
   );
 }

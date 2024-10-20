@@ -6,6 +6,7 @@ import AuthProvider from '@/app/components/Authentication/AuthProvider';
 import Footer from '@/app/components/Common/Footer';
 import ThemeProvider from '@/app/components/Common/ThemeProvider';
 import PageUpButton from '@/app/components/Common/PageUpButton';
+import MainContainer from '@/app/components/Common/MainContainer';
 
 export const metadata = {
   title: '#GMNDR Authentication Demo',
@@ -19,7 +20,7 @@ export default function Layout({ children }) {
         <AuthProvider>
           <ThemeProvider>
             <Navigation />
-            <main>{children}</main>
+            <MainContainer>{children}</MainContainer>
             <PageUpButton />
             <Footer />
           </ThemeProvider>

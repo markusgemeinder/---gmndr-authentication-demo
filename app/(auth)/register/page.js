@@ -5,7 +5,7 @@
 import { useSession } from 'next-auth/react';
 import { useEffect } from 'react';
 import { useRouter } from 'next/navigation';
-import { Main, Title } from '@/app/components/Common/CommonStyles';
+import { Container, Title } from '@/app/components/Common/CommonStyles';
 import RegisterForm from '@/app/components/AuthForm/RegisterForm';
 import LoadingAnimation from '@/app/components/Common/LoadingAnimation';
 import ScrollToTop from '@/app/components/Common/ScrollToTop';
@@ -26,11 +26,11 @@ export default function RegisterPage() {
 
   return (
     <>
-      <ScrollToTop />
-      <Main>
+      <Container>
+        <ScrollToTop />
         <Title>Register</Title>
         <RegisterForm />
-      </Main>
+      </Container>
     </>
   );
 }

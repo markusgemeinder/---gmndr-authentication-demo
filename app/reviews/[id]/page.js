@@ -8,7 +8,7 @@ import ReviewForm from '@/app/components/Review/ReviewForm';
 import { useRouter } from 'next/navigation';
 import SessionStatus from '@/app/components/Authentication/SessionStatus';
 import LoadingAnimation from '@/app/components/Common/LoadingAnimation';
-import { Main, Title } from '@/app/components/Common/CommonStyles';
+import { Title } from '@/app/components/Common/CommonStyles';
 import ScrollToTop from '@/app/components/Common/ScrollToTop';
 
 export default function EditPage({ params }) {
@@ -71,11 +71,9 @@ export default function EditPage({ params }) {
   return (
     <ProtectedRoute>
       <ScrollToTop />
-      <Main>
-        <Title>Edit Review</Title>
-        <SessionStatus />
-        <ReviewForm review={review} onSave={handleSave} onCancel={handleCancel} isDemoReview={isDemoReview} />
-      </Main>
+      <Title>Edit Review</Title>
+      <SessionStatus />
+      <ReviewForm review={review} onSave={handleSave} onCancel={handleCancel} isDemoReview={isDemoReview} />
     </ProtectedRoute>
   );
 }

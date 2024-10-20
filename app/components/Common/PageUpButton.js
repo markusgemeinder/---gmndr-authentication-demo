@@ -37,7 +37,6 @@ const PageUpButtonSvg = styled.svg`
   width: 24px;
   height: 24px;
   fill: var(--color-button-page-up-icon);
-  transform: translateY(15%);
 `;
 
 export default function PageUpButton() {
@@ -64,8 +63,8 @@ export default function PageUpButton() {
   return (
     <PageUpButtonContainer>
       <PageUpButtonLink onClick={scrollToTop}>
-        <PageUpButtonSvg xmlns='http://www.w3.org/2000/svg' height='24px' viewBox='0 -960 960 960' width='24px'>
-          <path d='m256-424-56-56 280-280 280 280-56 56-224-223-224 223Z' />
+        <PageUpButtonSvg xmlns='http://www.w3.org/2000/svg' height='24px' viewBox='0 0 20 20' width='24px'>
+          <path d='M0,14.113l10,-10l10,10l-1.775,1.775l-8.225,-8.225l-8.225,8.225l-1.775,-1.775Z' />
         </PageUpButtonSvg>
       </PageUpButtonLink>
     </PageUpButtonContainer>

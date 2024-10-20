@@ -12,7 +12,6 @@ import { SunIcon, MoonIcon } from '@heroicons/react/24/solid';
 import LoadingAnimation from '@/app/components/Common/LoadingAnimation';
 import { ThemeContext } from '@/app/components/Common/ThemeProvider';
 
-// Styled components (same as before)
 const Header = styled.header`
   background-color: var(--color-header);
   color: var(--color-header-text);
@@ -148,17 +147,21 @@ export default function Navigation() {
     return <LoadingAnimation />;
   }
 
+  const handleLinkClick = () => {
+    setIsBurgerOpen(false);
+  };
+
   const renderNavLinks = () => (
     <>
       <NavItem>
-        <NavLink href='/' isActive={pathname === '/'}>
+        <NavLink href='/' isActive={pathname === '/'} onClick={handleLinkClick}>
           Home
         </NavLink>
       </NavItem>
       {!session && (
         <>
           <NavItem>
-            <NavLink href='/forgot-password' isActive={pathname === '/forgot-password'}>
+            <NavLink href='/forgot-password' isActive={pathname === '/forgot-password'} onClick={handleLinkClick}>
               Forgot Password
             </NavLink>
           </NavItem>
@@ -167,21 +170,14 @@ export default function Navigation() {
       {session && (
         <>
           <NavItem>
-            <NavLink href='/reviews' isActive={pathname === '/reviews'}>
+            <NavLink href='/reviews' isActive={pathname === '/reviews'} onClick={handleLinkClick}>
               Reviews
             </NavLink>
           </NavItem>
-          {/* {session.user.role.includes('Admin') && (
-            <NavItem>
-              <NavLink href='/api/reviews' isActive={pathname === '/api/reviews'}>
-                API
-              </NavLink>
-            </NavItem>
-          )} */}
         </>
       )}
       <NavItem>
-        <NavLink href='/about' isActive={pathname === '/about'}>
+        <NavLink href='/about' isActive={pathname === '/about'} onClick={handleLinkClick}>
           About
         </NavLink>
       </NavItem>
@@ -191,37 +187,30 @@ export default function Navigation() {
   const renderBurgerMenuLinks = () => (
     <>
       <BurgerMenuItem>
-        <NavLink href='/' isActive={pathname === '/'}>
+        <NavLink href='/' isActive={pathname === '/'} onClick={handleLinkClick}>
           Home
         </NavLink>
       </BurgerMenuItem>
       {session && (
         <>
           <BurgerMenuItem>
-            <NavLink href='/reviews' isActive={pathname === '/reviews'}>
+            <NavLink href='/reviews' isActive={pathname === '/reviews'} onClick={handleLinkClick}>
               Reviews
             </NavLink>
           </BurgerMenuItem>
-          {/* {session.user.role.includes('Admin') && (
-            <BurgerMenuItem>
-            <NavLink href='/api/reviews' isActive={pathname === '/api/reviews'}>
-            API
-            </NavLink>
-            </BurgerMenuItem>
-            )} */}
         </>
       )}
       {!session && (
         <>
           <BurgerMenuItem>
-            <NavLink href='/forgot-password' isActive={pathname === '/forgot-password'}>
+            <NavLink href='/forgot-password' isActive={pathname === '/forgot-password'} onClick={handleLinkClick}>
               Forgot Password
             </NavLink>
           </BurgerMenuItem>
         </>
       )}
       <BurgerMenuItem>
-        <NavLink href='/about' isActive={pathname === '/about'}>
+        <NavLink href='/about' isActive={pathname === '/about'} onClick={handleLinkClick}>
           About
         </NavLink>
       </BurgerMenuItem>
@@ -233,7 +222,10 @@ export default function Navigation() {
       <Button
         bgColor='var(--color-button-logout)'
         hoverColor='var(--color-button-logout-hover)'
-        onClick={() => signOut({ callbackUrl: '/' })}>
+        onClick={() => {
+          signOut({ callbackUrl: '/' });
+          setIsBurgerOpen(false);
+        }}>
         Logout
       </Button>
     </>
@@ -244,13 +236,19 @@ export default function Navigation() {
       <Button
         bgColor='var(--color-button-login)'
         hoverColor='var(--color-button-login-hover)'
-        onClick={() => router.push('/login')}>
+        onClick={() => {
+          router.push('/login');
+          setIsBurgerOpen(false);
+        }}>
         Login
       </Button>
       <Button
         bgColor='var(--color-button-register)'
         hoverColor='var(--color-button-register-hover)'
-        onClick={() => router.push('/register')}>
+        onClick={() => {
+          router.push('/register');
+          setIsBurgerOpen(false);
+        }}>
         Register
       </Button>
     </>
