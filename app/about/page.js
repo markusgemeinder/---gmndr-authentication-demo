@@ -3,6 +3,7 @@
 'use client';
 
 import { Container } from '@/app/components/Common/CommonStyles';
+import { NarrowContainer } from '@/app/components/About/AboutStyles';
 import ScrollToTop from '@/app/components/Common/ScrollToTop';
 import NextPageButton from '@/app/components/Common/NextPageButton';
 import PreviousPageButton from '@/app/components/Common/PreviousPageButton';
@@ -45,7 +46,7 @@ export default function About() {
   return (
     <Container>
       <ScrollToTop />
-      <div>{cards[currentCard].content}</div>
+      <NarrowContainer>{cards[currentCard].content}</NarrowContainer>
       <PreviousPageButton onClick={previousCard} />
       <NextPageButton onClick={nextCard} />
     </Container>

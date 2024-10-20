@@ -11,7 +11,7 @@ export const FormContainer = styled.form`
   margin: 1rem auto;
   padding: 1.5rem;
   max-width: 32rem;
-  width: 90%;
+  width: 100%;
   box-sizing: border-box;
 `;
 

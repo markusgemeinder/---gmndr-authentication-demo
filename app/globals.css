@@ -1,4 +1,5 @@
 /* /app/globals.css */
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -6,8 +7,8 @@
 /* Light Theme Colors */
 :root {
   /* Link Colors */
-  --color-link: #60a5fa;
-  --color-link-hover: #93c5fd;
+  --color-link: #459afc;
+  --color-link-hover: #004fb0;
 
   /* Text Colors */
   --color-text: #111827;
@@ -170,12 +171,6 @@ body {
   font-family: system-ui, sans-serif;
   color: var(--color-text);
   background-color: var(--color-background);
-}
-
-main {
-  padding-top: 4rem;
-  padding-bottom: 4rem;
-  margin: 1.4rem;
 }
 
 @keyframes blink {

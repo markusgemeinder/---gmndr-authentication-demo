@@ -3,20 +3,18 @@
 'use client';
 
 import ScrollToTop from '@/app/components/Common/ScrollToTop';
-import { AboutTitle, AboutParagraph, AboutContainer, AboutMain } from '@/app/components/About/AboutStyles';
+import { AboutTitle, AboutParagraph } from '@/app/components/About/AboutStyles';
 
 export default function AboutTechstack() {
   return (
-    <AboutContainer>
+    <>
       <ScrollToTop />
-      <AboutMain>
-        <AboutTitle>Techstack</AboutTitle>
-        <AboutParagraph>Technologies and tools used in this project:</AboutParagraph>
-        <AboutParagraph>
-          ● Next.js ● React ● HTML ● CSS ● JavaScript ● GitHub ● Node.js ● Vercel ● useSWR ● react-hot-toast ● MongoDB ●
-          Cloudinary ● Figma ● Lottie Files ● Affinity Designer
-        </AboutParagraph>
-      </AboutMain>
-    </AboutContainer>
+      <AboutTitle>Techstack</AboutTitle>
+      <AboutParagraph>Technologies and tools used in this project:</AboutParagraph>
+      <AboutParagraph>
+        ● Next.js ● React ● HTML ● CSS ● JavaScript ● GitHub ● Node.js ● Vercel ● useSWR ● react-hot-toast ● MongoDB ●
+        Cloudinary ● Figma ● Lottie Files ● Affinity Designer
+      </AboutParagraph>
+    </>
   );
 }

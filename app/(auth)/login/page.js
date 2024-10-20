@@ -6,7 +6,7 @@ import { signIn } from 'next-auth/react';
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import ScrollToTop from '@/app/components/Common/ScrollToTop';
-import { Main, Title } from '@/app/components/Common/CommonStyles';
+import { Container, Title } from '@/app/components/Common/CommonStyles';
 import LoginForm from '@/app/components/AuthForm/LoginForm';
 
 export default function LoginPage() {
@@ -61,11 +61,11 @@ export default function LoginPage() {
 
   return (
     <>
-      <ScrollToTop />
-      <Main>
+      <Container>
+        <ScrollToTop />
         <Title>Login</Title>
         <LoginForm onLogin={handleLogin} onOAuthLogin={handleOAuthLogin} onDemoLogin={handleDemoLogin} error={error} />
-      </Main>
+      </Container>
     </>
   );
 }

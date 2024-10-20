@@ -1,41 +1,67 @@
 // /app/components/About/AboutStyles.js
 
 import styled from 'styled-components';
-import { Title, Paragraph, Main, Container, SmallTitle } from '@/app/components/Common/CommonStyles';
 
-export const AboutContainer = styled(Container)``;
+export const NarrowContainer = styled.div`
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  /* background-color: green; */
+`;
 
-export const AboutMain = styled(Main)``;
-
-export const AboutTitle = styled(Title)`
-  font-size: 1.5rem;
+export const AboutTitle = styled.h1`
+  font-size: 1.6rem;
+  font-weight: bold;
   margin: 1.5rem 0 0.5rem;
+  color: var(--color-text);
 `;
 
-export const AboutSmallTitle = styled(SmallTitle)``;
-
-export const AboutHeadline = styled.h3`
+export const AboutHeadline = styled.h2`
   font-size: 1.25rem;
-  margin: 1.2rem 0 0.8rem;
+  font-weight: bold;
+  margin: 2rem 0 0.4rem;
 `;
 
-export const AboutParagraph = styled(Paragraph)`
-  margin-bottom: 1.2rem;
+export const AboutParagraph = styled.p`
+  font-size: 1rem;
+  margin-top: 1rem;
+  text-align: center;
+  color: var(--color-text);
 `;
 
 export const AboutAvatar = styled.img`
   width: 200px;
   height: 200px;
   border-radius: 8px;
-  margin-bottom: 1.5rem;
+  margin: 1rem 0;
 `;
 
 export const AboutListContainer = styled.ul`
-  margin-bottom: 1.2rem;
+  margin: 1.2rem 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 `;
 
 export const AboutList = styled.li`
-  margin-bottom: 0.6rem;
+  margin-bottom: 0.2rem;
+  display: flex;
+  align-items: center;
+  text-align: center;
+  position: relative;
+
+  &::before {
+    content: '▶';
+    position: absolute;
+    left: -20px;
+    align-self: flex-start;
+    font-weight: bold;
+    color: var(--color-link-hover);
+    /* font-size: 1.2rem; */
+  }
 `;
 
 export const AboutLinkContainer = styled.div`
@@ -46,10 +72,13 @@ export const AboutLinkContainer = styled.div`
 `;
 
 export const AboutLink = styled.a`
-  color: var(--color-primary);
+  text-align: center;
+  font-weight: 500;
+  color: var(--color-link);
   text-decoration: none;
 
   &:hover {
+    color: var(--color-link-hover);
     text-decoration: underline;
   }
 `;

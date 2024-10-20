@@ -12,8 +12,6 @@ import {
   AboutImageWithLink,
   AboutLinkContainer,
   AboutLink,
-  AboutMain,
-  AboutContainer,
 } from '@/app/components/About/AboutStyles';
 
 export default function AboutNeueFische() {
@@ -31,60 +29,58 @@ export default function AboutNeueFische() {
   }
 
   return (
-    <AboutContainer>
+    <>
       <ScrollToTop />
-      <AboutMain>
-        <AboutAvatar src={`/images/neue-fische-logo.png?t=${new Date().getTime()}`} alt='neue fische' />
-        <AboutTitle>Web Development Bootcamp</AboutTitle>
-        <AboutParagraph>Successfully participated (3 months full-time) and completed in February 2024.</AboutParagraph>
-        <AboutImageContainer>
-          <AboutImageWithLink
-            src={`/images/neue-fische-certificate-1.png?t=${new Date().getTime()}`}
-            alt='Certificate (front)'
-            onClick={() => handleImageClick(`/images/neue-fische-certificate-1.png?t=${new Date().getTime()}`)}
-            style={{ width: '100%', maxWidth: '300px', margin: '10px auto', cursor: 'pointer' }} // Margin für den Abstand
+      <AboutAvatar src={`/images/neue-fische-logo.png?t=${new Date().getTime()}`} alt='neue fische' />
+      <AboutTitle>Web Development Bootcamp</AboutTitle>
+      <AboutParagraph>Successfully participated (3 months full-time) and completed in February 2024.</AboutParagraph>
+      <AboutImageContainer>
+        <AboutImageWithLink
+          src={`/images/neue-fische-certificate-1.png?t=${new Date().getTime()}`}
+          alt='Certificate (front)'
+          onClick={() => handleImageClick(`/images/neue-fische-certificate-1.png?t=${new Date().getTime()}`)}
+          style={{ width: '100%', maxWidth: '300px', margin: '10px auto', cursor: 'pointer' }} // Margin für den Abstand
+        />
+        <AboutImageWithLink
+          src={`/images/neue-fische-certificate-2.png?t=${new Date().getTime()}`}
+          alt='Certificate (back)'
+          onClick={() => handleImageClick(`/images/neue-fische-certificate-2.png?t=${new Date().getTime()}`)}
+          style={{ width: '100%', maxWidth: '300px', margin: '10px auto', cursor: 'pointer' }} // Margin für den Abstand
+        />
+      </AboutImageContainer>
+      {isImageExpanded && (
+        <>
+          <div
+            onClick={handleCloseImage}
+            style={{
+              position: 'fixed',
+              top: 0,
+              bottom: 0,
+              left: 0,
+              right: 0,
+              background: 'rgba(0, 0, 0, 0.5)',
+            }}
           />
-          <AboutImageWithLink
-            src={`/images/neue-fische-certificate-2.png?t=${new Date().getTime()}`}
-            alt='Certificate (back)'
-            onClick={() => handleImageClick(`/images/neue-fische-certificate-2.png?t=${new Date().getTime()}`)}
-            style={{ width: '100%', maxWidth: '300px', margin: '10px auto', cursor: 'pointer' }} // Margin für den Abstand
+          <img
+            src={expandedImageSrc}
+            alt='Expanded Image'
+            style={{
+              position: 'fixed',
+              top: '50%',
+              left: '50%',
+              transform: 'translate(-50%, -50%)',
+              maxHeight: '80vh',
+              maxWidth: '80vw',
+              zIndex: 9999,
+            }}
           />
-        </AboutImageContainer>
-        {isImageExpanded && (
-          <>
-            <div
-              onClick={handleCloseImage}
-              style={{
-                position: 'fixed',
-                top: 0,
-                bottom: 0,
-                left: 0,
-                right: 0,
-                background: 'rgba(0, 0, 0, 0.5)',
-              }}
-            />
-            <img
-              src={expandedImageSrc}
-              alt='Expanded Image'
-              style={{
-                position: 'fixed',
-                top: '50%',
-                left: '50%',
-                transform: 'translate(-50%, -50%)',
-                maxHeight: '80vh',
-                maxWidth: '80vw',
-                zIndex: 9999,
-              }}
-            />
-          </>
-        )}
-        <AboutLinkContainer>
-          <AboutLink href='https://neuefische.de' target='_blank'>
-            neue fische Website
-          </AboutLink>
-        </AboutLinkContainer>
-      </AboutMain>
-    </AboutContainer>
+        </>
+      )}
+      <AboutLinkContainer>
+        <AboutLink href='https://neuefische.de' target='_blank'>
+          neue fische Website
+        </AboutLink>
+      </AboutLinkContainer>
+    </>
   );
 }

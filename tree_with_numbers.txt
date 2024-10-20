@@ -59,42 +59,43 @@
     59	│   │   │   ├── CommonStyles.js
     60	│   │   │   ├── Footer.js
     61	│   │   │   ├── LoadingAnimation.js
-    62	│   │   │   ├── ModalPopup.js
-    63	│   │   │   ├── Navigation.js
-    64	│   │   │   ├── NextPageButton.js
-    65	│   │   │   ├── PageUpButton.js
-    66	│   │   │   ├── PreviousPageButton.js
-    67	│   │   │   ├── ScrollToTop.js
-    68	│   │   │   └── ThemeProvider.js
-    69	│   │   └── Review
-    70	│   │       ├── ReviewCard.js
-    71	│   │       ├── ReviewForm.js
-    72	│   │       └── ReviewStyles.js
-    73	│   ├── globals.css
-    74	│   ├── layout.js
-    75	│   ├── page.js
-    76	│   └── reviews
-    77	│       ├── [id]
-    78	│       │   └── page.js
-    79	│       ├── create
-    80	│       │   └── page.js
-    81	│       └── page.js
-    82	├── db
-    83	│   ├── connect.js
-    84	│   └── models
-    85	│       ├── Review.js
-    86	│       └── User.js
-    87	├── jsconfig.json
-    88	├── middleware.js
-    89	├── next.config.mjs
-    90	├── package.json
-    91	├── postcss.config.mjs
-    92	├── tailwind.config.js
-    93	├── tree_with_numbers.txt
-    94	└── utils
-    95	    ├── maskEmail.js
-    96	    ├── renderStars.js
-    97	    ├── sendEmail.js
-    98	    └── validatePassword.js
+    62	│   │   │   ├── MainContainer.js
+    63	│   │   │   ├── ModalPopup.js
+    64	│   │   │   ├── Navigation.js
+    65	│   │   │   ├── NextPageButton.js
+    66	│   │   │   ├── PageUpButton.js
+    67	│   │   │   ├── PreviousPageButton.js
+    68	│   │   │   ├── ScrollToTop.js
+    69	│   │   │   └── ThemeProvider.js
+    70	│   │   └── Review
+    71	│   │       ├── ReviewCard.js
+    72	│   │       ├── ReviewForm.js
+    73	│   │       └── ReviewStyles.js
+    74	│   ├── globals.css
+    75	│   ├── layout.js
+    76	│   ├── page.js
+    77	│   └── reviews
+    78	│       ├── [id]
+    79	│       │   └── page.js
+    80	│       ├── create
+    81	│       │   └── page.js
+    82	│       └── page.js
+    83	├── db
+    84	│   ├── connect.js
+    85	│   └── models
+    86	│       ├── Review.js
+    87	│       └── User.js
+    88	├── jsconfig.json
+    89	├── middleware.js
+    90	├── next.config.mjs
+    91	├── package.json
+    92	├── postcss.config.mjs
+    93	├── tailwind.config.js
+    94	├── tree_with_numbers.txt
+    95	└── utils
+    96	    ├── maskEmail.js
+    97	    ├── renderStars.js
+    98	    ├── sendEmail.js
+    99	    └── validatePassword.js
       	
-    99	34 directories, 64 files
+   100	34 directories, 65 files
