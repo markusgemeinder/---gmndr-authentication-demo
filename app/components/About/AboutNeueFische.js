@@ -7,7 +7,7 @@ import ScrollToTop from '@/app/components/Common/ScrollToTop';
 import {
   AboutTitle,
   AboutParagraph,
-  AboutAvatar,
+  Avatar,
   AboutImageContainer,
   AboutImageWithLink,
   AboutLinkContainer,
@@ -31,7 +31,7 @@ export default function AboutNeueFische() {
   return (
     <>
       <ScrollToTop />
-      <AboutAvatar src={`/images/neue-fische-logo.png?t=${new Date().getTime()}`} alt='neue fische' />
+      <Avatar src={`/images/neue-fische-logo.png?t=${new Date().getTime()}`} alt='neue fische' />
       <AboutTitle>Web Development Bootcamp</AboutTitle>
       <AboutParagraph>Successfully participated (3 months full-time) and completed in February 2024.</AboutParagraph>
       <AboutImageContainer>

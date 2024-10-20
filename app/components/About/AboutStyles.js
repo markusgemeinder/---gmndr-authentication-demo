@@ -7,7 +7,20 @@ export const NarrowContainer = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  /* background-color: green; */
+`;
+
+export const AvatarContainer = styled.div`
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  margin: 1rem 0;
+`;
+
+export const Avatar = styled.img`
+  width: 200px;
+  height: 200px;
+  border-radius: 8px;
+  margin: 1rem 0;
 `;
 
 export const AboutTitle = styled.h1`
@@ -31,13 +44,6 @@ export const AboutParagraph = styled.p`
   color: var(--color-text);
 `;
 
-export const AboutAvatar = styled.img`
-  width: 200px;
-  height: 200px;
-  border-radius: 8px;
-  margin: 1rem 0;
-`;
-
 export const AboutListContainer = styled.ul`
   margin: 1.2rem 0;
   padding: 0;
@@ -58,8 +64,6 @@ export const AboutList = styled.li`
     content: '▶';
     position: absolute;
     left: -18px;
-    /* top: 50%; */
-    /* transform: translateY(-50%); */
     font-weight: bold;
     color: var(--color-link-hover);
   }

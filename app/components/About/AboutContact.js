@@ -1,9 +1,12 @@
+// /app/components/About/AboutContact.js
+
 'use client';
 
 import ScrollToTop from '@/app/components/Common/ScrollToTop';
 import {
   AboutTitle,
-  AboutAvatar,
+  Avatar,
+  AvatarContainer,
   AboutLink,
   AboutLinkContainer,
   AboutParagraph,
@@ -13,7 +16,10 @@ export default function AboutContact() {
   return (
     <>
       <ScrollToTop />
-      <AboutAvatar src={`/images/gmndr-pic.jpg?t=${new Date().getTime()}`} alt='Contact' />
+      <AvatarContainer>
+        <Avatar src={`/images/gmndr-pic-1.jpg?t=${new Date().getTime()}`} alt='Markus Gemeinder' />
+        <Avatar src={`/images/gmndr-pic-2.jpg?t=${new Date().getTime()}`} alt='Markus Gemeinder' />
+      </AvatarContainer>
       <AboutTitle>Contact</AboutTitle>
       <AboutParagraph>
         <strong>Markus Gemeinder</strong>
