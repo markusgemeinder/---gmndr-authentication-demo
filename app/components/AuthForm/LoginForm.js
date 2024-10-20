@@ -130,7 +130,7 @@ export default function LoginForm({ onLogin, onOAuthLogin, error, onDemoLogin })
             hoverColor='var(--color-button-login-hover)'
             onClick={() => onOAuthLogin('github')}
             style={{ width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-            <img src='/github-logo.svg' alt='GitHub Logo' style={{ width: '20px', marginRight: '8px' }} />
+            <img src='/images/github-logo.svg' alt='GitHub Logo' style={{ width: '20px', marginRight: '8px' }} />
             GitHub
           </Button>
 
@@ -140,7 +140,7 @@ export default function LoginForm({ onLogin, onOAuthLogin, error, onDemoLogin })
             hoverColor='var(--color-button-login-hover)'
             onClick={() => onOAuthLogin('google')}
             style={{ width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-            <img src='/google-logo.svg' alt='Google Logo' style={{ width: '20px', marginRight: '8px' }} />
+            <img src='/images/google-logo.svg' alt='Google Logo' style={{ width: '20px', marginRight: '8px' }} />
             Google
           </Button>
 

@@ -2,28 +2,89 @@
 
 'use client';
 
-import { AboutTitle, AboutParagraph } from './AboutStyles';
+import { useState } from 'react';
+import ScrollToTop from '@/app/components/Common/ScrollToTop';
+import {
+  AboutTitle,
+  AboutParagraph,
+  AboutAvatar,
+  AboutImageContainer,
+  AboutImageWithLink,
+  AboutLinkContainer,
+  AboutLink,
+  AboutMain,
+  AboutContainer,
+} from '@/app/components/About/AboutStyles';
 
 export default function AboutNeueFische() {
+  const [isImageExpanded, setIsImageExpanded] = useState(false);
+  const [expandedImageSrc, setExpandedImageSrc] = useState('');
+
+  function handleImageClick(src) {
+    setIsImageExpanded(true);
+    setExpandedImageSrc(src);
+  }
+
+  function handleCloseImage() {
+    setIsImageExpanded(false);
+    setExpandedImageSrc('');
+  }
+
   return (
-    <>
-      <AboutTitle>Features</AboutTitle>
-      <AboutParagraph>
-        1. **Project Overview**: TripTrove allows users to discover and contribute travel reviews, providing insights
-        into various destinations.
-      </AboutParagraph>
-      <AboutParagraph>
-        2. **Neue Fische**: This section offers information about new and exciting travel experiences and places to
-        explore.
-      </AboutParagraph>
-      <AboutParagraph>
-        3. **Tech Stack**: The platform is built using modern technologies including React, Next.js, and MongoDB,
-        ensuring a smooth and efficient user experience.
-      </AboutParagraph>
-      <AboutParagraph>
-        4. **Contact**: Users can easily reach out for support, feedback, or inquiries, ensuring a user-friendly
-        experience.
-      </AboutParagraph>
-    </>
+    <AboutContainer>
+      <ScrollToTop />
+      <AboutMain>
+        <AboutAvatar src={`/images/neue-fische-logo.png?t=${new Date().getTime()}`} alt='neue fische' />
+        <AboutTitle>Web Development Bootcamp</AboutTitle>
+        <AboutParagraph>Successfully participated (3 months full-time) and completed in February 2024.</AboutParagraph>
+        <AboutImageContainer>
+          <AboutImageWithLink
+            src={`/images/neue-fische-certificate-1.png?t=${new Date().getTime()}`}
+            alt='Certificate (front)'
+            onClick={() => handleImageClick(`/images/neue-fische-certificate-1.png?t=${new Date().getTime()}`)}
+            style={{ width: '100%', maxWidth: '300px', margin: '10px auto', cursor: 'pointer' }} // Margin für den Abstand
+          />
+          <AboutImageWithLink
+            src={`/images/neue-fische-certificate-2.png?t=${new Date().getTime()}`}
+            alt='Certificate (back)'
+            onClick={() => handleImageClick(`/images/neue-fische-certificate-2.png?t=${new Date().getTime()}`)}
+            style={{ width: '100%', maxWidth: '300px', margin: '10px auto', cursor: 'pointer' }} // Margin für den Abstand
+          />
+        </AboutImageContainer>
+        {isImageExpanded && (
+          <>
+            <div
+              onClick={handleCloseImage}
+              style={{
+                position: 'fixed',
+                top: 0,
+                bottom: 0,
+                left: 0,
+                right: 0,
+                background: 'rgba(0, 0, 0, 0.5)',
+              }}
+            />
+            <img
+              src={expandedImageSrc}
+              alt='Expanded Image'
+              style={{
+                position: 'fixed',
+                top: '50%',
+                left: '50%',
+                transform: 'translate(-50%, -50%)',
+                maxHeight: '80vh',
+                maxWidth: '80vw',
+                zIndex: 9999,
+              }}
+            />
+          </>
+        )}
+        <AboutLinkContainer>
+          <AboutLink href='https://neuefische.de' target='_blank'>
+            neue fische Website
+          </AboutLink>
+        </AboutLinkContainer>
+      </AboutMain>
+    </AboutContainer>
   );
 }

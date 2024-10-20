@@ -8,9 +8,8 @@ import styled from 'styled-components';
 const PreviousPageButtonContainer = styled.div`
   display: flex;
   position: fixed;
-  top: 5rem;
-  /* top: 50%; */
-  /* transform: translateY(-15%); */
+  top: 25%;
+  /* transform: translateY(-10%); */
   left: 1rem;
   margin: 0;
   justify-content: flex-start;
