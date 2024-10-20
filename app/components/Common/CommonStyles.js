@@ -10,6 +10,9 @@ export const Container = styled.div`
   min-height: 100vh;
   padding: 0.5rem;
   margin-top: 5rem;
+  max-width: 80%; /* Setzt die maximale Breite auf 80% */
+  margin-left: auto; /* Zentriert den Container horizontal */
+  margin-right: auto; /* Zentriert den Container horizontal */
 `;
 
 export const Main = styled.main`
