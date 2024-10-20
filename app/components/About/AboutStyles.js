@@ -13,6 +13,7 @@ export const NarrowContainer = styled.div`
 export const AboutTitle = styled.h1`
   font-size: 1.6rem;
   font-weight: bold;
+  text-align: center;
   margin: 1.5rem 0 0.5rem;
   color: var(--color-text);
 `;
@@ -49,18 +50,18 @@ export const AboutListContainer = styled.ul`
 export const AboutList = styled.li`
   margin-bottom: 0.2rem;
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   text-align: center;
   position: relative;
 
   &::before {
     content: '▶';
     position: absolute;
-    left: -20px;
-    align-self: flex-start;
+    left: -18px;
+    /* top: 50%; */
+    /* transform: translateY(-50%); */
     font-weight: bold;
     color: var(--color-link-hover);
-    /* font-size: 1.2rem; */
   }
 `;
 

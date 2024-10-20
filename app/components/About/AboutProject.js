@@ -17,50 +17,36 @@ export default function AboutProject() {
   return (
     <>
       <ScrollToTop />
-      <AboutTitle>Welcome!</AboutTitle>
-      <AboutParagraph>What you see here is "TripTrove" in its evolved Version 2.</AboutParagraph>
-      <AboutHeadline>Version 1</AboutHeadline>
+      <AboutTitle>Welcome to the #GMNDR Authentication Demo!</AboutTitle>
       <AboutParagraph>
-        The first version of the travel planning app was developed in teamwork by Aika Akymbaeva, Uwe Bury, Felix
-        Jentsch, and Markus Gemeinder, and presented on 9th February 2024 as the final project of the neue fische Web
-        Developer Bootcamp.
-      </AboutParagraph>
-      <AboutParagraph>
-        Part of the task was a backend database connection; the frontend features a complex form functionality with
-        individually designed "toast messages" (warning messages).
-      </AboutParagraph>
-      <AboutLinkContainer>
-        <AboutLink href='https://trip-trove-v1-neue-fische-capstone-finale-20240209.vercel.app/' target='_blank'>
-          Vercel Deployment (Version 1)
-        </AboutLink>
-        <AboutLink
-          href='https://github.com/markusgemeinder/---trip-trove--v1-neue-fische-capstone-finale-20240209'
-          target='_blank'>
-          GitHub Code (Version 1)
-        </AboutLink>
-      </AboutLinkContainer>
-
-      <AboutHeadline>Version 2</AboutHeadline>
-      <AboutParagraph>
-        Version 2 is an individual advancement by Markus Gemeinder and includes, beyond Version 1, the following
-        exemplary features:
+        This application showcases a comprehensive authentication system that supports various login methods, including
+        GitHub, Google, custom credentials, and demo access. The frontend provides a user-friendly interface while the
+        backend securely manages user data and reviews in MongoDB.
       </AboutParagraph>
 
+      <AboutHeadline>Project Overview</AboutHeadline>
+      <AboutParagraph>
+        The main focus of this demo application is the login functionality. Users can create reviews with a note and a
+        5-star rating, view all reviews stored in MongoDB, and manage their submissions (edit and delete). Note that the
+        reviews page serves only as a placeholder example for a protected area. The registration process includes a
+        double opt-in for email verification and secure password recovery options.
+      </AboutParagraph>
+
+      <AboutHeadline>Main Features</AboutHeadline>
       <AboutListContainer>
-        <AboutList>Responsive design for mobile devices with sandwich menu</AboutList>
-        <AboutList>Optimized UX/UI design</AboutList>
-        <AboutList>Pack list presets now modifiable by users</AboutList>
-        <AboutList>Checkboxes for checking off already packed items</AboutList>
-        <AboutList>Drag & Drop Image Upload (Cloudinary)</AboutList>
-        <AboutList>Page exit: Warning when leaving the page without prior saving</AboutList>
-        <AboutList>Search function (real-time search)</AboutList>
-        <AboutList>Loading and error animations</AboutList>
-        <AboutList>Info section with language selection toggle button EN/DE</AboutList>
+        <AboutList>Multiple login options: GitHub, Google, custom credentials, or demo user</AboutList>
+        <AboutList>Frontend review creation with note and 5-star rating</AboutList>
+        <AboutList>Session storage for demo users; MongoDB for registered users in the backend</AboutList>
+        <AboutList>Double opt-in registration and secure password reset</AboutList>
+        <AboutList>Dark/Light mode toggle for better UX</AboutList>
+        <AboutList>Responsive burger menu navigation for mobile users</AboutList>
+        <AboutList>Error and success feedback via modal popups</AboutList>
+        <AboutList>Middleware and protected routes ensure secure access to user data</AboutList>
       </AboutListContainer>
 
       <AboutLinkContainer>
-        <AboutLink href='https://github.com/markusgemeinder/---trip-trove--v2-evolution' target='_blank'>
-          GitHub Code (Version 2)
+        <AboutLink href='https://github.com/markusgemeinder/---gmndr-authentication-demo' target='_blank'>
+          GitHub Repository
         </AboutLink>
       </AboutLinkContainer>
     </>
