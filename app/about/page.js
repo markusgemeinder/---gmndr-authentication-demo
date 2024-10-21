@@ -2,8 +2,7 @@
 
 'use client';
 
-import { Container } from '@/app/components/Common/CommonStyles';
-import { NarrowContainer } from '@/app/components/About/AboutStyles';
+import { Container, NarrowContainer } from '@/app/components/Common/CommonStyles';
 import ScrollToTop from '@/app/components/Common/ScrollToTop';
 import NextPageButton from '@/app/components/Common/NextPageButton';
 import PreviousPageButton from '@/app/components/Common/PreviousPageButton';

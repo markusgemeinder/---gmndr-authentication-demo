@@ -9,11 +9,16 @@ const PageUpButtonContainer = styled.div`
   display: flex;
   position: fixed;
   bottom: 3.5rem;
-  right: 1rem;
+  right: 0.7rem;
   margin: 0;
   justify-content: flex-end;
   z-index: 2;
   transition: opacity 0.6s ease;
+
+  @media (min-width: 768px) and (min-height: 768px) {
+    bottom: 4.5rem;
+    right: 3rem;
+  }
 `;
 
 const PageUpButtonSvg = styled.svg`

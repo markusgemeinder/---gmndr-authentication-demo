@@ -8,12 +8,16 @@ import styled from 'styled-components';
 const NextPageButtonContainer = styled.div`
   display: flex;
   position: fixed;
-  top: 30%;
-  right: 1rem;
+  top: 48%;
+  right: 0.7rem;
   margin: 0;
   justify-content: flex-end;
   z-index: 2;
   transition: opacity 0.6s ease;
+
+  @media (min-width: 768px) and (min-height: 768px) {
+    right: 3rem;
+  }
 `;
 
 const NextPageButtonSvg = styled.svg`

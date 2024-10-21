@@ -1,47 +1,41 @@
 'use client';
 
 import ScrollToTop from '@/app/components/Common/ScrollToTop';
-import {
-  AboutTitle,
-  AboutParagraph,
-  AboutListContainer,
-  AboutList,
-  AboutHeadline,
-} from '@/app/components/About/AboutStyles';
+import { Title, Subtitle, Paragraph, ListContainer, List } from '@/app/components/Common/CommonStyles';
 
 export default function AboutTechstack() {
   return (
     <>
       <ScrollToTop />
-      <AboutTitle>Techstack</AboutTitle>
-      <AboutParagraph>Technologies and tools used in this project:</AboutParagraph>
-      <AboutHeadline>Frontend</AboutHeadline>
-      <AboutListContainer>
-        <AboutList>Next.js</AboutList>
-        <AboutList>React</AboutList>
-        <AboutList>HTML</AboutList>
-        <AboutList>CSS</AboutList>
-        <AboutList>JavaScript</AboutList>
-        <AboutList>react-icons/fa</AboutList>
-      </AboutListContainer>
-      <AboutHeadline>Backend</AboutHeadline>
-      <AboutParagraph>Authentication, APIs, mail services:</AboutParagraph>
-      <AboutListContainer>
-        <AboutList>Node.js</AboutList>
-        <AboutList>NextAuth</AboutList>
-        <AboutList>Nodemailer</AboutList>
-        <AboutList>NextResponse</AboutList>
-      </AboutListContainer>
-      <AboutHeadline>Database</AboutHeadline>
-      <AboutListContainer>
-        <AboutList>MongoDB</AboutList>
-      </AboutListContainer>
-      <AboutHeadline>Other Tools</AboutHeadline>
-      <AboutParagraph>Version control, deployment:</AboutParagraph>
-      <AboutListContainer>
-        <AboutList>GitHub</AboutList>
-        <AboutList>Vercel</AboutList>
-      </AboutListContainer>
+      <Title>Techstack</Title>
+      <Paragraph>Technologies and tools used in this project:</Paragraph>
+      <Subtitle>Frontend</Subtitle>
+      <ListContainer>
+        <List>Next.js</List>
+        <List>React</List>
+        <List>HTML</List>
+        <List>CSS</List>
+        <List>JavaScript</List>
+        <List>react-icons/fa</List>
+      </ListContainer>
+      <Subtitle>Backend</Subtitle>
+      <Paragraph>Authentication, APIs, mail services:</Paragraph>
+      <ListContainer>
+        <List>Node.js</List>
+        <List>NextAuth</List>
+        <List>Nodemailer</List>
+        <List>NextResponse</List>
+      </ListContainer>
+      <Subtitle>Database</Subtitle>
+      <ListContainer>
+        <List>MongoDB</List>
+      </ListContainer>
+      <Subtitle>Other Tools</Subtitle>
+      <Paragraph>Version control, deployment:</Paragraph>
+      <ListContainer>
+        <List>GitHub</List>
+        <List>Vercel</List>
+      </ListContainer>
     </>
   );
 }

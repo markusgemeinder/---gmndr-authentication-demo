@@ -1,5 +1,4 @@
 // /app/components/Common/Navigation.js
-
 'use client';
 
 import { useSession, signOut } from 'next-auth/react';
@@ -26,6 +25,10 @@ const Header = styled.header`
   align-items: center;
   padding: 0 1rem;
   height: 4rem;
+
+  @media (min-width: 768px) and (min-height: 768px) {
+    height: 5rem;
+  }
 `;
 
 const BrandContainer = styled.div`
@@ -34,9 +37,14 @@ const BrandContainer = styled.div`
 `;
 
 const Title = styled.div`
-  font-size: 1.25rem;
+  margin-right: 0.8rem;
+  font-size: 1rem;
   font-weight: bold;
-  margin-right: 1rem;
+
+  @media (min-width: 768px) and (min-height: 768px) {
+    font-size: 1.25rem;
+    margin-right: 1rem;
+  }
 `;
 
 const NavContainer = styled.div`
@@ -78,9 +86,34 @@ const ThemeToggle = styled.button`
   cursor: pointer;
   display: flex;
   align-items: center;
+  justify-content: center;
+  width: 42px;
+  height: 42px;
 
   &:hover {
     color: var(--color-link-hover);
+  }
+`;
+
+const StyledMoonIcon = styled(MoonIcon)`
+  width: 32px;
+  height: 32px;
+  color: inherit;
+
+  @media (min-width: 768px) and (min-height: 768px) {
+    width: 28px;
+    height: 28px;
+  }
+`;
+
+const StyledSunIcon = styled(SunIcon)`
+  width: 40px;
+  height: 40px;
+  color: inherit;
+
+  @media (min-width: 768px) and (min-height: 768px) {
+    width: 36px;
+    height: 36px;
   }
 `;
 
@@ -91,6 +124,8 @@ const BurgerMenuButton = styled.button`
   cursor: pointer;
   font-size: 1.5rem;
   display: none;
+  width: 42px;
+  height: 42px;
 
   @media (max-width: 768px) {
     display: block;
@@ -98,8 +133,8 @@ const BurgerMenuButton = styled.button`
 `;
 
 const BurgerMenuButtonSvg = styled.svg`
-  width: 24px;
-  height: 24px;
+  width: 42px;
+  height: 42px;
   stroke: var(--color-header-text);
   stroke-width: 2;
   stroke-linecap: round;
@@ -114,7 +149,7 @@ const BurgerMenuNavigation = styled.nav`
   position: fixed;
   top: 4rem;
   left: 0;
-  width: 60%;
+  width: 50%;
   height: 100vh;
   background-color: var(--color-burger-menu-background);
   transform: ${({ isOpen }) => (isOpen ? 'translateX(0)' : 'translateX(-100%)')};
@@ -134,6 +169,7 @@ const BurgerMenuList = styled.ul`
 
 const BurgerMenuItem = styled.li`
   padding: 1rem;
+  text-align: left;
 `;
 
 export default function Navigation() {
@@ -263,10 +299,16 @@ export default function Navigation() {
         </BrandContainer>
         <NavContainer>
           <NavList>{renderNavLinks()}</NavList>
-          <ThemeToggle onClick={toggleTheme} aria-label='Toggle Theme'>
-            {theme === 'light' ? <MoonIcon className='h-6 w-6' /> : <SunIcon className='h-6 w-6' />}
+          <ThemeToggle
+            onClick={toggleTheme}
+            aria-label={`Toggle to ${theme === 'light' ? 'dark' : 'light'} theme`}
+            title={`Toggle to ${theme === 'light' ? 'dark' : 'light'} theme`}>
+            {theme === 'light' ? <StyledMoonIcon /> : <StyledSunIcon />}
           </ThemeToggle>
-          <BurgerMenuButton onClick={() => setIsBurgerOpen(!isBurgerOpen)}>
+          <BurgerMenuButton
+            onClick={() => setIsBurgerOpen(!isBurgerOpen)}
+            aria-label={isBurgerOpen ? 'Close menu' : 'Open menu'}
+            title={isBurgerOpen ? 'Close menu' : 'Open menu'}>
             <BurgerMenuButtonSvg viewBox='0 0 24 24' isOpen={isBurgerOpen}>
               {isBurgerOpen ? (
                 <>

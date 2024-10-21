@@ -8,12 +8,16 @@ import styled from 'styled-components';
 const PreviousPageButtonContainer = styled.div`
   display: flex;
   position: fixed;
-  top: 30%;
-  left: 1rem;
+  top: 48%;
+  left: 0.7rem;
   margin: 0;
   justify-content: flex-start;
   z-index: 2;
   transition: opacity 0.6s ease;
+
+  @media (min-width: 768px) and (min-height: 768px) {
+    left: 3rem;
+  }
 `;
 
 const PreviousPageButtonSvg = styled.svg`
