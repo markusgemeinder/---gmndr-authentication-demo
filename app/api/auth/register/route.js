@@ -65,9 +65,7 @@ export async function POST(req) {
     });
 
     const baseUrl =
-      process.env.NODE_ENV === 'production'
-        ? 'https://gmndr-authentication-demo-prototype.vercel.app/'
-        : 'http://localhost:3000';
+      process.env.NODE_ENV === 'production' ? 'https://gmndr-authentication-demo.vercel.app/' : 'http://localhost:3000';
     const confirmationUrl = `${baseUrl}/verify-email/${confirmationToken}`;
 
     const currentHour = new Date().getHours();
