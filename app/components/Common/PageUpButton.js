@@ -16,6 +16,12 @@ const PageUpButtonContainer = styled.div`
   transition: opacity 0.6s ease;
 `;
 
+const PageUpButtonSvg = styled.svg`
+  width: 24px;
+  height: 24px;
+  fill: var(--color-button-page-up-icon);
+`;
+
 const PageUpButtonLink = styled.button`
   display: flex;
   align-items: center;
@@ -25,18 +31,12 @@ const PageUpButtonLink = styled.button`
   color: var(--color-button-page-up-icon);
   cursor: pointer;
   border-radius: 0.6rem;
-  width: 42px;
-  height: 42px;
+  width: 48px; // Mindestgröße
+  height: 48px;
 
   &:hover {
     background-color: var(--color-button-page-up-hover);
   }
-`;
-
-const PageUpButtonSvg = styled.svg`
-  width: 24px;
-  height: 24px;
-  fill: var(--color-button-page-up-icon);
 `;
 
 export default function PageUpButton() {
@@ -62,7 +62,7 @@ export default function PageUpButton() {
 
   return (
     <PageUpButtonContainer>
-      <PageUpButtonLink onClick={scrollToTop}>
+      <PageUpButtonLink onClick={scrollToTop} aria-label='Scroll to top'>
         <PageUpButtonSvg xmlns='http://www.w3.org/2000/svg' height='24px' viewBox='0 0 20 20' width='24px'>
           <path d='M0,14.113l10,-10l10,10l-1.775,1.775l-8.225,-8.225l-8.225,8.225l-1.775,-1.775Z' />
         </PageUpButtonSvg>

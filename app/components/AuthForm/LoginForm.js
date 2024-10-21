@@ -168,7 +168,11 @@ export default function LoginForm({ onLogin, onOAuthLogin, error, onDemoLogin })
                 onChange={handlePasswordChange}
                 required
               />
-              <ToggleVisibility onClick={handleToggleVisibility} type='button'>
+              <ToggleVisibility
+                onClick={handleToggleVisibility}
+                type='button'
+                title={passwordVisible ? 'Hide password' : 'Show password'}
+                aria-label={passwordVisible ? 'Hide password' : 'Show password'}>
                 {passwordVisible ? <PasswordVisibleIcon /> : <PasswordHiddenIcon />}
               </ToggleVisibility>
             </InputContainer>

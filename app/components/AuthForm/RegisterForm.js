@@ -138,7 +138,11 @@ export default function RegisterForm() {
               onChange={(event) => handlePasswordChange(event.target.value)}
               required
             />
-            <ToggleVisibility onClick={togglePasswordVisibility} type='button'>
+            <ToggleVisibility
+              onClick={togglePasswordVisibility}
+              type='button'
+              title={passwordVisible ? 'Hide password' : 'Show password'}
+              aria-label={passwordVisible ? 'Hide password' : 'Show password'}>
               {passwordVisible ? <PasswordVisibleIcon /> : <PasswordHiddenIcon />}
             </ToggleVisibility>
           </InputContainer>
