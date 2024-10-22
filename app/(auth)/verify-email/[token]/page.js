@@ -6,7 +6,7 @@ import { useState, useEffect } from 'react';
 import ScrollToTop from '@/app/components/Common/ScrollToTop';
 import { Container, Title } from '@/app/components/Common/CommonStyles';
 import ModalPopup from '@/app/components/Common/ModalPopup';
-import Button, { ButtonContainerMedium } from '@/app/components/Common/Button';
+import Button, { ButtonContainerHorizontal } from '@/app/components/Common/Button';
 import { Paragraph } from '@/app/components/Common/CommonStyles';
 import { useRouter } from 'next/navigation';
 
@@ -131,26 +131,26 @@ export default function VerifyEmailPage({ params }) {
         <Title>Email Verification</Title>
         {!modalState.showResendButton ? (
           <>
-            <ButtonContainerMedium>
+            <ButtonContainerHorizontal>
               <Button
                 onClick={() => handleSubmit(params.token)}
                 bgColor='var(--color-button-login)'
                 hoverColor='var(--color-button-login-hover)'>
                 Confirm My Email
               </Button>
-            </ButtonContainerMedium>
+            </ButtonContainerHorizontal>
             <Paragraph>You need to confirm your email address to complete the registration process.</Paragraph>
           </>
         ) : (
           <>
-            <ButtonContainerMedium>
+            <ButtonContainerHorizontal>
               <Button
                 onClick={handleResendVerification}
                 bgColor='var(--color-button-login)'
                 hoverColor='var(--color-button-login-hover)'>
                 Resend Verification Email
               </Button>
-            </ButtonContainerMedium>
+            </ButtonContainerHorizontal>
             <Paragraph>{'The verification link has expired. Please request a new one.'}</Paragraph>
           </>
         )}

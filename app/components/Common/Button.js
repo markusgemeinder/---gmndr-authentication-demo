@@ -25,13 +25,6 @@ export const ButtonContainerHorizontal = styled.div`
   }
 `;
 
-export const ButtonContainerMedium = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
-  width: 60%;
-`;
-
 const StyledButton = styled.button.withConfig({
   shouldForwardProp: (prop) => !['bgColor', 'hoverColor', 'color', 'disabled'].includes(prop),
 })`

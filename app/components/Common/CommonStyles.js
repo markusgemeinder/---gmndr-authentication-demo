@@ -38,7 +38,7 @@ export const NarrowContainer = styled.div`
   align-items: center;
   width: 75%;
   max-width: 22rem;
-  background-color: purple;
+  /* background-color: purple; */
 
   @media (min-width: 768px) and (min-height: 768px) {
     width: 80%;
