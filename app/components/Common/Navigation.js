@@ -6,7 +6,7 @@ import { useRouter, usePathname } from 'next/navigation';
 import { useContext, useState } from 'react';
 import styled from 'styled-components';
 import Link from 'next/link';
-import Button from '@/app/components/Common/Button';
+import Button, { ButtonContainerHorizontal } from '@/app/components/Common/Button';
 import { SunIcon, MoonIcon } from '@heroicons/react/24/solid';
 import LoadingAnimation from '@/app/components/Common/LoadingAnimation';
 import { ThemeContext } from '@/app/components/Common/ThemeProvider';
@@ -31,21 +31,13 @@ const Header = styled.header`
   }
 `;
 
-const SessionButtonContainer = styled.div`
-  display: flex;
-  flex-direction: row;
-  gap: 0.8rem;
-  width: 100%;
-
-  @media (min-width: 768px) and (min-height: 768px) {
-    margin-left: 1rem;
-    gap: 1rem;
-  }
-`;
-
 const BrandContainer = styled.div`
   display: flex;
   align-items: center;
+
+  @media (min-width: 768px) and (min-height: 768px) {
+    gap: 1rem;
+  }
 `;
 
 const Title = styled.div`
@@ -267,7 +259,7 @@ export default function Navigation() {
 
   const renderSessionButtons = () => (
     <>
-      <SessionButtonContainer>
+      <ButtonContainerHorizontal>
         <Button
           bgColor='var(--color-button-logout)'
           hoverColor='var(--color-button-logout-hover)'
@@ -277,13 +269,13 @@ export default function Navigation() {
           }}>
           Logout
         </Button>
-      </SessionButtonContainer>
+      </ButtonContainerHorizontal>
     </>
   );
 
   const renderNoSessionButtons = () => (
     <>
-      <SessionButtonContainer>
+      <ButtonContainerHorizontal>
         <Button
           bgColor='var(--color-button-login)'
           hoverColor='var(--color-button-login-hover)'
@@ -302,7 +294,7 @@ export default function Navigation() {
           }}>
           Register
         </Button>
-      </SessionButtonContainer>
+      </ButtonContainerHorizontal>
     </>
   );
 

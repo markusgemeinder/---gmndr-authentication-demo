@@ -4,7 +4,6 @@
 
 import styled from 'styled-components';
 
-// Footer container with fixed positioning at the bottom
 const FooterContainer = styled.footer`
   background-color: var(--color-header);
   color: var(--color-header-text);
@@ -17,18 +16,15 @@ const FooterContainer = styled.footer`
   z-index: 1000;
 `;
 
-// Container for the content inside the footer
 const FooterContent = styled.div`
   text-align: center;
   margin: 0.6rem;
 `;
 
-// Styled paragraph for the footer text
 const FooterText = styled.p`
   font-size: 0.8rem;
 `;
 
-// Footer component
 export default function Footer() {
   return (
     <FooterContainer>

@@ -4,7 +4,7 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import Button, { ButtonContainer } from '@/app/components/Common/Button';
+import Button, { ButtonContainerVertical } from '@/app/components/Common/Button';
 import {
   FormContainer,
   FormGroup,
@@ -172,7 +172,7 @@ export default function RegisterForm() {
           </InputContainer>
         </FormGroup>
 
-        <ButtonContainer>
+        <ButtonContainerVertical>
           <Button
             type='submit'
             bgColor='var(--color-button-login)'
@@ -187,7 +187,7 @@ export default function RegisterForm() {
             hoverColor='var(--color-button-cancel-hover)'>
             Cancel
           </Button>
-        </ButtonContainer>
+        </ButtonContainerVertical>
       </FormContainer>
 
       {modalState.show && (

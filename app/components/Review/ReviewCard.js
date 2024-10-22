@@ -6,16 +6,16 @@ import { format } from 'date-fns';
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { useSession } from 'next-auth/react';
-import Button from '@/app/components/Common/Button';
+import Button, { ButtonContainerHorizontal } from '@/app/components/Common/Button';
 import StarRating from '@/app/components/Common/StarRating';
+import { CardContainer, IDLabel, Email, Note, CreatedUpdated } from '@/app/components/Review/ReviewStyles';
 import {
-  CardContainer,
-  IDLabel,
-  Email,
-  Note,
-  CreatedUpdated,
-  HorizontalButtonContainer,
-} from '@/app/components/Review/ReviewStyles';
+  ModalOverlay,
+  ModalContent,
+  ModalHeader,
+  ModalInput,
+  ModalParagraph,
+} from '@/app/components/Common/ModalPopup';
 import { maskEmail } from '@/utils/maskEmail';
 
 export default function ReviewCard({ review, onDelete }) {
@@ -63,7 +63,7 @@ export default function ReviewCard({ review, onDelete }) {
           {format(new Date(updatedAt), 'MM/dd/yyyy (HH:mm:ss)')}
         </CreatedUpdated>
         {showButtons && (
-          <HorizontalButtonContainer>
+          <ButtonContainerHorizontal>
             <Button
               onClick={() => router.push(`/reviews/${_id}`)}
               bgColor='var(--color-button-edit)'
@@ -78,7 +78,7 @@ export default function ReviewCard({ review, onDelete }) {
               color='var(--color-button-text)'>
               Delete
             </Button>
-          </HorizontalButtonContainer>
+          </ButtonContainerHorizontal>
         )}
       </CardContainer>
 
@@ -93,7 +93,7 @@ export default function ReviewCard({ review, onDelete }) {
               value={inputValue}
               onChange={(e) => setInputValue(e.target.value)}
             />
-            <ModalButtonContainer>
+            <ButtonContainerHorizontal>
               <Button
                 onClick={handleDelete}
                 bgColor='var(--color-button-delete)'
@@ -106,7 +106,7 @@ export default function ReviewCard({ review, onDelete }) {
                 hoverColor='var(--color-button-cancel-hover)'>
                 Cancel
               </Button>
-            </ModalButtonContainer>
+            </ButtonContainerHorizontal>
           </ModalContent>
         </ModalOverlay>
       )}

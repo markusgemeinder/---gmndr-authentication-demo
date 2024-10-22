@@ -9,6 +9,7 @@ export const Main = styled.main`
   display: flex;
   flex-direction: column;
   align-items: center;
+  /* background-color: yellow; */
 
   @media (min-width: 768px) and (min-height: 768px) {
     padding: 2.4rem 1rem;
@@ -22,6 +23,7 @@ export const Container = styled.div`
   align-items: center;
   justify-content: flex-start;
   width: 96%;
+  /* background-color: magenta; */
 
   @media (min-width: 768px) and (min-height: 768px) {
     width: 80%;
@@ -36,6 +38,7 @@ export const NarrowContainer = styled.div`
   align-items: center;
   width: 75%;
   max-width: 22rem;
+  background-color: purple;
 
   @media (min-width: 768px) and (min-height: 768px) {
     width: 80%;

@@ -58,11 +58,11 @@ export const Note = styled.p`
   background-color: transparent;
 `;
 
-export const StarsContainer = styled.div`
-  display: flex;
-  gap: 0.3rem;
-  margin-bottom: 0.9rem;
-`;
+// export const StarsContainer = styled.div`
+//   display: flex;
+//   gap: 0.3rem;
+//   margin-bottom: 0.9rem;
+// `;
 
 export const CreatedUpdated = styled.div`
   font-size: 0.8rem;

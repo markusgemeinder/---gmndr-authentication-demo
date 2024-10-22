@@ -2,7 +2,7 @@
 
 import styled from 'styled-components';
 
-export const ButtonContainer = styled.div`
+export const ButtonContainerVertical = styled.div`
   display: flex;
   flex-direction: column;
   gap: 1rem;
@@ -10,6 +10,18 @@ export const ButtonContainer = styled.div`
 
   @media (min-width: 768px) and (min-height: 768px) {
     gap: 1.2rem;
+  }
+`;
+
+export const ButtonContainerHorizontal = styled.div`
+  display: flex;
+  flex-direction: row;
+  gap: 0.8rem;
+  width: 100%;
+  justify-content: center;
+
+  @media (min-width: 768px) and (min-height: 768px) {
+    gap: 1rem;
   }
 `;
 

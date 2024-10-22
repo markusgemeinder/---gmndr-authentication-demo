@@ -6,14 +6,8 @@ import styled from 'styled-components';
 import { useSession, signIn, signOut } from 'next-auth/react';
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
-import Button from '@/app/components/Common/Button';
-import {
-  ModalOverlay,
-  ModalHeader,
-  ModalContent,
-  ModalButtonContainer,
-  BlinkingText,
-} from '@/app/components/Common/ModalPopup';
+import Button, { ButtonContainerHorizontal } from '@/app/components/Common/Button';
+import { ModalOverlay, ModalHeader, ModalContent, BlinkingText } from '@/app/components/Common/ModalPopup';
 import { Paragraph, StyledLink } from '@/app/components/Common/CommonStyles'; // Importiere die neuen Komponenten
 
 const StatusContainer = styled.div`
@@ -131,7 +125,7 @@ export default function SessionStatus() {
                   <BlinkingText>Session Expiring Soon</BlinkingText>
                 </ModalHeader>
                 <Timer>{formatTime(timeLeft)}</Timer>
-                <ModalButtonContainer>
+                <ButtonContainerHorizontal>
                   <Button
                     onClick={renewSession}
                     bgColor='var(--color-button-login)'
@@ -146,7 +140,7 @@ export default function SessionStatus() {
                     color='var(--color-button-text)'>
                     Logout
                   </Button>
-                </ModalButtonContainer>
+                </ButtonContainerHorizontal>
               </ModalContent>
             </SessionStatusModalOverlay>
           )}

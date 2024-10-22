@@ -1,7 +1,7 @@
 // /app/components/Common/ModalPopup.js
 
 import styled, { keyframes } from 'styled-components';
-import Button from './Button';
+import Button, { ButtonContainerHorizontal } from '@/app/components/Common/Button';
 
 const blinkAnimation = keyframes`
   0% { opacity: 1; }
@@ -32,8 +32,12 @@ export const ModalContent = styled.div`
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  width: 60%;
-  max-width: 600px;
+  width: 96%;
+
+  @media (min-width: 768px) and (min-height: 768px) {
+    width: 80%;
+    max-width: 30rem;
+  }
 `;
 
 export const ModalHeader = styled.h2`
@@ -51,14 +55,6 @@ export const ModalParagraph = styled.p`
   color: var(--color-modal-paragraph);
 `;
 
-export const ModalButtonContainer = styled.div`
-  display: flex;
-  flex-direction: row;
-  gap: 0.8rem;
-  width: 100%;
-  justify-content: center;
-`;
-
 export const ModalInput = styled.input`
   width: 100%;
   padding: 0.5rem;
@@ -73,17 +69,17 @@ const ModalPopup = ({ message, onOkClick, showOkButton }) => {
     <ModalOverlay>
       <ModalContent>
         <ModalHeader>{message}</ModalHeader>
-        <ModalButtonContainer>
+        <ButtonContainerHorizontal>
           {showOkButton && (
             <Button
               onClick={onOkClick}
               bgColor='var(--color-button-ok)'
               hoverColor='var(--color-button-ok-hover)'
-              color='var(--color-text)'>
+              color='var(--color-button-text)'>
               OK
             </Button>
           )}
-        </ModalButtonContainer>
+        </ButtonContainerHorizontal>
       </ModalContent>
     </ModalOverlay>
   );

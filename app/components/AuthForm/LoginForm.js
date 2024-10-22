@@ -5,7 +5,7 @@
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import ScrollToTop from '@/app/components/Common/ScrollToTop';
-import Button, { ButtonContainer } from '@/app/components/Common/Button';
+import Button, { ButtonContainerVertical } from '@/app/components/Common/Button';
 import {
   FormContainer,
   FormGroup,
@@ -114,7 +114,7 @@ export default function LoginForm({ onLogin, onOAuthLogin, error, onDemoLogin })
     <>
       <ScrollToTop />
       <FormContainer onSubmit={handleSubmit}>
-        <ButtonContainer>
+        <ButtonContainerVertical>
           <Button
             type='button'
             bgColor='var(--color-button-demo-user)'
@@ -195,7 +195,7 @@ export default function LoginForm({ onLogin, onOAuthLogin, error, onDemoLogin })
               Forgot Password
             </Button>
           </Link>
-        </ButtonContainer>
+        </ButtonContainerVertical>
       </FormContainer>
 
       {modalState.show && (
