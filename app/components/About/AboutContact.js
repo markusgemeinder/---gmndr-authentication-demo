@@ -11,8 +11,8 @@ export default function AboutContact() {
     <>
       <ScrollToTop />
       <AvatarContainer>
-        <Avatar src={`/images/gmndr-pic-1.jpg?t=${new Date().getTime()}`} alt='Markus Gemeinder' />
         <Avatar src={`/images/gmndr-pic-2.jpg?t=${new Date().getTime()}`} alt='Markus Gemeinder' />
+        <Avatar src={`/images/gmndr-pic-1.jpg?t=${new Date().getTime()}`} alt='Markus Gemeinder' />
       </AvatarContainer>
       <Title>Contact</Title>
       <Subtitle>Markus Gemeinder</Subtitle>

@@ -7,25 +7,16 @@ import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { useSession } from 'next-auth/react';
 import Button from '@/app/components/Common/Button';
+import StarRating from '@/app/components/Common/StarRating';
 import {
   CardContainer,
   IDLabel,
   Email,
   Note,
-  StarsContainer,
   CreatedUpdated,
   HorizontalButtonContainer,
 } from '@/app/components/Review/ReviewStyles';
-import {
-  ModalOverlay,
-  ModalContent,
-  ModalHeader,
-  ModalParagraph,
-  ModalInput,
-  ModalButtonContainer,
-} from '@/app/components/Common/ModalPopup';
 import { maskEmail } from '@/utils/maskEmail';
-import renderStars from '@/utils/renderStars';
 
 export default function ReviewCard({ review, onDelete }) {
   const { _id, note, rating, createdAt, updatedAt, email } = review;
@@ -66,7 +57,7 @@ export default function ReviewCard({ review, onDelete }) {
         <IDLabel>ID: {_id}</IDLabel>
         <Email>{showEmail}</Email>
         <Note>{note}</Note>
-        <StarsContainer>{renderStars(rating)}</StarsContainer>
+        <StarRating rating={rating} />
         <CreatedUpdated>
           Created: {format(new Date(createdAt), 'MM/dd/yyyy (HH:mm:ss)')} | Updated:{' '}
           {format(new Date(updatedAt), 'MM/dd/yyyy (HH:mm:ss)')}

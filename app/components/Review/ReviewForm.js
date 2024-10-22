@@ -5,17 +5,16 @@
 import { useState, useEffect } from 'react';
 import { useSession } from 'next-auth/react';
 import Button from '@/app/components/Common/Button';
+import StarRating from '@/app/components/Common/StarRating';
 import {
   FormContainer,
   FormGroup,
   Label,
   Input,
   Textarea,
-  RatingContainer,
   HiddenInput,
   HorizontalButtonContainer,
 } from '@/app/components/Review/ReviewStyles';
-import renderStars from '@/utils/renderStars';
 
 export default function ReviewForm({ review, onSave, onCancel, isDemoReview }) {
   const { data: session } = useSession();
@@ -81,7 +80,7 @@ export default function ReviewForm({ review, onSave, onCancel, isDemoReview }) {
       </FormGroup>
       <FormGroup>
         <Label htmlFor='rating'>Rating</Label>
-        <RatingContainer>{renderStars(rating, setRating)}</RatingContainer>
+        <StarRating rating={rating} setRating={setRating} />
         <HiddenInput
           type='hidden'
           id='rating'
