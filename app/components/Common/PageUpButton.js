@@ -9,7 +9,7 @@ const PageUpButtonContainer = styled.div`
   display: flex;
   position: fixed;
   bottom: 3.5rem;
-  right: 0.7rem;
+  right: 0.4rem;
   margin: 0;
   justify-content: flex-end;
   z-index: 2;
@@ -24,23 +24,23 @@ const PageUpButtonContainer = styled.div`
 const PageUpButtonSvg = styled.svg`
   width: 24px;
   height: 24px;
-  fill: var(--color-button-page-up-icon);
+  fill: var(--color-button-page-navigation-icon);
 `;
 
 const PageUpButtonLink = styled.button`
   display: flex;
   align-items: center;
   justify-content: center;
-  border: 2px solid var(--color-button-page-up);
+  border: 2px solid var(--color-button-page-navigation);
   background-color: transparent;
-  color: var(--color-button-page-up-icon);
+  color: var(--color-button-page-navigation-icon);
   cursor: pointer;
   border-radius: 0.6rem;
   width: 48px; // Mindestgröße
   height: 48px;
 
   &:hover {
-    background-color: var(--color-button-page-up-hover);
+    background-color: var(--color-button-page-navigation-hover);
   }
 `;
 

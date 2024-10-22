@@ -8,7 +8,7 @@ export const FormContainer = styled.form`
   border: 1px solid var(--color-form-border);
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   border-radius: 0.375rem;
-  margin: 1rem auto;
+  margin: 0 auto;
   padding: 1.5rem;
   max-width: 32rem;
   width: 100%;

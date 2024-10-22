@@ -2,9 +2,10 @@
 
 'use client';
 
-import { useSession, signIn, signOut } from 'next-auth/react';
 import styled from 'styled-components';
+import { useSession, signIn, signOut } from 'next-auth/react';
 import { useEffect, useState } from 'react';
+import { useRouter } from 'next/navigation';
 import Button from '@/app/components/Common/Button';
 import {
   ModalOverlay,
@@ -13,8 +14,7 @@ import {
   ModalButtonContainer,
   BlinkingText,
 } from '@/app/components/Common/ModalPopup';
-import Link from 'next/link';
-import { useRouter } from 'next/navigation';
+import { Paragraph, StyledLink } from '@/app/components/Common/CommonStyles'; // Importiere die neuen Komponenten
 
 const StatusContainer = styled.div`
   margin-bottom: 0.4rem;
@@ -22,18 +22,9 @@ const StatusContainer = styled.div`
   color: var(--color-text-light);
 `;
 
-const LoginLink = styled(Link)`
-  color: var(--color-link);
-  text-decoration: underline;
-
-  &:hover {
-    color: var(--color-link-hover);
-  }
-`;
-
 const CountdownContainer = styled.span`
   display: inline-block;
-  width: 2.1rem;
+  width: 2.4rem;
   text-align: right;
 `;
 
@@ -124,15 +115,14 @@ export default function SessionStatus() {
     <StatusContainer>
       {session ? (
         <>
-          <p>
-            Welcome, {session.user.email}. You are logged in as {userRole}.
-            <br />
-            Your login expires in
-            <CountdownContainer>{formatTime(timeLeft)}</CountdownContainer> minutes{' '}
-            <LoginLink href='#' onClick={renewSession}>
-              (Renew Session)
-            </LoginLink>
-          </p>
+          <Paragraph>
+            Welcome, {session.user.email}. You are logged in as {userRole}. Your login expires in
+            <CountdownContainer>{formatTime(timeLeft)}</CountdownContainer> min (
+            <StyledLink href='#' onClick={renewSession}>
+              click to renew session
+            </StyledLink>
+            ).
+          </Paragraph>
           <Spacer />
           {showPopup && (
             <SessionStatusModalOverlay>
@@ -162,9 +152,9 @@ export default function SessionStatus() {
           )}
         </>
       ) : (
-        <p>
-          Welcome, unknown user. <LoginLink href='/login'>Please login.</LoginLink>
-        </p>
+        <Paragraph>
+          Welcome, unknown user. <StyledLink href='/login'>Please login.</StyledLink>
+        </Paragraph>
       )}
     </StatusContainer>
   );

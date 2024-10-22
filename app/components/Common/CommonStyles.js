@@ -1,6 +1,7 @@
 // /app/components/Common/CommonStyles.js
 
 import styled from 'styled-components';
+import Link from 'next/link';
 
 export const Main = styled.main`
   margin: 4rem auto;
@@ -8,7 +9,6 @@ export const Main = styled.main`
   display: flex;
   flex-direction: column;
   align-items: center;
-  /* background-color: purple; */
 
   @media (min-width: 768px) and (min-height: 768px) {
     padding: 2.4rem 1rem;
@@ -21,9 +21,7 @@ export const Container = styled.div`
   flex-direction: column;
   align-items: center;
   justify-content: flex-start;
-  width: 75%;
-  max-width: 22rem;
-  /* background-color: yellow; */
+  width: 96%;
 
   @media (min-width: 768px) and (min-height: 768px) {
     width: 80%;
@@ -36,6 +34,13 @@ export const NarrowContainer = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
+  width: 75%;
+  max-width: 22rem;
+
+  @media (min-width: 768px) and (min-height: 768px) {
+    width: 80%;
+    max-width: 30rem;
+  }
 `;
 
 export const Title = styled.h1`
@@ -67,6 +72,18 @@ export const Paragraph = styled.p`
   text-align: center;
   margin: 0.5rem;
   color: var(--color-text);
+`;
+
+export const StyledLink = styled(Link)`
+  text-align: center;
+  font-weight: 500;
+  color: var(--color-link);
+  text-decoration: none;
+
+  &:hover {
+    color: var(--color-link-hover);
+    text-decoration: underline;
+  }
 `;
 
 export const ListContainer = styled.ul`

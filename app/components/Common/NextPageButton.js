@@ -9,7 +9,7 @@ const NextPageButtonContainer = styled.div`
   display: flex;
   position: fixed;
   top: 48%;
-  right: 0.7rem;
+  right: 0.4rem;
   margin: 0;
   justify-content: flex-end;
   z-index: 2;
@@ -23,23 +23,23 @@ const NextPageButtonContainer = styled.div`
 const NextPageButtonSvg = styled.svg`
   width: 24px;
   height: 24px;
-  fill: var(--color-button-page-up-icon);
+  fill: var(--color-button-page-navigation-icon);
 `;
 
 const NextPageButtonLink = styled.button`
   display: flex;
   align-items: center;
   justify-content: center;
-  border: 2px solid var(--color-button-page-up);
+  border: 2px solid var(--color-button-page-navigation);
   background-color: transparent;
-  color: var(--color-button-page-up-icon);
+  color: var(--color-button-page-navigation-icon);
   cursor: pointer;
   border-radius: 0.6rem;
   width: 48px;
   height: 48px;
 
   &:hover {
-    background-color: var(--color-button-page-up-hover);
+    background-color: var(--color-button-page-navigation-hover);
   }
 `;
 

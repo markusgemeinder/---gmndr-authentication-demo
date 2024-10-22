@@ -53,6 +53,9 @@ export const ModalParagraph = styled.p`
 
 export const ModalButtonContainer = styled.div`
   display: flex;
+  flex-direction: row;
+  gap: 0.8rem;
+  width: 100%;
   justify-content: center;
 `;
 

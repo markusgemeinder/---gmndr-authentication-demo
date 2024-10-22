@@ -31,6 +31,18 @@ const Header = styled.header`
   }
 `;
 
+const SessionButtonContainer = styled.div`
+  display: flex;
+  flex-direction: row;
+  gap: 0.8rem;
+  width: 100%;
+
+  @media (min-width: 768px) and (min-height: 768px) {
+    margin-left: 1rem;
+    gap: 1rem;
+  }
+`;
+
 const BrandContainer = styled.div`
   display: flex;
   align-items: center;
@@ -43,7 +55,7 @@ const Title = styled.div`
 
   @media (min-width: 768px) and (min-height: 768px) {
     font-size: 1.25rem;
-    margin-right: 1rem;
+    margin: 1rem;
   }
 `;
 
@@ -75,7 +87,7 @@ const NavLink = styled(Link)`
   border-bottom: ${({ isActive }) => (isActive ? '2px solid var(--color-header-text)' : 'none')};
 
   &:hover {
-    color: var(--color-link-hover);
+    color: var(--color-link);
   }
 `;
 
@@ -255,38 +267,42 @@ export default function Navigation() {
 
   const renderSessionButtons = () => (
     <>
-      <Button
-        bgColor='var(--color-button-logout)'
-        hoverColor='var(--color-button-logout-hover)'
-        onClick={() => {
-          signOut({ callbackUrl: '/' });
-          setIsBurgerOpen(false);
-        }}>
-        Logout
-      </Button>
+      <SessionButtonContainer>
+        <Button
+          bgColor='var(--color-button-logout)'
+          hoverColor='var(--color-button-logout-hover)'
+          onClick={() => {
+            signOut({ callbackUrl: '/' });
+            setIsBurgerOpen(false);
+          }}>
+          Logout
+        </Button>
+      </SessionButtonContainer>
     </>
   );
 
   const renderNoSessionButtons = () => (
     <>
-      <Button
-        bgColor='var(--color-button-login)'
-        hoverColor='var(--color-button-login-hover)'
-        onClick={() => {
-          router.push('/login');
-          setIsBurgerOpen(false);
-        }}>
-        Login
-      </Button>
-      <Button
-        bgColor='var(--color-button-register)'
-        hoverColor='var(--color-button-register-hover)'
-        onClick={() => {
-          router.push('/register');
-          setIsBurgerOpen(false);
-        }}>
-        Register
-      </Button>
+      <SessionButtonContainer>
+        <Button
+          bgColor='var(--color-button-login)'
+          hoverColor='var(--color-button-login-hover)'
+          onClick={() => {
+            router.push('/login');
+            setIsBurgerOpen(false);
+          }}>
+          Login
+        </Button>
+        <Button
+          bgColor='var(--color-button-register)'
+          hoverColor='var(--color-button-register-hover)'
+          onClick={() => {
+            router.push('/register');
+            setIsBurgerOpen(false);
+          }}>
+          Register
+        </Button>
+      </SessionButtonContainer>
     </>
   );
 

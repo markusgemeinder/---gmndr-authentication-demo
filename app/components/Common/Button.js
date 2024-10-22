@@ -5,8 +5,12 @@ import styled from 'styled-components';
 export const ButtonContainer = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 0.5rem;
+  gap: 1rem;
   width: 100%;
+
+  @media (min-width: 768px) and (min-height: 768px) {
+    gap: 1.2rem;
+  }
 `;
 
 export const ButtonContainerMedium = styled.div`
@@ -25,7 +29,6 @@ const StyledButton = styled.button.withConfig({
   padding: 0.75rem;
   border-radius: 0.4rem;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  margin-right: 0.6rem;
   min-width: 48px;
   min-height: 48px;
   cursor: ${(props) => (props.disabled ? 'not-allowed' : 'pointer')};
@@ -36,7 +39,6 @@ const StyledButton = styled.button.withConfig({
 
   @media (min-width: 768px) and (min-height: 768px) {
     padding: 0.75rem 1rem;
-    margin-right: 1rem;
   }
 `;
 
