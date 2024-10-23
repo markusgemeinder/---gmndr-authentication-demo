@@ -13,21 +13,15 @@ import {
   InputContainer,
   Input,
   ToggleVisibility,
-  PasswordHiddenIcon,
-  PasswordVisibleIcon,
-  WarningMessage,
-  CheckIcon,
+  WarningList,
+  WarningListItem,
 } from '@/app/components/AuthForm/AuthFormStyles';
 import ModalPopup from '@/app/components/Common/ModalPopup';
-import validatePassword from '@/utils/validatePassword';
+import ValidatePassword from '@/app/components/Common/ValidatePassword';
 
 export default function RegisterForm() {
   const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [repeatPassword, setRepeatPassword] = useState('');
-  const [passwordVisible, setPasswordVisible] = useState(false);
-  const [passwordQuality, setPasswordQuality] = useState('');
-
+  const [isPasswordValid, setIsPasswordValid] = useState(false);
   const [modalState, setModalState] = useState({
     show: false,
     message: '',
@@ -37,35 +31,21 @@ export default function RegisterForm() {
 
   const router = useRouter();
 
-  function handlePasswordChange(pwd) {
-    setPassword(pwd);
-    setPasswordQuality(validatePassword(pwd));
-  }
-
   async function handleSubmit(event) {
     event.preventDefault();
 
-    if (password !== repeatPassword) {
+    // Check if passwords are valid
+    if (!isPasswordValid) {
       setModalState({
         show: true,
-        message: "Passwords don't match. Please check and try again.",
+        message: 'Please ensure your password meets the requirements.',
         isSuccess: false,
         showOkButton: true,
       });
       return;
     }
 
-    if (passwordQuality) {
-      setModalState({
-        show: true,
-        message: 'Password is too weak. Please follow the requirements and improve it.',
-        isSuccess: false,
-        showOkButton: true,
-      });
-      return;
-    }
-
-    const data = { email, password };
+    const data = { email };
 
     setModalState({
       show: true,
@@ -107,10 +87,6 @@ export default function RegisterForm() {
     setModalState((prevState) => ({ ...prevState, show: false }));
   }
 
-  function togglePasswordVisibility() {
-    setPasswordVisible(!passwordVisible);
-  }
-
   return (
     <>
       <FormContainer onSubmit={handleSubmit}>
@@ -121,63 +97,15 @@ export default function RegisterForm() {
           <Input id='email' type='email' value={email} onChange={(event) => setEmail(event.target.value)} required />
         </FormGroup>
 
-        <FormGroup>
-          <LabelContainer>
-            <Label htmlFor='password'>Password:</Label>
-            {passwordQuality === '' && password.length > 0 ? (
-              <CheckIcon />
-            ) : (
-              <WarningMessage>{passwordQuality}</WarningMessage>
-            )}
-          </LabelContainer>
-          <InputContainer>
-            <Input
-              id='password'
-              type={passwordVisible ? 'text' : 'password'}
-              value={password}
-              onChange={(event) => handlePasswordChange(event.target.value)}
-              required
-            />
-            <ToggleVisibility
-              onClick={togglePasswordVisibility}
-              type='button'
-              title={passwordVisible ? 'Hide password' : 'Show password'}
-              aria-label={passwordVisible ? 'Hide password' : 'Show password'}>
-              {passwordVisible ? <PasswordVisibleIcon /> : <PasswordHiddenIcon />}
-            </ToggleVisibility>
-          </InputContainer>
-        </FormGroup>
-
-        <FormGroup>
-          <LabelContainer>
-            <Label htmlFor='repeat-password'>Repeat Password:</Label>
-            {password === repeatPassword && repeatPassword ? (
-              <CheckIcon />
-            ) : (
-              password.length > 0 &&
-              repeatPassword === '' && <WarningMessage>Please repeat the password.</WarningMessage>
-            )}
-            {password !== repeatPassword && repeatPassword && password.length > 0 && (
-              <WarningMessage>Passwords do not match.</WarningMessage>
-            )}
-          </LabelContainer>
-          <InputContainer>
-            <Input
-              id='repeat-password'
-              type={passwordVisible ? 'text' : 'password'}
-              value={repeatPassword}
-              onChange={(event) => setRepeatPassword(event.target.value)}
-              required
-            />
-          </InputContainer>
-        </FormGroup>
+        {/* ValidatePassword Component */}
+        <ValidatePassword hasRepeatPassword={true} onPasswordValid={setIsPasswordValid} />
 
         <ButtonContainerVertical>
           <Button
             type='submit'
             bgColor='var(--color-button-login)'
             hoverColor='var(--color-button-login-hover)'
-            disabled={password !== repeatPassword || passwordQuality !== ''}>
+            disabled={!isPasswordValid}>
             Confirm
           </Button>
           <Button

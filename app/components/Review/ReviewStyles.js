@@ -58,12 +58,6 @@ export const Note = styled.p`
   background-color: transparent;
 `;
 
-// export const StarsContainer = styled.div`
-//   display: flex;
-//   gap: 0.3rem;
-//   margin-bottom: 0.9rem;
-// `;
-
 export const CreatedUpdated = styled.div`
   font-size: 0.8rem;
   color: var(--color-review-note);
@@ -71,6 +65,7 @@ export const CreatedUpdated = styled.div`
 `;
 
 export const FormContainer = styled.form`
+  width: 100%;
   background-color: var(--color-form-background);
   padding: 1.3rem;
   border-radius: 0.6rem;

@@ -4,17 +4,9 @@
 
 import { useState, useEffect } from 'react';
 import { useSession } from 'next-auth/react';
-import Button from '@/app/components/Common/Button';
+import Button, { ButtonContainerHorizontal } from '@/app/components/Common/Button';
 import StarRating from '@/app/components/Common/StarRating';
-import {
-  FormContainer,
-  FormGroup,
-  Label,
-  Input,
-  Textarea,
-  HiddenInput,
-  HorizontalButtonContainer,
-} from '@/app/components/Review/ReviewStyles';
+import { FormContainer, FormGroup, Label, Input, Textarea, HiddenInput } from '@/app/components/Review/ReviewStyles';
 
 export default function ReviewForm({ review, onSave, onCancel, isDemoReview }) {
   const { data: session } = useSession();
@@ -88,7 +80,7 @@ export default function ReviewForm({ review, onSave, onCancel, isDemoReview }) {
           onChange={(event) => setRating(parseInt(event.target.value))}
         />
       </FormGroup>
-      <HorizontalButtonContainer>
+      <ButtonContainerHorizontal>
         <Button type='submit' bgColor='var(--color-button-ok)' hoverColor='var(--color-button-ok-hover)'>
           Save
         </Button>
@@ -99,7 +91,7 @@ export default function ReviewForm({ review, onSave, onCancel, isDemoReview }) {
           hoverColor='var(--color-button-cancel-hover)'>
           Cancel
         </Button>
-      </HorizontalButtonContainer>
+      </ButtonContainerHorizontal>
     </FormContainer>
   );
 }

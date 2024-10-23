@@ -113,7 +113,7 @@ export default function SessionStatus() {
             Welcome, {session.user.email}. You are logged in as {userRole}. Your login expires in
             <CountdownContainer>{formatTime(timeLeft)}</CountdownContainer> min (
             <StyledLink href='#' onClick={renewSession}>
-              click to renew session
+              renew session
             </StyledLink>
             ).
           </Paragraph>

@@ -80,7 +80,7 @@
   --color-button-demo-user-hover: var(--color-button-secondary-hover);
 
   /* Warning Colors */
-  --color-warning: #f87171;
+  --color-check-warning: #f87171;
 
   /* Star Colors */
   --star-color: #fbbf24;
@@ -161,7 +161,8 @@
   --color-button-forgot-password-hover: var(--color-button-secondary-hover);
 
   /* Warning Colors */
-  --color-warning: #f87171;
+  --color-check-warning: #f66666;
+  --color-check-ok: #1a9c4a;
 
   /* Star Colors */
   --star-color: #fbbf24;

@@ -1,7 +1,7 @@
 // /app/components/AuthForm/AuthFormStyles.js
 
 import styled from 'styled-components';
-import { FaEye, FaEyeSlash, FaCheck } from 'react-icons/fa';
+import { FaEye, FaEyeSlash, FaCheck, FaTimes } from 'react-icons/fa';
 
 export const FormContainer = styled.form`
   background-color: var(--color-form-background);
@@ -24,7 +24,6 @@ export const FormGroup = styled.div`
 export const LabelContainer = styled.div`
   display: flex;
   align-items: center;
-  justify-content: space-between;
   margin-bottom: 0.6rem;
 `;
 
@@ -66,15 +65,14 @@ export const ToggleVisibility = styled.button`
 export const PasswordVisibleIcon = styled(FaEye)``;
 export const PasswordHiddenIcon = styled(FaEyeSlash)``;
 
-export const WarningMessage = styled.p`
-  color: var(--color-warning);
-  font-size: 0.875rem;
-  margin: 0.5rem 0;
+export const CheckIcon = styled(FaCheck)`
+  color: var(--color-check-ok);
+  margin: 0 0.2rem;
 `;
 
-export const CheckIcon = styled(FaCheck)`
-  color: var(--color-button-review);
-  margin: 0 0.5rem;
+export const ErrorIcon = styled(FaTimes)`
+  color: var(--color-check-warning);
+  margin: 0 0.2rem;
 `;
 
 export const Divider = styled.div`
@@ -95,4 +93,13 @@ export const Divider = styled.div`
     color: var(--color-text-light);
     font-size: 0.875rem;
   }
+`;
+
+export const WarningMessage = styled.p`
+  color: var(--color-check-warning);
+  font-size: 0.875rem;
+  margin-top: 0.4rem;
+  padding: 1rem;
+  line-height: 1.2;
+  text-align: left;
 `;

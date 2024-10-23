@@ -11,21 +11,16 @@ import {
   LabelContainer,
   Label,
   InputContainer,
-  Input,
   ToggleVisibility,
   PasswordHiddenIcon,
   PasswordVisibleIcon,
-  WarningMessage,
-  CheckIcon,
 } from '@/app/components/AuthForm/AuthFormStyles';
 import ModalPopup from '@/app/components/Common/ModalPopup';
-import validatePassword from '@/utils/validatePassword';
+import ValidatePassword from '@/app/components/Common/ValidatePassword';
 
 export default function ResetPasswordForm() {
-  const [password, setPassword] = useState('');
-  const [repeatPassword, setRepeatPassword] = useState('');
-  const [passwordVisible, setPasswordVisible] = useState(false);
-  const [passwordQuality, setPasswordQuality] = useState('');
+  const [email, setEmail] = useState('');
+  const [isPasswordValid, setIsPasswordValid] = useState(false);
   const [isTokenExpired, setIsTokenExpired] = useState(false);
 
   const [modalState, setModalState] = useState({
@@ -84,33 +79,8 @@ export default function ResetPasswordForm() {
     checkToken();
   }, []);
 
-  function handlePasswordChange(pwd) {
-    setPassword(pwd);
-    setPasswordQuality(validatePassword(pwd));
-  }
-
   async function handleSubmit(event) {
     event.preventDefault();
-
-    if (password !== repeatPassword) {
-      setModalState({
-        show: true,
-        message: "Passwords don't match. Please check and try again.",
-        isSuccess: false,
-        showOkButton: true,
-      });
-      return;
-    }
-
-    if (passwordQuality) {
-      setModalState({
-        show: true,
-        message: 'Password is too weak. Please follow the requirements and improve it.',
-        isSuccess: false,
-        showOkButton: true,
-      });
-      return;
-    }
 
     const token = window.location.pathname.split('/').pop();
     const data = { password, token };
@@ -157,68 +127,18 @@ export default function ResetPasswordForm() {
     }
   }
 
-  function togglePasswordVisibility() {
-    setPasswordVisible(!passwordVisible);
-  }
-
   return (
     <>
       <FormContainer onSubmit={handleSubmit}>
-        <FormGroup>
-          <LabelContainer>
-            <Label htmlFor='password'>New Password:</Label>
-            {passwordQuality === '' && password.length > 0 ? (
-              <CheckIcon />
-            ) : (
-              <WarningMessage>{passwordQuality}</WarningMessage>
-            )}
-          </LabelContainer>
-          <InputContainer>
-            <Input
-              id='password'
-              type={passwordVisible ? 'text' : 'password'}
-              value={password}
-              onChange={(event) => handlePasswordChange(event.target.value)}
-              required
-              disabled={isTokenExpired}
-            />
-            <ToggleVisibility onClick={togglePasswordVisibility} type='button'>
-              {passwordVisible ? <PasswordVisibleIcon /> : <PasswordHiddenIcon />}
-            </ToggleVisibility>
-          </InputContainer>
-        </FormGroup>
-
-        <FormGroup>
-          <LabelContainer>
-            <Label htmlFor='repeat-password'>Repeat Password:</Label>
-            {password === repeatPassword && repeatPassword ? (
-              <CheckIcon />
-            ) : (
-              password.length > 0 &&
-              repeatPassword === '' && <WarningMessage>Please repeat the password.</WarningMessage>
-            )}
-            {password !== repeatPassword && repeatPassword && password.length > 0 && (
-              <WarningMessage>Passwords do not match.</WarningMessage>
-            )}
-          </LabelContainer>
-          <InputContainer>
-            <Input
-              id='repeat-password'
-              type={passwordVisible ? 'text' : 'password'}
-              value={repeatPassword}
-              onChange={(event) => setRepeatPassword(event.target.value)}
-              required
-              disabled={isTokenExpired}
-            />
-          </InputContainer>
-        </FormGroup>
+        {/* ValidatePassword Component */}
+        <ValidatePassword hasRepeatPassword={true} onPasswordValid={setIsPasswordValid} />
 
         <ButtonContainerVertical>
           <Button
             type='submit'
             bgColor='var(--color-button-login)'
             hoverColor='var(--color-button-login-hover)'
-            disabled={password !== repeatPassword || passwordQuality !== '' || isTokenExpired}>
+            disabled={!isPasswordValid || isTokenExpired}>
             Confirm
           </Button>
           <Button
