@@ -6,7 +6,7 @@ import { useState, useEffect } from 'react';
 import { useSession } from 'next-auth/react';
 import Button, { ButtonContainerHorizontal } from '@/app/components/Common/Button';
 import StarRating from '@/app/components/Common/StarRating';
-import { FormContainer, FormGroup, Label, Input, Textarea, HiddenInput } from '@/app/components/Review/ReviewStyles';
+import { FormContainer, InputGroup, Label, Input, Textarea, HiddenInput } from '@/app/components/Review/ReviewStyles';
 
 export default function ReviewForm({ review, onSave, onCancel, isDemoReview }) {
   const { data: session } = useSession();
@@ -62,15 +62,15 @@ export default function ReviewForm({ review, onSave, onCancel, isDemoReview }) {
 
   return (
     <FormContainer onSubmit={handleSubmit}>
-      <FormGroup>
+      <InputGroup>
         <Label htmlFor='email'>Email</Label>
         <Input id='email' type='email' value={email} readOnly />
-      </FormGroup>
-      <FormGroup>
+      </InputGroup>
+      <InputGroup>
         <Label htmlFor='note'>Note</Label>
         <Textarea id='note' rows='8' value={note} onChange={(event) => setNote(event.target.value)} required />
-      </FormGroup>
-      <FormGroup>
+      </InputGroup>
+      <InputGroup>
         <Label htmlFor='rating'>Rating</Label>
         <StarRating rating={rating} setRating={setRating} />
         <HiddenInput
@@ -79,7 +79,7 @@ export default function ReviewForm({ review, onSave, onCancel, isDemoReview }) {
           value={rating}
           onChange={(event) => setRating(parseInt(event.target.value))}
         />
-      </FormGroup>
+      </InputGroup>
       <ButtonContainerHorizontal>
         <Button type='submit' bgColor='var(--color-button-ok)' hoverColor='var(--color-button-ok-hover)'>
           Save

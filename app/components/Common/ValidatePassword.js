@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import {
-  FormGroup,
+  InputGroup,
   LabelContainer,
   Label,
   Input,
@@ -28,21 +28,22 @@ export default function ValidatePassword({ hasRepeatPassword = false, onPassword
   const [password, setPassword] = useState('');
   const [repeatPassword, setRepeatPassword] = useState('');
   const [passwordVisible, setPasswordVisible] = useState(false);
-  const [passwordQuality, setPasswordQuality] = useState(null); // Set initial state to null
+  const [passwordQuality, setPasswordQuality] = useState(null);
   const [passwordsMatch, setPasswordsMatch] = useState(true);
 
   function handlePasswordChange(pwd) {
     setPassword(pwd);
     const validationMessage = validatePassword(pwd);
-    setPasswordQuality(validationMessage); // Will be '' if password is valid, otherwise an error message
-    onPasswordValid(!validationMessage && (!hasRepeatPassword || (hasRepeatPassword && passwordsMatch)));
+    setPasswordQuality(validationMessage);
+    const isValid = !validationMessage && (!hasRepeatPassword || (hasRepeatPassword && passwordsMatch));
+    onPasswordValid(isValid, pwd);
   }
 
   function handleRepeatPasswordChange(pwd) {
     setRepeatPassword(pwd);
     const match = password === pwd;
     setPasswordsMatch(match);
-    onPasswordValid(!passwordQuality && match);
+    onPasswordValid(!passwordQuality && match, password);
   }
 
   function togglePasswordVisibility() {
@@ -51,7 +52,7 @@ export default function ValidatePassword({ hasRepeatPassword = false, onPassword
 
   return (
     <>
-      <FormGroup>
+      <InputGroup>
         <LabelContainer>
           <Label htmlFor='password'>Password:</Label>
           {password.length > 0 && !passwordQuality ? <CheckIcon /> : password.length > 0 ? <ErrorIcon /> : null}
@@ -64,16 +65,19 @@ export default function ValidatePassword({ hasRepeatPassword = false, onPassword
             onChange={(e) => handlePasswordChange(e.target.value)}
             required
           />
-          <ToggleVisibility onClick={togglePasswordVisibility} type='button'>
+          <ToggleVisibility
+            onClick={togglePasswordVisibility}
+            type='button'
+            title={passwordVisible ? 'Hide password' : 'Show password'}
+            aria-label={passwordVisible ? 'Hide password' : 'Show password'}>
             {passwordVisible ? <PasswordVisibleIcon /> : <PasswordHiddenIcon />}
           </ToggleVisibility>
         </InputContainer>
         {password.length > 0 && passwordQuality && <WarningMessage>{passwordQuality}</WarningMessage>}
-      </FormGroup>
+      </InputGroup>
 
-      {/* Only show Repeat Password if password is valid (passwordQuality === '') */}
       {hasRepeatPassword && passwordQuality === '' && (
-        <FormGroup>
+        <InputGroup>
           <LabelContainer>
             <Label htmlFor='repeat-password'>Repeat Password:</Label>
             {repeatPassword.length > 0 && passwordsMatch ? (
@@ -92,7 +96,7 @@ export default function ValidatePassword({ hasRepeatPassword = false, onPassword
             />
           </InputContainer>
           {repeatPassword.length > 0 && !passwordsMatch && <WarningMessage>Passwords do not match.</WarningMessage>}
-        </FormGroup>
+        </InputGroup>
       )}
     </>
   );

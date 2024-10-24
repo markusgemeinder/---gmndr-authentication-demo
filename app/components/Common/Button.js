@@ -5,11 +5,22 @@ import styled from 'styled-components';
 export const ButtonContainerVertical = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 1rem;
+  gap: 1.2rem;
   width: 100%;
+  margin-top: 1.4rem;
+  margin-bottom: 0.4rem;
 
   @media (min-width: 768px) and (min-height: 768px) {
-    gap: 1.2rem;
+    margin-top: 1.6rem;
+    margin-bottom: 0.8rem;
+  }
+
+  &:first-child {
+    margin-top: 0.6rem;
+  }
+
+  &:last-child {
+    margin-bottom: 0.6rem;
   }
 `;
 
@@ -33,7 +44,7 @@ const StyledButton = styled.button.withConfig({
   font-weight: 500;
   padding: 0.75rem;
   border-radius: 0.4rem;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  /* box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); */
   min-width: 48px;
   min-height: 48px;
   cursor: ${(props) => (props.disabled ? 'not-allowed' : 'pointer')};

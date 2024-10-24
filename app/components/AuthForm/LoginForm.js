@@ -8,7 +8,7 @@ import ScrollToTop from '@/app/components/Common/ScrollToTop';
 import Button, { ButtonContainerVertical } from '@/app/components/Common/Button';
 import {
   FormContainer,
-  FormGroup,
+  InputGroup,
   LabelContainer,
   Label,
   Input,
@@ -143,41 +143,43 @@ export default function LoginForm({ onLogin, onOAuthLogin, error, onDemoLogin })
             <img src='/images/google-logo.svg' alt='Google Logo' style={{ width: '20px', marginRight: '8px' }} />
             Google
           </Button>
+        </ButtonContainerVertical>
 
-          <Divider>
-            <span>or</span>
-          </Divider>
+        <Divider>
+          <span>or</span>
+        </Divider>
 
-          <FormGroup>
-            <LabelContainer>
-              <Label htmlFor='email'>Email:</Label>
-            </LabelContainer>
-            <Input id='email' type='email' name='email' value={email} onChange={handleEmailChange} required />
-          </FormGroup>
+        <InputGroup>
+          <LabelContainer>
+            <Label htmlFor='email'>Email:</Label>
+          </LabelContainer>
+          <Input id='email' type='email' name='email' value={email} onChange={handleEmailChange} required />
+        </InputGroup>
 
-          <FormGroup>
-            <LabelContainer>
-              <Label htmlFor='password'>Password:</Label>
-            </LabelContainer>
-            <InputContainer>
-              <Input
-                id='password'
-                type={passwordVisible ? 'text' : 'password'}
-                name='password'
-                value={password}
-                onChange={handlePasswordChange}
-                required
-              />
-              <ToggleVisibility
-                onClick={handleToggleVisibility}
-                type='button'
-                title={passwordVisible ? 'Hide password' : 'Show password'}
-                aria-label={passwordVisible ? 'Hide password' : 'Show password'}>
-                {passwordVisible ? <PasswordVisibleIcon /> : <PasswordHiddenIcon />}
-              </ToggleVisibility>
-            </InputContainer>
-          </FormGroup>
+        <InputGroup>
+          <LabelContainer>
+            <Label htmlFor='password'>Password:</Label>
+          </LabelContainer>
+          <InputContainer>
+            <Input
+              id='password'
+              type={passwordVisible ? 'text' : 'password'}
+              name='password'
+              value={password}
+              onChange={handlePasswordChange}
+              required
+            />
+            <ToggleVisibility
+              onClick={handleToggleVisibility}
+              type='button'
+              title={passwordVisible ? 'Hide password' : 'Show password'}
+              aria-label={passwordVisible ? 'Hide password' : 'Show password'}>
+              {passwordVisible ? <PasswordVisibleIcon /> : <PasswordHiddenIcon />}
+            </ToggleVisibility>
+          </InputContainer>
+        </InputGroup>
 
+        <ButtonContainerVertical>
           <Button
             type='submit'
             bgColor='var(--color-button-login)'

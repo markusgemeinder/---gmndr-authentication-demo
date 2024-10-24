@@ -12,13 +12,17 @@ export const FormContainer = styled.form`
   padding: 1.5rem;
   max-width: 32rem;
   width: 100%;
-  box-sizing: border-box;
+  /* box-sizing: border-box; */
 `;
 
-export const FormGroup = styled.div`
-  margin-bottom: 0.6rem;
+export const InputGroup = styled.div`
+  margin: 1rem 0;
   display: flex;
   flex-direction: column;
+
+  &:first-child {
+    margin-top: 0;
+  }
 `;
 
 export const LabelContainer = styled.div`
@@ -45,7 +49,7 @@ export const Input = styled.input`
   background-color: var(--color-input-background);
   border: 1px solid var(--color-input-border);
   border-radius: 0.4rem;
-  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+  /* box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05); */
   box-sizing: border-box;
 `;
 
@@ -79,7 +83,8 @@ export const Divider = styled.div`
   display: flex;
   align-items: center;
   width: 100%;
-  margin: 0.6rem 0;
+  margin-top: 1.4rem;
+  margin-bottom: 1rem;
 
   &::before,
   &::after {
@@ -93,13 +98,17 @@ export const Divider = styled.div`
     color: var(--color-text-light);
     font-size: 0.875rem;
   }
+
+  @media (min-width: 768px) and (min-height: 768px) {
+    margin-top: 1.8rem;
+    margin-bottom: 1.4rem;
+  }
 `;
 
 export const WarningMessage = styled.p`
   color: var(--color-check-warning);
   font-size: 0.875rem;
-  margin-top: 0.4rem;
-  padding: 1rem;
+  padding: 0.8rem;
   line-height: 1.2;
-  text-align: left;
+  text-align: center;
 `;

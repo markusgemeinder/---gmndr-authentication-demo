@@ -8,7 +8,6 @@ import styled from 'styled-components';
 import Link from 'next/link';
 import Button, { ButtonContainerHorizontal } from '@/app/components/Common/Button';
 import { SunIcon, MoonIcon } from '@heroicons/react/24/solid';
-import LoadingAnimation from '@/app/components/Common/LoadingAnimation';
 import { ThemeContext } from '@/app/components/Common/ThemeProvider';
 
 const Header = styled.header`
@@ -182,10 +181,6 @@ export default function Navigation() {
   const pathname = usePathname();
   const { theme, toggleTheme } = useContext(ThemeContext);
   const [isBurgerOpen, setIsBurgerOpen] = useState(false);
-
-  if (status === 'loading') {
-    return <LoadingAnimation />;
-  }
 
   const handleLinkClick = () => {
     setIsBurgerOpen(false);

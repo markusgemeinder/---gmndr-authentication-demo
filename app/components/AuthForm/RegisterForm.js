@@ -7,20 +7,18 @@ import { useRouter } from 'next/navigation';
 import Button, { ButtonContainerVertical } from '@/app/components/Common/Button';
 import {
   FormContainer,
-  FormGroup,
+  InputGroup,
   LabelContainer,
   Label,
   InputContainer,
   Input,
-  ToggleVisibility,
-  WarningList,
-  WarningListItem,
 } from '@/app/components/AuthForm/AuthFormStyles';
 import ModalPopup from '@/app/components/Common/ModalPopup';
 import ValidatePassword from '@/app/components/Common/ValidatePassword';
 
 export default function RegisterForm() {
   const [email, setEmail] = useState('');
+  const [password, setPassword] = useState(''); // Password stored here
   const [isPasswordValid, setIsPasswordValid] = useState(false);
   const [modalState, setModalState] = useState({
     show: false,
@@ -34,7 +32,6 @@ export default function RegisterForm() {
   async function handleSubmit(event) {
     event.preventDefault();
 
-    // Check if passwords are valid
     if (!isPasswordValid) {
       setModalState({
         show: true,
@@ -45,7 +42,10 @@ export default function RegisterForm() {
       return;
     }
 
-    const data = { email };
+    const data = {
+      email,
+      password,
+    };
 
     setModalState({
       show: true,
@@ -90,15 +90,24 @@ export default function RegisterForm() {
   return (
     <>
       <FormContainer onSubmit={handleSubmit}>
-        <FormGroup>
+        <InputGroup>
           <LabelContainer>
             <Label htmlFor='email'>Email:</Label>
           </LabelContainer>
           <Input id='email' type='email' value={email} onChange={(event) => setEmail(event.target.value)} required />
-        </FormGroup>
+        </InputGroup>
 
-        {/* ValidatePassword Component */}
-        <ValidatePassword hasRepeatPassword={true} onPasswordValid={setIsPasswordValid} />
+        <ValidatePassword
+          hasRepeatPassword={true}
+          onPasswordValid={(isValid, pwd) => {
+            setIsPasswordValid(isValid);
+            if (isValid) {
+              setPassword(pwd);
+            } else {
+              setPassword('');
+            }
+          }}
+        />
 
         <ButtonContainerVertical>
           <Button

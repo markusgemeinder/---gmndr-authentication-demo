@@ -6,7 +6,7 @@ import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { useSession } from 'next-auth/react';
 import Button, { ButtonContainerVertical } from '@/app/components/Common/Button';
-import { FormContainer, FormGroup, LabelContainer, Label, Input } from '@/app/components/AuthForm/AuthFormStyles';
+import { FormContainer, InputGroup, LabelContainer, Label, Input } from '@/app/components/AuthForm/AuthFormStyles';
 import ModalPopup from '@/app/components/Common/ModalPopup';
 
 export default function ForgotPasswordForm() {
@@ -99,12 +99,12 @@ export default function ForgotPasswordForm() {
   return (
     <>
       <FormContainer onSubmit={handleSubmit}>
-        <FormGroup>
+        <InputGroup>
           <LabelContainer>
             <Label htmlFor='email'>Email:</Label>
           </LabelContainer>
           <Input id='email' type='email' value={email} onChange={(event) => setEmail(event.target.value)} required />
-        </FormGroup>
+        </InputGroup>
         <ButtonContainerVertical>
           <Button type='submit' bgColor='var(--color-button-login)' hoverColor='var(--color-button-login-hover)'>
             Send Reset Link

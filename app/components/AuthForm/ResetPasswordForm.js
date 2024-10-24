@@ -1,5 +1,4 @@
 // /app/components/AuthForm/ResetPasswordForm.js
-
 'use client';
 
 import { useState, useEffect } from 'react';
@@ -7,19 +6,16 @@ import { useRouter } from 'next/navigation';
 import Button, { ButtonContainerVertical } from '@/app/components/Common/Button';
 import {
   FormContainer,
-  FormGroup,
+  InputGroup,
   LabelContainer,
   Label,
   InputContainer,
-  ToggleVisibility,
-  PasswordHiddenIcon,
-  PasswordVisibleIcon,
 } from '@/app/components/AuthForm/AuthFormStyles';
 import ModalPopup from '@/app/components/Common/ModalPopup';
 import ValidatePassword from '@/app/components/Common/ValidatePassword';
 
 export default function ResetPasswordForm() {
-  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState(''); // Password stored here
   const [isPasswordValid, setIsPasswordValid] = useState(false);
   const [isTokenExpired, setIsTokenExpired] = useState(false);
 
@@ -83,7 +79,7 @@ export default function ResetPasswordForm() {
     event.preventDefault();
 
     const token = window.location.pathname.split('/').pop();
-    const data = { password, token };
+    const data = { password, token }; // Send only the validated password and token
 
     setModalState({
       show: true,
@@ -130,9 +126,17 @@ export default function ResetPasswordForm() {
   return (
     <>
       <FormContainer onSubmit={handleSubmit}>
-        {/* ValidatePassword Component */}
-        <ValidatePassword hasRepeatPassword={true} onPasswordValid={setIsPasswordValid} />
-
+        <ValidatePassword
+          hasRepeatPassword={true}
+          onPasswordValid={(isValid, pwd) => {
+            setIsPasswordValid(isValid);
+            if (isValid) {
+              setPassword(pwd);
+            } else {
+              setPassword('');
+            }
+          }}
+        />
         <ButtonContainerVertical>
           <Button
             type='submit'

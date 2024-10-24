@@ -73,7 +73,7 @@ export const FormContainer = styled.form`
   margin-bottom: 1.3rem;
 `;
 
-export const FormGroup = styled.div`
+export const InputGroup = styled.div`
   margin-bottom: 1.3rem;
 `;
 
