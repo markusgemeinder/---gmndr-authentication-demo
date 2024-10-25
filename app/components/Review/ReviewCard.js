@@ -59,8 +59,9 @@ export default function ReviewCard({ review, onDelete }) {
         <Note>{note}</Note>
         <StarRating rating={rating} />
         <CreatedUpdated>
-          Created: {format(new Date(createdAt), 'MM/dd/yyyy (HH:mm:ss)')} | Updated:{' '}
-          {format(new Date(updatedAt), 'MM/dd/yyyy (HH:mm:ss)')}
+          Created: {format(new Date(createdAt), 'dd.MM.yyyy (HH:mm:ss)')}
+          <br />
+          Updated: {format(new Date(updatedAt), 'dd.MM.yyyy (HH:mm:ss)')}
         </CreatedUpdated>
         {showButtons && (
           <ButtonContainerHorizontal>

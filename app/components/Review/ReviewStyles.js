@@ -9,8 +9,8 @@ export const ReviewsContainer = styled.div`
 `;
 
 export const CardContainer = styled.div`
-  background-color: var(--color-review-card-background);
-  border: 1px solid var(--color-review-card-border);
+  background-color: var(--color-form-background);
+  border: 1px solid var(--color-form-border);
   padding: 1.2rem;
   border-radius: 0.6rem;
   box-shadow: 0 0.3rem 0.5rem rgba(0, 0, 0, 0.1);
@@ -32,10 +32,8 @@ export const IDLabel = styled.div`
   font-size: 0.8rem;
   color: var(--color-text-light);
   position: absolute;
-  top: 0.5rem;
-  right: 0.5rem;
-  margin: 0;
-  padding: 0.2rem 0.5rem;
+  top: 0.4rem;
+  right: 0.4rem;
 `;
 
 export const Email = styled.div`
@@ -43,56 +41,75 @@ export const Email = styled.div`
   font-weight: 700;
   color: var(--color-text-medium);
   margin-bottom: 0.6rem;
-  background-color: transparent;
-  padding: 0.5rem;
-  border-radius: 0.3rem;
+  text-align: left;
 `;
 
 export const Note = styled.p`
   font-size: 1rem;
-  color: var(--color-review-text);
+  color: var(--color-text);
   margin-bottom: 0.9rem;
   padding: 0.6rem;
   border: 1px solid var(--color-input-border);
   border-radius: 0.3rem;
-  background-color: transparent;
+  background-color: var(--color-input-background);
+  text-align: left;
 `;
 
 export const CreatedUpdated = styled.div`
   font-size: 0.8rem;
-  color: var(--color-review-note);
-  margin-bottom: 0.2rem;
+  color: var(--color-text-light);
+  margin-top: 0.8rem;
+  margin-bottom: 1.4rem;
+  text-align: center;
 `;
 
 export const FormContainer = styled.form`
-  width: 100%;
   background-color: var(--color-form-background);
-  padding: 1.3rem;
+  border: 1px solid var(--color-form-border);
   border-radius: 0.6rem;
-  box-shadow: 0 0.3rem 0.4rem rgba(0, 0, 0, 0.1);
+  padding: 1.5rem;
+  width: 100%;
   margin-bottom: 1.3rem;
+  box-sizing: border-box;
 `;
 
 export const InputGroup = styled.div`
-  margin-bottom: 1.3rem;
+  margin: 1rem 0;
+  display: flex;
+  flex-direction: column;
+
+  &:first-child {
+    margin-top: 0;
+  }
+`;
+
+export const LabelContainer = styled.div`
+  display: flex;
+  align-items: center;
+  margin-bottom: 0.6rem;
 `;
 
 export const Label = styled.label`
-  display: block;
-  font-size: 0.9rem;
-  font-weight: bold;
-  color: var(--color-text);
-  margin-bottom: 0.3rem;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--color-label);
+  margin: 0 0.5rem;
+  line-height: 1.2;
+`;
+
+export const InputContainer = styled.div`
+  position: relative;
 `;
 
 export const Input = styled.input`
   width: 100%;
   padding: 0.6rem;
+  background-color: var(--color-input-background);
   border: 1px solid var(--color-input-border);
-  border-radius: 0.3rem;
+  border-radius: 0.4rem;
   font-size: 1rem;
   color: var(--color-text);
-  background-color: transparent;
+  box-sizing: border-box;
 `;
 
 export const Textarea = styled.textarea`
@@ -106,17 +123,10 @@ export const Textarea = styled.textarea`
 `;
 
 export const RatingContainer = styled.div`
-x;
   gap: 0.3rem;
   margin-bottom: 0.6rem;
 `;
 
 export const HiddenInput = styled.input`
   display: none;
-`;
-
-export const HorizontalButtonContainer = styled.div`
-  display: flex;
-  /* gap: 0.4rem; */
-  justify-content: end;
 `;

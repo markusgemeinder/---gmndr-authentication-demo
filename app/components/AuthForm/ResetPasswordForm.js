@@ -1,21 +1,16 @@
 // /app/components/AuthForm/ResetPasswordForm.js
+
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { useRouter } from 'next/navigation';
 import Button, { ButtonContainerVertical } from '@/app/components/Common/Button';
-import {
-  FormContainer,
-  InputGroup,
-  LabelContainer,
-  Label,
-  InputContainer,
-} from '@/app/components/AuthForm/AuthFormStyles';
+import { FormContainer } from '@/app/components/AuthForm/AuthFormStyles';
 import ModalPopup from '@/app/components/Common/ModalPopup';
 import ValidatePassword from '@/app/components/Common/ValidatePassword';
 
 export default function ResetPasswordForm() {
-  const [password, setPassword] = useState(''); // Password stored here
+  const [password, setPassword] = useState('');
   const [isPasswordValid, setIsPasswordValid] = useState(false);
   const [isTokenExpired, setIsTokenExpired] = useState(false);
 
@@ -27,6 +22,7 @@ export default function ResetPasswordForm() {
   });
 
   const router = useRouter();
+  const passwordInputRef = useRef(null); // Ref für das Passwortfeld
 
   useEffect(() => {
     const checkToken = async function () {
@@ -75,11 +71,18 @@ export default function ResetPasswordForm() {
     checkToken();
   }, []);
 
+  useEffect(() => {
+    // Setzt den Fokus auf das Passwortfeld, wenn das Formular gerendert wird
+    if (passwordInputRef.current) {
+      passwordInputRef.current.focus();
+    }
+  }, []);
+
   async function handleSubmit(event) {
     event.preventDefault();
 
     const token = window.location.pathname.split('/').pop();
-    const data = { password, token }; // Send only the validated password and token
+    const data = { password, token };
 
     setModalState({
       show: true,
@@ -136,6 +139,7 @@ export default function ResetPasswordForm() {
               setPassword('');
             }
           }}
+          ref={passwordInputRef} // Weist den Ref dem Passwortfeld zu
         />
         <ButtonContainerVertical>
           <Button

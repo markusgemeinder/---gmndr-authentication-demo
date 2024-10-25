@@ -2,11 +2,20 @@
 
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { useSession } from 'next-auth/react';
+import { format } from 'date-fns';
 import Button, { ButtonContainerHorizontal } from '@/app/components/Common/Button';
-import StarRating from '@/app/components/Common/StarRating';
-import { FormContainer, InputGroup, Label, Input, Textarea, HiddenInput } from '@/app/components/Review/ReviewStyles';
+import AccessibleStarRating from '@/app/components/Common/StarRating';
+import {
+  FormContainer,
+  InputGroup,
+  Label,
+  Input,
+  Textarea,
+  HiddenInput,
+  CreatedUpdated,
+} from '@/app/components/Review/ReviewStyles';
 
 export default function ReviewForm({ review, onSave, onCancel, isDemoReview }) {
   const { data: session } = useSession();
@@ -14,6 +23,8 @@ export default function ReviewForm({ review, onSave, onCancel, isDemoReview }) {
   const [email, setEmail] = useState('');
   const [note, setNote] = useState('');
   const [rating, setRating] = useState(1);
+
+  const noteRef = useRef(null);
 
   useEffect(() => {
     if (session) {
@@ -26,6 +37,8 @@ export default function ReviewForm({ review, onSave, onCancel, isDemoReview }) {
       setNote(review.note || '');
       setRating(review.rating || 1);
     }
+    // Set focus on "note" input when the component loads
+    noteRef.current?.focus();
   }, [review, session]);
 
   async function handleSubmit(event) {
@@ -68,18 +81,29 @@ export default function ReviewForm({ review, onSave, onCancel, isDemoReview }) {
       </InputGroup>
       <InputGroup>
         <Label htmlFor='note'>Note</Label>
-        <Textarea id='note' rows='8' value={note} onChange={(event) => setNote(event.target.value)} required />
+        <Textarea
+          id='note'
+          rows='8'
+          value={note}
+          onChange={(event) => setNote(event.target.value)}
+          required
+          ref={noteRef} // Focus on "note" field on form load
+        />
       </InputGroup>
       <InputGroup>
         <Label htmlFor='rating'>Rating</Label>
-        <StarRating rating={rating} setRating={setRating} />
-        <HiddenInput
-          type='hidden'
-          id='rating'
-          value={rating}
-          onChange={(event) => setRating(parseInt(event.target.value))}
-        />
+        <AccessibleStarRating rating={rating} setRating={setRating} />
+        <HiddenInput type='hidden' id='rating' value={rating} />
       </InputGroup>
+
+      {review?.createdAt && (
+        <CreatedUpdated>
+          Created: {format(new Date(review.createdAt), 'dd.MM.yyyy (HH:mm:ss)')}
+          <br />
+          Updated: {review.updatedAt ? format(new Date(review.updatedAt), 'dd.MM.yyyy (HH:mm:ss)') : 'Not updated'}
+        </CreatedUpdated>
+      )}
+
       <ButtonContainerHorizontal>
         <Button type='submit' bgColor='var(--color-button-ok)' hoverColor='var(--color-button-ok-hover)'>
           Save

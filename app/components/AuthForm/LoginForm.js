@@ -2,7 +2,7 @@
 
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { useRouter } from 'next/navigation';
 import ScrollToTop from '@/app/components/Common/ScrollToTop';
 import Button, { ButtonContainerVertical } from '@/app/components/Common/Button';
@@ -34,12 +34,20 @@ export default function LoginForm({ onLogin, onOAuthLogin, error, onDemoLogin })
   });
 
   const router = useRouter();
+  const emailInputRef = useRef(null); // Ref für das E-Mail-Feld
 
   useEffect(() => {
     if (error) {
       showError(error);
     }
   }, [error]);
+
+  useEffect(() => {
+    // Setzt den Fokus auf das E-Mail-Feld, wenn das Formular gerendert wird
+    if (emailInputRef.current) {
+      emailInputRef.current.focus();
+    }
+  }, []);
 
   function handleEmailChange(event) {
     setEmail(event.target.value);
@@ -153,7 +161,15 @@ export default function LoginForm({ onLogin, onOAuthLogin, error, onDemoLogin })
           <LabelContainer>
             <Label htmlFor='email'>Email:</Label>
           </LabelContainer>
-          <Input id='email' type='email' name='email' value={email} onChange={handleEmailChange} required />
+          <Input
+            id='email'
+            type='email'
+            name='email'
+            value={email}
+            onChange={handleEmailChange}
+            required
+            ref={emailInputRef} // Weist den Ref dem E-Mail-Input zu
+          />
         </InputGroup>
 
         <InputGroup>

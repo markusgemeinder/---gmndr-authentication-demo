@@ -6,8 +6,7 @@ import { FaEye, FaEyeSlash, FaCheck, FaTimes } from 'react-icons/fa';
 export const FormContainer = styled.form`
   background-color: var(--color-form-background);
   border: 1px solid var(--color-form-border);
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  border-radius: 0.375rem;
+  border-radius: 0.6rem;
   margin: 0 auto;
   padding: 1.5rem;
   max-width: 32rem;
@@ -49,7 +48,6 @@ export const Input = styled.input`
   background-color: var(--color-input-background);
   border: 1px solid var(--color-input-border);
   border-radius: 0.4rem;
-  /* box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05); */
   box-sizing: border-box;
 `;
 

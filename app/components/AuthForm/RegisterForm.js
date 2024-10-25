@@ -2,7 +2,7 @@
 
 'use client';
 
-import { useState } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import Button, { ButtonContainerVertical } from '@/app/components/Common/Button';
 import {
@@ -18,7 +18,7 @@ import ValidatePassword from '@/app/components/Common/ValidatePassword';
 
 export default function RegisterForm() {
   const [email, setEmail] = useState('');
-  const [password, setPassword] = useState(''); // Password stored here
+  const [password, setPassword] = useState('');
   const [isPasswordValid, setIsPasswordValid] = useState(false);
   const [modalState, setModalState] = useState({
     show: false,
@@ -28,6 +28,14 @@ export default function RegisterForm() {
   });
 
   const router = useRouter();
+  const emailInputRef = useRef(null); // Ref für das E-Mail-Feld
+
+  useEffect(() => {
+    // Setzt den Fokus auf das E-Mail-Feld, wenn das Formular gerendert wird
+    if (emailInputRef.current) {
+      emailInputRef.current.focus();
+    }
+  }, []);
 
   async function handleSubmit(event) {
     event.preventDefault();
@@ -94,7 +102,14 @@ export default function RegisterForm() {
           <LabelContainer>
             <Label htmlFor='email'>Email:</Label>
           </LabelContainer>
-          <Input id='email' type='email' value={email} onChange={(event) => setEmail(event.target.value)} required />
+          <Input
+            id='email'
+            type='email'
+            value={email}
+            onChange={(event) => setEmail(event.target.value)}
+            required
+            ref={emailInputRef} // Weist den Ref dem E-Mail-Input zu
+          />
         </InputGroup>
 
         <ValidatePassword

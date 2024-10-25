@@ -30,6 +30,7 @@ const Timer = styled.div`
   font-size: 2rem;
   margin-bottom: 1rem;
   text-align: center;
+  color: var(--color-text-medium);
 `;
 
 const SessionStatusModalOverlay = styled(ModalOverlay)`

@@ -23,25 +23,21 @@
   --color-burger-menu-background: #2a3b80ef;
 
   /* Background Colors */
-  --color-background: #f9fafb;
+  --color-background: #f7f7f7;
   --color-form-background: #ffffff;
   --color-modal-background: #ffffff;
-  --color-input-background: #f3f4f6;
+  --color-input-background: var(--color-background);
+  --color-review-card-background: var(--color-form-background);
 
   /* Border Colors */
-  --color-border: #e5e7eb;
-  --color-input-border: #d1d5db;
+  --color-border: #dcdcdc;
+  --color-form-border: var(--color-border);
+  --color-input-border: var(--color-border);
+  --color-review-card-border: var(--color-border);
 
   /* Modal Colors */
   --color-modal: rgba(31, 41, 55, 0.75);
   --color-modal-text: #f3f4f6;
-
-  /* Review Card Colors */
-  --color-review-card-background: var(--color-form-background);
-  --color-review-card-border: #d1d5db;
-  --color-review-header: var(--color-text);
-  --color-review-text: var(--color-text-medium);
-  --color-review-note: var(--color-text-light);
 
   /* Button Colors */
   --color-button-primary: #3161e6;
@@ -81,9 +77,11 @@
 
   /* Warning Colors */
   --color-check-warning: #f87171;
+  --color-check-ok: #1a9c4a;
 
   /* Star Colors */
   --star-color: #fbbf24;
+  --star-focus-color: #f59e0b;
   --star-empty-color: #d1d5db;
 }
 
@@ -109,22 +107,18 @@
   --color-background: #1f2937;
   --color-form-background: #2d3748;
   --color-modal-background: #424e61;
-  --color-input-background: #333333;
+  --color-input-background: var(--color-background);
+  --color-review-card-background: var(--color-form-background);
 
   /* Border Colors */
   --color-border: #4b5563;
-  --color-input-border: #4b5563;
+  --color-form-border: var(--color-border);
+  --color-input-border: var(--color-border);
+  --color-review-card-border: var(--color-border);
 
   /* Modal Colors */
   --color-modal: rgba(31, 41, 55, 0.85);
   --color-modal-text: #f3f4f6;
-
-  /* Review Card Colors */
-  --color-review-card-background: var(--color-form-background);
-  --color-review-card-border: #4b5563;
-  --color-review-header: var(--color-text);
-  --color-review-text: var(--color-text-medium);
-  --color-review-note: var(--color-text-light);
 
   /* Button Colors */
   --color-button-primary: #004ecb;
@@ -166,6 +160,7 @@
 
   /* Star Colors */
   --star-color: #fbbf24;
+  --star-focus-color: #f59e0b;
   --star-empty-color: #616161;
 }
 
