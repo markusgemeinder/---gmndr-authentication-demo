@@ -1,30 +1,32 @@
 // /app/components/AuthForm/AuthFormStyles.js
 
 import styled from 'styled-components';
-import { FaEye, FaEyeSlash, FaCheck } from 'react-icons/fa';
+import { FaEye, FaEyeSlash, FaCheck, FaTimes } from 'react-icons/fa';
 
 export const FormContainer = styled.form`
   background-color: var(--color-form-background);
   border: 1px solid var(--color-form-border);
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  border-radius: 0.375rem;
-  margin: 1rem auto;
+  border-radius: 0.6rem;
+  margin: 0 auto;
   padding: 1.5rem;
   max-width: 32rem;
   width: 100%;
-  box-sizing: border-box;
+  /* box-sizing: border-box; */
 `;
 
-export const FormGroup = styled.div`
-  margin-bottom: 0.6rem;
+export const InputGroup = styled.div`
+  margin: 1rem 0;
   display: flex;
   flex-direction: column;
+
+  &:first-child {
+    margin-top: 0;
+  }
 `;
 
 export const LabelContainer = styled.div`
   display: flex;
   align-items: center;
-  justify-content: space-between;
   margin-bottom: 0.6rem;
 `;
 
@@ -46,7 +48,6 @@ export const Input = styled.input`
   background-color: var(--color-input-background);
   border: 1px solid var(--color-input-border);
   border-radius: 0.4rem;
-  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
   box-sizing: border-box;
 `;
 
@@ -66,22 +67,22 @@ export const ToggleVisibility = styled.button`
 export const PasswordVisibleIcon = styled(FaEye)``;
 export const PasswordHiddenIcon = styled(FaEyeSlash)``;
 
-export const WarningMessage = styled.p`
-  color: var(--color-warning);
-  font-size: 0.875rem;
-  margin: 0.5rem 0;
+export const CheckIcon = styled(FaCheck)`
+  color: var(--color-check-ok);
+  margin: 0 0.2rem;
 `;
 
-export const CheckIcon = styled(FaCheck)`
-  color: var(--color-button-review);
-  margin: 0 0.5rem;
+export const ErrorIcon = styled(FaTimes)`
+  color: var(--color-check-warning);
+  margin: 0 0.2rem;
 `;
 
 export const Divider = styled.div`
   display: flex;
   align-items: center;
   width: 100%;
-  margin: 0.6rem 0;
+  margin-top: 1.4rem;
+  margin-bottom: 1rem;
 
   &::before,
   &::after {
@@ -95,4 +96,17 @@ export const Divider = styled.div`
     color: var(--color-text-light);
     font-size: 0.875rem;
   }
+
+  @media (min-width: 768px) and (min-height: 768px) {
+    margin-top: 1.8rem;
+    margin-bottom: 1.4rem;
+  }
+`;
+
+export const WarningMessage = styled.p`
+  color: var(--color-check-warning);
+  font-size: 0.875rem;
+  padding: 0.8rem;
+  line-height: 1.2;
+  text-align: center;
 `;

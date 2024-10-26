@@ -3,34 +3,26 @@
 'use client';
 
 import ScrollToTop from '@/app/components/Common/ScrollToTop';
-import {
-  AboutTitle,
-  Avatar,
-  AvatarContainer,
-  AboutLink,
-  AboutLinkContainer,
-  AboutParagraph,
-} from '@/app/components/About/AboutStyles';
+import { Title, Subtitle, Paragraph, AvatarContainer, Avatar } from '@/app/components/Common/CommonStyles';
+import { AboutLink, AboutLinkContainer } from '@/app/components/About/AboutStyles';
 
 export default function AboutContact() {
   return (
     <>
       <ScrollToTop />
       <AvatarContainer>
-        <Avatar src={`/images/gmndr-pic-1.jpg?t=${new Date().getTime()}`} alt='Markus Gemeinder' />
         <Avatar src={`/images/gmndr-pic-2.jpg?t=${new Date().getTime()}`} alt='Markus Gemeinder' />
+        <Avatar src={`/images/gmndr-pic-1.jpg?t=${new Date().getTime()}`} alt='Markus Gemeinder' />
       </AvatarContainer>
-      <AboutTitle>Contact</AboutTitle>
-      <AboutParagraph>
-        <strong>Markus Gemeinder</strong>
-      </AboutParagraph>
-      <AboutParagraph>
+      <Title>Contact</Title>
+      <Subtitle>Markus Gemeinder</Subtitle>
+      <Paragraph>
         Self-employed in the field of coaching and marketing - open to new opportunities and seeking a side job in web
         development.
-      </AboutParagraph>
-      <AboutParagraph>
+      </Paragraph>
+      <Paragraph>
         Available from November to February (with limitations during the coaching main season from March to October).
-      </AboutParagraph>
+      </Paragraph>
       <AboutLinkContainer>
         <AboutLink href='tel:+491716444010'>Phone: +49 171 6444010</AboutLink>
         <AboutLink href='mailto:info@gemeinder-coaching.de'>Email: info(at)gemeinder-coaching.de</AboutLink>

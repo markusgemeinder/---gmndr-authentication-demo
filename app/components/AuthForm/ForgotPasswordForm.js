@@ -2,11 +2,11 @@
 
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import { useRouter } from 'next/navigation';
 import { useSession } from 'next-auth/react';
-import Button, { ButtonContainer } from '@/app/components/Common/Button';
-import { FormContainer, FormGroup, LabelContainer, Label, Input } from '@/app/components/AuthForm/AuthFormStyles';
+import Button, { ButtonContainerVertical } from '@/app/components/Common/Button';
+import { FormContainer, InputGroup, LabelContainer, Label, Input } from '@/app/components/AuthForm/AuthFormStyles';
 import ModalPopup from '@/app/components/Common/ModalPopup';
 
 export default function ForgotPasswordForm() {
@@ -20,12 +20,19 @@ export default function ForgotPasswordForm() {
 
   const router = useRouter();
   const { data: session, status: sessionStatus } = useSession();
+  const emailInputRef = useRef(null); // Ref für das E-Mail-Feld
 
   useEffect(() => {
     if (sessionStatus === 'authenticated') {
       router.replace('/reviews');
     }
   }, [sessionStatus, router]);
+
+  useEffect(() => {
+    if (emailInputRef.current) {
+      emailInputRef.current.focus(); // Setzt den Fokus auf das E-Mail-Feld
+    }
+  }, []);
 
   function isValidEmail(email) {
     const emailRegex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i;
@@ -99,17 +106,24 @@ export default function ForgotPasswordForm() {
   return (
     <>
       <FormContainer onSubmit={handleSubmit}>
-        <FormGroup>
+        <InputGroup>
           <LabelContainer>
             <Label htmlFor='email'>Email:</Label>
           </LabelContainer>
-          <Input id='email' type='email' value={email} onChange={(event) => setEmail(event.target.value)} required />
-        </FormGroup>
-        <ButtonContainer>
+          <Input
+            id='email'
+            type='email'
+            value={email}
+            onChange={(event) => setEmail(event.target.value)}
+            required
+            ref={emailInputRef} // Weist den Ref dem E-Mail-Input zu
+          />
+        </InputGroup>
+        <ButtonContainerVertical>
           <Button type='submit' bgColor='var(--color-button-login)' hoverColor='var(--color-button-login-hover)'>
             Send Reset Link
           </Button>
-        </ButtonContainer>
+        </ButtonContainerVertical>
       </FormContainer>
 
       {modalState.show && (

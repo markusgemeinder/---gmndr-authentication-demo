@@ -4,10 +4,8 @@
 
 import { useState } from 'react';
 import ScrollToTop from '@/app/components/Common/ScrollToTop';
+import { Title, Paragraph, AvatarContainer, Avatar } from '@/app/components/Common/CommonStyles';
 import {
-  AboutTitle,
-  AboutParagraph,
-  Avatar,
   AboutImageContainer,
   AboutImageWithLink,
   AboutLinkContainer,
@@ -31,9 +29,11 @@ export default function AboutNeueFische() {
   return (
     <>
       <ScrollToTop />
-      <Avatar src={`/images/neue-fische-logo.png?t=${new Date().getTime()}`} alt='neue fische' />
-      <AboutTitle>Web Development Bootcamp</AboutTitle>
-      <AboutParagraph>Successfully participated (3 months full-time) and completed in February 2024.</AboutParagraph>
+      <AvatarContainer>
+        <Avatar src={`/images/neue-fische-logo.png?t=${new Date().getTime()}`} alt='neue fische' />
+      </AvatarContainer>
+      <Title>Web Development Bootcamp</Title>
+      <Paragraph>Successfully participated (3 months full-time) and completed in February 2024.</Paragraph>
       <AboutImageContainer>
         <AboutImageWithLink
           src={`/images/neue-fische-certificate-1.png?t=${new Date().getTime()}`}

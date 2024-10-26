@@ -2,20 +2,23 @@
 
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { useSession } from 'next-auth/react';
-import Button from '@/app/components/Common/Button';
+import { format } from 'date-fns';
+import Button, { ButtonContainerHorizontal } from '@/app/components/Common/Button';
+import AccessibleStarRating from '@/app/components/Common/StarRating';
 import {
   FormContainer,
-  FormGroup,
+  InputGroup,
   Label,
-  Input,
+  LabelContainer,
+  InputEmail,
   Textarea,
-  RatingContainer,
   HiddenInput,
-  HorizontalButtonContainer,
+  CreatedUpdated,
+  RatingContainer,
+  CardElementsWrapper,
 } from '@/app/components/Review/ReviewStyles';
-import renderStars from '@/utils/renderStars';
 
 export default function ReviewForm({ review, onSave, onCancel, isDemoReview }) {
   const { data: session } = useSession();
@@ -23,6 +26,8 @@ export default function ReviewForm({ review, onSave, onCancel, isDemoReview }) {
   const [email, setEmail] = useState('');
   const [note, setNote] = useState('');
   const [rating, setRating] = useState(1);
+
+  const noteRef = useRef(null);
 
   useEffect(() => {
     if (session) {
@@ -35,6 +40,8 @@ export default function ReviewForm({ review, onSave, onCancel, isDemoReview }) {
       setNote(review.note || '');
       setRating(review.rating || 1);
     }
+
+    noteRef.current?.focus();
   }, [review, session]);
 
   async function handleSubmit(event) {
@@ -44,7 +51,16 @@ export default function ReviewForm({ review, onSave, onCancel, isDemoReview }) {
     try {
       if (isDemoReview) {
         const storedReviews = JSON.parse(sessionStorage.getItem('reviews') || '[]');
-        const updatedReviews = storedReviews.map((r) => (r._id === review._id ? { ...r, note, rating } : r));
+        const updatedReviews = storedReviews.map((r) =>
+          r._id === review._id
+            ? {
+                ...r,
+                note,
+                rating,
+                updatedAt: new Date().toISOString(),
+              }
+            : r
+        );
         sessionStorage.setItem('reviews', JSON.stringify(updatedReviews));
       } else if (review?._id) {
         await fetch(`/api/reviews/${review._id}`, {
@@ -71,36 +87,56 @@ export default function ReviewForm({ review, onSave, onCancel, isDemoReview }) {
 
   return (
     <FormContainer onSubmit={handleSubmit}>
-      <FormGroup>
-        <Label htmlFor='email'>Email</Label>
-        <Input id='email' type='email' value={email} readOnly />
-      </FormGroup>
-      <FormGroup>
-        <Label htmlFor='note'>Note</Label>
-        <Textarea id='note' rows='8' value={note} onChange={(event) => setNote(event.target.value)} required />
-      </FormGroup>
-      <FormGroup>
-        <Label htmlFor='rating'>Rating</Label>
-        <RatingContainer>{renderStars(rating, setRating)}</RatingContainer>
-        <HiddenInput
-          type='hidden'
-          id='rating'
-          value={rating}
-          onChange={(event) => setRating(parseInt(event.target.value))}
+      <InputGroup>
+        <LabelContainer>
+          <Label htmlFor='email'>Email</Label>
+        </LabelContainer>
+        <InputEmail id='email' type='email' value={email} readOnly />
+      </InputGroup>
+      <InputGroup>
+        <LabelContainer>
+          <Label htmlFor='note'>Note</Label>
+        </LabelContainer>
+        <Textarea
+          id='note'
+          rows='8'
+          value={note}
+          onChange={(event) => setNote(event.target.value)}
+          required
+          ref={noteRef}
         />
-      </FormGroup>
-      <HorizontalButtonContainer>
-        <Button type='submit' bgColor='var(--color-button-ok)' hoverColor='var(--color-button-ok-hover)'>
-          Save
-        </Button>
-        <Button
-          type='button'
-          onClick={onCancel}
-          bgColor='var(--color-button-cancel)'
-          hoverColor='var(--color-button-cancel-hover)'>
-          Cancel
-        </Button>
-      </HorizontalButtonContainer>
+      </InputGroup>
+      <InputGroup>
+        <LabelContainer>
+          <Label htmlFor='rating'>Rating</Label>
+          <RatingContainer>
+            <AccessibleStarRating rating={rating} setRating={setRating} />
+          </RatingContainer>
+        </LabelContainer>
+        <HiddenInput type='hidden' id='rating' value={rating} />
+      </InputGroup>
+      <CardElementsWrapper>
+        {review?.createdAt && (
+          <CreatedUpdated>
+            Created: {format(new Date(review.createdAt), 'dd.MM.yyyy (HH:mm:ss)')}
+            <br />
+            Updated: {review.updatedAt ? format(new Date(review.updatedAt), 'dd.MM.yyyy (HH:mm:ss)') : 'Not updated'}
+          </CreatedUpdated>
+        )}
+
+        <ButtonContainerHorizontal>
+          <Button type='submit' bgColor='var(--color-button-ok)' hoverColor='var(--color-button-ok-hover)'>
+            Save
+          </Button>
+          <Button
+            type='button'
+            onClick={onCancel}
+            bgColor='var(--color-button-cancel)'
+            hoverColor='var(--color-button-cancel-hover)'>
+            Cancel
+          </Button>
+        </ButtonContainerHorizontal>
+      </CardElementsWrapper>
     </FormContainer>
   );
 }

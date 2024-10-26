@@ -2,18 +2,39 @@
 
 import styled from 'styled-components';
 
-export const ButtonContainer = styled.div`
+export const ButtonContainerVertical = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 0.5rem;
+  gap: 1.2rem;
   width: 100%;
+  margin-top: 1.4rem;
+  margin-bottom: 0.4rem;
+
+  @media (min-width: 768px) and (min-height: 768px) {
+    margin-top: 1.6rem;
+    margin-bottom: 0.8rem;
+  }
+
+  &:first-child {
+    margin-top: 0.6rem;
+  }
+
+  &:last-child {
+    margin-bottom: 0.6rem;
+  }
 `;
 
-export const ButtonContainerMedium = styled.div`
+export const ButtonContainerHorizontal = styled.div`
   display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
-  width: 60%;
+  flex-direction: row;
+  gap: 0.8rem;
+  width: 100%;
+  justify-content: center;
+  margin: 0.4rem 0;
+
+  @media (min-width: 768px) and (min-height: 768px) {
+    gap: 1rem;
+  }
 `;
 
 const StyledButton = styled.button.withConfig({
@@ -21,21 +42,26 @@ const StyledButton = styled.button.withConfig({
 })`
   background-color: ${(props) => props.bgColor || 'var(--color-button)'};
   color: ${(props) => props.color || 'var(--color-button-text)'};
-  padding: 0.5rem 1rem;
+  font-weight: 500;
+  padding: 0.75rem;
   border-radius: 0.4rem;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  margin: 0.6rem;
-  margin-left: 0rem;
+  /* box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); */
+  min-width: 48px;
+  min-height: 48px;
   cursor: ${(props) => (props.disabled ? 'not-allowed' : 'pointer')};
 
   &:hover {
     background-color: ${(props) => props.hoverColor || 'var(--color-button-hover)'};
   }
+
+  @media (min-width: 768px) and (min-height: 768px) {
+    padding: 0.75rem 1rem;
+  }
 `;
 
 export default function Button({ children, onClick, disabled, ...rest }) {
   return (
-    <StyledButton onClick={onClick} disabled={disabled} {...rest}>
+    <StyledButton onClick={onClick} disabled={disabled} aria-label={children} {...rest}>
       {children}
     </StyledButton>
   );

@@ -2,19 +2,13 @@
 
 'use client';
 
-import { useSession, signIn, signOut } from 'next-auth/react';
 import styled from 'styled-components';
+import { useSession, signIn, signOut } from 'next-auth/react';
 import { useEffect, useState } from 'react';
-import Button from '@/app/components/Common/Button';
-import {
-  ModalOverlay,
-  ModalHeader,
-  ModalContent,
-  ModalButtonContainer,
-  BlinkingText,
-} from '@/app/components/Common/ModalPopup';
-import Link from 'next/link';
 import { useRouter } from 'next/navigation';
+import Button, { ButtonContainerHorizontal } from '@/app/components/Common/Button';
+import { ModalOverlay, ModalHeader, ModalContent, BlinkingText } from '@/app/components/Common/ModalPopup';
+import { Paragraph, StyledLink } from '@/app/components/Common/CommonStyles'; // Importiere die neuen Komponenten
 
 const StatusContainer = styled.div`
   margin-bottom: 0.4rem;
@@ -22,18 +16,9 @@ const StatusContainer = styled.div`
   color: var(--color-text-light);
 `;
 
-const LoginLink = styled(Link)`
-  color: var(--color-link);
-  text-decoration: underline;
-
-  &:hover {
-    color: var(--color-link-hover);
-  }
-`;
-
 const CountdownContainer = styled.span`
   display: inline-block;
-  width: 2.1rem;
+  width: 2.4rem;
   text-align: right;
 `;
 
@@ -45,6 +30,7 @@ const Timer = styled.div`
   font-size: 2rem;
   margin-bottom: 1rem;
   text-align: center;
+  color: var(--color-text-medium);
 `;
 
 const SessionStatusModalOverlay = styled(ModalOverlay)`
@@ -124,15 +110,14 @@ export default function SessionStatus() {
     <StatusContainer>
       {session ? (
         <>
-          <p>
-            Welcome, {session.user.email}. You are logged in as {userRole}.
-            <br />
-            Your login expires in
-            <CountdownContainer>{formatTime(timeLeft)}</CountdownContainer> minutes{' '}
-            <LoginLink href='#' onClick={renewSession}>
-              (Renew Session)
-            </LoginLink>
-          </p>
+          <Paragraph>
+            Welcome, {session.user.email}. You are logged in as {userRole}. Your login expires in
+            <CountdownContainer>{formatTime(timeLeft)}</CountdownContainer> min (
+            <StyledLink href='#' onClick={renewSession}>
+              renew session
+            </StyledLink>
+            ).
+          </Paragraph>
           <Spacer />
           {showPopup && (
             <SessionStatusModalOverlay>
@@ -141,7 +126,7 @@ export default function SessionStatus() {
                   <BlinkingText>Session Expiring Soon</BlinkingText>
                 </ModalHeader>
                 <Timer>{formatTime(timeLeft)}</Timer>
-                <ModalButtonContainer>
+                <ButtonContainerHorizontal>
                   <Button
                     onClick={renewSession}
                     bgColor='var(--color-button-login)'
@@ -156,15 +141,15 @@ export default function SessionStatus() {
                     color='var(--color-button-text)'>
                     Logout
                   </Button>
-                </ModalButtonContainer>
+                </ButtonContainerHorizontal>
               </ModalContent>
             </SessionStatusModalOverlay>
           )}
         </>
       ) : (
-        <p>
-          Welcome, unknown user. <LoginLink href='/login'>Please login.</LoginLink>
-        </p>
+        <Paragraph>
+          Welcome, unknown user. <StyledLink href='/login'>Please login.</StyledLink>
+        </Paragraph>
       )}
     </StatusContainer>
   );

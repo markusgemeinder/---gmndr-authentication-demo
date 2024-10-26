@@ -2,32 +2,17 @@
 
 'use client';
 
-import { useState } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
-import Button, { ButtonContainer } from '@/app/components/Common/Button';
-import {
-  FormContainer,
-  FormGroup,
-  LabelContainer,
-  Label,
-  InputContainer,
-  Input,
-  ToggleVisibility,
-  PasswordHiddenIcon,
-  PasswordVisibleIcon,
-  WarningMessage,
-  CheckIcon,
-} from '@/app/components/AuthForm/AuthFormStyles';
+import Button, { ButtonContainerVertical } from '@/app/components/Common/Button';
+import { FormContainer, InputGroup, LabelContainer, Label, Input } from '@/app/components/AuthForm/AuthFormStyles';
 import ModalPopup from '@/app/components/Common/ModalPopup';
-import validatePassword from '@/utils/validatePassword';
+import ValidatePassword from '@/app/components/Common/ValidatePassword';
 
 export default function RegisterForm() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [repeatPassword, setRepeatPassword] = useState('');
-  const [passwordVisible, setPasswordVisible] = useState(false);
-  const [passwordQuality, setPasswordQuality] = useState('');
-
+  const [isPasswordValid, setIsPasswordValid] = useState(false);
   const [modalState, setModalState] = useState({
     show: false,
     message: '',
@@ -36,36 +21,31 @@ export default function RegisterForm() {
   });
 
   const router = useRouter();
+  const emailInputRef = useRef(null);
 
-  function handlePasswordChange(pwd) {
-    setPassword(pwd);
-    setPasswordQuality(validatePassword(pwd));
-  }
+  useEffect(() => {
+    if (emailInputRef.current) {
+      emailInputRef.current.focus();
+    }
+  }, []);
 
   async function handleSubmit(event) {
     event.preventDefault();
 
-    if (password !== repeatPassword) {
+    if (!isPasswordValid) {
       setModalState({
         show: true,
-        message: "Passwords don't match. Please check and try again.",
+        message: 'Please ensure your password meets the requirements.',
         isSuccess: false,
         showOkButton: true,
       });
       return;
     }
 
-    if (passwordQuality) {
-      setModalState({
-        show: true,
-        message: 'Password is too weak. Please follow the requirements and improve it.',
-        isSuccess: false,
-        showOkButton: true,
-      });
-      return;
-    }
-
-    const data = { email, password };
+    const data = {
+      email,
+      password,
+    };
 
     setModalState({
       show: true,
@@ -107,73 +87,41 @@ export default function RegisterForm() {
     setModalState((prevState) => ({ ...prevState, show: false }));
   }
 
-  function togglePasswordVisibility() {
-    setPasswordVisible(!passwordVisible);
-  }
-
   return (
     <>
       <FormContainer onSubmit={handleSubmit}>
-        <FormGroup>
+        <InputGroup>
           <LabelContainer>
             <Label htmlFor='email'>Email:</Label>
           </LabelContainer>
-          <Input id='email' type='email' value={email} onChange={(event) => setEmail(event.target.value)} required />
-        </FormGroup>
+          <Input
+            id='email'
+            type='email'
+            value={email}
+            onChange={(event) => setEmail(event.target.value)}
+            required
+            ref={emailInputRef}
+          />
+        </InputGroup>
 
-        <FormGroup>
-          <LabelContainer>
-            <Label htmlFor='password'>Password:</Label>
-            {passwordQuality === '' && password.length > 0 ? (
-              <CheckIcon />
-            ) : (
-              <WarningMessage>{passwordQuality}</WarningMessage>
-            )}
-          </LabelContainer>
-          <InputContainer>
-            <Input
-              id='password'
-              type={passwordVisible ? 'text' : 'password'}
-              value={password}
-              onChange={(event) => handlePasswordChange(event.target.value)}
-              required
-            />
-            <ToggleVisibility onClick={togglePasswordVisibility} type='button'>
-              {passwordVisible ? <PasswordVisibleIcon /> : <PasswordHiddenIcon />}
-            </ToggleVisibility>
-          </InputContainer>
-        </FormGroup>
+        <ValidatePassword
+          hasRepeatPassword={true}
+          onPasswordValid={(isValid, pwd) => {
+            setIsPasswordValid(isValid);
+            if (isValid) {
+              setPassword(pwd);
+            } else {
+              setPassword('');
+            }
+          }}
+        />
 
-        <FormGroup>
-          <LabelContainer>
-            <Label htmlFor='repeat-password'>Repeat Password:</Label>
-            {password === repeatPassword && repeatPassword ? (
-              <CheckIcon />
-            ) : (
-              password.length > 0 &&
-              repeatPassword === '' && <WarningMessage>Please repeat the password.</WarningMessage>
-            )}
-            {password !== repeatPassword && repeatPassword && password.length > 0 && (
-              <WarningMessage>Passwords do not match.</WarningMessage>
-            )}
-          </LabelContainer>
-          <InputContainer>
-            <Input
-              id='repeat-password'
-              type={passwordVisible ? 'text' : 'password'}
-              value={repeatPassword}
-              onChange={(event) => setRepeatPassword(event.target.value)}
-              required
-            />
-          </InputContainer>
-        </FormGroup>
-
-        <ButtonContainer>
+        <ButtonContainerVertical>
           <Button
             type='submit'
             bgColor='var(--color-button-login)'
             hoverColor='var(--color-button-login-hover)'
-            disabled={password !== repeatPassword || passwordQuality !== ''}>
+            disabled={!isPasswordValid}>
             Confirm
           </Button>
           <Button
@@ -183,7 +131,7 @@ export default function RegisterForm() {
             hoverColor='var(--color-button-cancel-hover)'>
             Cancel
           </Button>
-        </ButtonContainer>
+        </ButtonContainerVertical>
       </FormContainer>
 
       {modalState.show && (

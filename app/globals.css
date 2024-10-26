@@ -7,13 +7,14 @@
 /* Light Theme Colors */
 :root {
   /* Link Colors */
-  --color-link: #459afc;
-  --color-link-hover: #004fb0;
+  --color-link: #849fe8;
+  --color-link-hover: #2c4da8;
 
   /* Text Colors */
   --color-text: #111827;
   --color-text-medium: #374151;
   --color-text-light: #6b7280;
+  --color-title: #2c4da8;
 
   /* Header & Footer Colors */
   --color-header: #152d6d;
@@ -22,25 +23,21 @@
   --color-burger-menu-background: #2a3b80ef;
 
   /* Background Colors */
-  --color-background: #f9fafb;
+  --color-background: #f7f7f7;
   --color-form-background: #ffffff;
   --color-modal-background: #ffffff;
-  --color-input-background: #f3f4f6;
+  --color-input-background: var(--color-background);
+  --color-review-card-background: var(--color-form-background);
 
   /* Border Colors */
-  --color-border: #e5e7eb;
-  --color-input-border: #d1d5db;
+  --color-border: #dcdcdc;
+  --color-form-border: var(--color-border);
+  --color-input-border: var(--color-border);
+  --color-review-card-border: var(--color-border);
 
   /* Modal Colors */
   --color-modal: rgba(31, 41, 55, 0.75);
   --color-modal-text: #f3f4f6;
-
-  /* Review Card Colors */
-  --color-review-card-background: var(--color-form-background);
-  --color-review-card-border: #d1d5db;
-  --color-review-header: var(--color-text);
-  --color-review-text: var(--color-text-medium);
-  --color-review-note: var(--color-text-light);
 
   /* Button Colors */
   --color-button-primary: #3161e6;
@@ -58,9 +55,9 @@
   --color-button-edit-hover: var(--color-button-primary-hover);
   --color-button-delete: #ef4444;
   --color-button-delete-hover: #dc2626;
-  --color-button-page-up: #203a81;
-  --color-button-page-up-hover: #dee7ff;
-  --color-button-page-up-icon: #203a81;
+  --color-button-page-navigation: #203a81;
+  --color-button-page-navigation-hover: var(--color-link);
+  --color-button-page-navigation-icon: #203a81;
 
   /* Authentication Button Colors */
   --color-button-login: var(--color-button-edit);
@@ -79,23 +76,26 @@
   --color-button-demo-user-hover: var(--color-button-secondary-hover);
 
   /* Warning Colors */
-  --color-warning: #f87171;
+  --color-check-warning: #f87171;
+  --color-check-ok: #1a9c4a;
 
   /* Star Colors */
   --star-color: #fbbf24;
+  --star-focus-color: #f59e0b;
   --star-empty-color: #d1d5db;
 }
 
 /* Dark Theme Colors */
 [data-theme='dark'] {
   /* Link Colors */
-  --color-link: #60a5fa;
-  --color-link-hover: #93c5fd;
+  --color-link: #acc2ff;
+  --color-link-hover: #6683d6;
 
   /* Text Colors */
   --color-text: #e5e7eb;
   --color-text-medium: #9ca3af;
   --color-text-light: #6b7280;
+  --color-title: #acc2ff;
 
   /* Header & Footer Colors */
   --color-header: #152d6d;
@@ -106,23 +106,19 @@
   /* Background Colors */
   --color-background: #1f2937;
   --color-form-background: #2d3748;
-  --color-modal-background: #374151;
-  --color-input-background: #333333;
+  --color-modal-background: #424e61;
+  --color-input-background: var(--color-background);
+  --color-review-card-background: var(--color-form-background);
 
   /* Border Colors */
   --color-border: #4b5563;
-  --color-input-border: #4b5563;
+  --color-form-border: var(--color-border);
+  --color-input-border: var(--color-border);
+  --color-review-card-border: var(--color-border);
 
   /* Modal Colors */
   --color-modal: rgba(31, 41, 55, 0.85);
   --color-modal-text: #f3f4f6;
-
-  /* Review Card Colors */
-  --color-review-card-background: var(--color-form-background);
-  --color-review-card-border: #4b5563;
-  --color-review-header: var(--color-text);
-  --color-review-text: var(--color-text-medium);
-  --color-review-note: var(--color-text-light);
 
   /* Button Colors */
   --color-button-primary: #004ecb;
@@ -140,9 +136,9 @@
   --color-button-edit-hover: var(--color-button-primary-hover);
   --color-button-delete: #b91c1c;
   --color-button-delete-hover: #991b1b;
-  --color-button-page-up: #c6c9cf;
-  --color-button-page-up-hover: #213c86;
-  --color-button-page-up-icon: #c6c9cf;
+  --color-button-page-navigation: #c6c9cf;
+  --color-button-page-navigation-hover: var(--color-link-hover);
+  --color-button-page-navigation-icon: #c6c9cf;
 
   /* Authentication Button Colors */
   --color-button-login: var(--color-button-edit);
@@ -159,16 +155,22 @@
   --color-button-forgot-password-hover: var(--color-button-secondary-hover);
 
   /* Warning Colors */
-  --color-warning: #f87171;
+  --color-check-warning: #f66666;
+  --color-check-ok: #1a9c4a;
 
   /* Star Colors */
   --star-color: #fbbf24;
+  --star-focus-color: #f59e0b;
   --star-empty-color: #616161;
 }
 
 body {
   margin: 0;
   font-family: system-ui, sans-serif;
+  font-size: 1rem;
+  line-height: 1.25;
+  text-align: center;
+  margin: 0.5rem;
   color: var(--color-text);
   background-color: var(--color-background);
 }

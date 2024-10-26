@@ -2,13 +2,13 @@
 
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { useRouter } from 'next/navigation';
 import ScrollToTop from '@/app/components/Common/ScrollToTop';
-import Button, { ButtonContainer } from '@/app/components/Common/Button';
+import Button, { ButtonContainerVertical } from '@/app/components/Common/Button';
 import {
   FormContainer,
-  FormGroup,
+  InputGroup,
   LabelContainer,
   Label,
   Input,
@@ -34,12 +34,20 @@ export default function LoginForm({ onLogin, onOAuthLogin, error, onDemoLogin })
   });
 
   const router = useRouter();
+  const emailInputRef = useRef(null); // Ref für das E-Mail-Feld
 
   useEffect(() => {
     if (error) {
       showError(error);
     }
   }, [error]);
+
+  useEffect(() => {
+    // Setzt den Fokus auf das E-Mail-Feld, wenn das Formular gerendert wird
+    if (emailInputRef.current) {
+      emailInputRef.current.focus();
+    }
+  }, []);
 
   function handleEmailChange(event) {
     setEmail(event.target.value);
@@ -114,7 +122,7 @@ export default function LoginForm({ onLogin, onOAuthLogin, error, onDemoLogin })
     <>
       <ScrollToTop />
       <FormContainer onSubmit={handleSubmit}>
-        <ButtonContainer>
+        <ButtonContainerVertical>
           <Button
             type='button'
             bgColor='var(--color-button-demo-user)'
@@ -143,37 +151,51 @@ export default function LoginForm({ onLogin, onOAuthLogin, error, onDemoLogin })
             <img src='/images/google-logo.svg' alt='Google Logo' style={{ width: '20px', marginRight: '8px' }} />
             Google
           </Button>
+        </ButtonContainerVertical>
 
-          <Divider>
-            <span>or</span>
-          </Divider>
+        <Divider>
+          <span>or</span>
+        </Divider>
 
-          <FormGroup>
-            <LabelContainer>
-              <Label htmlFor='email'>Email:</Label>
-            </LabelContainer>
-            <Input id='email' type='email' name='email' value={email} onChange={handleEmailChange} required />
-          </FormGroup>
+        <InputGroup>
+          <LabelContainer>
+            <Label htmlFor='email'>Email:</Label>
+          </LabelContainer>
+          <Input
+            id='email'
+            type='email'
+            name='email'
+            value={email}
+            onChange={handleEmailChange}
+            required
+            ref={emailInputRef} // Weist den Ref dem E-Mail-Input zu
+          />
+        </InputGroup>
 
-          <FormGroup>
-            <LabelContainer>
-              <Label htmlFor='password'>Password:</Label>
-            </LabelContainer>
-            <InputContainer>
-              <Input
-                id='password'
-                type={passwordVisible ? 'text' : 'password'}
-                name='password'
-                value={password}
-                onChange={handlePasswordChange}
-                required
-              />
-              <ToggleVisibility onClick={handleToggleVisibility} type='button'>
-                {passwordVisible ? <PasswordVisibleIcon /> : <PasswordHiddenIcon />}
-              </ToggleVisibility>
-            </InputContainer>
-          </FormGroup>
+        <InputGroup>
+          <LabelContainer>
+            <Label htmlFor='password'>Password:</Label>
+          </LabelContainer>
+          <InputContainer>
+            <Input
+              id='password'
+              type={passwordVisible ? 'text' : 'password'}
+              name='password'
+              value={password}
+              onChange={handlePasswordChange}
+              required
+            />
+            <ToggleVisibility
+              onClick={handleToggleVisibility}
+              type='button'
+              title={passwordVisible ? 'Hide password' : 'Show password'}
+              aria-label={passwordVisible ? 'Hide password' : 'Show password'}>
+              {passwordVisible ? <PasswordVisibleIcon /> : <PasswordHiddenIcon />}
+            </ToggleVisibility>
+          </InputContainer>
+        </InputGroup>
 
+        <ButtonContainerVertical>
           <Button
             type='submit'
             bgColor='var(--color-button-login)'
@@ -191,7 +213,7 @@ export default function LoginForm({ onLogin, onOAuthLogin, error, onDemoLogin })
               Forgot Password
             </Button>
           </Link>
-        </ButtonContainer>
+        </ButtonContainerVertical>
       </FormContainer>
 
       {modalState.show && (

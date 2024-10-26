@@ -6,26 +6,24 @@ import { format } from 'date-fns';
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { useSession } from 'next-auth/react';
-import Button from '@/app/components/Common/Button';
+import Button, { ButtonContainerHorizontal } from '@/app/components/Common/Button';
+import StarRating from '@/app/components/Common/StarRating';
 import {
   CardContainer,
   IDLabel,
   Email,
   Note,
-  StarsContainer,
   CreatedUpdated,
-  HorizontalButtonContainer,
+  CardElementsWrapper,
 } from '@/app/components/Review/ReviewStyles';
 import {
   ModalOverlay,
   ModalContent,
   ModalHeader,
-  ModalParagraph,
   ModalInput,
-  ModalButtonContainer,
+  ModalParagraph,
 } from '@/app/components/Common/ModalPopup';
 import { maskEmail } from '@/utils/maskEmail';
-import renderStars from '@/utils/renderStars';
 
 export default function ReviewCard({ review, onDelete }) {
   const { _id, note, rating, createdAt, updatedAt, email } = review;
@@ -64,31 +62,34 @@ export default function ReviewCard({ review, onDelete }) {
     <>
       <CardContainer>
         <IDLabel>ID: {_id}</IDLabel>
-        <Email>{showEmail}</Email>
-        <Note>{note}</Note>
-        <StarsContainer>{renderStars(rating)}</StarsContainer>
-        <CreatedUpdated>
-          Created: {format(new Date(createdAt), 'MM/dd/yyyy (HH:mm:ss)')} | Updated:{' '}
-          {format(new Date(updatedAt), 'MM/dd/yyyy (HH:mm:ss)')}
-        </CreatedUpdated>
-        {showButtons && (
-          <HorizontalButtonContainer>
-            <Button
-              onClick={() => router.push(`/reviews/${_id}`)}
-              bgColor='var(--color-button-edit)'
-              hoverColor='var(--color-button-edit-hover)'
-              color='var(--color-button-text)'>
-              Edit
-            </Button>
-            <Button
-              onClick={() => setConfirmDelete(true)}
-              bgColor='var(--color-button-delete)'
-              hoverColor='var(--color-button-delete-hover)'
-              color='var(--color-button-text)'>
-              Delete
-            </Button>
-          </HorizontalButtonContainer>
-        )}
+        <CardElementsWrapper>
+          <Email>{showEmail}</Email>
+          <Note>{note}</Note>
+          <StarRating rating={rating} />
+          <CreatedUpdated>
+            Created: {format(new Date(createdAt), 'dd.MM.yyyy (HH:mm:ss)')}
+            <br />
+            Updated: {format(new Date(updatedAt), 'dd.MM.yyyy (HH:mm:ss)')}
+          </CreatedUpdated>
+          {showButtons && (
+            <ButtonContainerHorizontal>
+              <Button
+                onClick={() => router.push(`/reviews/${_id}`)}
+                bgColor='var(--color-button-edit)'
+                hoverColor='var(--color-button-edit-hover)'
+                color='var(--color-button-text)'>
+                Edit
+              </Button>
+              <Button
+                onClick={() => setConfirmDelete(true)}
+                bgColor='var(--color-button-delete)'
+                hoverColor='var(--color-button-delete-hover)'
+                color='var(--color-button-text)'>
+                Delete
+              </Button>
+            </ButtonContainerHorizontal>
+          )}
+        </CardElementsWrapper>
       </CardContainer>
 
       {confirmDelete && (
@@ -102,7 +103,7 @@ export default function ReviewCard({ review, onDelete }) {
               value={inputValue}
               onChange={(e) => setInputValue(e.target.value)}
             />
-            <ModalButtonContainer>
+            <ButtonContainerHorizontal>
               <Button
                 onClick={handleDelete}
                 bgColor='var(--color-button-delete)'
@@ -115,7 +116,7 @@ export default function ReviewCard({ review, onDelete }) {
                 hoverColor='var(--color-button-cancel-hover)'>
                 Cancel
               </Button>
-            </ModalButtonContainer>
+            </ButtonContainerHorizontal>
           </ModalContent>
         </ModalOverlay>
       )}
