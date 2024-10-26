@@ -30,6 +30,7 @@ export const ButtonContainerHorizontal = styled.div`
   gap: 0.8rem;
   width: 100%;
   justify-content: center;
+  margin: 0.4rem 0;
 
   @media (min-width: 768px) and (min-height: 768px) {
     gap: 1rem;

@@ -5,14 +5,7 @@
 import { useState, useRef, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import Button, { ButtonContainerVertical } from '@/app/components/Common/Button';
-import {
-  FormContainer,
-  InputGroup,
-  LabelContainer,
-  Label,
-  InputContainer,
-  Input,
-} from '@/app/components/AuthForm/AuthFormStyles';
+import { FormContainer, InputGroup, LabelContainer, Label, Input } from '@/app/components/AuthForm/AuthFormStyles';
 import ModalPopup from '@/app/components/Common/ModalPopup';
 import ValidatePassword from '@/app/components/Common/ValidatePassword';
 
@@ -28,10 +21,9 @@ export default function RegisterForm() {
   });
 
   const router = useRouter();
-  const emailInputRef = useRef(null); // Ref für das E-Mail-Feld
+  const emailInputRef = useRef(null);
 
   useEffect(() => {
-    // Setzt den Fokus auf das E-Mail-Feld, wenn das Formular gerendert wird
     if (emailInputRef.current) {
       emailInputRef.current.focus();
     }
@@ -108,7 +100,7 @@ export default function RegisterForm() {
             value={email}
             onChange={(event) => setEmail(event.target.value)}
             required
-            ref={emailInputRef} // Weist den Ref dem E-Mail-Input zu
+            ref={emailInputRef}
           />
         </InputGroup>
 

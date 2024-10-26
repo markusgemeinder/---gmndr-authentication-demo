@@ -19,15 +19,15 @@ const cards = [
   },
   {
     id: 2,
-    content: <AboutNeueFische />,
+    content: <AboutContact />,
   },
   {
     id: 3,
-    content: <AboutTechstack />,
+    content: <AboutNeueFische />,
   },
   {
     id: 4,
-    content: <AboutContact />,
+    content: <AboutTechstack />,
   },
 ];
 

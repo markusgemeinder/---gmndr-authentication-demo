@@ -11,10 +11,13 @@ import {
   FormContainer,
   InputGroup,
   Label,
-  Input,
+  LabelContainer,
+  InputEmail,
   Textarea,
   HiddenInput,
   CreatedUpdated,
+  RatingContainer,
+  CardElementsWrapper,
 } from '@/app/components/Review/ReviewStyles';
 
 export default function ReviewForm({ review, onSave, onCancel, isDemoReview }) {
@@ -37,7 +40,7 @@ export default function ReviewForm({ review, onSave, onCancel, isDemoReview }) {
       setNote(review.note || '');
       setRating(review.rating || 1);
     }
-    // Set focus on "note" input when the component loads
+
     noteRef.current?.focus();
   }, [review, session]);
 
@@ -48,7 +51,16 @@ export default function ReviewForm({ review, onSave, onCancel, isDemoReview }) {
     try {
       if (isDemoReview) {
         const storedReviews = JSON.parse(sessionStorage.getItem('reviews') || '[]');
-        const updatedReviews = storedReviews.map((r) => (r._id === review._id ? { ...r, note, rating } : r));
+        const updatedReviews = storedReviews.map((r) =>
+          r._id === review._id
+            ? {
+                ...r,
+                note,
+                rating,
+                updatedAt: new Date().toISOString(),
+              }
+            : r
+        );
         sessionStorage.setItem('reviews', JSON.stringify(updatedReviews));
       } else if (review?._id) {
         await fetch(`/api/reviews/${review._id}`, {
@@ -76,46 +88,55 @@ export default function ReviewForm({ review, onSave, onCancel, isDemoReview }) {
   return (
     <FormContainer onSubmit={handleSubmit}>
       <InputGroup>
-        <Label htmlFor='email'>Email</Label>
-        <Input id='email' type='email' value={email} readOnly />
+        <LabelContainer>
+          <Label htmlFor='email'>Email</Label>
+        </LabelContainer>
+        <InputEmail id='email' type='email' value={email} readOnly />
       </InputGroup>
       <InputGroup>
-        <Label htmlFor='note'>Note</Label>
+        <LabelContainer>
+          <Label htmlFor='note'>Note</Label>
+        </LabelContainer>
         <Textarea
           id='note'
           rows='8'
           value={note}
           onChange={(event) => setNote(event.target.value)}
           required
-          ref={noteRef} // Focus on "note" field on form load
+          ref={noteRef}
         />
       </InputGroup>
       <InputGroup>
-        <Label htmlFor='rating'>Rating</Label>
-        <AccessibleStarRating rating={rating} setRating={setRating} />
+        <LabelContainer>
+          <Label htmlFor='rating'>Rating</Label>
+          <RatingContainer>
+            <AccessibleStarRating rating={rating} setRating={setRating} />
+          </RatingContainer>
+        </LabelContainer>
         <HiddenInput type='hidden' id='rating' value={rating} />
       </InputGroup>
+      <CardElementsWrapper>
+        {review?.createdAt && (
+          <CreatedUpdated>
+            Created: {format(new Date(review.createdAt), 'dd.MM.yyyy (HH:mm:ss)')}
+            <br />
+            Updated: {review.updatedAt ? format(new Date(review.updatedAt), 'dd.MM.yyyy (HH:mm:ss)') : 'Not updated'}
+          </CreatedUpdated>
+        )}
 
-      {review?.createdAt && (
-        <CreatedUpdated>
-          Created: {format(new Date(review.createdAt), 'dd.MM.yyyy (HH:mm:ss)')}
-          <br />
-          Updated: {review.updatedAt ? format(new Date(review.updatedAt), 'dd.MM.yyyy (HH:mm:ss)') : 'Not updated'}
-        </CreatedUpdated>
-      )}
-
-      <ButtonContainerHorizontal>
-        <Button type='submit' bgColor='var(--color-button-ok)' hoverColor='var(--color-button-ok-hover)'>
-          Save
-        </Button>
-        <Button
-          type='button'
-          onClick={onCancel}
-          bgColor='var(--color-button-cancel)'
-          hoverColor='var(--color-button-cancel-hover)'>
-          Cancel
-        </Button>
-      </ButtonContainerHorizontal>
+        <ButtonContainerHorizontal>
+          <Button type='submit' bgColor='var(--color-button-ok)' hoverColor='var(--color-button-ok-hover)'>
+            Save
+          </Button>
+          <Button
+            type='button'
+            onClick={onCancel}
+            bgColor='var(--color-button-cancel)'
+            hoverColor='var(--color-button-cancel-hover)'>
+            Cancel
+          </Button>
+        </ButtonContainerHorizontal>
+      </CardElementsWrapper>
     </FormContainer>
   );
 }

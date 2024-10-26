@@ -22,7 +22,7 @@ export default function ResetPasswordForm() {
   });
 
   const router = useRouter();
-  const passwordInputRef = useRef(null); // Ref für das Passwortfeld
+  const passwordInputRef = useRef(null);
 
   useEffect(() => {
     const checkToken = async function () {
@@ -72,7 +72,6 @@ export default function ResetPasswordForm() {
   }, []);
 
   useEffect(() => {
-    // Setzt den Fokus auf das Passwortfeld, wenn das Formular gerendert wird
     if (passwordInputRef.current) {
       passwordInputRef.current.focus();
     }
@@ -139,7 +138,7 @@ export default function ResetPasswordForm() {
               setPassword('');
             }
           }}
-          ref={passwordInputRef} // Weist den Ref dem Passwortfeld zu
+          ref={passwordInputRef}
         />
         <ButtonContainerVertical>
           <Button

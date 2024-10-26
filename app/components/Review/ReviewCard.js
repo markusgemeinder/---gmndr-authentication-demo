@@ -8,7 +8,14 @@ import { useRouter } from 'next/navigation';
 import { useSession } from 'next-auth/react';
 import Button, { ButtonContainerHorizontal } from '@/app/components/Common/Button';
 import StarRating from '@/app/components/Common/StarRating';
-import { CardContainer, IDLabel, Email, Note, CreatedUpdated } from '@/app/components/Review/ReviewStyles';
+import {
+  CardContainer,
+  IDLabel,
+  Email,
+  Note,
+  CreatedUpdated,
+  CardElementsWrapper,
+} from '@/app/components/Review/ReviewStyles';
 import {
   ModalOverlay,
   ModalContent,
@@ -55,32 +62,34 @@ export default function ReviewCard({ review, onDelete }) {
     <>
       <CardContainer>
         <IDLabel>ID: {_id}</IDLabel>
-        <Email>{showEmail}</Email>
-        <Note>{note}</Note>
-        <StarRating rating={rating} />
-        <CreatedUpdated>
-          Created: {format(new Date(createdAt), 'dd.MM.yyyy (HH:mm:ss)')}
-          <br />
-          Updated: {format(new Date(updatedAt), 'dd.MM.yyyy (HH:mm:ss)')}
-        </CreatedUpdated>
-        {showButtons && (
-          <ButtonContainerHorizontal>
-            <Button
-              onClick={() => router.push(`/reviews/${_id}`)}
-              bgColor='var(--color-button-edit)'
-              hoverColor='var(--color-button-edit-hover)'
-              color='var(--color-button-text)'>
-              Edit
-            </Button>
-            <Button
-              onClick={() => setConfirmDelete(true)}
-              bgColor='var(--color-button-delete)'
-              hoverColor='var(--color-button-delete-hover)'
-              color='var(--color-button-text)'>
-              Delete
-            </Button>
-          </ButtonContainerHorizontal>
-        )}
+        <CardElementsWrapper>
+          <Email>{showEmail}</Email>
+          <Note>{note}</Note>
+          <StarRating rating={rating} />
+          <CreatedUpdated>
+            Created: {format(new Date(createdAt), 'dd.MM.yyyy (HH:mm:ss)')}
+            <br />
+            Updated: {format(new Date(updatedAt), 'dd.MM.yyyy (HH:mm:ss)')}
+          </CreatedUpdated>
+          {showButtons && (
+            <ButtonContainerHorizontal>
+              <Button
+                onClick={() => router.push(`/reviews/${_id}`)}
+                bgColor='var(--color-button-edit)'
+                hoverColor='var(--color-button-edit-hover)'
+                color='var(--color-button-text)'>
+                Edit
+              </Button>
+              <Button
+                onClick={() => setConfirmDelete(true)}
+                bgColor='var(--color-button-delete)'
+                hoverColor='var(--color-button-delete-hover)'
+                color='var(--color-button-text)'>
+                Delete
+              </Button>
+            </ButtonContainerHorizontal>
+          )}
+        </CardElementsWrapper>
       </CardContainer>
 
       {confirmDelete && (
