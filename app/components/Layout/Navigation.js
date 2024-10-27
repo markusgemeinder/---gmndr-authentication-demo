@@ -262,10 +262,10 @@ export default function Navigation() {
         <BrandContainer>
           <Title>MyApp</Title>
           {session ? renderSessionButtons() : renderNoSessionButtons()}
-          <ThemeToggleButton />
         </BrandContainer>
         <NavContainer>
           <NavList>{renderNavLinks()}</NavList>
+          <ThemeToggleButton />
           <BurgerMenuButton
             onClick={() => setIsBurgerOpen(!isBurgerOpen)}
             aria-label='Toggle burger menu'

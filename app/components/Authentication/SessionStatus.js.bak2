@@ -8,7 +8,7 @@ import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Button, { ButtonContainerHorizontal } from '@/app/components/Button/Button';
 import { ModalOverlay, ModalHeader, ModalContent, BlinkingText } from '@/app/components/Common/ModalPopup';
-import { Paragraph, StyledLink } from '@/app/components/Common/CommonStyles';
+import { Paragraph, StyledLink } from '@/app/components/Common/CommonStyles'; // Importiere die neuen Komponenten
 
 const StatusContainer = styled.div`
   margin-bottom: 0.4rem;
@@ -106,8 +106,16 @@ export default function SessionStatus() {
 
   const userRole = session?.user.isDemoUser ? 'Demo User' : session?.user.role;
 
+  // Abfrage des Themas aus dem localStorage
+  const theme = typeof window !== 'undefined' ? localStorage.getItem('theme') : 'light';
+
   return (
     <StatusContainer>
+      {/* Anzeige des aktuellen Themas immer */}
+      <Paragraph>
+        Current theme: <strong>{theme || 'light'}</strong>
+      </Paragraph>
+
       {session ? (
         <>
           <Paragraph>

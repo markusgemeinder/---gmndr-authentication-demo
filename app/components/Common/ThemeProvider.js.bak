@@ -7,14 +7,18 @@ import { createContext, useState, useEffect } from 'react';
 export const ThemeContext = createContext();
 
 export default function ThemeProvider({ children }) {
-  const [theme, setTheme] = useState('light');
+  const [theme, setTheme] = useState(() => {
+    if (typeof window !== 'undefined') {
+      const storedTheme = localStorage.getItem('theme');
+      return storedTheme === 'dark' || storedTheme === null ? 'dark' : 'light';
+    }
+    return 'light';
+  });
 
   useEffect(() => {
-    if (typeof window !== 'undefined') {
-      const storedTheme = localStorage.getItem('theme') || 'light';
-      setTheme(storedTheme);
-      document.documentElement.setAttribute('data-theme', storedTheme);
-    }
+    const storedTheme = localStorage.getItem('theme') || 'light';
+    setTheme(storedTheme);
+    document.documentElement.setAttribute('data-theme', storedTheme);
   }, []);
 
   useEffect(() => {
