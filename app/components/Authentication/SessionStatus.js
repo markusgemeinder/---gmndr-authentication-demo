@@ -147,9 +147,13 @@ export default function SessionStatus() {
           )}
         </>
       ) : (
-        <Paragraph>
-          Welcome, unknown user. <StyledLink href='/login'>Please login.</StyledLink>
-        </Paragraph>
+        <>
+          <Paragraph>
+            Welcome! <StyledLink href='/login'>Log in</StyledLink> (including Demo User) or{' '}
+            <StyledLink href='/register'>create an account</StyledLink> to access the Reviews area. And don&apos;t
+            forget to leave a message :)
+          </Paragraph>
+        </>
       )}
     </StatusContainer>
   );
