@@ -41,7 +41,7 @@ const BrandContainer = styled.div`
 `;
 
 const Title = styled.div`
-  margin-right: 0.6rem;
+  margin-right: 0.8rem;
   font-size: 1rem;
   font-weight: bold;
 
@@ -87,7 +87,6 @@ const ThemeToggle = styled.button`
   background: none;
   border: none;
   color: var(--color-header-text);
-  /* cursor: pointer; */
   display: flex;
   align-items: center;
   justify-content: center;
@@ -102,23 +101,11 @@ const ThemeToggle = styled.button`
 const StyledMoonIcon = styled(MoonIcon)`
   width: 28px;
   height: 28px;
-  /* color: inherit; */
-
-  /* @media (min-width: 768px) and (min-height: 768px) {
-    width: 28px;
-    height: 28px;
-  } */
 `;
 
 const StyledSunIcon = styled(SunIcon)`
   width: 36px;
   height: 36px;
-  /* color: inherit; */
-
-  /* @media (min-width: 768px) and (min-height: 768px) {
-    width: 36px;
-    height: 36px;
-  } */
 `;
 
 const BurgerMenuButton = styled.button`
@@ -143,17 +130,16 @@ const BurgerMenuButtonSvg = styled.svg`
   stroke-width: 2;
   stroke-linecap: round;
   stroke-linejoin: round;
+  transition: transform 0.3s ease;
 
-  line {
-    transition: stroke 0.3s ease;
-  }
+  transform: ${({ isOpen }) => (isOpen ? 'rotate(45deg)' : 'rotate(0deg)')};
 `;
 
 const BurgerMenuNavigation = styled.nav`
   position: fixed;
   top: 4rem;
   left: 0;
-  width: 50%;
+  width: 56%;
   height: 100vh;
   background-color: var(--color-burger-menu-background);
   transform: ${({ isOpen }) => (isOpen ? 'translateX(0)' : 'translateX(-100%)')};
@@ -176,6 +162,17 @@ const BurgerMenuItem = styled.li`
   text-align: left;
 `;
 
+const Overlay = styled.div`
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.25);
+  display: ${({ isOpen }) => (isOpen ? 'block' : 'none')};
+  z-index: 5;
+`;
+
 export default function Navigation() {
   const { data: session, status } = useSession();
   const router = useRouter();
@@ -184,7 +181,7 @@ export default function Navigation() {
   const [isBurgerOpen, setIsBurgerOpen] = useState(false);
 
   const handleLinkClick = () => {
-    setIsBurgerOpen(false);
+    if (isBurgerOpen) setIsBurgerOpen(false);
   };
 
   const renderNavLinks = () => (
@@ -195,22 +192,18 @@ export default function Navigation() {
         </NavLink>
       </NavItem>
       {!session && (
-        <>
-          <NavItem>
-            <NavLink href='/forgot-password' isActive={pathname === '/forgot-password'} onClick={handleLinkClick}>
-              Forgot Password
-            </NavLink>
-          </NavItem>
-        </>
+        <NavItem>
+          <NavLink href='/forgot-password' isActive={pathname === '/forgot-password'} onClick={handleLinkClick}>
+            Forgot Password
+          </NavLink>
+        </NavItem>
       )}
       {session && (
-        <>
-          <NavItem>
-            <NavLink href='/reviews' isActive={pathname === '/reviews'} onClick={handleLinkClick}>
-              Reviews
-            </NavLink>
-          </NavItem>
-        </>
+        <NavItem>
+          <NavLink href='/reviews' isActive={pathname === '/reviews'} onClick={handleLinkClick}>
+            Reviews
+          </NavLink>
+        </NavItem>
       )}
       <NavItem>
         <NavLink href='/about' isActive={pathname === '/about'} onClick={handleLinkClick}>
@@ -228,22 +221,18 @@ export default function Navigation() {
         </NavLink>
       </BurgerMenuItem>
       {session && (
-        <>
-          <BurgerMenuItem>
-            <NavLink href='/reviews' isActive={pathname === '/reviews'} onClick={handleLinkClick}>
-              Reviews
-            </NavLink>
-          </BurgerMenuItem>
-        </>
+        <BurgerMenuItem>
+          <NavLink href='/reviews' isActive={pathname === '/reviews'} onClick={handleLinkClick}>
+            Reviews
+          </NavLink>
+        </BurgerMenuItem>
       )}
       {!session && (
-        <>
-          <BurgerMenuItem>
-            <NavLink href='/forgot-password' isActive={pathname === '/forgot-password'} onClick={handleLinkClick}>
-              Forgot Password
-            </NavLink>
-          </BurgerMenuItem>
-        </>
+        <BurgerMenuItem>
+          <NavLink href='/forgot-password' isActive={pathname === '/forgot-password'} onClick={handleLinkClick}>
+            Forgot Password
+          </NavLink>
+        </BurgerMenuItem>
       )}
       <BurgerMenuItem>
         <NavLink href='/about' isActive={pathname === '/about'} onClick={handleLinkClick}>
@@ -254,44 +243,40 @@ export default function Navigation() {
   );
 
   const renderSessionButtons = () => (
-    <>
-      <ButtonContainerHorizontal>
-        <Button
-          bgColor='var(--color-button-logout)'
-          hoverColor='var(--color-button-logout-hover)'
-          onClick={() => {
-            signOut({ callbackUrl: '/' });
-            setIsBurgerOpen(false);
-          }}>
-          Logout
-        </Button>
-      </ButtonContainerHorizontal>
-    </>
+    <ButtonContainerHorizontal>
+      <Button
+        bgColor='var(--color-button-logout)'
+        hoverColor='var(--color-button-logout-hover)'
+        onClick={() => {
+          signOut({ callbackUrl: '/' });
+          if (isBurgerOpen) setIsBurgerOpen(false);
+        }}>
+        Logout
+      </Button>
+    </ButtonContainerHorizontal>
   );
 
   const renderNoSessionButtons = () => (
-    <>
-      <ButtonContainerHorizontal>
-        <Button
-          bgColor='var(--color-button-login)'
-          hoverColor='var(--color-button-login-hover)'
-          onClick={() => {
-            router.push('/login');
-            setIsBurgerOpen(false);
-          }}>
-          Login
-        </Button>
-        <Button
-          bgColor='var(--color-button-register)'
-          hoverColor='var(--color-button-register-hover)'
-          onClick={() => {
-            router.push('/register');
-            setIsBurgerOpen(false);
-          }}>
-          Register
-        </Button>
-      </ButtonContainerHorizontal>
-    </>
+    <ButtonContainerHorizontal>
+      <Button
+        bgColor='var(--color-button-login)'
+        hoverColor='var(--color-button-login-hover)'
+        onClick={() => {
+          router.push('/login');
+          if (isBurgerOpen) setIsBurgerOpen(false);
+        }}>
+        Login
+      </Button>
+      <Button
+        bgColor='var(--color-button-register)'
+        hoverColor='var(--color-button-register-hover)'
+        onClick={() => {
+          router.push('/register');
+          if (isBurgerOpen) setIsBurgerOpen(false);
+        }}>
+        Register
+      </Button>
+    </ButtonContainerHorizontal>
   );
 
   return (
@@ -303,35 +288,27 @@ export default function Navigation() {
         </BrandContainer>
         <NavContainer>
           <NavList>{renderNavLinks()}</NavList>
-          <ThemeToggle
-            onClick={toggleTheme}
-            aria-label={`Toggle to ${theme === 'light' ? 'dark' : 'light'} theme`}
-            title={`Toggle to ${theme === 'light' ? 'dark' : 'light'} theme`}>
+          <ThemeToggle onClick={toggleTheme} aria-label={`Toggle to ${theme === 'light' ? 'dark' : 'light'} theme`}>
             {theme === 'light' ? <StyledMoonIcon /> : <StyledSunIcon />}
           </ThemeToggle>
           <BurgerMenuButton
             onClick={() => setIsBurgerOpen(!isBurgerOpen)}
-            aria-label={isBurgerOpen ? 'Close menu' : 'Open menu'}
-            title={isBurgerOpen ? 'Close menu' : 'Open menu'}>
-            <BurgerMenuButtonSvg viewBox='0 0 24 24' isOpen={isBurgerOpen}>
-              {isBurgerOpen ? (
-                <>
-                  <line x1='18' y1='6' x2='6' y2='18' />
-                  <line x1='6' y1='6' x2='18' y2='18' />
-                </>
-              ) : (
-                <>
-                  <line x1='3' y1='12' x2='21' y2='12' />
-                  <line x1='3' y1='6' x2='21' y2='6' />
-                  <line x1='3' y1='18' x2='21' y2='18' />
-                </>
-              )}
+            aria-label='Toggle burger menu'
+            aria-expanded={isBurgerOpen}>
+            <BurgerMenuButtonSvg
+              xmlns='http://www.w3.org/2000/svg'
+              fill='none'
+              viewBox='0 0 24 24'
+              isOpen={isBurgerOpen}>
+              <path d='M4 6h16M4 12h16M4 18h16' />
             </BurgerMenuButtonSvg>
           </BurgerMenuButton>
         </NavContainer>
       </Header>
+      <Overlay isOpen={isBurgerOpen} onClick={() => setIsBurgerOpen(false)} />
       <BurgerMenuNavigation isOpen={isBurgerOpen}>
         <BurgerMenuList>{renderBurgerMenuLinks()}</BurgerMenuList>
+        {/* {session ? renderSessionButtons() : renderNoSessionButtons()} */}
       </BurgerMenuNavigation>
     </>
   );

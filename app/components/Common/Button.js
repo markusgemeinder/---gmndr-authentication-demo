@@ -27,7 +27,7 @@ export const ButtonContainerVertical = styled.div`
 export const ButtonContainerHorizontal = styled.div`
   display: flex;
   flex-direction: row;
-  gap: 0.6rem;
+  gap: 0.7rem;
   width: 100%;
   justify-content: center;
   margin: 0.4rem 0;
@@ -43,7 +43,7 @@ const StyledButton = styled.button.withConfig({
   background-color: ${(props) => props.bgColor || 'var(--color-button)'};
   color: ${(props) => props.color || 'var(--color-button-text)'};
   font-weight: 500;
-  padding: 0 0.6rem;
+  padding: 0 0.7rem;
   border-radius: 0.4rem;
   /* box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); */
   min-width: 48px;
