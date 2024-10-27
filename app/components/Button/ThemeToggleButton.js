@@ -17,6 +17,7 @@ const ToggleButton = styled.button`
   width: 36px;
   height: 36px;
   cursor: pointer;
+  z-index: 10;
 
   &:hover {
     color: var(--color-link);
