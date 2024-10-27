@@ -17,7 +17,6 @@ const ToggleButton = styled.button`
   width: 36px;
   height: 36px;
   cursor: pointer;
-  z-index: 11;
 
   &:hover {
     color: var(--color-link);
@@ -49,7 +48,7 @@ export default function ThemeToggleButton() {
       type='button'
       onClick={toggleTheme}
       aria-label={`Toggle to ${theme === 'light' ? 'dark' : 'light'} theme`}>
-      {theme === 'dark' || theme === undefined ? <StyledSunIcon /> : <StyledMoonIcon />}
+      {theme === 'light' ? <StyledMoonIcon /> : <StyledSunIcon />}
     </ToggleButton>
   );
 }
