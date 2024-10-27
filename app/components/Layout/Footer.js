@@ -1,4 +1,4 @@
-// /app/components/Common/Footer.js
+// /app/components/Layout/Footer.js
 
 'use client';
 

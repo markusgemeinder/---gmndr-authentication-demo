@@ -5,7 +5,7 @@
 import { useEffect, useState, useRef } from 'react';
 import { useRouter } from 'next/navigation';
 import { useSession } from 'next-auth/react';
-import Button, { ButtonContainerVertical } from '@/app/components/Common/Button';
+import Button, { ButtonContainerVertical } from '@/app/components/Button/Button';
 import { FormContainer, InputGroup, LabelContainer, Label, Input } from '@/app/components/AuthForm/AuthFormStyles';
 import ModalPopup from '@/app/components/Common/ModalPopup';
 

@@ -1,4 +1,4 @@
-// /app/components/Common/PreviousPageButton.js
+// /app/components/Button/PreviousPageButton.js
 
 'use client';
 

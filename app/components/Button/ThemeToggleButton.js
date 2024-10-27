@@ -1,11 +1,11 @@
-// /app/components/Common/ThemeToggleButton.js
+// /app/components/Button/ThemeToggleButton.js
 
 'use client';
 
 import styled from 'styled-components';
 import { useContext } from 'react';
 import { SunIcon, MoonIcon } from '@heroicons/react/24/solid';
-import { ThemeContext } from './ThemeProvider';
+import { ThemeContext } from '@/app/components/Common/ThemeProvider';
 
 const ToggleButton = styled.button`
   background: none;

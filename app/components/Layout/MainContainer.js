@@ -1,4 +1,4 @@
-// /app/components/Common/MainContainer.js
+// /app/components/Layout/MainContainer.js
 
 'use client';
 

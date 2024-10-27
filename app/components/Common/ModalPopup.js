@@ -1,7 +1,7 @@
 // /app/components/Common/ModalPopup.js
 
 import styled, { keyframes } from 'styled-components';
-import Button, { ButtonContainerHorizontal } from '@/app/components/Common/Button';
+import Button, { ButtonContainerHorizontal } from '@/app/components/Button/Button';
 
 const blinkAnimation = keyframes`
   0% { opacity: 1; }

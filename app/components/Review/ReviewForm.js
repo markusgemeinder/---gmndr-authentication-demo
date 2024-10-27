@@ -5,7 +5,7 @@
 import { useState, useEffect, useRef } from 'react';
 import { useSession } from 'next-auth/react';
 import { format } from 'date-fns';
-import Button, { ButtonContainerHorizontal } from '@/app/components/Common/Button';
+import Button, { ButtonContainerHorizontal } from '@/app/components/Button/Button';
 import AccessibleStarRating from '@/app/components/Common/StarRating';
 import {
   FormContainer,

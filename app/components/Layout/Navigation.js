@@ -1,4 +1,4 @@
-// /app/components/Common/Navigation.js
+// /app/components/Layout/Navigation.js
 
 'use client';
 
@@ -7,8 +7,8 @@ import { useRouter, usePathname } from 'next/navigation';
 import { useState } from 'react';
 import styled from 'styled-components';
 import Link from 'next/link';
-import Button, { ButtonContainerHorizontal } from '@/app/components/Common/Button';
-import ThemeToggleButton from '@/app/components/Common/ThemeToggleButton';
+import Button, { ButtonContainerHorizontal } from '@/app/components/Button/Button';
+import ThemeToggleButton from '@/app/components/Button/ThemeToggleButton';
 
 const Header = styled.header`
   background-color: var(--color-header);
