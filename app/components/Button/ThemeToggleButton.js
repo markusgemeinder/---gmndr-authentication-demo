@@ -49,7 +49,7 @@ export default function ThemeToggleButton() {
       type='button'
       onClick={toggleTheme}
       aria-label={`Toggle to ${theme === 'light' ? 'dark' : 'light'} theme`}>
-      {theme === 'light' ? <StyledMoonIcon /> : <StyledSunIcon />}
+      {theme === 'dark' || theme === undefined ? <StyledSunIcon /> : <StyledMoonIcon />}
     </ToggleButton>
   );
 }
