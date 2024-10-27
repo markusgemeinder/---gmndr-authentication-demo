@@ -7,12 +7,13 @@ import { createContext, useState, useEffect } from 'react';
 export const ThemeContext = createContext();
 
 export default function ThemeProvider({ children }) {
-  const [theme, setTheme] = useState(() => {
-    if (typeof window !== 'undefined') {
-      return localStorage.getItem('theme') || 'light';
-    }
-    return 'light';
-  });
+  const [theme, setTheme] = useState('light');
+  // const [theme, setTheme] = useState(() => {
+  //   if (typeof window !== 'undefined') {
+  //     return localStorage.getItem('theme') || 'light';
+  //   }
+  //   return 'light';
+  // });
 
   useEffect(() => {
     const storedTheme = localStorage.getItem('theme') || 'light';
