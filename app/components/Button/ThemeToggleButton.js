@@ -37,7 +37,10 @@ export default function ThemeToggleButton() {
   const { theme, toggleTheme } = useContext(ThemeContext);
 
   return (
-    <ToggleButton onClick={toggleTheme} aria-label={`Toggle to ${theme === 'light' ? 'dark' : 'light'} theme`}>
+    <ToggleButton
+      type='button'
+      onClick={toggleTheme}
+      aria-label={`Toggle to ${theme === 'light' ? 'dark' : 'light'} theme`}>
       {theme === 'light' ? <StyledMoonIcon /> : <StyledSunIcon />}
     </ToggleButton>
   );

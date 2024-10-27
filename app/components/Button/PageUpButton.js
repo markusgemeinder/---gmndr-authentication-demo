@@ -67,7 +67,7 @@ export default function PageUpButton() {
 
   return (
     <PageUpButtonContainer>
-      <PageUpButtonLink onClick={scrollToTop} aria-label='Scroll to top'>
+      <PageUpButtonLink type='button' onClick={scrollToTop} aria-label='Scroll to top'>
         <PageUpButtonSvg xmlns='http://www.w3.org/2000/svg' height='24px' viewBox='0 0 20 20' width='24px'>
           <path d='M0,14.113l10,-10l10,10l-1.775,1.775l-8.225,-8.225l-8.225,8.225l-1.775,-1.775Z' />
         </PageUpButtonSvg>

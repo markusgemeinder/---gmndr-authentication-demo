@@ -46,7 +46,7 @@ const NextPageButtonLink = styled.button`
 export default function NextPageButton({ onClick }) {
   return (
     <NextPageButtonContainer>
-      <NextPageButtonLink onClick={onClick} aria-label='Next page'>
+      <NextPageButtonLink type='button' onClick={onClick} aria-label='Next page'>
         <NextPageButtonSvg xmlns='http://www.w3.org/2000/svg' height='24px' viewBox='0 0 20 20' width='24px'>
           <path d='M5.888,0l10,10l-10,10l-1.775,-1.775l8.225,-8.225l-8.225,-8.225l1.775,-1.775Z' />
         </NextPageButtonSvg>
