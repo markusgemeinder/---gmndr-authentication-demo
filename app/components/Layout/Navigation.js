@@ -33,6 +33,7 @@ const Header = styled.header`
 const BrandContainer = styled.div`
   display: flex;
   align-items: center;
+  gap: 0.6rem;
 
   @media (min-width: 768px) and (min-height: 768px) {
     gap: 1rem;
@@ -40,7 +41,6 @@ const BrandContainer = styled.div`
 `;
 
 const Title = styled.div`
-  margin-right: 0.8rem;
   font-size: 1rem;
   font-weight: bold;
 
@@ -262,8 +262,8 @@ export default function Navigation() {
         <BrandContainer>
           <Title>MyApp</Title>
           {session ? renderSessionButtons() : renderNoSessionButtons()}
+          <ThemeToggleButton />
         </BrandContainer>
-        <ThemeToggleButton />
         <NavContainer>
           <NavList>{renderNavLinks()}</NavList>
           <BurgerMenuButton
