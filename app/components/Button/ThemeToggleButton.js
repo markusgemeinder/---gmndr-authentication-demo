@@ -23,8 +23,7 @@ const ToggleButton = styled.button`
   }
 
   &:active {
-    color: var(--color-link);
-    transform: scale(0.98);
+    color: var(--color-header-text);
   }
 
   &:focus {
@@ -33,11 +32,13 @@ const ToggleButton = styled.button`
 `;
 
 const StyledMoonIcon = styled(MoonIcon)`
-  /* Breite und Höhe können hier angepasst werden */
+  width: 28px;
+  height: 28px;
 `;
 
 const StyledSunIcon = styled(SunIcon)`
-  /* Breite und Höhe können hier angepasst werden */
+  width: 36px;
+  height: 36px;
 `;
 
 export default function ThemeToggleButton() {

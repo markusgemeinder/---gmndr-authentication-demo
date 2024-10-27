@@ -80,6 +80,10 @@ const NavLink = styled(Link)`
   &:hover {
     color: var(--color-link);
   }
+
+  &:active {
+    color: var(--color-header-text);
+  }
 `;
 
 const BurgerMenuButton = styled.button`
