@@ -1,4 +1,5 @@
 // /app/components/Common/Navigation.js
+
 'use client';
 
 import { useSession, signOut } from 'next-auth/react';
@@ -40,7 +41,7 @@ const BrandContainer = styled.div`
 `;
 
 const Title = styled.div`
-  margin-right: 0.8rem;
+  margin-right: 0.6rem;
   font-size: 1rem;
   font-weight: bold;
 
@@ -86,38 +87,38 @@ const ThemeToggle = styled.button`
   background: none;
   border: none;
   color: var(--color-header-text);
-  cursor: pointer;
+  /* cursor: pointer; */
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 42px;
-  height: 42px;
+  width: 36px;
+  height: 36px;
 
   &:hover {
-    color: var(--color-link-hover);
+    color: var(--color-link);
   }
 `;
 
 const StyledMoonIcon = styled(MoonIcon)`
-  width: 32px;
-  height: 32px;
-  color: inherit;
+  width: 28px;
+  height: 28px;
+  /* color: inherit; */
 
-  @media (min-width: 768px) and (min-height: 768px) {
+  /* @media (min-width: 768px) and (min-height: 768px) {
     width: 28px;
     height: 28px;
-  }
+  } */
 `;
 
 const StyledSunIcon = styled(SunIcon)`
-  width: 40px;
-  height: 40px;
-  color: inherit;
+  width: 36px;
+  height: 36px;
+  /* color: inherit; */
 
-  @media (min-width: 768px) and (min-height: 768px) {
+  /* @media (min-width: 768px) and (min-height: 768px) {
     width: 36px;
     height: 36px;
-  }
+  } */
 `;
 
 const BurgerMenuButton = styled.button`

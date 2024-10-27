@@ -66,36 +66,37 @@
     66	│   │   │   ├── PageUpButton.js
     67	│   │   │   ├── PreviousPageButton.js
     68	│   │   │   ├── ScrollToTop.js
-    69	│   │   │   └── ThemeProvider.js
-    70	│   │   └── Review
-    71	│   │       ├── ReviewCard.js
-    72	│   │       ├── ReviewForm.js
-    73	│   │       └── ReviewStyles.js
-    74	│   ├── globals.css
-    75	│   ├── layout.js
-    76	│   ├── page.js
-    77	│   └── reviews
-    78	│       ├── [id]
-    79	│       │   └── page.js
-    80	│       ├── create
+    69	│   │   │   ├── StarRating.js
+    70	│   │   │   ├── ThemeProvider.js
+    71	│   │   │   └── ValidatePassword.js
+    72	│   │   └── Review
+    73	│   │       ├── ReviewCard.js
+    74	│   │       ├── ReviewForm.js
+    75	│   │       └── ReviewStyles.js
+    76	│   ├── globals.css
+    77	│   ├── layout.js
+    78	│   ├── page.js
+    79	│   └── reviews
+    80	│       ├── [id]
     81	│       │   └── page.js
-    82	│       └── page.js
-    83	├── db
-    84	│   ├── connect.js
-    85	│   └── models
-    86	│       ├── Review.js
-    87	│       └── User.js
-    88	├── jsconfig.json
-    89	├── middleware.js
-    90	├── next.config.mjs
-    91	├── package.json
-    92	├── postcss.config.mjs
-    93	├── tailwind.config.js
-    94	├── tree_with_numbers.txt
-    95	└── utils
-    96	    ├── maskEmail.js
-    97	    ├── renderStars.js
-    98	    ├── sendEmail.js
-    99	    └── validatePassword.js
+    82	│       ├── create
+    83	│       │   └── page.js
+    84	│       └── page.js
+    85	├── db
+    86	│   ├── connect.js
+    87	│   └── models
+    88	│       ├── Review.js
+    89	│       └── User.js
+    90	├── jsconfig.json
+    91	├── middleware.js
+    92	├── next.config.mjs
+    93	├── package.json
+    94	├── postcss.config.mjs
+    95	├── tailwind.config.js
+    96	├── tree_with_numbers.txt
+    97	└── utils
+    98	    ├── maskEmail.js
+    99	    ├── sendEmail.js
+   100	    └── validatePassword.js.bak
       	
-   100	34 directories, 65 files
+   101	34 directories, 66 files

@@ -7,8 +7,8 @@
 /* Light Theme Colors */
 :root {
   /* Link Colors */
-  --color-link: #849fe8;
-  --color-link-hover: #2c4da8;
+  --color-link: #839bde;
+  --color-link-hover: #3356b7;
 
   /* Text Colors */
   --color-text: #111827;
@@ -56,7 +56,7 @@
   --color-button-delete: #ef4444;
   --color-button-delete-hover: #dc2626;
   --color-button-page-navigation: #203a81;
-  --color-button-page-navigation-hover: var(--color-link);
+  --color-button-page-navigation-hover: #a2b8f6;
   --color-button-page-navigation-icon: #203a81;
 
   /* Authentication Button Colors */
@@ -137,7 +137,7 @@
   --color-button-delete: #b91c1c;
   --color-button-delete-hover: #991b1b;
   --color-button-page-navigation: #c6c9cf;
-  --color-button-page-navigation-hover: var(--color-link-hover);
+  --color-button-page-navigation-hover: #6683d6;
   --color-button-page-navigation-icon: #c6c9cf;
 
   /* Authentication Button Colors */
