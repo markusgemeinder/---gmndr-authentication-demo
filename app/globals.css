@@ -60,7 +60,8 @@
   --color-button-page-navigation-icon: #203a81;
 
   /* Authentication Button Colors */
-  --color-button-login: var(--color-button-edit);
+  /* --color-button-login: var(--color-button-edit); */
+  --color-button-login: yellow;
   --color-button-login-hover: var(--color-button-edit-hover);
   --color-button-register: var(--color-button-secondary);
   --color-button-register-hover: var(--color-button-secondary-hover);
@@ -141,7 +142,8 @@
   --color-button-page-navigation-icon: #c6c9cf;
 
   /* Authentication Button Colors */
-  --color-button-login: var(--color-button-edit);
+  /* --color-button-login: var(--color-button-edit); */
+  --color-button-login: yellow;
   --color-button-login-hover: var(--color-button-edit-hover);
   --color-button-register: var(--color-button-secondary);
   --color-button-register-hover: var(--color-button-secondary-hover);
