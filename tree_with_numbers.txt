@@ -56,50 +56,51 @@
     56	│   │   │   └── SessionStatus.js
     57	│   │   ├── Button
     58	│   │   │   ├── Button.js
-    59	│   │   │   ├── NextPageButton.js
-    60	│   │   │   ├── PageUpButton.js
-    61	│   │   │   ├── PreviousPageButton.js
-    62	│   │   │   └── ThemeToggleButton.js
-    63	│   │   ├── Common
-    64	│   │   │   ├── CommonStyles.js
-    65	│   │   │   ├── LoadingAnimation.js
-    66	│   │   │   ├── ModalPopup.js
-    67	│   │   │   ├── ScrollToTop.js
-    68	│   │   │   ├── StarRating.js
-    69	│   │   │   ├── ThemeProvider.js
-    70	│   │   │   └── ValidatePassword.js
-    71	│   │   ├── Layout
-    72	│   │   │   ├── Footer.js
-    73	│   │   │   ├── MainContainer.js
-    74	│   │   │   └── Navigation.js
-    75	│   │   └── Review
-    76	│   │       ├── ReviewCard.js
-    77	│   │       ├── ReviewForm.js
-    78	│   │       └── ReviewStyles.js
-    79	│   ├── globals.css
-    80	│   ├── layout.js
-    81	│   ├── page.js
-    82	│   └── reviews
-    83	│       ├── [id]
-    84	│       │   └── page.js
-    85	│       ├── create
-    86	│       │   └── page.js
-    87	│       └── page.js
-    88	├── db
-    89	│   ├── connect.js
-    90	│   └── models
-    91	│       ├── Review.js
-    92	│       └── User.js
-    93	├── jsconfig.json
-    94	├── middleware.js
-    95	├── next.config.mjs
-    96	├── package.json
-    97	├── postcss.config.mjs
-    98	├── tailwind.config.js
-    99	├── tree_with_numbers.txt
-   100	└── utils
-   101	    ├── maskEmail.js
-   102	    ├── sendEmail.js
-   103	    └── validatePassword.js.bak
+    59	│   │   │   ├── NavigationButtonNextPage.js
+    60	│   │   │   ├── NavigationButtonPageUp.js
+    61	│   │   │   ├── NavigationButtonPreviousPage.js
+    62	│   │   │   ├── NavigationButtonTemplate.js
+    63	│   │   │   └── ThemeToggleButton.js
+    64	│   │   ├── Common
+    65	│   │   │   ├── CommonStyles.js
+    66	│   │   │   ├── LoadingAnimation.js
+    67	│   │   │   ├── ModalPopup.js
+    68	│   │   │   ├── ScrollToTop.js
+    69	│   │   │   ├── StarRating.js
+    70	│   │   │   ├── ThemeProvider.js
+    71	│   │   │   └── ValidatePassword.js
+    72	│   │   ├── Layout
+    73	│   │   │   ├── Footer.js
+    74	│   │   │   ├── MainContainer.js
+    75	│   │   │   └── Navigation.js
+    76	│   │   └── Review
+    77	│   │       ├── ReviewCard.js
+    78	│   │       ├── ReviewForm.js
+    79	│   │       └── ReviewStyles.js
+    80	│   ├── globals.css
+    81	│   ├── layout.js
+    82	│   ├── page.js
+    83	│   └── reviews
+    84	│       ├── [id]
+    85	│       │   └── page.js
+    86	│       ├── create
+    87	│       │   └── page.js
+    88	│       └── page.js
+    89	├── db
+    90	│   ├── connect.js
+    91	│   └── models
+    92	│       ├── Review.js
+    93	│       └── User.js
+    94	├── jsconfig.json
+    95	├── middleware.js
+    96	├── next.config.mjs
+    97	├── package.json
+    98	├── postcss.config.mjs
+    99	├── tailwind.config.js
+   100	├── tree_with_numbers.txt
+   101	└── utils
+   102	    ├── maskEmail.js
+   103	    ├── sendEmail.js
+   104	    └── validatePassword.js.bak
       	
-   104	36 directories, 67 files
+   105	36 directories, 68 files

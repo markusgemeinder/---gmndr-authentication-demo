@@ -4,8 +4,8 @@
 
 import { Container, NarrowContainer } from '@/app/components/Common/CommonStyles';
 import ScrollToTop from '@/app/components/Common/ScrollToTop';
-import NextPageButton from '@/app/components/Button/NextPageButton';
-import PreviousPageButton from '@/app/components/Button/PreviousPageButton';
+import NavigationButtonNextPage from '@/app/components/Button/NavigationButtonNextPage';
+import NavigationButtonPreviousPage from '@/app/components/Button/NavigationButtonPreviousPage';
 import { useState } from 'react';
 import AboutProject from '@/app/components/About/AboutProject';
 import AboutNeueFische from '@/app/components/About/AboutNeueFische';
@@ -46,8 +46,8 @@ export default function About() {
     <Container>
       <ScrollToTop />
       <NarrowContainer>{cards[currentCard].content}</NarrowContainer>
-      <PreviousPageButton onClick={previousCard} />
-      <NextPageButton onClick={nextCard} />
+      <NavigationButtonPreviousPage onClick={previousCard} />
+      <NavigationButtonNextPage onClick={nextCard} />
     </Container>
   );
 }

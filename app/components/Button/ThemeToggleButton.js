@@ -21,6 +21,14 @@ const ToggleButton = styled.button`
   &:hover {
     color: var(--color-link);
   }
+
+  &:active {
+    color: var(--color-header-text);
+  }
+
+  &:focus {
+    outline: none;
+  }
 `;
 
 const StyledMoonIcon = styled(MoonIcon)`

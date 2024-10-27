@@ -34,7 +34,7 @@ export default function LoginForm({ onLogin, onOAuthLogin, error, onDemoLogin })
   });
 
   const router = useRouter();
-  const emailInputRef = useRef(null); // Ref für das E-Mail-Feld
+  const emailInputRef = useRef(null);
 
   useEffect(() => {
     if (error) {
@@ -43,7 +43,6 @@ export default function LoginForm({ onLogin, onOAuthLogin, error, onDemoLogin })
   }, [error]);
 
   useEffect(() => {
-    // Setzt den Fokus auf das E-Mail-Feld, wenn das Formular gerendert wird
     if (emailInputRef.current) {
       emailInputRef.current.focus();
     }

@@ -148,7 +148,7 @@ const Overlay = styled.div`
 `;
 
 export default function Navigation() {
-  const { data: session, status } = useSession();
+  const { data: session } = useSession();
   const router = useRouter();
   const pathname = usePathname();
   const [isBurgerOpen, setIsBurgerOpen] = useState(false);
@@ -279,7 +279,6 @@ export default function Navigation() {
       <Overlay isOpen={isBurgerOpen} onClick={() => setIsBurgerOpen(false)} />
       <BurgerMenuNavigation isOpen={isBurgerOpen}>
         <BurgerMenuList>{renderBurgerMenuLinks()}</BurgerMenuList>
-        {/* {session ? renderSessionButtons() : renderNoSessionButtons()} */}
       </BurgerMenuNavigation>
     </>
   );
