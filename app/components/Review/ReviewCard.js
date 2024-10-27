@@ -6,7 +6,7 @@ import { format } from 'date-fns';
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { useSession } from 'next-auth/react';
-import Button, { ButtonContainerHorizontal } from '@/app/components/Common/Button';
+import Button, { ButtonContainerHorizontal } from '@/app/components/Button/Button';
 import StarRating from '@/app/components/Common/StarRating';
 import {
   CardContainer,

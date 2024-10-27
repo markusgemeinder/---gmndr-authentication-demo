@@ -1,4 +1,4 @@
-// /app/components/Common/PageUpButton.js
+// /app/components/Button/PageUpButton.js
 
 'use client';
 

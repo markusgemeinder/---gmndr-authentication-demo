@@ -4,8 +4,8 @@
 
 import { Container, NarrowContainer } from '@/app/components/Common/CommonStyles';
 import ScrollToTop from '@/app/components/Common/ScrollToTop';
-import NextPageButton from '@/app/components/Common/NextPageButton';
-import PreviousPageButton from '@/app/components/Common/PreviousPageButton';
+import NextPageButton from '@/app/components/Button/NextPageButton';
+import PreviousPageButton from '@/app/components/Button/PreviousPageButton';
 import { useState } from 'react';
 import AboutProject from '@/app/components/About/AboutProject';
 import AboutNeueFische from '@/app/components/About/AboutNeueFische';

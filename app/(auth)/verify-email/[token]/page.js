@@ -6,7 +6,7 @@ import { useState, useEffect } from 'react';
 import ScrollToTop from '@/app/components/Common/ScrollToTop';
 import { Container, Title } from '@/app/components/Common/CommonStyles';
 import ModalPopup from '@/app/components/Common/ModalPopup';
-import Button, { ButtonContainerHorizontal } from '@/app/components/Common/Button';
+import Button, { ButtonContainerHorizontal } from '@/app/components/Button/Button';
 import { Paragraph } from '@/app/components/Common/CommonStyles';
 import { useRouter } from 'next/navigation';
 

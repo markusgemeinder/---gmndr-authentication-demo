@@ -8,7 +8,7 @@ import { useEffect, useState } from 'react';
 import ReviewCard from '@/app/components/Review/ReviewCard';
 import SessionStatus from '@/app/components/Authentication/SessionStatus';
 import LoadingAnimation from '@/app/components/Common/LoadingAnimation';
-import Button from '@/app/components/Common/Button';
+import Button from '@/app/components/Button/Button';
 import { Container, Title } from '@/app/components/Common/CommonStyles';
 import { ReviewsContainer } from '@/app/components/Review/ReviewStyles';
 import ScrollToTop from '@/app/components/Common/ScrollToTop';

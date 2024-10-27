@@ -1,15 +1,14 @@
-// /app/components/Common/Navigation.js
+// /app/components/Layout/Navigation.js
 
 'use client';
 
 import { useSession, signOut } from 'next-auth/react';
 import { useRouter, usePathname } from 'next/navigation';
-import { useContext, useState } from 'react';
+import { useState } from 'react';
 import styled from 'styled-components';
 import Link from 'next/link';
-import Button, { ButtonContainerHorizontal } from '@/app/components/Common/Button';
-import { SunIcon, MoonIcon } from '@heroicons/react/24/solid';
-import { ThemeContext } from '@/app/components/Common/ThemeProvider';
+import Button, { ButtonContainerHorizontal } from '@/app/components/Button/Button';
+import ThemeToggleButton from '@/app/components/Button/ThemeToggleButton';
 
 const Header = styled.header`
   background-color: var(--color-header);
@@ -83,31 +82,6 @@ const NavLink = styled(Link)`
   }
 `;
 
-const ThemeToggle = styled.button`
-  background: none;
-  border: none;
-  color: var(--color-header-text);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 36px;
-  height: 36px;
-
-  &:hover {
-    color: var(--color-link);
-  }
-`;
-
-const StyledMoonIcon = styled(MoonIcon)`
-  width: 28px;
-  height: 28px;
-`;
-
-const StyledSunIcon = styled(SunIcon)`
-  width: 36px;
-  height: 36px;
-`;
-
 const BurgerMenuButton = styled.button`
   background: none;
   border: none;
@@ -177,7 +151,6 @@ export default function Navigation() {
   const { data: session, status } = useSession();
   const router = useRouter();
   const pathname = usePathname();
-  const { theme, toggleTheme } = useContext(ThemeContext);
   const [isBurgerOpen, setIsBurgerOpen] = useState(false);
 
   const handleLinkClick = () => {
@@ -288,9 +261,7 @@ export default function Navigation() {
         </BrandContainer>
         <NavContainer>
           <NavList>{renderNavLinks()}</NavList>
-          <ThemeToggle onClick={toggleTheme} aria-label={`Toggle to ${theme === 'light' ? 'dark' : 'light'} theme`}>
-            {theme === 'light' ? <StyledMoonIcon /> : <StyledSunIcon />}
-          </ThemeToggle>
+          <ThemeToggleButton />
           <BurgerMenuButton
             onClick={() => setIsBurgerOpen(!isBurgerOpen)}
             aria-label='Toggle burger menu'

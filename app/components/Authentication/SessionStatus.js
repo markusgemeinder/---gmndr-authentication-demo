@@ -6,7 +6,7 @@ import styled from 'styled-components';
 import { useSession, signIn, signOut } from 'next-auth/react';
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
-import Button, { ButtonContainerHorizontal } from '@/app/components/Common/Button';
+import Button, { ButtonContainerHorizontal } from '@/app/components/Button/Button';
 import { ModalOverlay, ModalHeader, ModalContent, BlinkingText } from '@/app/components/Common/ModalPopup';
 import { Paragraph, StyledLink } from '@/app/components/Common/CommonStyles'; // Importiere die neuen Komponenten
 

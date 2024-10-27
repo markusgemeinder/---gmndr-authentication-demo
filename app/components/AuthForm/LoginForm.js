@@ -5,7 +5,7 @@
 import { useState, useEffect, useRef } from 'react';
 import { useRouter } from 'next/navigation';
 import ScrollToTop from '@/app/components/Common/ScrollToTop';
-import Button, { ButtonContainerVertical } from '@/app/components/Common/Button';
+import Button, { ButtonContainerVertical } from '@/app/components/Button/Button';
 import {
   FormContainer,
   InputGroup,

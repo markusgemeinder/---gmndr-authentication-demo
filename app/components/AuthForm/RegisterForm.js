@@ -4,7 +4,7 @@
 
 import { useState, useRef, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
-import Button, { ButtonContainerVertical } from '@/app/components/Common/Button';
+import Button, { ButtonContainerVertical } from '@/app/components/Button/Button';
 import { FormContainer, InputGroup, LabelContainer, Label, Input } from '@/app/components/AuthForm/AuthFormStyles';
 import ModalPopup from '@/app/components/Common/ModalPopup';
 import ValidatePassword from '@/app/components/Common/ValidatePassword';
