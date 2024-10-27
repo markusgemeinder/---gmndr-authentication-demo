@@ -28,18 +28,21 @@ const ButtonLink = styled.button`
   border-radius: 0.6rem;
   width: 48px;
   height: 48px;
+  transition: background-color 0.3s ease, transform 0.1s ease;
 
   &:hover {
     background-color: var(--color-button-page-navigation-hover);
   }
 
   &:active {
-    background-color: var(--color-button-page-navigation-hover);
-    /* background-color: transparent; */
+    /* background-color: var(--color-button-page-navigation-hover); */
+    background-color: transparent;
+    transform: scale(0.95);
   }
 
   &:focus {
     outline: none;
+    box-shadow: 0 0 0 1px var(--color-button-page-navigation);
   }
 `;
 

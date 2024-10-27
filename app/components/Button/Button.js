@@ -45,13 +45,17 @@ const StyledButton = styled.button.withConfig({
   font-weight: 500;
   padding: 0 0.7rem;
   border-radius: 0.4rem;
-  /* box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); */
   min-width: 48px;
   min-height: 48px;
   cursor: ${(props) => (props.disabled ? 'not-allowed' : 'pointer')};
 
   &:hover {
     background-color: ${(props) => props.hoverColor || 'var(--color-button-hover)'};
+  }
+
+  &:active {
+    background-color: ${(props) => props.hoverColor || 'var(--color-button-hover)'};
+    transform: scale(0.98);
   }
 
   @media (min-width: 768px) and (min-height: 768px) {
