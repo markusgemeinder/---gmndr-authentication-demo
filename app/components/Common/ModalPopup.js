@@ -33,6 +33,7 @@ export const ModalContent = styled.div`
   align-items: center;
   justify-content: center;
   width: 90%;
+  gap: 1rem;
 
   @media (min-width: 768px) and (min-height: 768px) {
     width: 80%;
@@ -43,7 +44,7 @@ export const ModalContent = styled.div`
 export const ModalHeader = styled.h2`
   font-size: 1.125rem;
   font-weight: bold;
-  margin-bottom: 1rem;
+  margin: 0.6rem;
   text-align: center;
   color: var(--color-modal-header);
 `;
@@ -69,8 +70,8 @@ const ModalPopup = ({ message, onOkClick, showOkButton }) => {
     <ModalOverlay>
       <ModalContent>
         <ModalHeader>{message}</ModalHeader>
-        <ButtonContainerHorizontal>
-          {showOkButton && (
+        {showOkButton && (
+          <ButtonContainerHorizontal>
             <Button
               onClick={onOkClick}
               bgColor='var(--color-button-ok)'
@@ -78,8 +79,8 @@ const ModalPopup = ({ message, onOkClick, showOkButton }) => {
               color='var(--color-button-text)'>
               OK
             </Button>
-          )}
-        </ButtonContainerHorizontal>
+          </ButtonContainerHorizontal>
+        )}
       </ModalContent>
     </ModalOverlay>
   );

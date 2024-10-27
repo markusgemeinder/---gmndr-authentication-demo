@@ -167,7 +167,7 @@ export default function LoginForm({ onLogin, onOAuthLogin, error, onDemoLogin })
             value={email}
             onChange={handleEmailChange}
             required
-            ref={emailInputRef} // Weist den Ref dem E-Mail-Input zu
+            ref={emailInputRef}
           />
         </InputGroup>
 
