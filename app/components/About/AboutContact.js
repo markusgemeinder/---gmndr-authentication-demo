@@ -3,8 +3,8 @@
 'use client';
 
 import ScrollToTop from '@/app/components/Common/ScrollToTop';
-import { Title, Subtitle, Paragraph, AvatarContainer, Avatar } from '@/app/components/Common/CommonStyles';
-import { AboutLink, AboutLinkContainer } from '@/app/components/About/AboutStyles';
+import { Title, Subtitle, Paragraph } from '@/app/components/Common/CommonStyles';
+import { AvatarContainer, Avatar, AboutLink, AboutLinkContainer } from '@/app/components/About/AboutStyles';
 
 export default function AboutContact() {
   return (

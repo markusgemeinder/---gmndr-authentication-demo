@@ -4,8 +4,10 @@
 
 import { useState } from 'react';
 import ScrollToTop from '@/app/components/Common/ScrollToTop';
-import { Title, Paragraph, AvatarContainer, Avatar } from '@/app/components/Common/CommonStyles';
+import { Title, Paragraph } from '@/app/components/Common/CommonStyles';
 import {
+  AvatarContainer,
+  Avatar,
   AboutImageContainer,
   AboutImageWithLink,
   AboutLinkContainer,
