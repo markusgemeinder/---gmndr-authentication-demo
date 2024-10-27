@@ -42,7 +42,7 @@ const ButtonLink = styled.button`
 
   &:focus {
     outline: none;
-    box-shadow: 0 0 0 1px var(--color-button-page-navigation);
+    box-shadow: 0 0 0 2px var(--color-button-page-navigation);
   }
 `;
 

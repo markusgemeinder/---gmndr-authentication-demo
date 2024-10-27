@@ -14,8 +14,8 @@ const ToggleButton = styled.button`
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 36px;
-  height: 36px;
+  width: 42px;
+  height: 42px;
   cursor: pointer;
 
   &:hover {
@@ -32,13 +32,13 @@ const ToggleButton = styled.button`
 `;
 
 const StyledMoonIcon = styled(MoonIcon)`
-  width: 28px;
-  height: 28px;
+  width: 36px;
+  height: 36px;
 `;
 
 const StyledSunIcon = styled(SunIcon)`
-  width: 36px;
-  height: 36px;
+  width: 42px;
+  height: 42px;
 `;
 
 export default function ThemeToggleButton() {
