@@ -43,11 +43,16 @@ export const PaginationContainer = styled.div`
 `;
 
 export const Pagination = styled.p`
-  padding: 0.6rem;
+  padding: 0.7rem;
   width: 48px;
   color: var(--color-button-page-navigation-icon);
   font-weight: 500;
   font-size: 1.2rem;
+
+  @media (min-width: 768px) and (min-height: 768px) {
+    margin-top: 2rem;
+    margin-right: 2rem;
+  }
 `;
 
 export const AboutLinkContainer = styled.div`

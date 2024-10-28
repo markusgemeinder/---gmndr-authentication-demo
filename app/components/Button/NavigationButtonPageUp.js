@@ -34,7 +34,10 @@ export default function NavigationButtonPageUp() {
 
   return (
     <NavigationButtonTemplate
-      position={{ bottom: '3.5rem', right: '0.4rem' }}
+      mobileBottom='3.5rem'
+      mobileRight='0.7rem'
+      desktopBottom='5rem'
+      desktopRight='2rem'
       onClick={scrollToTop}
       ariaLabel='Scroll to top'>
       {svg}

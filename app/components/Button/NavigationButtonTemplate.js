@@ -9,6 +9,20 @@ const ButtonContainer = styled.div`
   position: fixed;
   z-index: 2;
   transition: opacity 0.6s ease;
+
+  /* Mobile Position */
+  top: ${(props) => props.mobileTop || 'initial'};
+  bottom: ${(props) => props.mobileBottom || 'initial'};
+  left: ${(props) => props.mobileLeft || 'initial'};
+  right: ${(props) => props.mobileRight || 'initial'};
+
+  /* Media Queries für Desktop */
+  @media (min-width: 768px) and (min-height: 768px) {
+    top: ${(props) => props.desktopTop || props.mobileTop || 'initial'};
+    bottom: ${(props) => props.desktopBottom || props.mobileBottom || 'initial'};
+    left: ${(props) => props.desktopLeft || props.mobileLeft || 'initial'};
+    right: ${(props) => props.desktopRight || props.mobileRight || 'initial'};
+  }
 `;
 
 export const ButtonSvg = styled.svg`
@@ -35,7 +49,6 @@ const ButtonLink = styled.button`
   }
 
   &:active {
-    /* background-color: var(--color-button-page-navigation-hover); */
     background-color: transparent;
     transform: scale(0.95);
   }
@@ -46,9 +59,29 @@ const ButtonLink = styled.button`
   }
 `;
 
-export const NavigationButtonTemplate = ({ position, children, onClick, ariaLabel }) => {
+export const NavigationButtonTemplate = ({
+  mobileTop,
+  mobileBottom,
+  mobileLeft,
+  mobileRight,
+  desktopTop,
+  desktopBottom,
+  desktopLeft,
+  desktopRight,
+  children,
+  onClick,
+  ariaLabel,
+}) => {
   return (
-    <ButtonContainer style={position}>
+    <ButtonContainer
+      mobileTop={mobileTop}
+      mobileBottom={mobileBottom}
+      mobileLeft={mobileLeft}
+      mobileRight={mobileRight}
+      desktopTop={desktopTop}
+      desktopBottom={desktopBottom}
+      desktopLeft={desktopLeft}
+      desktopRight={desktopRight}>
       <ButtonLink type='button' onClick={onClick} aria-label={ariaLabel}>
         {children}
       </ButtonLink>

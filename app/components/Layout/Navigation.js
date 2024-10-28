@@ -22,11 +22,12 @@ const Header = styled.header`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 0 1rem;
+  padding: 0 0.6rem;
   height: 4rem;
 
   @media (min-width: 768px) and (min-height: 768px) {
     height: 5rem;
+    padding: 0 1rem;
   }
 `;
 
