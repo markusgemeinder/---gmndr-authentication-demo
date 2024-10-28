@@ -76,7 +76,7 @@ const NavItem = styled.li`
 const NavLink = styled(Link)`
   color: var(--color-header-text);
   text-decoration: none;
-  border-bottom: ${({ isActive }) => (isActive ? '2px solid var(--color-header-text)' : 'none')};
+  border-bottom: ${({ $isActive }) => ($isActive ? '2px solid var(--color-header-text)' : 'none')};
 
   &:hover {
     color: var(--color-link);
@@ -111,7 +111,7 @@ const BurgerMenuButtonSvg = styled.svg`
   stroke-linejoin: round;
   transition: transform 0.3s ease;
 
-  transform: ${({ isOpen }) => (isOpen ? 'rotate(45deg)' : 'rotate(0deg)')};
+  transform: ${({ $isOpen }) => ($isOpen ? 'rotate(45deg)' : 'rotate(0deg)')};
 `;
 
 const BurgerMenuNavigation = styled.nav`
@@ -121,7 +121,7 @@ const BurgerMenuNavigation = styled.nav`
   width: 56%;
   height: 100vh;
   background-color: var(--color-burger-menu-background);
-  transform: ${({ isOpen }) => (isOpen ? 'translateX(0)' : 'translateX(-100%)')};
+  transform: ${({ $isOpen }) => ($isOpen ? 'translateX(0)' : 'translateX(-100%)')};
   transition: transform 0.3s ease-in-out;
   z-index: 10;
 
@@ -148,7 +148,7 @@ const Overlay = styled.div`
   width: 100%;
   height: 100vh;
   background: rgba(0, 0, 0, 0.4);
-  display: ${({ isOpen }) => (isOpen ? 'block' : 'none')};
+  display: ${({ $isOpen }) => ($isOpen ? 'block' : 'none')};
   z-index: 5;
 `;
 
@@ -165,26 +165,26 @@ export default function Navigation() {
   const renderNavLinks = () => (
     <>
       <NavItem>
-        <NavLink href='/' isActive={pathname === '/'} onClick={handleLinkClick}>
+        <NavLink href='/' $isActive={pathname === '/'} onClick={handleLinkClick}>
           Home
         </NavLink>
       </NavItem>
       {!session && (
         <NavItem>
-          <NavLink href='/forgot-password' isActive={pathname === '/forgot-password'} onClick={handleLinkClick}>
+          <NavLink href='/forgot-password' $isActive={pathname === '/forgot-password'} onClick={handleLinkClick}>
             Forgot Password
           </NavLink>
         </NavItem>
       )}
       {session && (
         <NavItem>
-          <NavLink href='/reviews' isActive={pathname === '/reviews'} onClick={handleLinkClick}>
+          <NavLink href='/reviews' $isActive={pathname === '/reviews'} onClick={handleLinkClick}>
             Reviews
           </NavLink>
         </NavItem>
       )}
       <NavItem>
-        <NavLink href='/about' isActive={pathname === '/about'} onClick={handleLinkClick}>
+        <NavLink href='/about' $isActive={pathname === '/about'} onClick={handleLinkClick}>
           About
         </NavLink>
       </NavItem>
@@ -194,29 +194,29 @@ export default function Navigation() {
   const renderBurgerMenuLinks = () => (
     <>
       <BurgerMenuItem>
-        <NavLink href='/' isActive={pathname === '/'} onClick={handleLinkClick}>
+        <NavLink href='/' $isActive={pathname === '/'} onClick={handleLinkClick}>
           Home
         </NavLink>
       </BurgerMenuItem>
       {session && (
         <BurgerMenuItem>
-          <NavLink href='/reviews' isActive={pathname === '/reviews'} onClick={handleLinkClick}>
+          <NavLink href='/reviews' $isActive={pathname === '/reviews'} onClick={handleLinkClick}>
             Reviews
           </NavLink>
         </BurgerMenuItem>
       )}
+      <BurgerMenuItem>
+        <NavLink href='/about' $isActive={pathname === '/about'} onClick={handleLinkClick}>
+          About
+        </NavLink>
+      </BurgerMenuItem>
       {!session && (
         <BurgerMenuItem>
-          <NavLink href='/forgot-password' isActive={pathname === '/forgot-password'} onClick={handleLinkClick}>
+          <NavLink href='/forgot-password' $isActive={pathname === '/forgot-password'} onClick={handleLinkClick}>
             Forgot Password
           </NavLink>
         </BurgerMenuItem>
       )}
-      <BurgerMenuItem>
-        <NavLink href='/about' isActive={pathname === '/about'} onClick={handleLinkClick}>
-          About
-        </NavLink>
-      </BurgerMenuItem>
     </>
   );
 
@@ -275,14 +275,14 @@ export default function Navigation() {
               xmlns='http://www.w3.org/2000/svg'
               fill='none'
               viewBox='0 0 24 24'
-              isOpen={isBurgerOpen}>
+              $isOpen={isBurgerOpen}>
               <path d='M4 6h16M4 12h16M4 18h16' />
             </BurgerMenuButtonSvg>
           </BurgerMenuButton>
         </NavContainer>
       </Header>
-      <Overlay isOpen={isBurgerOpen} onClick={() => setIsBurgerOpen(false)} />
-      <BurgerMenuNavigation isOpen={isBurgerOpen}>
+      <Overlay $isOpen={isBurgerOpen} onClick={() => setIsBurgerOpen(false)} />
+      <BurgerMenuNavigation $isOpen={isBurgerOpen}>
         <BurgerMenuList>{renderBurgerMenuLinks()}</BurgerMenuList>
       </BurgerMenuNavigation>
     </>

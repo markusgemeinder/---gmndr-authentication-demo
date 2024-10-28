@@ -111,13 +111,17 @@ export default function SessionStatus() {
       {session ? (
         <>
           <Paragraph>
-            Welcome, {session.user.email}. You are logged in as {userRole}. Your login expires in
+            {userRole === 'Demo User'
+              ? `Welcome! You are logged in as ${userRole}.`
+              : `Welcome, ${session.user.email}! You are logged in as ${userRole}.`}{' '}
+            Your login expires in
             <CountdownContainer>{formatTime(timeLeft)}</CountdownContainer> min (
             <StyledLink href='#' onClick={renewSession}>
               renew session
             </StyledLink>
             ).
           </Paragraph>
+
           <Spacer />
           {showPopup && (
             <SessionStatusModalOverlay>
@@ -149,9 +153,8 @@ export default function SessionStatus() {
       ) : (
         <>
           <Paragraph>
-            Welcome! <StyledLink href='/login'>Log in</StyledLink> (including Demo User) or{' '}
-            <StyledLink href='/register'>create an account</StyledLink> to access the Reviews area. And don&apos;t
-            forget to leave a message :)
+            <StyledLink href='/login'>Log in</StyledLink> (Demo User available) or{' '}
+            <StyledLink href='/register'>sign up</StyledLink> to access the Reviews section.
           </Paragraph>
         </>
       )}
