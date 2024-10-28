@@ -12,7 +12,13 @@ export default function NavigationButtonPreviousPage({ onClick }) {
   );
 
   return (
-    <NavigationButtonTemplate position={{ top: '48%', left: '0.4rem' }} onClick={onClick} ariaLabel='Previous page'>
+    <NavigationButtonTemplate
+      mobileTop='48%'
+      mobileLeft='0.7rem'
+      desktopTop='48%'
+      desktopLeft='2rem'
+      onClick={onClick}
+      ariaLabel='Previous page'>
       {svg}
     </NavigationButtonTemplate>
   );
