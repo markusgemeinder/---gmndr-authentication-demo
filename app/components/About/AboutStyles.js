@@ -1,6 +1,7 @@
 // /app/components/About/AboutStyles.js
 
 import styled from 'styled-components';
+import Image from 'next/image';
 import Link from 'next/link';
 
 export const AvatarContainer = styled.div`
@@ -16,7 +17,7 @@ export const AvatarContainer = styled.div`
   }
 `;
 
-export const Avatar = styled.img`
+export const Avatar = styled(Image)`
   width: 160px;
   height: 160px;
   border-radius: 8px;
@@ -26,6 +27,27 @@ export const Avatar = styled.img`
     width: 220px;
     height: 220px;
   }
+`;
+
+export const PaginationContainer = styled.div`
+  position: fixed;
+  top: 4.6rem;
+  right: 0.6rem;
+  display: flex;
+  gap: 0.4rem;
+  z-index: 10;
+
+  @media (min-width: 768px) and (min-height: 768px) {
+    top: 5.6rem;
+  }
+`;
+
+export const Pagination = styled.p`
+  padding: 0.6rem;
+  width: 48px;
+  color: var(--color-button-page-navigation-icon);
+  font-weight: 500;
+  font-size: 1.2rem;
 `;
 
 export const AboutLinkContainer = styled.div`
@@ -55,7 +77,7 @@ export const AboutImageContainer = styled.div`
   justify-content: center;
 `;
 
-export const AboutImageWithLink = styled.img`
+export const AboutImageWithLink = styled(Image)`
   width: 100%;
   height: auto;
   border-radius: 8px;

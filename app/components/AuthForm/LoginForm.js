@@ -17,6 +17,7 @@ import {
   ToggleVisibility,
   PasswordVisibleIcon,
   PasswordHiddenIcon,
+  IconButtonImage,
 } from '@/app/components/AuthForm/AuthFormStyles';
 import Link from 'next/link';
 import ModalPopup from '@/app/components/Common/ModalPopup';
@@ -35,6 +36,7 @@ export default function LoginForm({ onLogin, onOAuthLogin, error, onDemoLogin })
 
   const router = useRouter();
   const emailInputRef = useRef(null);
+  const currentTime = new Date().getTime();
 
   useEffect(() => {
     if (error) {
@@ -137,7 +139,7 @@ export default function LoginForm({ onLogin, onOAuthLogin, error, onDemoLogin })
             hoverColor='var(--color-button-login-hover)'
             onClick={() => onOAuthLogin('github')}
             style={{ width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-            <img src='/images/github-logo.svg' alt='GitHub Logo' style={{ width: '20px', marginRight: '8px' }} />
+            <IconButtonImage src={`/images/github-logo.svg`} alt='GitHub Logo' width={20} height={20} />
             GitHub
           </Button>
 
@@ -147,7 +149,7 @@ export default function LoginForm({ onLogin, onOAuthLogin, error, onDemoLogin })
             hoverColor='var(--color-button-login-hover)'
             onClick={() => onOAuthLogin('google')}
             style={{ width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-            <img src='/images/google-logo.svg' alt='Google Logo' style={{ width: '20px', marginRight: '8px' }} />
+            <IconButtonImage src={`/images/google-logo.svg`} alt='Google Logo' width={20} height={20} />
             Google
           </Button>
         </ButtonContainerVertical>

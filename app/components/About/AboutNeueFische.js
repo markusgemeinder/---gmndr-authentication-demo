@@ -17,6 +17,7 @@ import {
 export default function AboutNeueFische() {
   const [isImageExpanded, setIsImageExpanded] = useState(false);
   const [expandedImageSrc, setExpandedImageSrc] = useState('');
+  const currentTime = new Date().getTime();
 
   function handleImageClick(src) {
     setIsImageExpanded(true);
@@ -32,22 +33,24 @@ export default function AboutNeueFische() {
     <>
       <ScrollToTop />
       <AvatarContainer>
-        <Avatar src={`/images/neue-fische-logo.png?t=${new Date().getTime()}`} alt='neue fische' />
+        <Avatar src={`/images/neue-fische-logo.png`} alt='neue fische' width={160} height={160} />
       </AvatarContainer>
       <Title>Web Development Bootcamp</Title>
       <Paragraph>Successfully participated (3 months full-time) and completed in February 2024.</Paragraph>
       <AboutImageContainer>
         <AboutImageWithLink
-          src={`/images/neue-fische-certificate-1.png?t=${new Date().getTime()}`}
+          src={`/images/neue-fische-certificate-1.png`}
           alt='Certificate (front)'
-          onClick={() => handleImageClick(`/images/neue-fische-certificate-1.png?t=${new Date().getTime()}`)}
-          style={{ width: '100%', maxWidth: '300px', margin: '10px auto', cursor: 'pointer' }} // Margin für den Abstand
+          width={300}
+          height={400}
+          onClick={() => handleImageClick(`/images/neue-fische-certificate-1.png`)}
         />
         <AboutImageWithLink
-          src={`/images/neue-fische-certificate-2.png?t=${new Date().getTime()}`}
+          src={`/images/neue-fische-certificate-2.png`}
           alt='Certificate (back)'
-          onClick={() => handleImageClick(`/images/neue-fische-certificate-2.png?t=${new Date().getTime()}`)}
-          style={{ width: '100%', maxWidth: '300px', margin: '10px auto', cursor: 'pointer' }} // Margin für den Abstand
+          width={300}
+          height={400}
+          onClick={() => handleImageClick(`/images/neue-fische-certificate-2.png`)}
         />
       </AboutImageContainer>
       {isImageExpanded && (
