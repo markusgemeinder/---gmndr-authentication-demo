@@ -7,8 +7,6 @@ import { Title, Subtitle, Paragraph } from '@/app/components/Common/CommonStyles
 import { AvatarContainer, Avatar, AboutLink, AboutLinkContainer } from '@/app/components/About/AboutStyles';
 
 export default function AboutContact() {
-  const currentTime = new Date().getTime();
-
   return (
     <>
       <ScrollToTop />

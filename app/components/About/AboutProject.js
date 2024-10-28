@@ -7,7 +7,16 @@ import { Title, Subtitle, Paragraph, ListContainer, List } from '@/app/component
 import { AvatarContainer, Avatar, AboutLinkContainer, AboutLink } from '@/app/components/About/AboutStyles';
 
 export default function AboutProject() {
-  const currentTime = new Date().getTime();
+  const getGreeting = () => {
+    const hours = new Date().getHours();
+    if (hours < 12) {
+      return 'Good morning';
+    } else if (hours < 18) {
+      return 'Good afternoon';
+    } else {
+      return 'Good evening';
+    }
+  };
 
   return (
     <>
@@ -15,11 +24,12 @@ export default function AboutProject() {
       <AvatarContainer>
         <Avatar src={`/images/gmndr-pic-01.jpg`} alt='Markus Gemeinder' width={160} height={160} />
       </AvatarContainer>
-      <Title>Welcome!</Title>
+      <Title>#GMNDR Authentication Demo</Title>
       <Paragraph>
-        The <b>#GMNDR Authentication Demo</b> application showcases a comprehensive authentication system that supports
-        various login methods, including GitHub, Google, custom credentials, and demo access. The frontend provides a
-        user-friendly interface while the backend securely manages user data and reviews in MongoDB.
+        {getGreeting()} and welcome to a <strong>project realized by Markus Gemeinder in 2024 with Next.js 14. </strong>{' '}
+        This application showcases a comprehensive authentication system that supports various login methods, including
+        GitHub, Google, custom credentials, and demo access. The frontend provides a user-friendly interface while the
+        backend securely manages user data and reviews in MongoDB.
       </Paragraph>
       <Subtitle>Project Overview</Subtitle>
       <Paragraph>

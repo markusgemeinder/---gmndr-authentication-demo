@@ -17,7 +17,6 @@ import {
 export default function AboutNeueFische() {
   const [isImageExpanded, setIsImageExpanded] = useState(false);
   const [expandedImageSrc, setExpandedImageSrc] = useState('');
-  const currentTime = new Date().getTime();
 
   function handleImageClick(src) {
     setIsImageExpanded(true);
