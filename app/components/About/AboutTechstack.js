@@ -2,11 +2,15 @@
 
 import ScrollToTop from '@/app/components/Common/ScrollToTop';
 import { Title, Subtitle, Paragraph, ListContainer, List } from '@/app/components/Common/CommonStyles';
+import { AvatarContainer, Avatar } from '@/app/components/About/AboutStyles';
 
 export default function AboutTechstack() {
   return (
     <>
       <ScrollToTop />
+      <AvatarContainer>
+        <Avatar src='/images/next-js-logo-01.png' alt='Techstack Avatar' width={160} height={160} />
+      </AvatarContainer>
       <Title>Techstack</Title>
       <Paragraph>Technologies and tools used in this project:</Paragraph>
       <Subtitle>Frontend</Subtitle>

@@ -7,12 +7,13 @@ import { Title, Subtitle, Paragraph } from '@/app/components/Common/CommonStyles
 import { AvatarContainer, Avatar, AboutLink, AboutLinkContainer } from '@/app/components/About/AboutStyles';
 
 export default function AboutContact() {
+  const currentTime = new Date().getTime();
+
   return (
     <>
       <ScrollToTop />
       <AvatarContainer>
-        <Avatar src={`/images/gmndr-pic-2.jpg?t=${new Date().getTime()}`} alt='Markus Gemeinder' />
-        <Avatar src={`/images/gmndr-pic-1.jpg?t=${new Date().getTime()}`} alt='Markus Gemeinder' />
+        <Avatar src={`/images/gmndr-pic-02.jpg`} alt='Markus Gemeinder' width={160} height={160} />
       </AvatarContainer>
       <Title>Contact</Title>
       <Subtitle>Markus Gemeinder</Subtitle>

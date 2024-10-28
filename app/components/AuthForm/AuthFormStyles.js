@@ -2,6 +2,7 @@
 
 import styled from 'styled-components';
 import { FaEye, FaEyeSlash, FaCheck, FaTimes } from 'react-icons/fa';
+import Image from 'next/image';
 
 export const FormContainer = styled.form`
   background-color: var(--color-form-background);
@@ -109,4 +110,10 @@ export const WarningMessage = styled.p`
   padding: 0.8rem;
   line-height: 1.2;
   text-align: center;
+`;
+
+export const IconButtonImage = styled(Image)`
+  margin-right: 8px;
+  width: 20px;
+  height: 20px;
 `;

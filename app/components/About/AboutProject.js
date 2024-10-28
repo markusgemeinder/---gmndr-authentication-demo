@@ -4,12 +4,17 @@
 
 import ScrollToTop from '@/app/components/Common/ScrollToTop';
 import { Title, Subtitle, Paragraph, ListContainer, List } from '@/app/components/Common/CommonStyles';
-import { AboutLinkContainer, AboutLink } from '@/app/components/About/AboutStyles';
+import { AvatarContainer, Avatar, AboutLinkContainer, AboutLink } from '@/app/components/About/AboutStyles';
 
 export default function AboutProject() {
+  const currentTime = new Date().getTime();
+
   return (
     <>
       <ScrollToTop />
+      <AvatarContainer>
+        <Avatar src={`/images/gmndr-pic-01.jpg`} alt='Markus Gemeinder' width={160} height={160} />
+      </AvatarContainer>
       <Title>Welcome!</Title>
       <Paragraph>
         The <b>#GMNDR Authentication Demo</b> application showcases a comprehensive authentication system that supports
@@ -34,7 +39,6 @@ export default function AboutProject() {
         <List>Error and success feedback via modal popups</List>
         <List>Middleware and protected routes ensure secure access to user data</List>
       </ListContainer>
-
       <AboutLinkContainer>
         <AboutLink href='https://github.com/markusgemeinder/---gmndr-authentication-demo' target='_blank'>
           GitHub Repository
