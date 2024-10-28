@@ -27,3 +27,13 @@ export default async function sendEmail({ to, subject, text }) {
     console.error('Error sending email:', error);
   }
 }
+
+export async function sendTestEmail() {
+  const testEmailOptions = {
+    to: '190774@gmx.de',
+    subject: 'Test Email from #GMNDR Authentication Demo',
+    text: 'This is a test email to verify the sending functionality.',
+  };
+
+  return sendEmail(testEmailOptions);
+}
