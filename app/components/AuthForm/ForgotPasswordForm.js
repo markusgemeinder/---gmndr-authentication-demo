@@ -20,7 +20,7 @@ export default function ForgotPasswordForm() {
 
   const router = useRouter();
   const { data: session, status: sessionStatus } = useSession();
-  const emailInputRef = useRef(null); // Ref für das E-Mail-Feld
+  const emailInputRef = useRef(null);
 
   useEffect(() => {
     if (sessionStatus === 'authenticated') {
@@ -30,7 +30,7 @@ export default function ForgotPasswordForm() {
 
   useEffect(() => {
     if (emailInputRef.current) {
-      emailInputRef.current.focus(); // Setzt den Fokus auf das E-Mail-Feld
+      emailInputRef.current.focus();
     }
   }, []);
 

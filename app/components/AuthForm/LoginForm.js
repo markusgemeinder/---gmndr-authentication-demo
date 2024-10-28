@@ -36,6 +36,7 @@ export default function LoginForm({ onLogin, onOAuthLogin, error, onDemoLogin })
 
   const router = useRouter();
   const emailInputRef = useRef(null);
+  const passwordInputRef = useRef(null); // New ref for password input
   const currentTime = new Date().getTime();
 
   useEffect(() => {
@@ -61,6 +62,11 @@ export default function LoginForm({ onLogin, onOAuthLogin, error, onDemoLogin })
   function handleToggleVisibility(event) {
     event.preventDefault();
     setPasswordVisible(!passwordVisible);
+
+    // Always focus on the password input when toggling visibility
+    if (passwordInputRef.current) {
+      passwordInputRef.current.focus();
+    }
   }
 
   function showError(message) {
@@ -185,6 +191,7 @@ export default function LoginForm({ onLogin, onOAuthLogin, error, onDemoLogin })
               value={password}
               onChange={handlePasswordChange}
               required
+              ref={passwordInputRef} // Assign ref to password input
             />
             <ToggleVisibility
               onClick={handleToggleVisibility}

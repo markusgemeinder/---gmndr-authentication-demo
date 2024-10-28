@@ -1,6 +1,6 @@
 // /app/components/Common/ValidatePassword.js
 
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 import {
   InputGroup,
   LabelContainer,
@@ -30,7 +30,7 @@ export default function ValidatePassword({ hasRepeatPassword = false, onPassword
   const [passwordVisible, setPasswordVisible] = useState(false);
   const [passwordQuality, setPasswordQuality] = useState(null);
   const [passwordsMatch, setPasswordsMatch] = useState(true);
-
+  const passwordInputRef = useRef(null);
   function handlePasswordChange(pwd) {
     setPassword(pwd);
     const validationMessage = validatePassword(pwd);
@@ -48,6 +48,10 @@ export default function ValidatePassword({ hasRepeatPassword = false, onPassword
 
   function togglePasswordVisibility() {
     setPasswordVisible(!passwordVisible);
+
+    if (passwordInputRef.current) {
+      passwordInputRef.current.focus();
+    }
   }
 
   return (
@@ -64,6 +68,7 @@ export default function ValidatePassword({ hasRepeatPassword = false, onPassword
             value={password}
             onChange={(e) => handlePasswordChange(e.target.value)}
             required
+            ref={passwordInputRef}
           />
           <ToggleVisibility
             onClick={togglePasswordVisibility}
