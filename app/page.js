@@ -41,8 +41,8 @@ export default function Home() {
       <SessionStatus />
       <Button
         onClick={handleTestEmail}
-        bgColor='var(--color-button-secondary)'
-        hoverColor='var(--color-button-secondary-hover)'
+        bgColor='var(--color-button-delete)'
+        hoverColor='var(--color-button-delete-hover)'
         disabled={loading}>
         {loading ? 'Sending...' : 'Send Test Email'}
       </Button>
