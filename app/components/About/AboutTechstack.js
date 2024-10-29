@@ -27,8 +27,8 @@ export default function AboutTechstack() {
       <ListContainer>
         <List>Node.js</List>
         <List>NextAuth</List>
-        <List>Nodemailer</List>
         <List>NextResponse</List>
+        <List>SendGrid</List>
       </ListContainer>
       <Subtitle>Database</Subtitle>
       <ListContainer>
