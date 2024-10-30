@@ -4,11 +4,13 @@
 
 import styled from 'styled-components';
 import { useSession, signIn, signOut } from 'next-auth/react';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useContext } from 'react';
 import { useRouter } from 'next/navigation';
 import Button, { ButtonContainerHorizontal } from '@/app/components/Button/Button';
 import { ModalOverlay, ModalHeader, ModalContent, BlinkingText } from '@/app/components/Common/ModalPopup';
 import { Paragraph, StyledLink } from '@/app/components/Common/CommonStyles';
+import LanguageContext from '@/app/components/LanguageProvider';
+import { getText } from '@/lib/languageLibrary';
 
 const StatusContainer = styled.div`
   margin-bottom: 0.4rem;
@@ -38,6 +40,7 @@ const SessionStatusModalOverlay = styled(ModalOverlay)`
 `;
 
 export default function SessionStatus() {
+  const { language } = useContext(LanguageContext);
   const { data: session } = useSession();
   const [timeLeft, setTimeLeft] = useState(300);
   const [showPopup, setShowPopup] = useState(false);
@@ -112,12 +115,12 @@ export default function SessionStatus() {
         <>
           <Paragraph>
             {userRole === 'Demo User'
-              ? `Welcome! You are logged in as ${userRole}.`
-              : `Welcome, ${session.user.email}! You are logged in as ${userRole}.`}{' '}
-            Your login expires in
+              ? getText('session_status', 'welcome_demo_user', language)
+              : getText('session_status', 'welcome_user', language, { email: session.user.email, role: userRole })}{' '}
+            {getText('session_status', 'your_login_expires_in', language)}
             <CountdownContainer>{formatTime(timeLeft)}</CountdownContainer> min (
             <StyledLink href='#' onClick={renewSession}>
-              renew session
+              {getText('session_status', 'renew_session', language)}
             </StyledLink>
             ).
           </Paragraph>
@@ -127,7 +130,7 @@ export default function SessionStatus() {
             <SessionStatusModalOverlay>
               <ModalContent>
                 <ModalHeader>
-                  <BlinkingText>Session Expiring Soon</BlinkingText>
+                  <BlinkingText>{getText('session_status', 'session_expiring_soon', language)}</BlinkingText>
                 </ModalHeader>
                 <Timer>{formatTime(timeLeft)}</Timer>
                 <ButtonContainerHorizontal>
@@ -136,14 +139,14 @@ export default function SessionStatus() {
                     bgColor='var(--color-button-login)'
                     hoverColor='var(--color-button-login-hover)'
                     color='var(--color-button-text)'>
-                    Renew Session
+                    {getText('session_status', 'renew_session', language)}
                   </Button>
                   <Button
                     onClick={handleLogout}
                     bgColor='var(--color-button-logout)'
                     hoverColor='var(--color-button-logout-hover)'
                     color='var(--color-button-text)'>
-                    Logout
+                    {getText('session_status', 'logout', language)}
                   </Button>
                 </ButtonContainerHorizontal>
               </ModalContent>
@@ -153,8 +156,11 @@ export default function SessionStatus() {
       ) : (
         <>
           <Paragraph>
-            <StyledLink href='/login'>Log in</StyledLink> (Demo User available) or{' '}
-            <StyledLink href='/register'>sign up</StyledLink> to access the Reviews section.
+            {getText('session_status', 'login_or_signup', language)}
+            <StyledLink href='/login'>{getText('session_status', 'log_in', language)}</StyledLink>
+            (Demo User available) {getText('session_status', 'or', language)}
+            <StyledLink href='/register'>{getText('session_status', 'sign_up', language)}</StyledLink>
+            {getText('session_status', 'to_access_reviews', language)}.
           </Paragraph>
         </>
       )}

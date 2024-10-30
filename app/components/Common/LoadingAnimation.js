@@ -2,8 +2,11 @@
 
 'use client';
 
+import { useContext } from 'react';
 import styled, { keyframes } from 'styled-components';
 import { Container } from '@/app/components/Common/CommonStyles';
+import LanguageContext from '@/app/components/LanguageProvider';
+import { getText } from '@/lib/languageLibrary';
 
 const blinkAnimation = keyframes`
   0% { opacity: 1; }
@@ -22,9 +25,11 @@ const BlinkingText = styled.p`
 `;
 
 export default function LoadingAnimation() {
+  const { language } = useContext(LanguageContext);
+
   return (
     <Container>
-      <BlinkingText>Loading...</BlinkingText>
+      <BlinkingText>{getText('loading_animation', 'loading_text', language)}</BlinkingText>
     </Container>
   );
 }

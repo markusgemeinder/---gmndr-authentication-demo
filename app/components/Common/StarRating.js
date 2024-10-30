@@ -3,7 +3,9 @@
 import { FaStar, FaStarHalfAlt, FaRegStar } from 'react-icons/fa';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
-import { useState } from 'react';
+import { useState, useContext } from 'react';
+import LanguageContext from '@/app/components/LanguageProvider';
+import { getText } from '@/lib/languageLibrary';
 
 const StarContainer = styled.div`
   display: inline-block;
@@ -27,11 +29,14 @@ const StarRatingWrapper = styled.div`
   padding: 0.2rem 0;
 
   &:focus-within ${StarContainer} {
-    color: var(--star-focus-color); /* All stars highlighted when focused */
+    color: var(--star-focus-color);
   }
 `;
 
 export default function StarRating({ rating, setRating = null }) {
+  const { language } = useContext(LanguageContext);
+  const ariaLabel = getText('star_rating', 'aria-label', language);
+
   const [hoverRating, setHoverRating] = useState(0);
 
   const handleStarClick = (index) => {
@@ -82,6 +87,7 @@ export default function StarRating({ rating, setRating = null }) {
           tabIndex={0}
           role='radio'
           aria-checked={rating === i}
+          aria-label={ariaLabel}
           onKeyDown={(event) => handleKeyDown(event, i)}>
           {isFilled ? <FaStar /> : isHalf ? <FaStarHalfAlt /> : <FaRegStar />}
         </StarContainer>
@@ -91,7 +97,7 @@ export default function StarRating({ rating, setRating = null }) {
   };
 
   return (
-    <StarRatingWrapper role='radiogroup' aria-label='Star rating'>
+    <StarRatingWrapper role='radiogroup' aria-label={ariaLabel}>
       {renderStars()}
     </StarRatingWrapper>
   );

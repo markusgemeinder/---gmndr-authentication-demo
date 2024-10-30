@@ -2,10 +2,13 @@
 
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useContext } from 'react';
+import LanguageContext from '@/app/components/LanguageProvider';
+import { getText } from '@/lib/languageLibrary';
 import { NavigationButtonTemplate, ButtonSvg } from '@/app/components/Button/NavigationButtonTemplate';
 
 export default function NavigationButtonPageUp() {
+  const { language } = useContext(LanguageContext);
   const [showButton, setShowButton] = useState(false);
 
   useEffect(() => {
@@ -39,7 +42,7 @@ export default function NavigationButtonPageUp() {
       desktopBottom='5rem'
       desktopRight='2rem'
       onClick={scrollToTop}
-      ariaLabel='Scroll to top'>
+      ariaLabel={getText('navigation_button_page_up', 'aria-label', language)}>
       {svg}
     </NavigationButtonTemplate>
   );
