@@ -60,10 +60,9 @@ export async function POST(req) {
       confirmationTokenExpiry: confirmationTokenExpiry,
     });
 
-    // const baseUrl =
-    //   process.env.NODE_ENV === 'production' ? 'https://gmndr-authentication-demo.vercel.app/' : 'http://localhost:3000';
-    // const confirmationUrl = `${baseUrl}/verify-email/${confirmationToken}`;
-    const confirmationUrl = `https://gmndr-authentication-demo.vercel.app/verify-email/${confirmationToken}`;
+    const baseUrl =
+      process.env.NODE_ENV === 'production' ? 'https://gmndr-authentication-demo.vercel.app/' : 'http://localhost:3000';
+    const confirmationUrl = `${baseUrl}/verify-email/${confirmationToken}`;
 
     const currentHour = new Date().getHours();
     let greeting;
