@@ -21,11 +21,11 @@ export default function VerifyEmailPage({ params }) {
   const [userEmail, setUserEmail] = useState(null);
   const router = useRouter();
 
-  useEffect(() => {
-    if (params.token) {
-      handleSubmit(params.token);
-    }
-  }, [params.token]);
+  // useEffect(() => {
+  //   if (params.token) {
+  //     handleSubmit(params.token);
+  //   }
+  // }, [params.token]);
 
   async function handleSubmit(token) {
     try {
@@ -90,8 +90,7 @@ export default function VerifyEmailPage({ params }) {
       if (response.status === 200) {
         setModalState({
           show: true,
-          message:
-            'A new verification email has been sent. Please check your inbox (or spam folder) to confirm your account.',
+          message: 'A new verification email has been sent. Please check your inbox to confirm your account.',
           showResendButton: false,
           isSuccess: true,
           showOkButton: true,
@@ -116,6 +115,19 @@ export default function VerifyEmailPage({ params }) {
     }
   }
 
+  async function handleVerifyClick() {
+    setModalState({
+      show: true,
+      message: 'Your email is currently being verified. Please wait...',
+      showResendButton: false,
+      isSuccess: null,
+      showOkButton: false,
+    });
+
+    // Trigger the email verification
+    await handleSubmit(params.token);
+  }
+
   function handleOkClick() {
     setModalState((prevState) => ({ ...prevState, show: false }));
 
@@ -133,7 +145,7 @@ export default function VerifyEmailPage({ params }) {
           <>
             <ButtonContainerHorizontal>
               <Button
-                onClick={() => handleSubmit(params.token)}
+                onClick={handleVerifyClick} // Update to use the new function
                 bgColor='var(--color-button-login)'
                 hoverColor='var(--color-button-login-hover)'>
                 Confirm My Email
