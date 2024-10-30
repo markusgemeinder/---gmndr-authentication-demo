@@ -145,7 +145,7 @@ export default function VerifyEmailPage({ params }) {
           <>
             <ButtonContainerHorizontal>
               <Button
-                onClick={handleVerifyClick} // Update to use the new function
+                onClick={handleVerifyClick}
                 bgColor='var(--color-button-login)'
                 hoverColor='var(--color-button-login-hover)'>
                 Confirm My Email
