@@ -13,6 +13,8 @@ export default async function sendEmail({ to, subject, text }) {
     trackingSettings: {
       clickTracking: { enable: false },
       openTracking: { enable: false },
+      subscriptionTracking: { enable: false },
+      unsubscribeTracking: { enable: false },
     },
   };
 
