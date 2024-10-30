@@ -30,9 +30,10 @@ export async function POST(req) {
 
     await User.updateOne({ email }, { $set: { confirmationToken: hashedToken, confirmationTokenExpiry: expiry } });
 
-    const baseUrl =
-      process.env.NODE_ENV === 'production' ? 'https://gmndr-authentication-demo.vercel.app/' : 'http://localhost:3000';
-    const confirmationUrl = `${baseUrl}/verify-email/${token}`;
+    // const baseUrl =
+    //   process.env.NODE_ENV === 'production' ? 'https://gmndr-authentication-demo.vercel.app/' : 'http://localhost:3000';
+    // const confirmationUrl = `${baseUrl}/verify-email/${token}`;
+    const confirmationUrl = `https://gmndr-authentication-demo.vercel.app/verify-email/${token}`;
 
     const currentHour = new Date().getHours();
     let greeting;

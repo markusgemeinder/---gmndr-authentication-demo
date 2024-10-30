@@ -51,9 +51,10 @@ export async function POST(req) {
 
     await existingUser.save();
 
-    const baseUrl =
-      process.env.NODE_ENV === 'production' ? 'https://gmndr-authentication-demo.vercel.app/' : 'http://localhost:3000';
-    const resetUrl = `${baseUrl}/reset-password/${resetToken}`;
+    // const baseUrl =
+    //   process.env.NODE_ENV === 'production' ? 'https://gmndr-authentication-demo.vercel.app/' : 'http://localhost:3000';
+    // const resetUrl = `${baseUrl}/reset-password/${resetToken}`;
+    const resetUrl = `https://gmndr-authentication-demo.vercel.app/reset-password/${resetToken}`;
 
     const formattedExpiryTime = new Date(passwordResetExpires).toLocaleString('en-US', {
       timeZone: 'Europe/Berlin',
