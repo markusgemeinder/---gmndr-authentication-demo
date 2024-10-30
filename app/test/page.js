@@ -1,20 +1,24 @@
+// /app/test/page.js
+
 'use client';
 
-import { useState } from 'react';
+import { useState, useContext } from 'react';
 import { Container, Title, Subtitle, Headline, Paragraph } from '@/app/components/Common/CommonStyles';
 import ScrollToTop from '@/app/components/Common/ScrollToTop';
 import Button, { ButtonContainerVertical } from '@/app/components/Button/Button';
+import LanguageContext from '@/app/components/LanguageProvider';
+import { getText } from '@/lib/languageLibrary';
 
 export default function Test() {
+  const { language, toggleLanguage } = useContext(LanguageContext);
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState('');
-  const [languageButtonText, setLanguageButtonText] = useState('Switch Language Forth');
 
   const getGreeting = () => {
     const currentHour = new Date().getHours();
-    if (currentHour < 12) return 'Good morning';
-    if (currentHour < 18) return 'Good afternoon';
-    return 'Good evening';
+    if (currentHour < 12) return getText('test', 'greeting_morning', language);
+    if (currentHour < 18) return getText('test', 'greeting_afternoon', language);
+    return getText('test', 'greeting_evening', language);
   };
 
   const handleTestEmail = async () => {
@@ -27,51 +31,39 @@ export default function Test() {
       });
 
       if (!response.ok) {
-        throw new Error('Failed to send test email.');
+        throw new Error(getText('test', 'email_failure', language));
       }
 
       const data = await response.json();
-      setMessage(data.message);
+      setMessage(data.message || getText('test', 'email_success', language));
     } catch (error) {
-      setMessage('Failed to send test email.');
+      setMessage(getText('test', 'email_failure', language));
     } finally {
       setLoading(false);
     }
   };
 
-  const handleSwitchLanguage = () => {
-    setLanguageButtonText((prevText) =>
-      prevText === 'Switch Language Forth' ? 'Switch Language Back' : 'Switch Language Forth'
-    );
-  };
-
   return (
     <Container>
       <ScrollToTop />
-      <Title>Test Page | Improving User Experience</Title>
-      <Subtitle>Designing a Clear and Intuitive Interface</Subtitle>
-      <Headline>Our Approach to Enhanced Usability</Headline>
-      <Paragraph>
-        Our goal is to simplify digital navigation, making information easy to access. A clear design helps users find
-        what they need, improving overall satisfaction and engagement with the platform.
-      </Paragraph>
-      <Paragraph>
-        {getGreeting()}, upcoming updates will focus on customizable features for a more personal experience. By
-        listening to feedback, we aim to create an interface that adapts to various user needs seamlessly.
-      </Paragraph>
+      <Title>{getText('test', 'title', language)}</Title>
+      <Subtitle>{getText('test', 'subtitle', language)}</Subtitle>
+      <Headline>{getText('test', 'headline', language)}</Headline>
+      <Paragraph>{getText('test', 'paragraph_intro', language)}</Paragraph>
+      <Paragraph>{`${getGreeting()}, ${getText('test', 'paragraph_updates', language)}`}</Paragraph>
       <ButtonContainerVertical>
         <Button
-          onClick={handleSwitchLanguage}
+          onClick={toggleLanguage}
           bgColor='var(--color-button-secondary)'
           hoverColor='var(--color-button-secondary-hover)'>
-          {languageButtonText}
+          {getText('test', 'switch_language', language)}
         </Button>
         <Button
           onClick={handleTestEmail}
           bgColor='var(--color-button-delete)'
           hoverColor='var(--color-button-delete-hover)'
           disabled={loading}>
-          {loading ? 'Sending...' : 'Send Test Email'}
+          {loading ? getText('test', 'button_sending', language) : getText('test', 'button_send_email', language)}
         </Button>
         {message && <p>{message}</p>}
       </ButtonContainerVertical>
