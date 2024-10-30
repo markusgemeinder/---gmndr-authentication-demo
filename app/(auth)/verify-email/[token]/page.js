@@ -90,7 +90,8 @@ export default function VerifyEmailPage({ params }) {
       if (response.status === 200) {
         setModalState({
           show: true,
-          message: 'A new verification email has been sent. Please check your inbox to confirm your account.',
+          message:
+            'A new verification email has been sent. Please check your email inbox in a few minutes to confirm your account.',
           showResendButton: false,
           isSuccess: true,
           showOkButton: true,
