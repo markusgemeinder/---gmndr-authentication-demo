@@ -7,7 +7,7 @@ import ScrollToTop from '@/app/components/Common/ScrollToTop';
 import NavigationButtonNextPage from '@/app/components/Button/NavigationButtonNextPage';
 import NavigationButtonPreviousPage from '@/app/components/Button/NavigationButtonPreviousPage';
 import { PaginationContainer, Pagination } from '@/app/components/About/AboutStyles';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import AboutProject from '@/app/components/About/AboutProject';
 import AboutNeueFische from '@/app/components/About/AboutNeueFische';
 import AboutTechstack from '@/app/components/About/AboutTechstack';
@@ -31,20 +31,20 @@ export default function About() {
     setCurrentCard((prev) => (prev - 1 + cards.length) % cards.length);
   };
 
-  const handleKeyDown = (event) => {
+  const handleKeyDown = useCallback((event) => {
     if (event.key === 'ArrowRight') {
       nextCard();
     } else if (event.key === 'ArrowLeft') {
       previousCard();
     }
-  };
+  }, []);
 
   useEffect(() => {
     window.addEventListener('keydown', handleKeyDown);
     return () => {
       window.removeEventListener('keydown', handleKeyDown);
     };
-  }, []);
+  }, [handleKeyDown]); // handleKeyDown als Abhängigkeit hinzufügen
 
   return (
     <Container>
