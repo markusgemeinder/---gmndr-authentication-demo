@@ -11,13 +11,11 @@ export async function POST(req) {
 
   try {
     const { email } = await req.json();
-
     if (!email) {
       return NextResponse.json({ message: 'Email is required.' }, { status: 400 });
     }
 
     const user = await User.findOne({ email });
-
     if (!user) {
       return NextResponse.json({ message: 'No account found with that email.' }, { status: 404 });
     }
@@ -25,13 +23,6 @@ export async function POST(req) {
     if (user.isEmailConfirmed) {
       return NextResponse.json({ message: 'Your email is already confirmed.' }, { status: 400 });
     }
-
-    const preparationResponse = NextResponse.json(
-      {
-        message: 'Preparing to send your verification email...',
-      },
-      { status: 202 }
-    );
 
     const token = crypto.randomBytes(20).toString('hex');
     const hashedToken = crypto.createHash('sha256').update(token).digest('hex');
@@ -64,7 +55,6 @@ export async function POST(req) {
     });
 
     const userEmailFormatted = email.replace('@', '(at)').replace(/\.\w+$/, '');
-
     const subject = 'Email Confirmation (New Request) | #GMNDR Authentication Demo';
     const text = `${greeting} ${userEmailFormatted},\n\nYou requested to resend the confirmation email. Please click the link below to verify your email address:\n\n${confirmationUrl}\n\nThe link is valid until ${formattedExpiryTime}.\n\nIf you did not request this, please ignore this email.\n\nBest regards,\nYour Service Team`;
 

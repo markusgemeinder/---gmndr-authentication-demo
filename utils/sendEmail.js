@@ -12,7 +12,6 @@ export default async function sendEmail({ to, subject, text }) {
       clickTracking: { enable: false },
       openTracking: { enable: false },
     },
-    // trackingSettings >>> false >>> Freigabelink = /register/[token]
   };
 
   try {
@@ -20,15 +19,8 @@ export default async function sendEmail({ to, subject, text }) {
     console.log('Email sent successfully');
   } catch (error) {
     console.error('Error sending email:', error);
+    if (error.response) {
+      console.error('SendGrid error response:', error.response.body);
+    }
   }
-}
-
-export async function sendTestEmail() {
-  const testEmailOptions = {
-    to: '190774@gmx.de',
-    subject: 'Test Email from #GMNDR Authentication Demo',
-    text: 'This is a test email to verify the sending functionality.',
-  };
-
-  return sendEmail(testEmailOptions);
 }
