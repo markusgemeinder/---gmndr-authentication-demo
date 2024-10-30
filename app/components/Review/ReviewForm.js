@@ -2,7 +2,7 @@
 
 'use client';
 
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, useContext } from 'react';
 import { useSession } from 'next-auth/react';
 import { format } from 'date-fns';
 import Button, { ButtonContainerHorizontal } from '@/app/components/Button/Button';
@@ -19,9 +19,12 @@ import {
   RatingContainer,
   CardElementsWrapper,
 } from '@/app/components/Review/ReviewStyles';
+import LanguageContext from '@/app/components/LanguageProvider';
+import { getText } from '@/lib/languageLibrary';
 
 export default function ReviewForm({ review, onSave, onCancel, isDemoReview }) {
   const { data: session } = useSession();
+  const { language } = useContext(LanguageContext);
   const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
   const [note, setNote] = useState('');
@@ -81,7 +84,7 @@ export default function ReviewForm({ review, onSave, onCancel, isDemoReview }) {
       }
       onSave();
     } catch (error) {
-      console.error('Error saving review:', error);
+      console.error(getText('review_form', 'error_saving_review', language), error);
     }
   }
 
@@ -89,13 +92,13 @@ export default function ReviewForm({ review, onSave, onCancel, isDemoReview }) {
     <FormContainer onSubmit={handleSubmit}>
       <InputGroup>
         <LabelContainer>
-          <Label htmlFor='email'>Email</Label>
+          <Label htmlFor='email'>{getText('review_form', 'label_email', language)}</Label>
         </LabelContainer>
         <InputEmail id='email' type='email' value={email} readOnly />
       </InputGroup>
       <InputGroup>
         <LabelContainer>
-          <Label htmlFor='note'>Note</Label>
+          <Label htmlFor='note'>{getText('review_form', 'label_note', language)}</Label>
         </LabelContainer>
         <Textarea
           id='note'
@@ -108,7 +111,7 @@ export default function ReviewForm({ review, onSave, onCancel, isDemoReview }) {
       </InputGroup>
       <InputGroup>
         <LabelContainer>
-          <Label htmlFor='rating'>Rating</Label>
+          <Label htmlFor='rating'>{getText('review_form', 'label_rating', language)}</Label>
           <RatingContainer>
             <AccessibleStarRating rating={rating} setRating={setRating} />
           </RatingContainer>
@@ -118,22 +121,26 @@ export default function ReviewForm({ review, onSave, onCancel, isDemoReview }) {
       <CardElementsWrapper>
         {review?.createdAt && (
           <CreatedUpdated>
-            Created: {format(new Date(review.createdAt), 'dd.MM.yyyy (HH:mm:ss)')}
+            {getText('review_form', 'label_created', language)}:{' '}
+            {format(new Date(review.createdAt), 'dd.MM.yyyy (HH:mm:ss)')}
             <br />
-            Updated: {review.updatedAt ? format(new Date(review.updatedAt), 'dd.MM.yyyy (HH:mm:ss)') : 'Not updated'}
+            {getText('review_form', 'label_updated', language)}:{' '}
+            {review.updatedAt
+              ? format(new Date(review.updatedAt), 'dd.MM.yyyy (HH:mm:ss)')
+              : getText('review_form', 'not_updated', language)}
           </CreatedUpdated>
         )}
 
         <ButtonContainerHorizontal>
           <Button type='submit' bgColor='var(--color-button-ok)' hoverColor='var(--color-button-ok-hover)'>
-            Save
+            {getText('review_form', 'button_save', language)}
           </Button>
           <Button
             type='button'
             onClick={onCancel}
             bgColor='var(--color-button-cancel)'
             hoverColor='var(--color-button-cancel-hover)'>
-            Cancel
+            {getText('review_form', 'button_cancel', language)}
           </Button>
         </ButtonContainerHorizontal>
       </CardElementsWrapper>

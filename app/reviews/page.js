@@ -2,9 +2,9 @@
 
 'use client';
 
+import { useState, useContext, useEffect } from 'react';
 import ProtectedRoute from '@/app/components/Authentication/ProtectedRoute';
 import { useRouter } from 'next/navigation';
-import { useEffect, useState } from 'react';
 import ReviewCard from '@/app/components/Review/ReviewCard';
 import SessionStatus from '@/app/components/Authentication/SessionStatus';
 import LoadingAnimation from '@/app/components/Common/LoadingAnimation';
@@ -13,12 +13,15 @@ import { Container, Title } from '@/app/components/Common/CommonStyles';
 import { ReviewsContainer } from '@/app/components/Review/ReviewStyles';
 import ScrollToTop from '@/app/components/Common/ScrollToTop';
 import { useSession } from 'next-auth/react';
+import LanguageContext from '@/app/components/LanguageProvider';
+import { getText } from '@/lib/languageLibrary';
 
 export default function ReviewsPage() {
   const { data: session } = useSession();
   const [reviews, setReviews] = useState([]);
   const [loading, setLoading] = useState(true);
   const router = useRouter();
+  const { language } = useContext(LanguageContext);
 
   async function fetchReviews() {
     setLoading(true);
@@ -27,7 +30,7 @@ export default function ReviewsPage() {
       const data = await response.json();
 
       if (!Array.isArray(data)) {
-        throw new Error('Data is not an array');
+        throw new Error(getText('reviews', 'error_not_array', language));
       }
 
       const storedReviews = JSON.parse(sessionStorage.getItem('reviews') || '[]');
@@ -35,7 +38,7 @@ export default function ReviewsPage() {
       const sortedReviews = combinedReviews.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
       setReviews(sortedReviews);
     } catch (error) {
-      console.error('Error fetching reviews:', error);
+      console.error(getText('reviews', 'error_fetching_reviews', language), error);
     } finally {
       setLoading(false);
     }
@@ -52,9 +55,9 @@ export default function ReviewsPage() {
   function handleCreateDemoReview() {
     const demoReview = {
       _id: `demo-${Math.random().toString(36).substr(2, 12)}`,
-      username: 'Demo User',
+      username: getText('reviews', 'username_demo', language),
       email: 'no-reply-demo-user@example.com',
-      note: 'Logged in as a Demo User. You can edit and delete this review, but it will not be saved. When logging out or closing the browser it disappears.',
+      note: getText('reviews', 'demo_review_note', language),
       rating: 5,
       createdAt: new Date().toISOString(),
       updatedAt: new Date().toISOString(),
@@ -75,7 +78,7 @@ export default function ReviewsPage() {
     <ProtectedRoute>
       <Container>
         <ScrollToTop />
-        <Title>Reviews</Title>
+        <Title>{getText('reviews', 'title', language)}</Title>
         <SessionStatus />
         {session ? (
           session.user.isDemoUser ? (
@@ -84,7 +87,7 @@ export default function ReviewsPage() {
               bgColor='var(--color-button-demo-review)'
               hoverColor='var(--color-button-demo-review-hover)'
               color='var(--color-button-text)'>
-              Create Demo Review
+              {getText('reviews', 'button_create_demo_review', language)}
             </Button>
           ) : (
             <Button
@@ -92,7 +95,7 @@ export default function ReviewsPage() {
               bgColor='var(--color-button-review)'
               hoverColor='var(--color-button-review-hover)'
               color='var(--color-button-text)'>
-              Create Review
+              {getText('reviews', 'button_create_review', language)}
             </Button>
           )
         ) : null}
