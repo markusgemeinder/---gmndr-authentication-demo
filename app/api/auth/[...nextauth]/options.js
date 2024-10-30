@@ -33,7 +33,7 @@ export const options = {
           if (existingUser.role === 'Credentials User') {
             if (!existingUser.isEmailConfirmed) {
               if (existingUser.confirmationTokenExpiry && new Date() < existingUser.confirmationTokenExpiry) {
-                throw new Error('Your email address isn’t confirmed yet. Please check your inbox (or spam folder).');
+                throw new Error('Your email address is not confirmed yet. Please check your inbox.');
               }
               if (!existingUser.confirmationTokenExpiry || new Date() > existingUser.confirmationTokenExpiry) {
                 throw new Error('Your confirmation link has expired. Please request a new confirmation email.');

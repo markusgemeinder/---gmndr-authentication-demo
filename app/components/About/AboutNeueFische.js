@@ -12,6 +12,7 @@ import {
   AboutImageWithLink,
   AboutLinkContainer,
   AboutLink,
+  AboutImageFullSize, // Neue Komponente importieren
 } from '@/app/components/About/AboutStyles';
 
 export default function AboutNeueFische() {
@@ -65,18 +66,11 @@ export default function AboutNeueFische() {
               background: 'rgba(0, 0, 0, 0.5)',
             }}
           />
-          <img
+          <AboutImageFullSize
             src={expandedImageSrc}
             alt='Expanded Image'
-            style={{
-              position: 'fixed',
-              top: '50%',
-              left: '50%',
-              transform: 'translate(-50%, -50%)',
-              maxHeight: '80vh',
-              maxWidth: '80vw',
-              zIndex: 9999,
-            }}
+            width={800} // Anpassen, falls nötig
+            height={800} // Anpassen, falls nötig
           />
         </>
       )}

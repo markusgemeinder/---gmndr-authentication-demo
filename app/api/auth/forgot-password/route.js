@@ -14,7 +14,6 @@ export async function POST(req) {
     const { email } = body;
 
     const existingUser = await User.findOne({ email }).exec();
-
     if (!existingUser) {
       return NextResponse.json({ message: 'No account found with this email address.' }, { status: 400 });
     }
@@ -77,7 +76,6 @@ export async function POST(req) {
     }
 
     const user = existingUser.email.replace('@', '(at)').replace(/\.\w+$/, '');
-
     const subject = 'Password Reset | #GMNDR Authentication Demo';
     const text = `${greeting} ${user},\n\nYou requested a password reset. Click the link below or paste it into your browser:\n\n${resetUrl}\n\nThe link is valid until ${formattedExpiryTime}.\n\nIf you didn't request this, you can ignore this email.\n\nBest regards,\nMarkus from #GMNDR Authentication Demo`;
 

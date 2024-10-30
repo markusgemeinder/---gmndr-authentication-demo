@@ -6,6 +6,7 @@ import { NextResponse } from 'next/server';
 import bcrypt from 'bcryptjs';
 import crypto from 'crypto';
 import sendEmail from '@/utils/sendEmail';
+import { getRegistrationEmailText } from '@/utils/emailTemplate';
 
 export async function POST(req) {
   await dbConnect();
@@ -19,7 +20,6 @@ export async function POST(req) {
     }
 
     const duplicate = await User.findOne({ email }).lean().exec();
-
     if (duplicate) {
       if (duplicate.role === 'Google User' || duplicate.role === 'Google User (Admin)') {
         return NextResponse.json(
@@ -43,15 +43,12 @@ export async function POST(req) {
       }
 
       return NextResponse.json(
-        {
-          message: 'Email is already in use. Please try logging in or reset your password.',
-        },
+        { message: 'Email is already in use. Please try logging in or reset your password.' },
         { status: 409 }
       );
     }
 
     const hashedPassword = await bcrypt.hash(password, 10);
-
     const confirmationToken = crypto.randomBytes(20).toString('hex');
     const confirmationTokenHashed = crypto.createHash('sha256').update(confirmationToken).digest('hex');
     const confirmationTokenExpiry = Date.now() + 86400000;
@@ -64,43 +61,16 @@ export async function POST(req) {
       confirmationTokenExpiry: confirmationTokenExpiry,
     });
 
-    const baseUrl =
-      process.env.NODE_ENV === 'production' ? 'https://gmndr-authentication-demo.vercel.app/' : 'http://localhost:3000';
-    const confirmationUrl = `${baseUrl}/verify-email/${confirmationToken}`;
-
-    const currentHour = new Date().getHours();
-    let greeting;
-    if (currentHour < 12) {
-      greeting = 'Good morning';
-    } else if (currentHour < 18) {
-      greeting = 'Good afternoon';
-    } else {
-      greeting = 'Good evening';
-    }
-
-    const formattedExpiryTime = new Date(confirmationTokenExpiry).toLocaleString('en-US', {
-      timeZone: 'Europe/Berlin',
-      hour: '2-digit',
-      minute: '2-digit',
-      day: '2-digit',
-      month: '2-digit',
-      year: 'numeric',
-      hour12: true,
-    });
-
-    const userName = email.replace('@', '(at)').replace(/\.\w+$/, '');
-
-    const subject = 'Email Confirmation | #GMNDR Authentication Demo';
-    const text = `${greeting} ${userName},\n\nYou have successfully registered for the #GMNDR Authentication Demo.\n\nTo confirm your email address and activate your account, click the link below or paste it into your browser:\n\n${confirmationUrl}\n\nThe link is valid until ${formattedExpiryTime}.\n\nIf you did not register, you can ignore this email.\n\nBest regards,\nMarkus from #GMNDR Authentication Demo`;
+    const text = getRegistrationEmailText(confirmationToken);
 
     await sendEmail({
       to: email,
-      subject: subject,
-      text: text,
+      subject: 'Email Confirmation | #GMNDR Authentication Demo',
+      text,
     });
 
     return NextResponse.json(
-      { message: 'Registration successful! Please check your inbox (or spam folder) to confirm your account.' },
+      { message: 'Registration successful! Please check your email inbox in a few minutes to confirm your account.' },
       { status: 201 }
     );
   } catch (error) {

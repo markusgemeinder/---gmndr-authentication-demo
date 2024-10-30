@@ -93,3 +93,22 @@ export const AboutImageWithLink = styled(Image)`
     opacity: 0.8;
   }
 `;
+
+export const AboutImageFullSize = styled(Image)`
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: auto;
+  max-width: 90vw;
+  max-height: 90vh;
+  z-index: 9999;
+  border-radius: 8px;
+  box-shadow: 0 0 8px rgba(0, 0, 0, 0.5);
+
+  @media (max-width: 375px) {
+    /* z.B. iPhone SE */
+    width: 100vw;
+    max-height: 90vh;
+  }
+`;

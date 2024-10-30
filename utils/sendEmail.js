@@ -1,29 +1,30 @@
 // /utils/sendEmail.js
 
-import nodemailer from 'nodemailer';
+import sgMail from '@sendgrid/mail';
+
+sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 
 export default async function sendEmail({ to, subject, text }) {
-  const transporter = nodemailer.createTransport({
-    host: process.env.EMAIL_HOST,
-    port: process.env.EMAIL_PORT,
-    secure: process.env.EMAIL_SECURE === 'true',
-    auth: {
-      user: process.env.EMAIL_USER,
-      pass: process.env.EMAIL_PASS,
-    },
-  });
-
-  const mailOptions = {
-    from: process.env.EMAIL_USER,
+  const msg = {
     to,
+    from: process.env.SENDGRID_EMAIL,
     subject,
     text,
+    trackingSettings: {
+      clickTracking: { enable: false },
+      openTracking: { enable: false },
+      subscriptionTracking: { enable: false },
+      unsubscribeTracking: { enable: false },
+    },
   };
 
   try {
-    await transporter.sendMail(mailOptions);
-    console.log('Email sent successfully');
+    const response = await sgMail.send(msg);
+    console.log('Email sent successfully', response);
   } catch (error) {
     console.error('Error sending email:', error);
+    if (error.response) {
+      console.error('SendGrid error response:', error.response.body);
+    }
   }
 }
