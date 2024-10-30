@@ -33,74 +33,80 @@
     33	│   │   │   │   └── route.js
     34	│   │   │   └── verify-email-resend
     35	│   │   │       └── route.js
-    36	│   │   └── reviews
-    37	│   │       ├── [id]
-    38	│   │       │   └── route.js
-    39	│   │       └── route.js
-    40	│   ├── components
-    41	│   │   ├── About
-    42	│   │   │   ├── AboutContact.js
-    43	│   │   │   ├── AboutNeueFische.js
-    44	│   │   │   ├── AboutProject.js
-    45	│   │   │   ├── AboutStyles.js
-    46	│   │   │   └── AboutTechstack.js
-    47	│   │   ├── AuthForm
-    48	│   │   │   ├── AuthFormStyles.js
-    49	│   │   │   ├── ForgotPasswordForm.js
-    50	│   │   │   ├── LoginForm.js
-    51	│   │   │   ├── RegisterForm.js
-    52	│   │   │   └── ResetPasswordForm.js
-    53	│   │   ├── Authentication
-    54	│   │   │   ├── AuthProvider.js
-    55	│   │   │   ├── ProtectedRoute.js
-    56	│   │   │   └── SessionStatus.js
-    57	│   │   ├── Button
-    58	│   │   │   ├── Button.js
-    59	│   │   │   ├── NavigationButtonNextPage.js
-    60	│   │   │   ├── NavigationButtonPageUp.js
-    61	│   │   │   ├── NavigationButtonPreviousPage.js
-    62	│   │   │   ├── NavigationButtonTemplate.js
-    63	│   │   │   └── ThemeToggleButton.js
-    64	│   │   ├── Common
-    65	│   │   │   ├── CommonStyles.js
-    66	│   │   │   ├── LoadingAnimation.js
-    67	│   │   │   ├── ModalPopup.js
-    68	│   │   │   ├── ScrollToTop.js
-    69	│   │   │   ├── StarRating.js
-    70	│   │   │   ├── ThemeProvider.js
-    71	│   │   │   └── ValidatePassword.js
-    72	│   │   ├── Layout
-    73	│   │   │   ├── Footer.js
-    74	│   │   │   ├── MainContainer.js
-    75	│   │   │   └── Navigation.js
-    76	│   │   └── Review
-    77	│   │       ├── ReviewCard.js
-    78	│   │       ├── ReviewForm.js
-    79	│   │       └── ReviewStyles.js
-    80	│   ├── globals.css
-    81	│   ├── layout.js
-    82	│   ├── page.js
-    83	│   └── reviews
-    84	│       ├── [id]
-    85	│       │   └── page.js
-    86	│       ├── create
-    87	│       │   └── page.js
-    88	│       └── page.js
-    89	├── db
-    90	│   ├── connect.js
-    91	│   └── models
-    92	│       ├── Review.js
-    93	│       └── User.js
-    94	├── jsconfig.json
-    95	├── middleware.js
-    96	├── next.config.mjs
-    97	├── package.json
-    98	├── postcss.config.mjs
-    99	├── tailwind.config.js
-   100	├── tree_with_numbers.txt
-   101	└── utils
-   102	    ├── maskEmail.js
-   103	    ├── sendEmail.js
-   104	    └── validatePassword.js.bak
+    36	│   │   ├── reviews
+    37	│   │   │   ├── [id]
+    38	│   │   │   │   └── route.js
+    39	│   │   │   └── route.js
+    40	│   │   └── send-test-email
+    41	│   │       └── route.js
+    42	│   ├── components
+    43	│   │   ├── About
+    44	│   │   │   ├── AboutContact.js
+    45	│   │   │   ├── AboutNeueFische.js
+    46	│   │   │   ├── AboutProject.js
+    47	│   │   │   ├── AboutStyles.js
+    48	│   │   │   └── AboutTechstack.js
+    49	│   │   ├── AuthForm
+    50	│   │   │   ├── AuthFormStyles.js
+    51	│   │   │   ├── ForgotPasswordForm.js
+    52	│   │   │   ├── LoginForm.js
+    53	│   │   │   ├── RegisterForm.js
+    54	│   │   │   └── ResetPasswordForm.js
+    55	│   │   ├── Authentication
+    56	│   │   │   ├── AuthProvider.js
+    57	│   │   │   ├── ProtectedRoute.js
+    58	│   │   │   └── SessionStatus.js
+    59	│   │   ├── Button
+    60	│   │   │   ├── Button.js
+    61	│   │   │   ├── NavigationButtonNextPage.js
+    62	│   │   │   ├── NavigationButtonPageUp.js
+    63	│   │   │   ├── NavigationButtonPreviousPage.js
+    64	│   │   │   ├── NavigationButtonTemplate.js
+    65	│   │   │   └── ThemeToggleButton.js
+    66	│   │   ├── Common
+    67	│   │   │   ├── CommonStyles.js
+    68	│   │   │   ├── LoadingAnimation.js
+    69	│   │   │   ├── ModalPopup.js
+    70	│   │   │   ├── ScrollToTop.js
+    71	│   │   │   ├── StarRating.js
+    72	│   │   │   ├── ThemeProvider.js
+    73	│   │   │   └── ValidatePassword.js
+    74	│   │   ├── Layout
+    75	│   │   │   ├── Footer.js
+    76	│   │   │   ├── MainContainer.js
+    77	│   │   │   └── Navigation.js
+    78	│   │   └── Review
+    79	│   │       ├── ReviewCard.js
+    80	│   │       ├── ReviewForm.js
+    81	│   │       └── ReviewStyles.js
+    82	│   ├── globals.css
+    83	│   ├── layout.js
+    84	│   ├── page.js
+    85	│   ├── reviews
+    86	│   │   ├── [id]
+    87	│   │   │   └── page.js
+    88	│   │   ├── create
+    89	│   │   │   └── page.js
+    90	│   │   └── page.js
+    91	│   └── test
+    92	│       └── page.js
+    93	├── db
+    94	│   ├── connect.js
+    95	│   └── models
+    96	│       ├── Review.js
+    97	│       └── User.js
+    98	├── jsconfig.json
+    99	├── middleware.js
+   100	├── next.config.mjs
+   101	├── package.json
+   102	├── postcss.config.mjs
+   103	├── tailwind.config.js
+   104	├── tree_with_numbers.txt
+   105	└── utils
+   106	    ├── emailTemplate.js
+   107	    ├── maskEmail.js
+   108	    ├── sendEmail.js
+   109	    ├── sendEmail.js.bak
+   110	    └── validatePassword.js.bak
       	
-   105	36 directories, 68 files
+   111	38 directories, 72 files
