@@ -22,7 +22,7 @@ const formatExpiryTime = (expiry) =>
   });
 
 export const getRegistrationEmailText = (token) => {
-  const confirmationUrl = `${getBaseUrl()}/registration/${token}`;
+  const confirmationUrl = `${getBaseUrl()}/verify-email/${token}`;
   const expiryTime = Date.now() + 86400000; // 24 Stunden
   return `${getGreeting()},\n\nThank you for signing up with #GMNDR Authentication Demo!\nTo complete your registration, please click the link below:\n\n${confirmationUrl}\n\nThis link will expire on ${formatExpiryTime(
     expiryTime

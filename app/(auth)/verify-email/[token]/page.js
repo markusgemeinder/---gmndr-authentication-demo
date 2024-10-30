@@ -125,7 +125,6 @@ export default function VerifyEmailPage({ params }) {
       showOkButton: false,
     });
 
-    // Trigger the email verification
     await handleSubmit(params.token);
   }
 
