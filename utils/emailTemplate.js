@@ -24,7 +24,7 @@ const formatExpiryTime = (expiry) =>
 export const getRegistrationEmailText = (token) => {
   const confirmationUrl = `${getBaseUrl()}/verify-email/${token}`;
   const expiryTime = Date.now() + 86400000; // 24 Stunden
-  return `${getGreeting()},\n\nThank you for signing up with #GMNDR Authentication Demo!\nTo complete your registration, please click the link below:\n\n${confirmationUrl}\n\nThis link will expire on ${formatExpiryTime(
+  return `${getGreeting()} Markus,\n\nThank you for signing up with #GMNDR Authentication Demo!\nTo complete your registration, please click the link below:\n\n${confirmationUrl}\n\nThis link will expire on ${formatExpiryTime(
     expiryTime
   )}.\n\nIf you didn't initiate this request, feel free to disregard this message.\n\nBest wishes,\nMarkus from #GMNDR Authentication Demo`;
 };
@@ -32,7 +32,7 @@ export const getRegistrationEmailText = (token) => {
 export const getResendVerificationEmailText = (token) => {
   const confirmationUrl = `${getBaseUrl()}/verify-email/${token}`;
   const expiryTime = Date.now() + 86400000; // 24 Stunden
-  return `${getGreeting()},\n\nWe have received your request to send the confirmation email again. To verify your email address, please use the link below:\n\n${confirmationUrl}\n\nThis link will expire on ${formatExpiryTime(
+  return `${getGreeting()} Markus,\n\nWe have received your request to send the confirmation email again. To verify your email address, please use the link below:\n\n${confirmationUrl}\n\nThis link will expire on ${formatExpiryTime(
     expiryTime
   )}.\n\nIf you did not request this, you can safely ignore this email.\n\nBest wishes,\nYour Service Team`;
 };
