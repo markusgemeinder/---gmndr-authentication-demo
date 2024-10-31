@@ -1,4 +1,4 @@
-// /app/api/auth/register/route.js
+// app/api/auth/register/route.js
 
 import dbConnect from '@/db/connect';
 import User from '@/db/models/User';
@@ -7,37 +7,32 @@ import bcrypt from 'bcryptjs';
 import crypto from 'crypto';
 import sendEmail from '@/utils/sendEmail';
 import { getRegistrationEmailText } from '@/utils/emailTemplate';
-import { useContext } from 'react';
-import LanguageContext from '@/app/components/LanguageProvider';
 import { getText } from '@/lib/languageLibrary';
 
 export async function POST(req) {
-  const { language } = useContext(LanguageContext);
   await dbConnect();
+  const language = req.headers.get('accept-language')?.split(',')[0] || 'EN';
 
   try {
     const body = await req.json();
     const { email, password } = body;
 
     if (!email || !password) {
-      return NextResponse.json(
-        { message: getText('api_auth_register', 'email_and_password_required', language) },
-        { status: 400 }
-      );
+      return NextResponse.json({ message: getText('api_auth_register', 'missing_fields', language) }, { status: 400 });
     }
 
     const duplicate = await User.findOne({ email }).lean().exec();
     if (duplicate) {
       if (duplicate.role === 'Google User' || duplicate.role === 'Google User (Admin)') {
         return NextResponse.json(
-          { message: getText('api_auth_register', 'email_registered_google', language) },
+          { message: getText('api_auth_register', 'google_user_error', language) },
           { status: 409 }
         );
       }
 
       if (duplicate.role === 'GitHub User' || duplicate.role === 'GitHub User (Admin)') {
         return NextResponse.json(
-          { message: getText('api_auth_register', 'email_registered_github', language) },
+          { message: getText('api_auth_register', 'github_user_error', language) },
           { status: 409 }
         );
       }
@@ -49,7 +44,10 @@ export async function POST(req) {
         );
       }
 
-      return NextResponse.json({ message: getText('api_auth_register', 'email_in_use', language) }, { status: 409 });
+      return NextResponse.json(
+        { message: getText('api_auth_register', 'email_in_use_error', language) },
+        { status: 409 }
+      );
     }
 
     const hashedPassword = await bcrypt.hash(password, 10);
@@ -65,15 +63,15 @@ export async function POST(req) {
       confirmationTokenExpiry: confirmationTokenExpiry,
     });
 
-    const text = getRegistrationEmailText(confirmationToken);
+    const { subject, text } = getRegistrationEmailText(confirmationToken, language);
     await sendEmail({
       to: email,
-      subject: 'Email Confirmation | #GMNDR Authentication Demo',
+      subject,
       text,
     });
 
     return NextResponse.json(
-      { message: getText('api_auth_register', 'registration_successful', language) },
+      { message: getText('api_auth_register', 'registration_success', language) },
       { status: 201 }
     );
   } catch (error) {

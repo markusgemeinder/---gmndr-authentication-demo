@@ -5,12 +5,10 @@ import User from '@/db/models/User';
 import { NextResponse } from 'next/server';
 import bcrypt from 'bcryptjs';
 import crypto from 'crypto';
-import { useContext } from 'react';
-import LanguageContext from '@/app/components/LanguageProvider';
 import { getText } from '@/lib/languageLibrary';
 
 export async function POST(req) {
-  const { language } = useContext(LanguageContext);
+  const language = req.headers.get('accept-language')?.split(',')[0] || 'EN';
   await dbConnect();
 
   try {

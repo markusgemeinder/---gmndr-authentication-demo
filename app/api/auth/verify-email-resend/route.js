@@ -1,4 +1,4 @@
-// /app/api/auth/verify-email-resend/route.js
+// app/api/auth/verify-email-resend/route.js
 
 import dbConnect from '@/db/connect';
 import User from '@/db/models/User';
@@ -6,13 +6,11 @@ import { NextResponse } from 'next/server';
 import crypto from 'crypto';
 import sendEmail from '@/utils/sendEmail';
 import { getResendVerificationEmailText } from '@/utils/emailTemplate';
-import { useContext } from 'react';
-import LanguageContext from '@/app/components/LanguageProvider';
 import { getText } from '@/lib/languageLibrary';
 
 export async function POST(req) {
-  const { language } = useContext(LanguageContext);
   await dbConnect();
+  const language = req.headers.get('accept-language')?.split(',')[0] || 'EN';
 
   try {
     const { email } = await req.json();
@@ -40,15 +38,14 @@ export async function POST(req) {
 
     const token = crypto.randomBytes(20).toString('hex');
     const hashedToken = crypto.createHash('sha256').update(token).digest('hex');
-    const expiry = Date.now() + 86400000; // 24 Stunden
+    const expiry = Date.now() + 86400000; // 24 hours
 
     await User.updateOne({ email }, { $set: { confirmationToken: hashedToken, confirmationTokenExpiry: expiry } });
 
-    const text = getResendVerificationEmailText(token);
-
+    const { subject, text } = getResendVerificationEmailText(token, language);
     await sendEmail({
       to: email,
-      subject: getText('api_auth_verify_email_resend', 'email_confirmation_subject', language),
+      subject,
       text,
     });
 
@@ -59,7 +56,7 @@ export async function POST(req) {
   } catch (error) {
     console.error('Resend verification error:', error);
     return NextResponse.json(
-      { message: getText('api_auth_verify_email_resend', 'verification_email_failed', language) },
+      { message: getText('api_auth_verify_email_resend', 'resend_verification_failed', language) },
       { status: 500 }
     );
   }

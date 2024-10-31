@@ -6,17 +6,15 @@ import CredentialsProvider from 'next-auth/providers/credentials';
 import User from '@/db/models/User';
 import bcrypt from 'bcrypt';
 import dbConnect from '@/db/connect';
-import { getText } from '@/lib/languageLibrary';
 
-// Die options Funktion, die die Sprache als Parameter erwartet
-export const options = (language) => ({
+export const options = {
   providers: [
     CredentialsProvider({
       id: 'credentials',
-      name: getText('api_auth_nextauth_options', 'name', language),
+      name: 'Credentials Login', // Fest codierter Name auf Englisch
       credentials: {
-        email: { label: getText('api_auth_nextauth_options', 'email_label', language), type: 'text' },
-        password: { label: getText('api_auth_nextauth_options', 'password_label', language), type: 'password' },
+        email: { label: 'Email Address', type: 'text' }, // Fest codiertes Label auf Englisch
+        password: { label: 'Password', type: 'password' }, // Fest codiertes Label auf Englisch
       },
       async authorize(credentials) {
         await dbConnect();
@@ -29,31 +27,31 @@ export const options = (language) => ({
           const existingUser = await User.findOne({ email: credentials.email }).lean().exec();
 
           if (!existingUser) {
-            throw new Error(getText('api_auth_nextauth_options', 'error_no_account', language));
+            throw new Error('No account found with that email address.');
           }
 
           if (existingUser.role === 'Credentials User') {
             if (!existingUser.isEmailConfirmed) {
               if (existingUser.confirmationTokenExpiry && new Date() < existingUser.confirmationTokenExpiry) {
-                throw new Error(getText('api_auth_nextauth_options', 'error_email_not_confirmed', language));
+                throw new Error('Please confirm your email address to log in.');
               }
               if (!existingUser.confirmationTokenExpiry || new Date() > existingUser.confirmationTokenExpiry) {
-                throw new Error(getText('api_auth_nextauth_options', 'error_confirmation_link_expired', language));
+                throw new Error('Your confirmation link has expired.');
               }
             }
           }
 
           if (existingUser.role === 'GitHub User' || existingUser.role === 'GitHub User (Admin)') {
-            throw new Error(getText('api_auth_nextauth_options', 'error_github_registered', language));
+            throw new Error('This email is already registered with GitHub. Please log in using GitHub.');
           }
 
           if (existingUser.role === 'Google User' || existingUser.role === 'Google User (Admin)') {
-            throw new Error(getText('api_auth_nextauth_options', 'error_google_registered', language));
+            throw new Error('This email is already registered with Google. Please log in using Google.');
           }
 
           const match = await bcrypt.compare(credentials.password, existingUser.password);
           if (!match) {
-            throw new Error(getText('api_auth_nextauth_options', 'error_incorrect_password', language));
+            throw new Error('Incorrect password.');
           }
 
           if (existingUser.resetToken || existingUser.resetTokenExpiry) {
@@ -118,16 +116,16 @@ export const options = (language) => ({
 
             const newUser = new User({ email: user.email, role: userRole });
             await newUser.save();
-            console.log(getText('api_auth_nextauth_options', 'log_new_user_created', language), user.email);
+            console.log('New user created:', user.email);
           } else {
             await User.updateOne({ email: user.email }, { $set: { updatedAt: new Date() } });
-            console.log(getText('api_auth_nextauth_options', 'log_existing_user_updated', language), user.email);
+            console.log('Existing user updated:', user.email);
           }
 
           return true;
         }
       } catch (err) {
-        console.error(getText('api_auth_nextauth_options', 'error_signin_callback', language), err);
+        console.error('Error in signIn callback:', err);
         return false;
       }
     },
@@ -151,4 +149,4 @@ export const options = (language) => ({
     maxAge: 60 * 60,
     updateAge: 60 * 5,
   },
-});
+};

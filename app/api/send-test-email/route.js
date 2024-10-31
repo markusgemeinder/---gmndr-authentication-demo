@@ -1,12 +1,10 @@
 // /app/api/send-test-email/route.js
 
 import sendEmail from '@/utils/sendEmail';
-import { useContext } from 'react';
-import LanguageContext from '@/app/components/LanguageProvider';
 import { getText } from '@/lib/languageLibrary';
 
 export async function POST(req) {
-  const { language } = useContext(LanguageContext);
+  const language = req.headers.get('accept-language')?.split(',')[0] || 'EN';
 
   const testEmailOptions = {
     to: '190774@gmx.de',
