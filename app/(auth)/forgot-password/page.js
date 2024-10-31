@@ -2,13 +2,16 @@
 
 'use client';
 
-import { useState } from 'react';
+import { useContext, useState } from 'react';
 import ScrollToTop from '@/app/components/Common/ScrollToTop';
 import { Container, Title } from '@/app/components/Common/CommonStyles';
 import ForgotPasswordForm from '@/app/components/AuthForm/ForgotPasswordForm';
+import LanguageContext from '@/app/components/LanguageProvider';
+import { getText } from '@/lib/languageLibrary';
 
 export default function ForgotPasswordPage() {
   const [message, setMessage] = useState('');
+  const { language } = useContext(LanguageContext);
 
   async function handleSubmit(email) {
     const response = await fetch('/api/auth/forgot-password', {
@@ -26,7 +29,7 @@ export default function ForgotPasswordPage() {
     <>
       <Container>
         <ScrollToTop />
-        <Title>Forgot Password</Title>
+        <Title>{getText('auth_forgot_password', 'title', language)}</Title>
         <ForgotPasswordForm onSubmit={handleSubmit} message={message} />
       </Container>
     </>

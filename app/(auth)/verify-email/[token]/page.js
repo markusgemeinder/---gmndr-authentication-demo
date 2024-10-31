@@ -2,13 +2,14 @@
 
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useContext } from 'react';
 import ScrollToTop from '@/app/components/Common/ScrollToTop';
-import { Container, Title } from '@/app/components/Common/CommonStyles';
+import { Container, Title, Paragraph } from '@/app/components/Common/CommonStyles';
 import ModalPopup from '@/app/components/Common/ModalPopup';
 import Button, { ButtonContainerHorizontal } from '@/app/components/Button/Button';
-import { Paragraph } from '@/app/components/Common/CommonStyles';
 import { useRouter } from 'next/navigation';
+import LanguageContext from '@/app/components/LanguageProvider';
+import { getText } from '@/lib/languageLibrary';
 
 export default function VerifyEmailPage({ params }) {
   const [modalState, setModalState] = useState({
@@ -20,12 +21,13 @@ export default function VerifyEmailPage({ params }) {
   });
   const [userEmail, setUserEmail] = useState(null);
   const router = useRouter();
+  const { language } = useContext(LanguageContext);
 
-  // useEffect(() => {
-  //   if (params.token) {
-  //     handleSubmit(params.token);
-  //   }
-  // }, [params.token]);
+  useEffect(() => {
+    if (params.token) {
+      handleSubmit(params.token);
+    }
+  }, [params.token]);
 
   async function handleSubmit(token) {
     try {
@@ -61,7 +63,7 @@ export default function VerifyEmailPage({ params }) {
     } catch (error) {
       setModalState({
         show: true,
-        message: error.message || 'An unknown error occurred.',
+        message: error.message || getText('auth_verify_email_token', 'error_unknown', language),
         showResendButton: false,
         isSuccess: false,
         showOkButton: true,
@@ -72,7 +74,7 @@ export default function VerifyEmailPage({ params }) {
   async function handleResendVerification() {
     setModalState({
       show: true,
-      message: 'Preparing to send your verification email...',
+      message: getText('auth_verify_email_token', 'message_preparing_to_send', language),
       showResendButton: false,
       isSuccess: null,
       showOkButton: false,
@@ -90,8 +92,7 @@ export default function VerifyEmailPage({ params }) {
       if (response.status === 200) {
         setModalState({
           show: true,
-          message:
-            'A new verification email has been sent. Please check your email inbox in a few minutes to confirm your account.',
+          message: getText('auth_verify_email_token', 'message_verification_email_sent', language),
           showResendButton: false,
           isSuccess: true,
           showOkButton: true,
@@ -99,7 +100,7 @@ export default function VerifyEmailPage({ params }) {
       } else {
         setModalState({
           show: true,
-          message: result.message || 'An unexpected error occurred. Please try again later.',
+          message: result.message || getText('auth_verify_email_token', 'error_unexpected', language),
           showResendButton: false,
           isSuccess: false,
           showOkButton: true,
@@ -108,7 +109,7 @@ export default function VerifyEmailPage({ params }) {
     } catch (error) {
       setModalState({
         show: true,
-        message: 'An unexpected error occurred. Please try again later.',
+        message: getText('auth_verify_email_token', 'error_unexpected', language),
         showResendButton: false,
         isSuccess: false,
         showOkButton: true,
@@ -119,7 +120,7 @@ export default function VerifyEmailPage({ params }) {
   async function handleVerifyClick() {
     setModalState({
       show: true,
-      message: 'Your email is currently being verified. Please wait...',
+      message: getText('auth_verify_email_token', 'message_verifying_email', language),
       showResendButton: false,
       isSuccess: null,
       showOkButton: false,
@@ -140,7 +141,7 @@ export default function VerifyEmailPage({ params }) {
     <>
       <Container>
         <ScrollToTop />
-        <Title>Email Verification</Title>
+        <Title>{getText('auth_verify_email_token', 'title', language)}</Title>
         {!modalState.showResendButton ? (
           <>
             <ButtonContainerHorizontal>
@@ -148,10 +149,10 @@ export default function VerifyEmailPage({ params }) {
                 onClick={handleVerifyClick}
                 bgColor='var(--color-button-login)'
                 hoverColor='var(--color-button-login-hover)'>
-                Confirm My Email
+                {getText('auth_verify_email_token', 'button_confirm_email', language)}
               </Button>
             </ButtonContainerHorizontal>
-            <Paragraph>You need to confirm your email address to complete the registration process.</Paragraph>
+            <Paragraph>{getText('auth_verify_email_token', 'paragraph_instruction', language)}</Paragraph>
           </>
         ) : (
           <>
@@ -160,10 +161,10 @@ export default function VerifyEmailPage({ params }) {
                 onClick={handleResendVerification}
                 bgColor='var(--color-button-login)'
                 hoverColor='var(--color-button-login-hover)'>
-                Resend Verification Email
+                {getText('auth_verify_email_token', 'button_resend_verification', language)}
               </Button>
             </ButtonContainerHorizontal>
-            <Paragraph>{'The verification link has expired. Please request a new one.'}</Paragraph>
+            <Paragraph>{getText('auth_verify_email_token', 'paragraph_verification_link_expired', language)}</Paragraph>
           </>
         )}
         {modalState.show && (

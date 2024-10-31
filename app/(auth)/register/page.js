@@ -2,17 +2,20 @@
 
 'use client';
 
+import { useContext, useEffect } from 'react';
 import { useSession } from 'next-auth/react';
-import { useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { Container, Title } from '@/app/components/Common/CommonStyles';
 import RegisterForm from '@/app/components/AuthForm/RegisterForm';
 import LoadingAnimation from '@/app/components/Common/LoadingAnimation';
 import ScrollToTop from '@/app/components/Common/ScrollToTop';
+import LanguageContext from '@/app/components/LanguageProvider';
+import { getText } from '@/lib/languageLibrary';
 
 export default function RegisterPage() {
   const { data: session, status } = useSession();
   const router = useRouter();
+  const { language } = useContext(LanguageContext);
 
   useEffect(() => {
     if (status === 'authenticated') {
@@ -28,7 +31,7 @@ export default function RegisterPage() {
     <>
       <Container>
         <ScrollToTop />
-        <Title>Register</Title>
+        <Title>{getText('auth_register', 'title', language)}</Title>
         <RegisterForm />
       </Container>
     </>

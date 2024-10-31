@@ -2,32 +2,69 @@
 
 'use client';
 
-import { useState } from 'react';
+import { useState, useContext } from 'react';
 import ScrollToTop from '@/app/components/Common/ScrollToTop';
-import { Container, Title } from '@/app/components/Common/CommonStyles';
+import { Container, Title, Paragraph } from '@/app/components/Common/CommonStyles';
 import ResetPasswordForm from '@/app/components/AuthForm/ResetPasswordForm';
+import ModalPopup from '@/app/components/Common/ModalPopup';
+import LanguageContext from '@/app/components/LanguageProvider';
+import { getText } from '@/lib/languageLibrary';
 
 export default function ResetPasswordPage({ params }) {
-  const [password, setPassword] = useState('');
+  const [modalState, setModalState] = useState({
+    show: false,
+    message: '',
+    isSuccess: null,
+  });
+  const { language } = useContext(LanguageContext);
 
   async function handleSubmit(password) {
-    const response = await fetch('/api/auth/reset-password', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ password }),
-    });
-    const data = await response.json();
-    setPassword(data.password);
+    try {
+      const response = await fetch('/api/auth/reset-password', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ password, token: params.token }),
+      });
+      const data = await response.json();
+
+      if (response.ok) {
+        setModalState({
+          show: true,
+          message: getText('auth_reset_password_token', 'message_reset_success', language),
+          isSuccess: true,
+        });
+      } else {
+        setModalState({
+          show: true,
+          message: data.message || getText('auth_reset_password_token', 'error_unexpected', language),
+          isSuccess: false,
+        });
+      }
+    } catch (error) {
+      setModalState({
+        show: true,
+        message: error.message || getText('auth_reset_password_token', 'error_unknown', language),
+        isSuccess: false,
+      });
+    }
+  }
+
+  function handleOkClick() {
+    setModalState({ show: false, message: '', isSuccess: null });
+    if (modalState.isSuccess) {
+      window.location.href = '/login';
+    }
   }
 
   return (
     <>
       <Container>
         <ScrollToTop />
-        <Title>Reset Password</Title>
-        <ResetPasswordForm onSubmit={handleSubmit} password={password} />
+        <Title>{getText('auth_reset_password_token', 'title', language)}</Title>
+        <ResetPasswordForm onSubmit={handleSubmit} />
+        {modalState.show && <ModalPopup message={modalState.message} onOkClick={handleOkClick} showOkButton={true} />}
       </Container>
     </>
   );

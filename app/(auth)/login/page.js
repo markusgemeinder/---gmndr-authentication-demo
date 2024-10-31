@@ -3,19 +3,22 @@
 'use client';
 
 import { signIn } from 'next-auth/react';
-import { useState } from 'react';
+import { useContext, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import ScrollToTop from '@/app/components/Common/ScrollToTop';
 import { Container, Title } from '@/app/components/Common/CommonStyles';
 import LoginForm from '@/app/components/AuthForm/LoginForm';
+import LanguageContext from '@/app/components/LanguageProvider';
+import { getText } from '@/lib/languageLibrary';
 
 export default function LoginPage() {
   const [error, setError] = useState('');
   const router = useRouter();
+  const { language } = useContext(LanguageContext);
 
   async function handleLogin(email, password) {
     if (!email || !password) {
-      setError('Please enter both email and password.');
+      setError(getText('auth_login', 'error_empty_fields', language));
       return false;
     }
 
@@ -51,7 +54,7 @@ export default function LoginPage() {
     });
 
     if (result?.error) {
-      setError('Error logging in as Demo User');
+      setError(getText('auth_login', 'error_demo_login', language));
       return false;
     } else if (result?.ok) {
       router.push('/reviews');
@@ -63,7 +66,7 @@ export default function LoginPage() {
     <>
       <Container>
         <ScrollToTop />
-        <Title>Login</Title>
+        <Title>{getText('auth_login', 'title', language)}</Title>
         <LoginForm onLogin={handleLogin} onOAuthLogin={handleOAuthLogin} onDemoLogin={handleDemoLogin} error={error} />
       </Container>
     </>
