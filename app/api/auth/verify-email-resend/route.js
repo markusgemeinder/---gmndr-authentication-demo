@@ -5,24 +5,37 @@ import User from '@/db/models/User';
 import { NextResponse } from 'next/server';
 import crypto from 'crypto';
 import sendEmail from '@/utils/sendEmail';
-import { getResendVerificationEmailText } from '@/utils/emailTemplate'; // Import der Vorlage
+import { getResendVerificationEmailText } from '@/utils/emailTemplate';
+import { useContext } from 'react';
+import LanguageContext from '@/app/components/LanguageProvider';
+import { getText } from '@/lib/languageLibrary';
 
 export async function POST(req) {
+  const { language } = useContext(LanguageContext);
   await dbConnect();
 
   try {
     const { email } = await req.json();
     if (!email) {
-      return NextResponse.json({ message: 'Email is required.' }, { status: 400 });
+      return NextResponse.json(
+        { message: getText('api_auth_verify_email_resend', 'email_required', language) },
+        { status: 400 }
+      );
     }
 
     const user = await User.findOne({ email });
     if (!user) {
-      return NextResponse.json({ message: 'No account found with that email.' }, { status: 404 });
+      return NextResponse.json(
+        { message: getText('api_auth_verify_email_resend', 'no_account_found', language) },
+        { status: 404 }
+      );
     }
 
     if (user.isEmailConfirmed) {
-      return NextResponse.json({ message: 'Your email is already confirmed.' }, { status: 400 });
+      return NextResponse.json(
+        { message: getText('api_auth_verify_email_resend', 'email_already_confirmed', language) },
+        { status: 400 }
+      );
     }
 
     const token = crypto.randomBytes(20).toString('hex');
@@ -35,15 +48,18 @@ export async function POST(req) {
 
     await sendEmail({
       to: email,
-      subject: 'Email Confirmation (New Request) | #GMNDR Authentication Demo',
+      subject: getText('api_auth_verify_email_resend', 'email_confirmation_subject', language),
       text,
     });
 
-    return NextResponse.json({ message: 'A new verification email has been sent.' }, { status: 200 });
+    return NextResponse.json(
+      { message: getText('api_auth_verify_email_resend', 'verification_email_sent', language) },
+      { status: 200 }
+    );
   } catch (error) {
     console.error('Resend verification error:', error);
     return NextResponse.json(
-      { message: 'Failed to resend verification email. Please try again later.' },
+      { message: getText('api_auth_verify_email_resend', 'verification_email_failed', language) },
       { status: 500 }
     );
   }

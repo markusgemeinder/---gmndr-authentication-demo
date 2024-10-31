@@ -4,6 +4,9 @@ import dbConnect from '@/db/connect';
 import Review from '@/db/models/Review';
 import { getToken } from 'next-auth/jwt';
 import CryptoJS from 'crypto-js';
+import { useContext } from 'react';
+import LanguageContext from '@/app/components/LanguageProvider';
+import { getText } from '@/lib/languageLibrary';
 
 const secretKey = process.env.SECRET_KEY || 'my_secret_key';
 
@@ -17,10 +20,11 @@ const decryptEmail = (cipherText) => {
 };
 
 export async function GET(request) {
+  const { language } = useContext(LanguageContext);
   const token = await getToken({ req: request, secret: process.env.NEXTAUTH_SECRET });
 
   if (!token) {
-    return new Response(JSON.stringify({ error: 'Unauthorized' }), { status: 401 });
+    return new Response(JSON.stringify({ error: getText('api_reviews', 'unauthorized', language) }), { status: 401 });
   }
 
   await dbConnect();
@@ -42,10 +46,11 @@ export async function GET(request) {
 }
 
 export async function POST(request) {
+  const { language } = useContext(LanguageContext);
   const token = await getToken({ req: request, secret: process.env.NEXTAUTH_SECRET });
 
   if (!token) {
-    return new Response(JSON.stringify({ error: 'Unauthorized' }), { status: 401 });
+    return new Response(JSON.stringify({ error: getText('api_reviews', 'unauthorized', language) }), { status: 401 });
   }
 
   await dbConnect();
@@ -53,13 +58,14 @@ export async function POST(request) {
   try {
     const reviewData = await request.json();
 
-    // Encrypt the email before saving
     reviewData.email = encryptEmail(reviewData.email);
 
     const newReview = new Review(reviewData);
     await newReview.save();
 
-    return new Response(JSON.stringify({ status: 'Review created', newReview }), { status: 201 });
+    return new Response(JSON.stringify({ status: getText('api_reviews', 'review_created', language), newReview }), {
+      status: 201,
+    });
   } catch (error) {
     console.error(error);
     return new Response(JSON.stringify({ error: error.message }), { status: 500 });
