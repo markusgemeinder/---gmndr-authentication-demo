@@ -162,7 +162,7 @@ export default function LoginForm({ onLogin, onOAuthLogin, error, onDemoLogin })
         </ButtonContainerVertical>
 
         <Divider>
-          <span>or</span>
+          <span>{getText('login_form', 'divider', language)}</span>
         </Divider>
 
         <InputGroup>

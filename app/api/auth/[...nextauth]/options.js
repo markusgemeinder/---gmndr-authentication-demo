@@ -6,11 +6,10 @@ import CredentialsProvider from 'next-auth/providers/credentials';
 import User from '@/db/models/User';
 import bcrypt from 'bcrypt';
 import dbConnect from '@/db/connect';
-import { useState, useContext } from 'react';
-import LanguageContext from '@/app/components/LanguageProvider';
 import { getText } from '@/lib/languageLibrary';
 
-export const options = {
+// Die options Funktion, die die Sprache als Parameter erwartet
+export const options = (language) => ({
   providers: [
     CredentialsProvider({
       id: 'credentials',
@@ -152,4 +151,4 @@ export const options = {
     maxAge: 60 * 60,
     updateAge: 60 * 5,
   },
-};
+});
