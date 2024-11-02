@@ -235,10 +235,7 @@ export default function Navigation() {
     <ButtonContainerHorizontal>
       <LogoutButton
         text={getText('navigation', 'logout', language)}
-        onClick={() => {
-          signOut({ callbackUrl: '/' });
-          if (isBurgerOpen) setIsBurgerOpen(false);
-        }}
+        onCloseMenu={handleLinkClick}
         aria-label={getText('navigation', 'aria_label_auth_button_logout', language)}
       />
     </ButtonContainerHorizontal>
@@ -248,18 +245,12 @@ export default function Navigation() {
     <ButtonContainerHorizontal>
       <LoginButton
         text={getText('navigation', 'login', language)}
-        onClick={() => {
-          router.push('/login');
-          if (isBurgerOpen) setIsBurgerOpen(false);
-        }}
+        onCloseMenu={handleLinkClick}
         aria-label={getText('navigation', 'aria_label_auth_button_login', language)}
       />
       <RegisterButton
         text={getText('navigation', 'register', language)}
-        onClick={() => {
-          router.push('/register');
-          if (isBurgerOpen) setIsBurgerOpen(false);
-        }}
+        onCloseMenu={handleLinkClick}
         aria-label={getText('navigation', 'aria_label_auth_button_register', language)}
       />
     </ButtonContainerHorizontal>
