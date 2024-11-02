@@ -75,6 +75,8 @@ export const Paragraph = styled.p`
   text-align: center;
   margin: 0.5rem;
   color: var(--color-text);
+  hyphens: auto;
+  word-wrap: break-word;
 `;
 
 export const StyledLink = styled(Link)`
@@ -95,7 +97,12 @@ export const ListContainer = styled.ul`
   margin: 0.5rem;
   display: flex;
   flex-direction: column;
-  width: 75%;
+  width: 90%;
+
+  @media (min-width: 768px) and (min-height: 768px) {
+    width: 80%;
+    max-width: 30rem;
+  }
 `;
 
 export const List = styled.li`
