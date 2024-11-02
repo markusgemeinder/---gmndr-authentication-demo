@@ -7,11 +7,13 @@ import { useRouter, usePathname } from 'next/navigation';
 import { useState, useContext } from 'react';
 import styled from 'styled-components';
 import Link from 'next/link';
-import Button, { ButtonContainerHorizontal } from '@/app/components/Button/Button';
 import ThemeToggleButton from '@/app/components/Button/ThemeToggleButton';
 import LanguageContext from '@/app/components/LanguageProvider';
 import { getText } from '@/lib/languageLibrary';
+import { LoginButton, LogoutButton, RegisterButton } from '@/app/components/Button/AuthButtonSvg';
+import { ButtonContainerHorizontal } from '@/app/components/Button/Button';
 
+// Styled components
 const Header = styled.header`
   background-color: var(--color-header);
   color: var(--color-header-text);
@@ -26,31 +28,17 @@ const Header = styled.header`
   align-items: center;
   padding: 0 0.6rem;
   height: 4rem;
-
-  @media (min-width: 768px) and (min-height: 768px) {
-    height: 5rem;
-    padding: 0 1rem;
-  }
 `;
 
 const BrandContainer = styled.div`
   display: flex;
   align-items: center;
   gap: 0.6rem;
-
-  @media (min-width: 768px) and (min-height: 768px) {
-    gap: 1rem;
-  }
 `;
 
 const Title = styled.div`
   font-size: 1rem;
   font-weight: bold;
-
-  @media (min-width: 768px) and (min-height: 768px) {
-    font-size: 1.25rem;
-    margin: 1rem;
-  }
 `;
 
 const NavContainer = styled.div`
@@ -83,10 +71,6 @@ const NavLink = styled(Link)`
   &:hover {
     color: var(--color-link);
   }
-
-  &:active {
-    color: var(--color-header-text);
-  }
 `;
 
 const BurgerMenuButton = styled.button`
@@ -113,7 +97,7 @@ const BurgerMenuButtonSvg = styled.svg`
   stroke-linejoin: round;
   transition: transform 0.3s ease;
 
-  transform: ${({ $isOpen }) => ($isOpen ? 'rotate(45deg)' : 'rotate(0deg)')};
+  transform: ${({ $isOpen }) => ($isOpen ? 'rotate(-25deg)' : 'rotate(0deg)')};
 `;
 
 const BurgerMenuNavigation = styled.nav`
@@ -201,67 +185,83 @@ export default function Navigation() {
           {getText('navigation', 'home', language)}
         </NavLink>
       </BurgerMenuItem>
-      {session && (
-        <BurgerMenuItem>
-          <NavLink href='/reviews' $isActive={pathname === '/reviews'} onClick={handleLinkClick}>
-            {getText('navigation', 'reviews', language)}
-          </NavLink>
-        </BurgerMenuItem>
+
+      {session ? (
+        <>
+          <BurgerMenuItem>
+            <NavLink href='/reviews' $isActive={pathname === '/reviews'} onClick={handleLinkClick}>
+              {getText('navigation', 'reviews', language)}
+            </NavLink>
+          </BurgerMenuItem>
+          <BurgerMenuItem>
+            <NavLink href='/info' $isActive={pathname === '/info'} onClick={handleLinkClick}>
+              {getText('navigation', 'info', language)}
+            </NavLink>
+          </BurgerMenuItem>
+          <BurgerMenuItem>
+            <NavLink href='#' onClick={() => signOut({ callbackUrl: '/' })}>
+              {getText('navigation', 'logout', language)}
+            </NavLink>
+          </BurgerMenuItem>
+        </>
+      ) : (
+        <>
+          <BurgerMenuItem>
+            <NavLink href='/login' $isActive={pathname === '/login'} onClick={handleLinkClick}>
+              {getText('navigation', 'login', language)}
+            </NavLink>
+          </BurgerMenuItem>
+          <BurgerMenuItem>
+            <NavLink href='/register' $isActive={pathname === '/register'} onClick={handleLinkClick}>
+              {getText('navigation', 'register', language)}
+            </NavLink>
+          </BurgerMenuItem>
+          <BurgerMenuItem>
+            <NavLink href='/forgot-password' $isActive={pathname === '/forgot-password'} onClick={handleLinkClick}>
+              {getText('navigation', 'forgot_password', language)}
+            </NavLink>
+          </BurgerMenuItem>
+          <BurgerMenuItem>
+            <NavLink href='/info' $isActive={pathname === '/info'} onClick={handleLinkClick}>
+              {getText('navigation', 'info', language)}
+            </NavLink>
+          </BurgerMenuItem>
+        </>
       )}
-      <BurgerMenuItem>
-        <NavLink href='/info' $isActive={pathname === '/info'} onClick={handleLinkClick}>
-          {getText('navigation', 'info', language)}
-        </NavLink>
-      </BurgerMenuItem>
-      {!session && (
-        <BurgerMenuItem>
-          <NavLink href='/forgot-password' $isActive={pathname === '/forgot-password'} onClick={handleLinkClick}>
-            {getText('navigation', 'forgot_password', language)}
-          </NavLink>
-        </BurgerMenuItem>
-      )}
-      <BurgerMenuItem>
-        <NavLink href='#' onClick={() => toggleLanguage()}>
-          {getText('test', 'switch_language', language)}
-        </NavLink>
-      </BurgerMenuItem>
     </>
   );
 
   const renderSessionButtons = () => (
     <ButtonContainerHorizontal>
-      <Button
-        bgColor='var(--color-button-logout)'
-        hoverColor='var(--color-button-logout-hover)'
+      <LogoutButton
+        text={getText('navigation', 'logout', language)}
         onClick={() => {
           signOut({ callbackUrl: '/' });
           if (isBurgerOpen) setIsBurgerOpen(false);
-        }}>
-        {getText('navigation', 'logout', language)}
-      </Button>
+        }}
+        aria-label={getText('navigation', 'aria_label_auth_button_logout', language)}
+      />
     </ButtonContainerHorizontal>
   );
 
   const renderNoSessionButtons = () => (
     <ButtonContainerHorizontal>
-      <Button
-        bgColor='var(--color-button-login)'
-        hoverColor='var(--color-button-login-hover)'
+      <LoginButton
+        text={getText('navigation', 'login', language)}
         onClick={() => {
           router.push('/login');
           if (isBurgerOpen) setIsBurgerOpen(false);
-        }}>
-        {getText('navigation', 'login', language)}
-      </Button>
-      <Button
-        bgColor='var(--color-button-register)'
-        hoverColor='var(--color-button-register-hover)'
+        }}
+        aria-label={getText('navigation', 'aria_label_auth_button_login', language)}
+      />
+      <RegisterButton
+        text={getText('navigation', 'register', language)}
         onClick={() => {
           router.push('/register');
           if (isBurgerOpen) setIsBurgerOpen(false);
-        }}>
-        {getText('navigation', 'register', language)}
-      </Button>
+        }}
+        aria-label={getText('navigation', 'aria_label_auth_button_register', language)}
+      />
     </ButtonContainerHorizontal>
   );
 
@@ -286,15 +286,12 @@ export default function Navigation() {
           </NavItem>
 
           <BurgerMenuButton
-            onClick={() => setIsBurgerOpen(!isBurgerOpen)}
-            aria-label='Toggle burger menu'
-            aria-expanded={isBurgerOpen}>
-            <BurgerMenuButtonSvg
-              xmlns='http://www.w3.org/2000/svg'
-              fill='none'
-              viewBox='0 0 24 24'
-              $isOpen={isBurgerOpen}>
-              <path d='M4 6h16M4 12h16M4 18h16' />
+            onClick={() => setIsBurgerOpen((prev) => !prev)}
+            aria-label={getText('navigation', 'aria_label_toggle_menu', language)}>
+            <BurgerMenuButtonSvg $isOpen={isBurgerOpen} viewBox='0 0 24 24'>
+              <line x1='3' y1='6' x2='21' y2='6' />
+              <line x1='3' y1='12' x2='21' y2='12' />
+              <line x1='3' y1='18' x2='21' y2='18' />
             </BurgerMenuButtonSvg>
           </BurgerMenuButton>
         </NavContainer>
