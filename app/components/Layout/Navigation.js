@@ -26,14 +26,23 @@ const Header = styled.header`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 0 0.6rem;
-  height: 4rem;
+  padding: 0 1.6rem;
+  height: 5rem;
+
+  @media (max-width: 768px) {
+    padding: 0 0.6rem;
+    height: 4rem;
+  }
 `;
 
 const BrandContainer = styled.div`
   display: flex;
   align-items: center;
-  gap: 0.6rem;
+  gap: 1.4rem;
+
+  @media (max-width: 768px) {
+    gap: 0.6rem;
+  }
 `;
 
 const Title = styled.div`
@@ -151,11 +160,6 @@ export default function Navigation() {
 
   const renderNavLinks = () => (
     <>
-      <NavItem>
-        <NavLink href='/' $isActive={pathname === '/'} onClick={handleLinkClick}>
-          {getText('navigation', 'home', language)}
-        </NavLink>
-      </NavItem>
       {!session && (
         <NavItem>
           <NavLink href='/forgot-password' $isActive={pathname === '/forgot-password'} onClick={handleLinkClick}>
@@ -163,6 +167,11 @@ export default function Navigation() {
           </NavLink>
         </NavItem>
       )}
+      <NavItem>
+        <NavLink href='/' $isActive={pathname === '/'} onClick={handleLinkClick}>
+          {getText('navigation', 'home', language)}
+        </NavLink>
+      </NavItem>
       {session && (
         <NavItem>
           <NavLink href='/reviews' $isActive={pathname === '/reviews'} onClick={handleLinkClick}>
