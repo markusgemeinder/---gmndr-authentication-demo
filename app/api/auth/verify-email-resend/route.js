@@ -7,10 +7,11 @@ import crypto from 'crypto';
 import sendEmail from '@/utils/sendEmail';
 import { getResendVerificationEmailText } from '@/utils/emailTemplate';
 import { getText } from '@/lib/languageLibrary';
+import { getLanguageFromCookies } from '@/utils/getLanguageFromCookies';
 
 export async function POST(req) {
   await dbConnect();
-  const language = req.headers.get('accept-language')?.split(',')[0] || 'EN';
+  const language = getLanguageFromCookies(req);
 
   try {
     const { email } = await req.json();

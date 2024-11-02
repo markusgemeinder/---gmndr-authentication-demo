@@ -6,9 +6,10 @@ import { NextResponse } from 'next/server';
 import bcrypt from 'bcryptjs';
 import crypto from 'crypto';
 import { getText } from '@/lib/languageLibrary';
+import { getLanguageFromCookies } from '@/utils/getLanguageFromCookies';
 
 export async function POST(req) {
-  const language = req.headers.get('accept-language')?.split(',')[0] || 'EN';
+  const language = getLanguageFromCookies(req);
   await dbConnect();
 
   try {

@@ -5,6 +5,7 @@ import Review from '@/db/models/Review';
 import { getToken } from 'next-auth/jwt';
 import CryptoJS from 'crypto-js';
 import { getText } from '@/lib/languageLibrary';
+import { getLanguageFromCookies } from '@/utils/getLanguageFromCookies';
 
 const secretKey = process.env.SECRET_KEY || 'my_secret_key';
 
@@ -18,7 +19,7 @@ const decryptEmail = (cipherText) => {
 };
 
 export async function GET(request) {
-  const language = request.headers.get('accept-language') || 'EN';
+  const language = getLanguageFromCookies(request);
   const token = await getToken({ req: request, secret: process.env.NEXTAUTH_SECRET });
 
   if (!token) {
@@ -44,7 +45,7 @@ export async function GET(request) {
 }
 
 export async function POST(request) {
-  const language = request.headers.get('accept-language')?.split(',')[0] || 'EN';
+  const language = getLanguageFromCookies(request);
 
   const token = await getToken({ req: request, secret: process.env.NEXTAUTH_SECRET });
 

@@ -1,13 +1,14 @@
-// /app/api/check-token/route.js
-
 import dbConnect from '@/db/connect';
 import User from '@/db/models/User';
 import crypto from 'crypto';
 import { NextResponse } from 'next/server';
-import { getText } from '@/lib/languageLibrary'; // Importing language library
+import { getText } from '@/lib/languageLibrary';
+import { getLanguageFromCookies } from '@/utils/getLanguageFromCookies';
 
 export async function POST(req) {
   await dbConnect();
+
+  const language = getLanguageFromCookies(req);
 
   try {
     const body = await req.json();

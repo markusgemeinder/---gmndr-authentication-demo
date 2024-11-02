@@ -6,17 +6,18 @@ import CredentialsProvider from 'next-auth/providers/credentials';
 import User from '@/db/models/User';
 import bcrypt from 'bcrypt';
 import dbConnect from '@/db/connect';
+import { getText } from '@/lib/languageLibrary'; // Importiere die Funktion zur Sprachabfrage
 
 export const options = {
   providers: [
     CredentialsProvider({
       id: 'credentials',
-      name: 'Credentials Login', // Fest codierter Name auf Englisch
+      name: getText('api_auth_nextauth_options', 'name', 'EN'), // Standardwert
       credentials: {
-        email: { label: 'Email Address', type: 'text' }, // Fest codiertes Label auf Englisch
-        password: { label: 'Password', type: 'password' }, // Fest codiertes Label auf Englisch
+        email: { label: getText('api_auth_nextauth_options', 'email_label', 'EN'), type: 'text' },
+        password: { label: getText('api_auth_nextauth_options', 'password_label', 'EN'), type: 'password' },
       },
-      async authorize(credentials) {
+      async authorize(credentials, language) {
         await dbConnect();
 
         try {
@@ -27,31 +28,31 @@ export const options = {
           const existingUser = await User.findOne({ email: credentials.email }).lean().exec();
 
           if (!existingUser) {
-            throw new Error('No account found with that email address.');
+            throw new Error(getText('api_auth_nextauth_options', 'error_no_account', language));
           }
 
           if (existingUser.role === 'Credentials User') {
             if (!existingUser.isEmailConfirmed) {
               if (existingUser.confirmationTokenExpiry && new Date() < existingUser.confirmationTokenExpiry) {
-                throw new Error('Please confirm your email address to log in.');
+                throw new Error(getText('api_auth_nextauth_options', 'error_email_not_confirmed', language));
               }
               if (!existingUser.confirmationTokenExpiry || new Date() > existingUser.confirmationTokenExpiry) {
-                throw new Error('Your confirmation link has expired.');
+                throw new Error(getText('api_auth_nextauth_options', 'error_confirmation_link_expired', language));
               }
             }
           }
 
           if (existingUser.role === 'GitHub User' || existingUser.role === 'GitHub User (Admin)') {
-            throw new Error('This email is already registered with GitHub. Please log in using GitHub.');
+            throw new Error(getText('api_auth_nextauth_options', 'error_github_registered', language));
           }
 
           if (existingUser.role === 'Google User' || existingUser.role === 'Google User (Admin)') {
-            throw new Error('This email is already registered with Google. Please log in using Google.');
+            throw new Error(getText('api_auth_nextauth_options', 'error_google_registered', language));
           }
 
           const match = await bcrypt.compare(credentials.password, existingUser.password);
           if (!match) {
-            throw new Error('Incorrect password.');
+            throw new Error(getText('api_auth_nextauth_options', 'error_incorrect_password', language));
           }
 
           if (existingUser.resetToken || existingUser.resetTokenExpiry) {
@@ -65,7 +66,7 @@ export const options = {
             isDemoUser: false,
           };
         } catch (error) {
-          throw error;
+          throw error; // Werfe den Fehler weiter
         }
       },
     }),
@@ -116,10 +117,10 @@ export const options = {
 
             const newUser = new User({ email: user.email, role: userRole });
             await newUser.save();
-            console.log('New user created:', user.email);
+            console.log(getText('api_auth_nextauth_options', 'log_new_user_created', 'EN'), user.email);
           } else {
             await User.updateOne({ email: user.email }, { $set: { updatedAt: new Date() } });
-            console.log('Existing user updated:', user.email);
+            console.log(getText('api_auth_nextauth_options', 'log_existing_user_updated', 'EN'), user.email);
           }
 
           return true;

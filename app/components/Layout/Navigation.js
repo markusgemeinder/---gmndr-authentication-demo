@@ -9,8 +9,8 @@ import styled from 'styled-components';
 import Link from 'next/link';
 import Button, { ButtonContainerHorizontal } from '@/app/components/Button/Button';
 import ThemeToggleButton from '@/app/components/Button/ThemeToggleButton';
-import LanguageContext from '@/app/components/LanguageProvider'; // Importieren des LanguageContext
-import { getText } from '@/lib/languageLibrary'; // Importieren der Textfunktion
+import LanguageContext from '@/app/components/LanguageProvider';
+import { getText } from '@/lib/languageLibrary';
 
 const Header = styled.header`
   background-color: var(--color-header);

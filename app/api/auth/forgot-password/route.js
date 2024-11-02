@@ -7,16 +7,17 @@ import { NextResponse } from 'next/server';
 import sendEmail from '@/utils/sendEmail';
 import { getPasswordResetEmailText } from '@/utils/emailTemplate';
 import { getText } from '@/lib/languageLibrary';
+import { getLanguageFromCookies } from '@/utils/getLanguageFromCookies';
 
 export async function POST(req) {
   await dbConnect();
-  const language = req.headers.get('accept-language')?.split(',')[0] || 'EN';
+  const language = getLanguageFromCookies(req);
 
   try {
     const body = await req.json();
     const { email } = body;
 
-    // Überprüfen, ob der Benutzer existiert
+    // Check if user exists
     const existingUser = await User.findOne({ email }).exec();
     if (!existingUser) {
       return NextResponse.json(
@@ -25,7 +26,7 @@ export async function POST(req) {
       );
     }
 
-    // Überprüfen, ob der Benutzer ein Google- oder GitHub-Nutzer ist
+    // Check if the user is a Google or GitHub user
     const isGoogleUser = existingUser.role.includes('Google');
     const isGithubUser = existingUser.role.includes('GitHub');
 
@@ -36,7 +37,7 @@ export async function POST(req) {
       );
     }
 
-    // Überprüfen, ob die E-Mail bestätigt wurde
+    // Check if the email is confirmed
     if (!existingUser.isEmailConfirmed) {
       return NextResponse.json(
         { message: getText('api_auth_forgot_password', 'email_not_confirmed', language) },
@@ -44,12 +45,12 @@ export async function POST(req) {
       );
     }
 
-    // Generierung des Rücksetz-Tokens
+    // Generate the reset token
     const resetToken = crypto.randomBytes(20).toString('hex');
     const hashedResetToken = crypto.createHash('sha256').update(resetToken).digest('hex');
-    const expiry = Date.now() + 3600000; // 1 Stunde
+    const expiry = Date.now() + 3600000; // 1 hour
 
-    // Aktualisieren des Benutzers mit dem Token und Ablaufdatum
+    // Update user with token and expiry
     await User.updateOne(
       { email },
       {
@@ -60,7 +61,7 @@ export async function POST(req) {
       }
     );
 
-    // Senden der Rücksetz-E-Mail
+    // Send the reset email
     const { subject, text } = getPasswordResetEmailText(resetToken, language);
     await sendEmail({
       to: email,
@@ -68,7 +69,7 @@ export async function POST(req) {
       text,
     });
 
-    // Erfolgreiche Antwort
+    // Successful response
     return NextResponse.json(
       { message: getText('api_auth_forgot_password', 'password_reset_email_sent', language) },
       { status: 200 }

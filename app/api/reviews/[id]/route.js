@@ -6,6 +6,7 @@ import mongoose from 'mongoose';
 import { getToken } from 'next-auth/jwt';
 import CryptoJS from 'crypto-js';
 import { getText } from '@/lib/languageLibrary';
+import { getLanguageFromCookies } from '@/utils/getLanguageFromCookies';
 
 const secretKey = process.env.SECRET_KEY || 'my_secret_key';
 
@@ -15,7 +16,7 @@ const decryptEmail = (cipherText) => {
 };
 
 export async function GET(request, { params }) {
-  const language = request.headers.get('accept-language')?.split(',')[0] || 'EN';
+  const language = getLanguageFromCookies(request);
   const token = await getToken({ req: request, secret: process.env.NEXTAUTH_SECRET });
 
   if (!token) {
@@ -60,7 +61,7 @@ export async function GET(request, { params }) {
 }
 
 export async function PATCH(request, { params }) {
-  const language = request.headers.get('accept-language')?.split(',')[0] || 'EN';
+  const language = getLanguageFromCookies(request);
   const token = await getToken({ req: request, secret: process.env.NEXTAUTH_SECRET });
 
   if (!token) {
@@ -109,7 +110,7 @@ export async function PATCH(request, { params }) {
 }
 
 export async function DELETE(request, { params }) {
-  const language = request.headers.get('accept-language')?.split(',')[0] || 'EN';
+  const language = getLanguageFromCookies(request);
   const token = await getToken({ req: request, secret: process.env.NEXTAUTH_SECRET });
 
   if (!token) {

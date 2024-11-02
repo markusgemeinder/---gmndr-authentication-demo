@@ -8,10 +8,11 @@ import crypto from 'crypto';
 import sendEmail from '@/utils/sendEmail';
 import { getRegistrationEmailText } from '@/utils/emailTemplate';
 import { getText } from '@/lib/languageLibrary';
+import { getLanguageFromCookies } from '@/utils/getLanguageFromCookies';
 
 export async function POST(req) {
   await dbConnect();
-  const language = req.headers.get('accept-language')?.split(',')[0] || 'EN';
+  const language = getLanguageFromCookies(req);
 
   try {
     const body = await req.json();
