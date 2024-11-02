@@ -58,7 +58,7 @@ export const Subtitle = styled.h2`
   font-size: 1.4rem;
   font-weight: bold;
   text-align: center;
-  margin: 0.5rem;
+  margin: 1.5rem 0 0.5rem 0;
   color: var(--color-title);
 `;
 

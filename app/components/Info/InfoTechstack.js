@@ -34,19 +34,19 @@ export default function InfoTechstack() {
       <ListContainer>
         <List>{getText('infoTechstack', 'backend_node', language)}</List>
         <List>{getText('infoTechstack', 'backend_next_auth', language)}</List>
+        <List>{getText('infoTechstack', 'backend_mongodb', language)}</List>
         <List>{getText('infoTechstack', 'backend_next_response', language)}</List>
         <List>{getText('infoTechstack', 'backend_sendgrid', language)}</List>
       </ListContainer>
-      <Subtitle>{getText('infoTechstack', 'database_title', language)}</Subtitle>
-      <ListContainer>
-        <List>{getText('infoTechstack', 'database_mongodb', language)}</List>
-      </ListContainer>
+
       <Subtitle>{getText('infoTechstack', 'other_tools_title', language)}</Subtitle>
       <Paragraph>{getText('infoTechstack', 'other_tools_intro', language)}</Paragraph>
       <ListContainer>
         <List>{getText('infoTechstack', 'other_tools_github', language)}</List>
         <List>{getText('infoTechstack', 'other_tools_vercel', language)}</List>
       </ListContainer>
+      <Subtitle>{getText('infoTechstack', 'language_support_title', language)}</Subtitle>
+      <Paragraph>{getText('infoTechstack', 'language_support_intro', language)}</Paragraph>
     </>
   );
 }
