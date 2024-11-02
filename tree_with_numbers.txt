@@ -41,12 +41,12 @@
     41	│   │   └── send-test-email
     42	│   │       └── route.js
     43	│   ├── components
-    44	│   │   ├── About
-    45	│   │   │   ├── AboutContact.js
-    46	│   │   │   ├── AboutNeueFische.js
-    47	│   │   │   ├── AboutProject.js
-    48	│   │   │   ├── AboutStyles.js
-    49	│   │   │   └── AboutTechstack.js
+    44	│   │   ├── Info
+    45	│   │   │   ├── InfoContact.js
+    46	│   │   │   ├── InfoNeueFische.js
+    47	│   │   │   ├── InfoProject.js
+    48	│   │   │   ├── InfoStyles.js
+    49	│   │   │   └── InfoTechstack.js
     50	│   │   ├── AuthForm
     51	│   │   │   ├── AuthFormStyles.js
     52	│   │   │   ├── ForgotPasswordForm.js

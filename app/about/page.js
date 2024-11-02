@@ -6,21 +6,21 @@ import { Container, NarrowContainer } from '@/app/components/Common/CommonStyles
 import ScrollToTop from '@/app/components/Common/ScrollToTop';
 import NavigationButtonNextPage from '@/app/components/Button/NavigationButtonNextPage';
 import NavigationButtonPreviousPage from '@/app/components/Button/NavigationButtonPreviousPage';
-import { PaginationContainer, Pagination } from '@/app/components/About/AboutStyles';
+import { PaginationContainer, Pagination } from '@/app/components/Info/InfoStyles';
 import { useState, useEffect, useCallback } from 'react';
-import AboutProject from '@/app/components/About/AboutProject';
-import AboutNeueFische from '@/app/components/About/AboutNeueFische';
-import AboutTechstack from '@/app/components/About/AboutTechstack';
-import AboutContact from '@/app/components/About/AboutContact';
+import InfoProject from '@/app/components/Info/InfoProject';
+import InfoNeueFische from '@/app/components/Info/InfoNeueFische';
+import InfoTechstack from '@/app/components/Info/InfoTechstack';
+import InfoContact from '@/app/components/Info/InfoContact';
 
 const cards = [
-  { id: 1, content: <AboutProject /> },
-  { id: 2, content: <AboutContact /> },
-  { id: 3, content: <AboutNeueFische /> },
-  { id: 4, content: <AboutTechstack /> },
+  { id: 1, content: <InfoProject /> },
+  { id: 2, content: <InfoContact /> },
+  { id: 3, content: <InfoNeueFische /> },
+  { id: 4, content: <InfoTechstack /> },
 ];
 
-export default function About() {
+export default function Info() {
   const [currentCard, setCurrentCard] = useState(0);
 
   const nextCard = () => {

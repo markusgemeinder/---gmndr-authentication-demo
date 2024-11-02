@@ -90,26 +90,25 @@ export const StyledLink = styled(Link)`
 `;
 
 export const ListContainer = styled.ul`
-  list-style: none;
+  list-style: none; /* Entfernt die Bullet-Points */
+  padding-left: 0; /* Entfernt das Padding */
+  margin: 0.5rem;
   display: flex;
   flex-direction: column;
-  align-items: center;
-  margin: 0.5rem;
+  width: 80%; /* Nimmt die gesamte Breite ein */
 `;
 
 export const List = styled.li`
-  display: flex;
-  align-items: flex-start;
-  position: relative;
-  text-align: center;
-  margin: 0.1rem;
-  color: var(--color-text);
+  margin: 0;
+  padding: 0.8rem 0;
+  color: var(--color-title);
+  font-weight: 600;
+  width: 100%;
+  border-top: 1px solid var(--color-text-light);
+  hyphens: auto;
+  word-wrap: break-word;
 
-  &::before {
-    content: '▶';
-    position: absolute;
-    left: -18px;
-    font-weight: bold;
-    color: var(--color-title);
+  &:last-child {
+    border-bottom: 1px solid var(--color-text-light);
   }
 `;

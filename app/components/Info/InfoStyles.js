@@ -1,4 +1,4 @@
-// /app/components/About/AboutStyles.js
+// /app/components/Info/InfoStyles.js
 
 import styled from 'styled-components';
 import Image from 'next/image';
@@ -55,14 +55,14 @@ export const Pagination = styled.p`
   }
 `;
 
-export const AboutLinkContainer = styled.div`
+export const InfoLinkContainer = styled.div`
   margin-top: 1rem;
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
 `;
 
-export const AboutLink = styled(Link)`
+export const InfoLink = styled(Link)`
   text-align: center;
   font-weight: 500;
   color: var(--color-link);
@@ -74,7 +74,7 @@ export const AboutLink = styled(Link)`
   }
 `;
 
-export const AboutImageContainer = styled.div`
+export const InfoImageContainer = styled.div`
   display: flex;
   gap: 1rem;
   flex-direction: column;
@@ -82,7 +82,7 @@ export const AboutImageContainer = styled.div`
   justify-content: center;
 `;
 
-export const AboutImageWithLink = styled(Image)`
+export const InfoImageWithLink = styled(Image)`
   width: 100%;
   height: auto;
   border-radius: 8px;
@@ -94,7 +94,7 @@ export const AboutImageWithLink = styled(Image)`
   }
 `;
 
-export const AboutImageFullSize = styled(Image)`
+export const InfoImageFullSize = styled(Image)`
   position: fixed;
   top: 50%;
   left: 50%;
