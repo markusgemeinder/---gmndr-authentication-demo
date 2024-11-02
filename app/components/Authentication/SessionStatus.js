@@ -17,14 +17,14 @@ const StatusContainer = styled.div`
 `;
 
 const SessionStatusText = styled(Paragraph)`
-  font-size: 0.8rem;
+  font-size: 0.9rem;
   margin: 0.2rem;
   color: var(--color-text-medium);
 `;
 
 const CountdownContainer = styled.span`
   display: inline-block;
-  width: 1.6rem;
+  width: 1.9rem;
   text-align: right;
 `;
 

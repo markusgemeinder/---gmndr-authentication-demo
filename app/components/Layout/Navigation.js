@@ -169,31 +169,31 @@ export default function Navigation() {
     <>
       <NavItem>
         <NavLink href='/' $isActive={pathname === '/'} onClick={handleLinkClick}>
-          {getText('navigation', 'home', language)} {/* Dynamische Sprache */}
+          {getText('navigation', 'home', language)}
         </NavLink>
       </NavItem>
       {!session && (
         <NavItem>
           <NavLink href='/forgot-password' $isActive={pathname === '/forgot-password'} onClick={handleLinkClick}>
-            {getText('navigation', 'forgot_password', language)} {/* Dynamische Sprache */}
+            {getText('navigation', 'forgot_password', language)}
           </NavLink>
         </NavItem>
       )}
       {session && (
         <NavItem>
           <NavLink href='/reviews' $isActive={pathname === '/reviews'} onClick={handleLinkClick}>
-            {getText('navigation', 'reviews', language)} {/* Dynamische Sprache */}
+            {getText('navigation', 'reviews', language)}
           </NavLink>
         </NavItem>
       )}
       <NavItem>
         <NavLink href='/about' $isActive={pathname === '/about'} onClick={handleLinkClick}>
-          {getText('navigation', 'about', language)} {/* Dynamische Sprache */}
+          {getText('navigation', 'about', language)}
         </NavLink>
       </NavItem>
       <NavItem>
         <NavLink href='#' onClick={() => toggleLanguage()}>
-          {getText('test', 'switch_language', language)} {/* Dynamische Sprache */}
+          {getText('test', 'switch_language', language)}
         </NavLink>
       </NavItem>
     </>
@@ -203,31 +203,31 @@ export default function Navigation() {
     <>
       <BurgerMenuItem>
         <NavLink href='/' $isActive={pathname === '/'} onClick={handleLinkClick}>
-          {getText('navigation', 'home', language)} {/* Dynamische Sprache */}
+          {getText('navigation', 'home', language)}
         </NavLink>
       </BurgerMenuItem>
       {session && (
         <BurgerMenuItem>
           <NavLink href='/reviews' $isActive={pathname === '/reviews'} onClick={handleLinkClick}>
-            {getText('navigation', 'reviews', language)} {/* Dynamische Sprache */}
+            {getText('navigation', 'reviews', language)}
           </NavLink>
         </BurgerMenuItem>
       )}
       <BurgerMenuItem>
         <NavLink href='/about' $isActive={pathname === '/about'} onClick={handleLinkClick}>
-          {getText('navigation', 'about', language)} {/* Dynamische Sprache */}
+          {getText('navigation', 'about', language)}
         </NavLink>
       </BurgerMenuItem>
       {!session && (
         <BurgerMenuItem>
           <NavLink href='/forgot-password' $isActive={pathname === '/forgot-password'} onClick={handleLinkClick}>
-            {getText('navigation', 'forgot_password', language)} {/* Dynamische Sprache */}
+            {getText('navigation', 'forgot_password', language)}
           </NavLink>
         </BurgerMenuItem>
       )}
       <BurgerMenuItem>
         <NavLink href='#' onClick={() => toggleLanguage()}>
-          {getText('test', 'switch_language', language)} {/* Dynamische Sprache */}
+          {getText('test', 'switch_language', language)}
         </NavLink>
       </BurgerMenuItem>
     </>
@@ -242,7 +242,7 @@ export default function Navigation() {
           signOut({ callbackUrl: '/' });
           if (isBurgerOpen) setIsBurgerOpen(false);
         }}>
-        {getText('navigation', 'logout', language)} {/* Dynamische Sprache */}
+        {getText('navigation', 'logout', language)}
       </Button>
     </ButtonContainerHorizontal>
   );
@@ -256,7 +256,7 @@ export default function Navigation() {
           router.push('/login');
           if (isBurgerOpen) setIsBurgerOpen(false);
         }}>
-        {getText('navigation', 'login', language)} {/* Dynamische Sprache */}
+        {getText('navigation', 'login', language)}
       </Button>
       <Button
         bgColor='var(--color-button-register)'
@@ -265,7 +265,7 @@ export default function Navigation() {
           router.push('/register');
           if (isBurgerOpen) setIsBurgerOpen(false);
         }}>
-        {getText('navigation', 'register', language)} {/* Dynamische Sprache */}
+        {getText('navigation', 'register', language)}
       </Button>
     </ButtonContainerHorizontal>
   );
