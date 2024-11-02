@@ -10,7 +10,7 @@ import MainContainer from '@/app/components/Layout/MainContainer';
 import { LanguageProvider } from '@/app/components/LanguageProvider';
 
 export const metadata = {
-  title: '#GMNDR Authentication Demo',
+  title: '#GMNDR Auth Demo',
   description: 'A demo application using Next.js and MongoDB',
 };
 
