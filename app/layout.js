@@ -11,7 +11,7 @@ import { LanguageProvider } from '@/app/components/LanguageProvider';
 
 export const metadata = {
   title: '#GMNDR Auth Demo',
-  description: 'A demo application using Next.js and MongoDB',
+  description: 'Created with Next.js 14 and MongoDB | Erstellt mit Next.js 14 und MongoDB',
 };
 
 export default function Layout({ children }) {
