@@ -191,11 +191,6 @@ export default function Navigation() {
           {getText('navigation', 'info', language)}
         </NavLink>
       </NavItem>
-      <NavItem>
-        <NavLink href='#' onClick={() => toggleLanguage()}>
-          {getText('test', 'switch_language', language)}
-        </NavLink>
-      </NavItem>
     </>
   );
 
@@ -280,6 +275,16 @@ export default function Navigation() {
         <NavContainer>
           <NavList>{renderNavLinks()}</NavList>
           <ThemeToggleButton />
+          <NavItem>
+            <NavLink href='#' onClick={() => toggleLanguage()} $isActive={language === 'EN'}>
+              EN
+            </NavLink>
+            {' | '}
+            <NavLink href='#' onClick={() => toggleLanguage()} $isActive={language === 'DE'}>
+              DE
+            </NavLink>
+          </NavItem>
+
           <BurgerMenuButton
             onClick={() => setIsBurgerOpen(!isBurgerOpen)}
             aria-label='Toggle burger menu'
