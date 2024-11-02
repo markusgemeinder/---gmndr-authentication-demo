@@ -42,14 +42,14 @@ export default function Home() {
       <ScrollToTop />
       <Title>{getText('home', 'title', language)}</Title> {/* Dynamischer Titel */}
       <SessionStatus />
-      <Button
+      {/* <Button
         onClick={handleTestEmail}
         bgColor='var(--color-button-delete)'
         hoverColor='var(--color-button-delete-hover)'
         disabled={loading}>
         {loading ? getText('home', 'button_sending', language) : getText('home', 'button_send_email', language)}
       </Button>
-      {message && <p>{message}</p>}
+      {message && <p>{message}</p>} */}
     </Container>
   );
 }

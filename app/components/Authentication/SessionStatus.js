@@ -1,9 +1,7 @@
-// /app/components/Authentication/SessionStatus.js
-
 'use client';
 
 import styled from 'styled-components';
-import { useSession, signIn, signOut } from 'next-auth/react';
+import { useSession, signOut } from 'next-auth/react';
 import { useEffect, useState, useContext } from 'react';
 import { useRouter } from 'next/navigation';
 import Button, { ButtonContainerHorizontal } from '@/app/components/Button/Button';
@@ -18,9 +16,15 @@ const StatusContainer = styled.div`
   color: var(--color-text-light);
 `;
 
+const SessionStatusText = styled(Paragraph)`
+  font-size: 0.8rem;
+  margin: 0.2rem;
+  color: var(--color-text-medium);
+`;
+
 const CountdownContainer = styled.span`
   display: inline-block;
-  width: 2.4rem;
+  width: 1.6rem;
   text-align: right;
 `;
 
@@ -113,24 +117,26 @@ export default function SessionStatus() {
     <StatusContainer>
       {session ? (
         <>
-          <Paragraph>
-            {userRole === 'Demo User'
-              ? getText('session_status', 'welcome_demo_user', language)
-              : getText('session_status', 'welcome_user', language, { email: session.user.email, role: userRole })}{' '}
-            {getText('session_status', 'your_login_expires_in', language)}
-            <CountdownContainer>{formatTime(timeLeft)}</CountdownContainer> min (
+          <SessionStatusText>
+            {getText('session_status', 'welcome', language)}
+            <br />
+            {userRole === 'Demo User' ? 'Demo User' : `${session.user.email} (${userRole})`}
+          </SessionStatusText>
+          <SessionStatusText>
+            {getText('session_status', 'sessionExpires', language)}
+            <CountdownContainer>{formatTime(timeLeft)}</CountdownContainer> min <br />(
             <StyledLink href='#' onClick={renewSession}>
-              {getText('session_status', 'renew_session', language)}
+              {getText('session_status', 'renewSession', language)}
             </StyledLink>
             ).
-          </Paragraph>
+          </SessionStatusText>
 
           <Spacer />
           {showPopup && (
             <SessionStatusModalOverlay>
               <ModalContent>
                 <ModalHeader>
-                  <BlinkingText>{getText('session_status', 'session_expiring_soon', language)}</BlinkingText>
+                  <BlinkingText>{getText('session_status', 'sessionExpiringSoon', language)}</BlinkingText>
                 </ModalHeader>
                 <Timer>{formatTime(timeLeft)}</Timer>
                 <ButtonContainerHorizontal>
@@ -139,14 +145,14 @@ export default function SessionStatus() {
                     bgColor='var(--color-button-login)'
                     hoverColor='var(--color-button-login-hover)'
                     color='var(--color-button-text)'>
-                    {getText('session_status', 'renew_session', language)}
+                    {getText('session_status', 'renewSession', language)}
                   </Button>
                   <Button
                     onClick={handleLogout}
                     bgColor='var(--color-button-logout)'
                     hoverColor='var(--color-button-logout-hover)'
                     color='var(--color-button-text)'>
-                    {getText('session_status', 'logout', language)}
+                    {language === 'DE' ? 'Abmelden' : 'Logout'}
                   </Button>
                 </ButtonContainerHorizontal>
               </ModalContent>
@@ -155,13 +161,13 @@ export default function SessionStatus() {
         </>
       ) : (
         <>
-          <Paragraph>
-            {getText('session_status', 'login_or_signup', language)}
-            <StyledLink href='/login'>{getText('session_status', 'log_in', language)}</StyledLink>
-            (Demo User available) {getText('session_status', 'or', language)}
-            <StyledLink href='/register'>{getText('session_status', 'sign_up', language)}</StyledLink>
-            {getText('session_status', 'to_access_reviews', language)}.
-          </Paragraph>
+          <SessionStatusText>
+            {getText('session_status', 'loginPrompt_intro', language)}
+            <StyledLink href='/login'>{getText('session_status', 'loginPrompt_logIn', language)}</StyledLink>
+            {getText('session_status', 'loginPrompt_separator', language)}
+            <StyledLink href='/register'>{getText('session_status', 'loginPrompt_signUp', language)}</StyledLink>
+            {getText('session_status', 'loginPrompt_outro', language)}
+          </SessionStatusText>
         </>
       )}
     </StatusContainer>
