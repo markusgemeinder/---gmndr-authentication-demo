@@ -1,93 +1,84 @@
-// /app/api/forgot-password/route.js
+// app/api/forgot-password/route.js
 
 import dbConnect from '@/db/connect';
 import User from '@/db/models/User';
 import crypto from 'crypto';
 import { NextResponse } from 'next/server';
 import sendEmail from '@/utils/sendEmail';
+import { getPasswordResetEmailText } from '@/utils/emailTemplate';
+import { getText } from '@/lib/languageLibrary';
+import { getLanguageFromCookies } from '@/utils/getLanguageFromCookies';
 
 export async function POST(req) {
   await dbConnect();
+  const language = getLanguageFromCookies(req);
 
   try {
     const body = await req.json();
     const { email } = body;
 
+    // Check if user exists
     const existingUser = await User.findOne({ email }).exec();
     if (!existingUser) {
-      return NextResponse.json({ message: 'No account found with this email address.' }, { status: 400 });
-    }
-
-    // 1. Prüfen, ob der Benutzer über Google oder GitHub registriert ist
-    if (existingUser.role === 'Google User' || existingUser.role === 'Google User (Admin)') {
       return NextResponse.json(
-        { message: 'This email is linked to Google login. Password reset cannot be done here.' },
-        { status: 400 }
+        { message: getText('api_auth_forgot_password', 'no_account_found', language) },
+        { status: 404 }
       );
     }
 
-    if (existingUser.role === 'GitHub User' || existingUser.role === 'GitHub User (Admin)') {
+    // Check if the user is a Google or GitHub user
+    const isGoogleUser = existingUser.role.includes('Google');
+    const isGithubUser = existingUser.role.includes('GitHub');
+
+    if (isGoogleUser || isGithubUser) {
       return NextResponse.json(
-        { message: 'This email is linked to GitHub login. Password reset cannot be done here.' },
-        { status: 400 }
+        { message: getText('api_auth_forgot_password', 'google_github_link_error', language) },
+        { status: 403 }
       );
     }
 
-    // 2. Prüfen, ob die E-Mail-Adresse bestätigt wurde (isEmailConfirmed === true)
+    // Check if the email is confirmed
     if (!existingUser.isEmailConfirmed) {
       return NextResponse.json(
-        { message: 'Your email address is not confirmed yet. Please confirm before resetting your password.' },
+        { message: getText('api_auth_forgot_password', 'email_not_confirmed', language) },
         { status: 400 }
       );
     }
 
-    // 3. Token und Ablaufzeit generieren
+    // Generate the reset token
     const resetToken = crypto.randomBytes(20).toString('hex');
-    const passwordResetToken = crypto.createHash('sha256').update(resetToken).digest('hex');
-    const passwordResetExpires = Date.now() + 3600000; // 1 Stunde
+    const hashedResetToken = crypto.createHash('sha256').update(resetToken).digest('hex');
+    const expiry = Date.now() + 3600000; // 1 hour
 
-    existingUser.resetToken = passwordResetToken;
-    existingUser.resetTokenExpiry = passwordResetExpires;
+    // Update user with token and expiry
+    await User.updateOne(
+      { email },
+      {
+        $set: {
+          passwordResetToken: hashedResetToken,
+          passwordResetExpiry: expiry,
+        },
+      }
+    );
 
-    await existingUser.save();
-
-    const baseUrl =
-      process.env.NODE_ENV === 'production' ? 'https://gmndr-authentication-demo.vercel.app/' : 'http://localhost:3000';
-    const resetUrl = `${baseUrl}/reset-password/${resetToken}`;
-
-    const formattedExpiryTime = new Date(passwordResetExpires).toLocaleString('en-US', {
-      timeZone: 'Europe/Berlin',
-      hour: '2-digit',
-      minute: '2-digit',
-      day: '2-digit',
-      month: '2-digit',
-      year: 'numeric',
-      hour12: true,
-    });
-
-    const currentHour = new Date().getHours();
-    let greeting;
-    if (currentHour < 12) {
-      greeting = 'Good morning';
-    } else if (currentHour < 18) {
-      greeting = 'Good afternoon';
-    } else {
-      greeting = 'Good evening';
-    }
-
-    const user = existingUser.email.replace('@', '(at)').replace(/\.\w+$/, '');
-    const subject = 'Password Reset | #GMNDR Authentication Demo';
-    const text = `${greeting} ${user},\n\nYou requested a password reset. Click the link below or paste it into your browser:\n\n${resetUrl}\n\nThe link is valid until ${formattedExpiryTime}.\n\nIf you didn't request this, you can ignore this email.\n\nBest regards,\nMarkus from #GMNDR Authentication Demo`;
-
+    // Send the reset email
+    const { subject, text } = getPasswordResetEmailText(resetToken, language);
     await sendEmail({
       to: email,
-      subject: subject,
-      text: text,
+      subject,
+      text,
     });
 
-    return NextResponse.json({ message: 'A password reset link has been sent to your email.' }, { status: 200 });
+    // Successful response
+    return NextResponse.json(
+      { message: getText('api_auth_forgot_password', 'password_reset_email_sent', language) },
+      { status: 200 }
+    );
   } catch (error) {
     console.error('Forgot password error:', error);
-    return NextResponse.json({ message: 'Something went wrong. Please try again later.' }, { status: 500 });
+    return NextResponse.json(
+      { message: getText('api_auth_forgot_password', 'forgot_password_failed', language) },
+      { status: 500 }
+    );
   }
 }

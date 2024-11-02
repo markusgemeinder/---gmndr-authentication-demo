@@ -6,6 +6,8 @@ import styled from 'styled-components';
 import { useContext } from 'react';
 import { SunIcon, MoonIcon } from '@heroicons/react/24/solid';
 import { ThemeContext } from '@/app/components/Common/ThemeProvider';
+import LanguageContext from '@/app/components/LanguageProvider';
+import { getText } from '@/lib/languageLibrary';
 
 const ToggleButton = styled.button`
   background: none;
@@ -43,12 +45,11 @@ const StyledSunIcon = styled(SunIcon)`
 
 export default function ThemeToggleButton() {
   const { theme, toggleTheme } = useContext(ThemeContext);
+  const { language } = useContext(LanguageContext);
+  const ariaLabel = getText('theme_toggle_button', 'aria-label', language);
 
   return (
-    <ToggleButton
-      type='button'
-      onClick={toggleTheme}
-      aria-label={`Toggle to ${theme === 'light' ? 'dark' : 'light'} theme`}>
+    <ToggleButton type='button' onClick={toggleTheme} aria-label={ariaLabel}>
       {theme === 'light' ? <StyledMoonIcon /> : <StyledSunIcon />}
     </ToggleButton>
   );

@@ -2,7 +2,7 @@
 
 'use client';
 
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, useContext } from 'react';
 import { useRouter } from 'next/navigation';
 import ScrollToTop from '@/app/components/Common/ScrollToTop';
 import Button, { ButtonContainerVertical } from '@/app/components/Button/Button';
@@ -21,8 +21,11 @@ import {
 } from '@/app/components/AuthForm/AuthFormStyles';
 import Link from 'next/link';
 import ModalPopup from '@/app/components/Common/ModalPopup';
+import LanguageContext from '@/app/components/LanguageProvider';
+import { getText } from '@/lib/languageLibrary';
 
 export default function LoginForm({ onLogin, onOAuthLogin, error, onDemoLogin }) {
+  const { language } = useContext(LanguageContext);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [passwordVisible, setPasswordVisible] = useState(false);
@@ -36,8 +39,7 @@ export default function LoginForm({ onLogin, onOAuthLogin, error, onDemoLogin })
 
   const router = useRouter();
   const emailInputRef = useRef(null);
-  const passwordInputRef = useRef(null); // New ref for password input
-  const currentTime = new Date().getTime();
+  const passwordInputRef = useRef(null);
 
   useEffect(() => {
     if (error) {
@@ -63,7 +65,6 @@ export default function LoginForm({ onLogin, onOAuthLogin, error, onDemoLogin })
     event.preventDefault();
     setPasswordVisible(!passwordVisible);
 
-    // Always focus on the password input when toggling visibility
     if (passwordInputRef.current) {
       passwordInputRef.current.focus();
     }
@@ -82,7 +83,7 @@ export default function LoginForm({ onLogin, onOAuthLogin, error, onDemoLogin })
     event.preventDefault();
     setModalState({
       show: true,
-      message: 'Logging in...',
+      message: getText('login_form', 'logging_in', language),
       isSuccess: null,
       showOkButton: false,
     });
@@ -91,7 +92,7 @@ export default function LoginForm({ onLogin, onOAuthLogin, error, onDemoLogin })
       const loginSuccess = await onLogin(email, password);
 
       if (!loginSuccess) {
-        showError(error);
+        showError(getText('login_form', 'login_error', language));
       }
     } catch (error) {
       showError(error.message);
@@ -102,7 +103,7 @@ export default function LoginForm({ onLogin, onOAuthLogin, error, onDemoLogin })
     event.preventDefault();
     setModalState({
       show: true,
-      message: 'Logging in as Demo User...',
+      message: getText('login_form', 'demo_logging_in', language),
       isSuccess: null,
       showOkButton: false,
     });
@@ -111,7 +112,7 @@ export default function LoginForm({ onLogin, onOAuthLogin, error, onDemoLogin })
       const demoSuccess = await onDemoLogin();
 
       if (!demoSuccess) {
-        showError('Error logging in as Demo User');
+        showError(getText('login_form', 'demo_error', language));
       }
     } catch (error) {
       showError(error.message);
@@ -136,7 +137,7 @@ export default function LoginForm({ onLogin, onOAuthLogin, error, onDemoLogin })
             hoverColor='var(--color-button-demo-user-hover)'
             style={{ width: '100%' }}
             onClick={handleDemoUserLogin}>
-            Demo User
+            {getText('login_form', 'demo_user', language)}
           </Button>
 
           <Button
@@ -161,12 +162,12 @@ export default function LoginForm({ onLogin, onOAuthLogin, error, onDemoLogin })
         </ButtonContainerVertical>
 
         <Divider>
-          <span>or</span>
+          <span>{getText('login_form', 'divider', language)}</span>
         </Divider>
 
         <InputGroup>
           <LabelContainer>
-            <Label htmlFor='email'>Email:</Label>
+            <Label htmlFor='email'>{getText('login_form', 'email_label', language)}</Label>
           </LabelContainer>
           <Input
             id='email'
@@ -181,7 +182,7 @@ export default function LoginForm({ onLogin, onOAuthLogin, error, onDemoLogin })
 
         <InputGroup>
           <LabelContainer>
-            <Label htmlFor='password'>Password:</Label>
+            <Label htmlFor='password'>{getText('login_form', 'password_label', language)}</Label>
           </LabelContainer>
           <InputContainer>
             <Input
@@ -191,13 +192,21 @@ export default function LoginForm({ onLogin, onOAuthLogin, error, onDemoLogin })
               value={password}
               onChange={handlePasswordChange}
               required
-              ref={passwordInputRef} // Assign ref to password input
+              ref={passwordInputRef}
             />
             <ToggleVisibility
               onClick={handleToggleVisibility}
               type='button'
-              title={passwordVisible ? 'Hide password' : 'Show password'}
-              aria-label={passwordVisible ? 'Hide password' : 'Show password'}>
+              title={
+                passwordVisible
+                  ? getText('login_form', 'hide_password', language)
+                  : getText('login_form', 'show_password', language)
+              }
+              aria-label={
+                passwordVisible
+                  ? getText('login_form', 'hide_password', language)
+                  : getText('login_form', 'show_password', language)
+              }>
               {passwordVisible ? <PasswordVisibleIcon /> : <PasswordHiddenIcon />}
             </ToggleVisibility>
           </InputContainer>
@@ -209,7 +218,7 @@ export default function LoginForm({ onLogin, onOAuthLogin, error, onDemoLogin })
             bgColor='var(--color-button-login)'
             hoverColor='var(--color-button-login-hover)'
             style={{ width: '100%' }}>
-            Login
+            {getText('login_form', 'login', language)}
           </Button>
 
           <Link href='/forgot-password'>
@@ -218,7 +227,7 @@ export default function LoginForm({ onLogin, onOAuthLogin, error, onDemoLogin })
               bgColor='var(--color-button-forgot-password)'
               hoverColor='var(--color-button-forgot-password-hover)'
               style={{ width: '100%' }}>
-              Forgot Password
+              {getText('login_form', 'forgot_password', language)}
             </Button>
           </Link>
         </ButtonContainerVertical>

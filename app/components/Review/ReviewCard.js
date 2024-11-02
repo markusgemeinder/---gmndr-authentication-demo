@@ -3,7 +3,7 @@
 'use client';
 
 import { format } from 'date-fns';
-import { useState } from 'react';
+import { useState, useContext } from 'react';
 import { useRouter } from 'next/navigation';
 import { useSession } from 'next-auth/react';
 import Button, { ButtonContainerHorizontal } from '@/app/components/Button/Button';
@@ -24,6 +24,8 @@ import {
   ModalParagraph,
 } from '@/app/components/Common/ModalPopup';
 import { maskEmail } from '@/utils/maskEmail';
+import LanguageContext from '@/app/components/LanguageProvider';
+import { getText } from '@/lib/languageLibrary';
 
 export default function ReviewCard({ review, onDelete }) {
   const { _id, note, rating, createdAt, updatedAt, email } = review;
@@ -31,6 +33,7 @@ export default function ReviewCard({ review, onDelete }) {
   const [inputValue, setInputValue] = useState('');
   const router = useRouter();
   const { data: session } = useSession();
+  const { language } = useContext(LanguageContext);
 
   const isOwner = session && session.user.email === email;
   const isAdmin = session && session.user.role.includes('Admin');
@@ -51,25 +54,27 @@ export default function ReviewCard({ review, onDelete }) {
           if (onDelete) onDelete();
         }
       } catch (error) {
-        console.error('Error deleting the review:', error);
+        console.error(getText('review_card', 'error_deleting_review', language), error);
       }
     } else {
-      alert('The last 4 digits do not match. Please try again.');
+      alert(getText('review_card', 'alert_last_digits_mismatch', language));
     }
   }
 
   return (
     <>
       <CardContainer>
-        <IDLabel>ID: {_id}</IDLabel>
+        <IDLabel>
+          {getText('review_card', 'label_id', language)}: {_id}
+        </IDLabel>
         <CardElementsWrapper>
           <Email>{showEmail}</Email>
           <Note>{note}</Note>
           <StarRating rating={rating} />
           <CreatedUpdated>
-            Created: {format(new Date(createdAt), 'dd.MM.yyyy (HH:mm:ss)')}
+            {getText('review_card', 'label_created', language)}: {format(new Date(createdAt), 'dd.MM.yyyy (HH:mm:ss)')}
             <br />
-            Updated: {format(new Date(updatedAt), 'dd.MM.yyyy (HH:mm:ss)')}
+            {getText('review_card', 'label_updated', language)}: {format(new Date(updatedAt), 'dd.MM.yyyy (HH:mm:ss)')}
           </CreatedUpdated>
           {showButtons && (
             <ButtonContainerHorizontal>
@@ -78,14 +83,14 @@ export default function ReviewCard({ review, onDelete }) {
                 bgColor='var(--color-button-edit)'
                 hoverColor='var(--color-button-edit-hover)'
                 color='var(--color-button-text)'>
-                Edit
+                {getText('review_card', 'button_edit', language)}
               </Button>
               <Button
                 onClick={() => setConfirmDelete(true)}
                 bgColor='var(--color-button-delete)'
                 hoverColor='var(--color-button-delete-hover)'
                 color='var(--color-button-text)'>
-                Delete
+                {getText('review_card', 'button_delete', language)}
               </Button>
             </ButtonContainerHorizontal>
           )}
@@ -95,11 +100,13 @@ export default function ReviewCard({ review, onDelete }) {
       {confirmDelete && (
         <ModalOverlay>
           <ModalContent>
-            <ModalHeader>Confirm Delete – ID: {_id}</ModalHeader>
-            <ModalParagraph>Are you sure you want to delete this review? This action is irreversible.</ModalParagraph>
+            <ModalHeader>
+              {getText('review_card', 'modal_confirm_delete', language)} – ID: {_id}
+            </ModalHeader>
+            <ModalParagraph>{getText('review_card', 'modal_delete_warning', language)}</ModalParagraph>
             <ModalInput
               type='text'
-              placeholder='Enter last 4 digits of the review ID'
+              placeholder={getText('review_card', 'placeholder_enter_last_digits', language)}
               value={inputValue}
               onChange={(e) => setInputValue(e.target.value)}
             />
@@ -108,13 +115,13 @@ export default function ReviewCard({ review, onDelete }) {
                 onClick={handleDelete}
                 bgColor='var(--color-button-delete)'
                 hoverColor='var(--color-button-delete-hover)'>
-                Confirm
+                {getText('review_card', 'button_confirm', language)}
               </Button>
               <Button
                 onClick={() => setConfirmDelete(false)}
                 bgColor='var(--color-button-cancel)'
                 hoverColor='var(--color-button-cancel-hover)'>
-                Cancel
+                {getText('review_card', 'button_cancel', language)}
               </Button>
             </ButtonContainerHorizontal>
           </ModalContent>

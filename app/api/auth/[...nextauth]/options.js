@@ -6,17 +6,18 @@ import CredentialsProvider from 'next-auth/providers/credentials';
 import User from '@/db/models/User';
 import bcrypt from 'bcrypt';
 import dbConnect from '@/db/connect';
+import { getText } from '@/lib/languageLibrary'; // Importiere die Funktion zur Sprachabfrage
 
 export const options = {
   providers: [
     CredentialsProvider({
       id: 'credentials',
-      name: 'Credentials',
+      name: getText('api_auth_nextauth_options', 'name', 'EN'), // Standardwert
       credentials: {
-        email: { label: 'Email', type: 'text' },
-        password: { label: 'Password', type: 'password' },
+        email: { label: getText('api_auth_nextauth_options', 'email_label', 'EN'), type: 'text' },
+        password: { label: getText('api_auth_nextauth_options', 'password_label', 'EN'), type: 'password' },
       },
-      async authorize(credentials) {
+      async authorize(credentials, language) {
         await dbConnect();
 
         try {
@@ -27,31 +28,31 @@ export const options = {
           const existingUser = await User.findOne({ email: credentials.email }).lean().exec();
 
           if (!existingUser) {
-            throw new Error('No account with this email address exists. Please register.');
+            throw new Error(getText('api_auth_nextauth_options', 'error_no_account', language));
           }
 
           if (existingUser.role === 'Credentials User') {
             if (!existingUser.isEmailConfirmed) {
               if (existingUser.confirmationTokenExpiry && new Date() < existingUser.confirmationTokenExpiry) {
-                throw new Error('Your email address is not confirmed yet. Please check your inbox.');
+                throw new Error(getText('api_auth_nextauth_options', 'error_email_not_confirmed', language));
               }
               if (!existingUser.confirmationTokenExpiry || new Date() > existingUser.confirmationTokenExpiry) {
-                throw new Error('Your confirmation link has expired. Please request a new confirmation email.');
+                throw new Error(getText('api_auth_nextauth_options', 'error_confirmation_link_expired', language));
               }
             }
           }
 
           if (existingUser.role === 'GitHub User' || existingUser.role === 'GitHub User (Admin)') {
-            throw new Error('Email is already registered with GitHub. Please log in that way.');
+            throw new Error(getText('api_auth_nextauth_options', 'error_github_registered', language));
           }
 
           if (existingUser.role === 'Google User' || existingUser.role === 'Google User (Admin)') {
-            throw new Error('Email is already registered with Google. Please log in that way.');
+            throw new Error(getText('api_auth_nextauth_options', 'error_google_registered', language));
           }
 
           const match = await bcrypt.compare(credentials.password, existingUser.password);
           if (!match) {
-            throw new Error('Incorrect password. Please try again.');
+            throw new Error(getText('api_auth_nextauth_options', 'error_incorrect_password', language));
           }
 
           if (existingUser.resetToken || existingUser.resetTokenExpiry) {
@@ -65,7 +66,7 @@ export const options = {
             isDemoUser: false,
           };
         } catch (error) {
-          throw error;
+          throw error; // Werfe den Fehler weiter
         }
       },
     }),
@@ -116,16 +117,16 @@ export const options = {
 
             const newUser = new User({ email: user.email, role: userRole });
             await newUser.save();
-            console.log('New user created for email:', user.email);
+            console.log(getText('api_auth_nextauth_options', 'log_new_user_created', 'EN'), user.email);
           } else {
             await User.updateOne({ email: user.email }, { $set: { updatedAt: new Date() } });
-            console.log('Existing user updated for email:', user.email);
+            console.log(getText('api_auth_nextauth_options', 'log_existing_user_updated', 'EN'), user.email);
           }
 
           return true;
         }
       } catch (err) {
-        console.error('Error during signIn callback:', err);
+        console.error('Error in signIn callback:', err);
         return false;
       }
     },

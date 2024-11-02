@@ -2,14 +2,17 @@
 
 'use client';
 
-import { useState, useRef, useEffect } from 'react';
+import { useState, useRef, useEffect, useContext } from 'react';
 import { useRouter } from 'next/navigation';
 import Button, { ButtonContainerVertical } from '@/app/components/Button/Button';
 import { FormContainer, InputGroup, LabelContainer, Label, Input } from '@/app/components/AuthForm/AuthFormStyles';
 import ModalPopup from '@/app/components/Common/ModalPopup';
 import ValidatePassword from '@/app/components/Common/ValidatePassword';
+import LanguageContext from '@/app/components/LanguageProvider';
+import { getText } from '@/lib/languageLibrary';
 
 export default function RegisterForm() {
+  const { language } = useContext(LanguageContext);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [isPasswordValid, setIsPasswordValid] = useState(false);
@@ -35,7 +38,7 @@ export default function RegisterForm() {
     if (!isPasswordValid) {
       setModalState({
         show: true,
-        message: 'Please ensure your password meets the requirements.',
+        message: getText('register_form', 'password_invalid', language),
         isSuccess: false,
         showOkButton: true,
       });
@@ -49,7 +52,7 @@ export default function RegisterForm() {
 
     setModalState({
       show: true,
-      message: 'Preparing to create your account...',
+      message: getText('register_form', 'creating_account', language),
       isSuccess: null,
       showOkButton: false,
     });
@@ -66,14 +69,14 @@ export default function RegisterForm() {
 
       setModalState({
         show: true,
-        message: responseData.message || 'Registration failed.',
+        message: responseData.message || getText('register_form', 'registration_failed', language),
         isSuccess: success,
         showOkButton: true,
       });
     } catch (error) {
       setModalState({
         show: true,
-        message: 'An unexpected error occurred.',
+        message: getText('register_form', 'unexpected_error', language),
         isSuccess: false,
         showOkButton: true,
       });
@@ -92,7 +95,7 @@ export default function RegisterForm() {
       <FormContainer onSubmit={handleSubmit}>
         <InputGroup>
           <LabelContainer>
-            <Label htmlFor='email'>Email:</Label>
+            <Label htmlFor='email'>{getText('register_form', 'email_label', language)}</Label>
           </LabelContainer>
           <Input
             id='email'
@@ -122,14 +125,14 @@ export default function RegisterForm() {
             bgColor='var(--color-button-login)'
             hoverColor='var(--color-button-login-hover)'
             disabled={!isPasswordValid}>
-            Confirm
+            {getText('register_form', 'confirm', language)}
           </Button>
           <Button
             type='button'
             onClick={() => router.push('/')}
             bgColor='var(--color-button-cancel)'
             hoverColor='var(--color-button-cancel-hover)'>
-            Cancel
+            {getText('register_form', 'cancel', language)}
           </Button>
         </ButtonContainerVertical>
       </FormContainer>

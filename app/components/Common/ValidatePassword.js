@@ -1,6 +1,8 @@
 // /app/components/Common/ValidatePassword.js
 
-import { useState, useRef } from 'react';
+import { useState, useRef, useContext, useEffect } from 'react';
+import LanguageContext from '@/app/components/LanguageProvider';
+import { getText } from '@/lib/languageLibrary';
 import {
   InputGroup,
   LabelContainer,
@@ -15,28 +17,26 @@ import {
   PasswordHiddenIcon,
 } from '@/app/components/AuthForm/AuthFormStyles';
 
-function validatePassword(password) {
-  if (password.length < 8) return 'Password must be at least 8 characters long.';
-  if (!/[A-Z]/.test(password)) return 'Password must contain at least one uppercase letter.';
-  if (!/[a-z]/.test(password)) return 'Password must contain at least one lowercase letter.';
-  if (!/[0-9]/.test(password)) return 'Password must contain at least one digit.';
-  if (!/[^A-Za-z0-9]/.test(password)) return 'Password must contain at least one special character.';
-  return '';
-}
-
 export default function ValidatePassword({ hasRepeatPassword = false, onPasswordValid }) {
+  const { language } = useContext(LanguageContext);
   const [password, setPassword] = useState('');
   const [repeatPassword, setRepeatPassword] = useState('');
   const [passwordVisible, setPasswordVisible] = useState(false);
   const [passwordQuality, setPasswordQuality] = useState(null);
   const [passwordsMatch, setPasswordsMatch] = useState(true);
   const passwordInputRef = useRef(null);
+
+  function validatePassword(password) {
+    if (password.length < 8) return getText('validate_password', 'error_min_length', language);
+    if (!/[A-Z]/.test(password)) return getText('validate_password', 'error_uppercase', language);
+    if (!/[a-z]/.test(password)) return getText('validate_password', 'error_lowercase', language);
+    if (!/[0-9]/.test(password)) return getText('validate_password', 'error_digit', language);
+    if (!/[^A-Za-z0-9]/.test(password)) return getText('validate_password', 'error_special_char', language);
+    return null; // No error
+  }
+
   function handlePasswordChange(pwd) {
     setPassword(pwd);
-    const validationMessage = validatePassword(pwd);
-    setPasswordQuality(validationMessage);
-    const isValid = !validationMessage && (!hasRepeatPassword || (hasRepeatPassword && passwordsMatch));
-    onPasswordValid(isValid, pwd);
   }
 
   function handleRepeatPasswordChange(pwd) {
@@ -54,12 +54,23 @@ export default function ValidatePassword({ hasRepeatPassword = false, onPassword
     }
   }
 
+  // Validate password on every change
+  useEffect(() => {
+    const validationMessage = validatePassword(password);
+    setPasswordQuality(validationMessage);
+
+    const isValid = !validationMessage && (!hasRepeatPassword || (hasRepeatPassword && passwordsMatch));
+    onPasswordValid(isValid, password);
+  }, [password, passwordsMatch, hasRepeatPassword, language]); // Ensure validation runs on language change
+
+  const isPasswordValid = !passwordQuality; // True if password is valid
+
   return (
     <>
       <InputGroup>
         <LabelContainer>
-          <Label htmlFor='password'>Password:</Label>
-          {password.length > 0 && !passwordQuality ? <CheckIcon /> : password.length > 0 ? <ErrorIcon /> : null}
+          <Label htmlFor='password'>{getText('validate_password', 'label_password', language)}:</Label>
+          {password.length > 0 && isPasswordValid ? <CheckIcon /> : password.length > 0 ? <ErrorIcon /> : null}
         </LabelContainer>
         <InputContainer>
           <Input
@@ -73,18 +84,26 @@ export default function ValidatePassword({ hasRepeatPassword = false, onPassword
           <ToggleVisibility
             onClick={togglePasswordVisibility}
             type='button'
-            title={passwordVisible ? 'Hide password' : 'Show password'}
-            aria-label={passwordVisible ? 'Hide password' : 'Show password'}>
+            title={
+              passwordVisible
+                ? getText('validate_password', 'toggle_hide', language)
+                : getText('validate_password', 'toggle_show', language)
+            }
+            aria-label={
+              passwordVisible
+                ? getText('validate_password', 'toggle_hide', language)
+                : getText('validate_password', 'toggle_show', language)
+            }>
             {passwordVisible ? <PasswordVisibleIcon /> : <PasswordHiddenIcon />}
           </ToggleVisibility>
         </InputContainer>
-        {password.length > 0 && passwordQuality && <WarningMessage>{passwordQuality}</WarningMessage>}
+        {passwordQuality && <WarningMessage>{passwordQuality}</WarningMessage>}
       </InputGroup>
 
-      {hasRepeatPassword && passwordQuality === '' && (
+      {hasRepeatPassword && isPasswordValid && (
         <InputGroup>
           <LabelContainer>
-            <Label htmlFor='repeat-password'>Repeat Password:</Label>
+            <Label htmlFor='repeat-password'>{getText('validate_password', 'label_repeat_password', language)}:</Label>
             {repeatPassword.length > 0 && passwordsMatch ? (
               <CheckIcon />
             ) : repeatPassword.length > 0 ? (
@@ -100,7 +119,9 @@ export default function ValidatePassword({ hasRepeatPassword = false, onPassword
               required
             />
           </InputContainer>
-          {repeatPassword.length > 0 && !passwordsMatch && <WarningMessage>Passwords do not match.</WarningMessage>}
+          {repeatPassword.length > 0 && !passwordsMatch && (
+            <WarningMessage>{getText('validate_password', 'error_mismatch', language)}</WarningMessage>
+          )}
         </InputGroup>
       )}
     </>

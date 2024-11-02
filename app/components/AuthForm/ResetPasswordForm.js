@@ -2,14 +2,17 @@
 
 'use client';
 
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, useContext } from 'react';
 import { useRouter } from 'next/navigation';
 import Button, { ButtonContainerVertical } from '@/app/components/Button/Button';
 import { FormContainer } from '@/app/components/AuthForm/AuthFormStyles';
 import ModalPopup from '@/app/components/Common/ModalPopup';
 import ValidatePassword from '@/app/components/Common/ValidatePassword';
+import LanguageContext from '@/app/components/LanguageProvider';
+import { getText } from '@/lib/languageLibrary';
 
 export default function ResetPasswordForm() {
+  const { language } = useContext(LanguageContext);
   const [password, setPassword] = useState('');
   const [isPasswordValid, setIsPasswordValid] = useState(false);
   const [isTokenExpired, setIsTokenExpired] = useState(false);
@@ -31,7 +34,7 @@ export default function ResetPasswordForm() {
       if (!token) {
         setModalState({
           show: true,
-          message: 'Token is required.',
+          message: getText('reset_password_form', 'token_required', language),
           isSuccess: false,
           showOkButton: true,
         });
@@ -60,7 +63,7 @@ export default function ResetPasswordForm() {
       } catch {
         setModalState({
           show: true,
-          message: 'An error occurred while checking the token.',
+          message: getText('reset_password_form', 'check_token_error', language),
           isSuccess: false,
           showOkButton: true,
         });
@@ -69,7 +72,7 @@ export default function ResetPasswordForm() {
     };
 
     checkToken();
-  }, []);
+  }, [language]);
 
   useEffect(() => {
     if (passwordInputRef.current) {
@@ -85,7 +88,7 @@ export default function ResetPasswordForm() {
 
     setModalState({
       show: true,
-      message: 'Resetting your password...',
+      message: getText('reset_password_form', 'resetting_password', language),
       isSuccess: null,
       showOkButton: false,
     });
@@ -99,8 +102,8 @@ export default function ResetPasswordForm() {
 
       const success = response.status === 201;
       const message = success
-        ? 'New password saved. You can now log in.'
-        : (await response.json()).message || 'Failed to save password. Please try again.';
+        ? getText('reset_password_form', 'password_saved', language)
+        : (await response.json()).message || getText('reset_password_form', 'save_password_failed', language);
 
       setModalState({
         show: true,
@@ -111,7 +114,7 @@ export default function ResetPasswordForm() {
     } catch {
       setModalState({
         show: true,
-        message: 'An error occurred. Please try again.',
+        message: getText('reset_password_form', 'error_occurred', language),
         isSuccess: false,
         showOkButton: true,
       });
@@ -146,14 +149,14 @@ export default function ResetPasswordForm() {
             bgColor='var(--color-button-login)'
             hoverColor='var(--color-button-login-hover)'
             disabled={!isPasswordValid || isTokenExpired}>
-            Confirm
+            {getText('reset_password_form', 'confirm', language)}
           </Button>
           <Button
             type='button'
             onClick={() => router.push('/')}
             bgColor='var(--color-button-cancel)'
             hoverColor='var(--color-button-cancel-hover)'>
-            Cancel
+            {getText('reset_password_form', 'cancel', language)}
           </Button>
         </ButtonContainerVertical>
       </FormContainer>

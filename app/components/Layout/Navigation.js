@@ -4,11 +4,13 @@
 
 import { useSession, signOut } from 'next-auth/react';
 import { useRouter, usePathname } from 'next/navigation';
-import { useState } from 'react';
+import { useState, useContext } from 'react';
 import styled from 'styled-components';
 import Link from 'next/link';
 import Button, { ButtonContainerHorizontal } from '@/app/components/Button/Button';
 import ThemeToggleButton from '@/app/components/Button/ThemeToggleButton';
+import LanguageContext from '@/app/components/LanguageProvider';
+import { getText } from '@/lib/languageLibrary';
 
 const Header = styled.header`
   background-color: var(--color-header);
@@ -157,6 +159,7 @@ export default function Navigation() {
   const router = useRouter();
   const pathname = usePathname();
   const [isBurgerOpen, setIsBurgerOpen] = useState(false);
+  const { language, toggleLanguage } = useContext(LanguageContext); // Verwenden des LanguageContext
 
   const handleLinkClick = () => {
     if (isBurgerOpen) setIsBurgerOpen(false);
@@ -166,26 +169,31 @@ export default function Navigation() {
     <>
       <NavItem>
         <NavLink href='/' $isActive={pathname === '/'} onClick={handleLinkClick}>
-          Home
+          {getText('navigation', 'home', language)}
         </NavLink>
       </NavItem>
       {!session && (
         <NavItem>
           <NavLink href='/forgot-password' $isActive={pathname === '/forgot-password'} onClick={handleLinkClick}>
-            Forgot Password
+            {getText('navigation', 'forgot_password', language)}
           </NavLink>
         </NavItem>
       )}
       {session && (
         <NavItem>
           <NavLink href='/reviews' $isActive={pathname === '/reviews'} onClick={handleLinkClick}>
-            Reviews
+            {getText('navigation', 'reviews', language)}
           </NavLink>
         </NavItem>
       )}
       <NavItem>
         <NavLink href='/about' $isActive={pathname === '/about'} onClick={handleLinkClick}>
-          About
+          {getText('navigation', 'about', language)}
+        </NavLink>
+      </NavItem>
+      <NavItem>
+        <NavLink href='#' onClick={() => toggleLanguage()}>
+          {getText('test', 'switch_language', language)}
         </NavLink>
       </NavItem>
     </>
@@ -195,28 +203,33 @@ export default function Navigation() {
     <>
       <BurgerMenuItem>
         <NavLink href='/' $isActive={pathname === '/'} onClick={handleLinkClick}>
-          Home
+          {getText('navigation', 'home', language)}
         </NavLink>
       </BurgerMenuItem>
       {session && (
         <BurgerMenuItem>
           <NavLink href='/reviews' $isActive={pathname === '/reviews'} onClick={handleLinkClick}>
-            Reviews
+            {getText('navigation', 'reviews', language)}
           </NavLink>
         </BurgerMenuItem>
       )}
       <BurgerMenuItem>
         <NavLink href='/about' $isActive={pathname === '/about'} onClick={handleLinkClick}>
-          About
+          {getText('navigation', 'about', language)}
         </NavLink>
       </BurgerMenuItem>
       {!session && (
         <BurgerMenuItem>
           <NavLink href='/forgot-password' $isActive={pathname === '/forgot-password'} onClick={handleLinkClick}>
-            Forgot Password
+            {getText('navigation', 'forgot_password', language)}
           </NavLink>
         </BurgerMenuItem>
       )}
+      <BurgerMenuItem>
+        <NavLink href='#' onClick={() => toggleLanguage()}>
+          {getText('test', 'switch_language', language)}
+        </NavLink>
+      </BurgerMenuItem>
     </>
   );
 
@@ -229,7 +242,7 @@ export default function Navigation() {
           signOut({ callbackUrl: '/' });
           if (isBurgerOpen) setIsBurgerOpen(false);
         }}>
-        Logout
+        {getText('navigation', 'logout', language)}
       </Button>
     </ButtonContainerHorizontal>
   );
@@ -243,7 +256,7 @@ export default function Navigation() {
           router.push('/login');
           if (isBurgerOpen) setIsBurgerOpen(false);
         }}>
-        Login
+        {getText('navigation', 'login', language)}
       </Button>
       <Button
         bgColor='var(--color-button-register)'
@@ -252,7 +265,7 @@ export default function Navigation() {
           router.push('/register');
           if (isBurgerOpen) setIsBurgerOpen(false);
         }}>
-        Register
+        {getText('navigation', 'register', language)}
       </Button>
     </ButtonContainerHorizontal>
   );

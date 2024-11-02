@@ -2,20 +2,23 @@
 
 'use client';
 
+import { useEffect, useState, useContext } from 'react';
 import ProtectedRoute from '@/app/components/Authentication/ProtectedRoute';
-import { useEffect, useState } from 'react';
 import ReviewForm from '@/app/components/Review/ReviewForm';
 import { useRouter } from 'next/navigation';
 import SessionStatus from '@/app/components/Authentication/SessionStatus';
 import LoadingAnimation from '@/app/components/Common/LoadingAnimation';
 import { Container, Title } from '@/app/components/Common/CommonStyles';
 import ScrollToTop from '@/app/components/Common/ScrollToTop';
+import LanguageContext from '@/app/components/LanguageProvider';
+import { getText } from '@/lib/languageLibrary';
 
 export default function EditPage({ params }) {
   const [review, setReview] = useState(null);
   const [isDemoReview, setIsDemoReview] = useState(false);
   const [loading, setLoading] = useState(true);
   const router = useRouter();
+  const { language } = useContext(LanguageContext);
 
   useEffect(() => {
     async function fetchReview() {
@@ -28,7 +31,7 @@ export default function EditPage({ params }) {
             setReview(demoReview);
             setIsDemoReview(true);
           } else {
-            throw new Error('Demo review not found');
+            throw new Error(getText('review_edit', 'error_demo_review_not_found', language));
           }
         } else {
           const response = await fetch(`/api/reviews/${params.id}`);
@@ -37,11 +40,11 @@ export default function EditPage({ params }) {
             setReview(data);
             setIsDemoReview(false);
           } else {
-            throw new Error('Review not found');
+            throw new Error(getText('review_edit', 'error_review_not_found', language));
           }
         }
       } catch (error) {
-        console.error('Error fetching review:', error);
+        console.error(getText('review_edit', 'error_fetching_review', language), error);
         setReview(null);
         setIsDemoReview(false);
       } finally {
@@ -50,7 +53,7 @@ export default function EditPage({ params }) {
     }
 
     fetchReview();
-  }, [params.id]);
+  }, [params.id, language]);
 
   function handleSave() {
     router.push('/reviews');
@@ -65,14 +68,14 @@ export default function EditPage({ params }) {
   }
 
   if (!review && !isDemoReview) {
-    return <div>Review not found</div>;
+    return <div>{getText('review_edit', 'review_not_found', language)}</div>;
   }
 
   return (
     <ProtectedRoute>
       <Container>
         <ScrollToTop />
-        <Title>Edit Review</Title>
+        <Title>{getText('review_edit', 'title', language)}</Title>
         <SessionStatus />
         <ReviewForm review={review} onSave={handleSave} onCancel={handleCancel} isDemoReview={isDemoReview} />
       </Container>

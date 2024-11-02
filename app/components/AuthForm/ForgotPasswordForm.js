@@ -2,14 +2,17 @@
 
 'use client';
 
-import { useEffect, useState, useRef } from 'react';
+import { useEffect, useState, useRef, useContext } from 'react';
 import { useRouter } from 'next/navigation';
 import { useSession } from 'next-auth/react';
 import Button, { ButtonContainerVertical } from '@/app/components/Button/Button';
 import { FormContainer, InputGroup, LabelContainer, Label, Input } from '@/app/components/AuthForm/AuthFormStyles';
 import ModalPopup from '@/app/components/Common/ModalPopup';
+import LanguageContext from '@/app/components/LanguageProvider';
+import { getText } from '@/lib/languageLibrary';
 
 export default function ForgotPasswordForm() {
+  const { language } = useContext(LanguageContext);
   const [email, setEmail] = useState('');
   const [modalState, setModalState] = useState({
     show: false,
@@ -45,7 +48,7 @@ export default function ForgotPasswordForm() {
     if (!isValidEmail(email)) {
       setModalState({
         show: true,
-        message: 'Please enter a valid email address.',
+        message: getText('forgot_password_form', 'invalid_email', language),
         isSuccess: false,
         showOkButton: true,
       });
@@ -54,7 +57,7 @@ export default function ForgotPasswordForm() {
 
     setModalState({
       show: true,
-      message: 'Preparing to send your password reset link...',
+      message: getText('forgot_password_form', 'sending_email', language),
       isSuccess: null,
       showOkButton: false,
     });
@@ -73,14 +76,14 @@ export default function ForgotPasswordForm() {
       if (response.status === 200) {
         setModalState({
           show: true,
-          message: 'A password reset link has been sent to your email.',
+          message: getText('forgot_password_form', 'reset_link_sent', language),
           isSuccess: true,
           showOkButton: true,
         });
       } else {
         setModalState({
           show: true,
-          message: result.message || 'An unexpected error occurred. Please try again later.',
+          message: result.message || getText('forgot_password_form', 'unexpected_error', language),
           isSuccess: false,
           showOkButton: true,
         });
@@ -88,7 +91,7 @@ export default function ForgotPasswordForm() {
     } catch (error) {
       setModalState({
         show: true,
-        message: 'An unexpected error occurred. Please try again later.',
+        message: getText('forgot_password_form', 'unexpected_error', language),
         isSuccess: false,
         showOkButton: true,
       });
@@ -108,7 +111,7 @@ export default function ForgotPasswordForm() {
       <FormContainer onSubmit={handleSubmit}>
         <InputGroup>
           <LabelContainer>
-            <Label htmlFor='email'>Email:</Label>
+            <Label htmlFor='email'>{getText('forgot_password_form', 'email_label', language)}</Label>
           </LabelContainer>
           <Input
             id='email'
@@ -116,12 +119,12 @@ export default function ForgotPasswordForm() {
             value={email}
             onChange={(event) => setEmail(event.target.value)}
             required
-            ref={emailInputRef} // Weist den Ref dem E-Mail-Input zu
+            ref={emailInputRef}
           />
         </InputGroup>
         <ButtonContainerVertical>
           <Button type='submit' bgColor='var(--color-button-login)' hoverColor='var(--color-button-login-hover)'>
-            Send Reset Link
+            {getText('forgot_password_form', 'send_reset_link', language)}
           </Button>
         </ButtonContainerVertical>
       </FormContainer>

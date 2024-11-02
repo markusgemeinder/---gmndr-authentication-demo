@@ -44,7 +44,7 @@ export default function About() {
     return () => {
       window.removeEventListener('keydown', handleKeyDown);
     };
-  }, [handleKeyDown]); // handleKeyDown als Abhängigkeit hinzufügen
+  }, [handleKeyDown]);
 
   return (
     <Container>
