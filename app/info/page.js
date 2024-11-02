@@ -1,4 +1,4 @@
-// /app/about/page.js
+// /app/info/page.js
 
 'use client';
 
