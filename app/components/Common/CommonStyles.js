@@ -58,7 +58,7 @@ export const Subtitle = styled.h2`
   font-size: 1.4rem;
   font-weight: bold;
   text-align: center;
-  margin: 0.5rem;
+  margin: 1.5rem 0 0.5rem 0;
   color: var(--color-title);
 `;
 
@@ -75,6 +75,8 @@ export const Paragraph = styled.p`
   text-align: center;
   margin: 0.5rem;
   color: var(--color-text);
+  hyphens: auto;
+  word-wrap: break-word;
 `;
 
 export const StyledLink = styled(Link)`
@@ -91,25 +93,29 @@ export const StyledLink = styled(Link)`
 
 export const ListContainer = styled.ul`
   list-style: none;
+  padding-left: 0;
+  margin: 0.5rem;
   display: flex;
   flex-direction: column;
-  align-items: center;
-  margin: 0.5rem;
+  width: 90%;
+
+  @media (min-width: 768px) and (min-height: 768px) {
+    width: 80%;
+    max-width: 30rem;
+  }
 `;
 
 export const List = styled.li`
-  display: flex;
-  align-items: flex-start;
-  position: relative;
-  text-align: center;
-  margin: 0.1rem;
-  color: var(--color-text);
+  margin: 0;
+  padding: 0.8rem 0;
+  color: var(--color-title);
+  font-weight: 600;
+  width: 100%;
+  border-top: 1px solid var(--color-text-light);
+  hyphens: auto;
+  word-wrap: break-word;
 
-  &::before {
-    content: '▶';
-    position: absolute;
-    left: -18px;
-    font-weight: bold;
-    color: var(--color-title);
+  &:last-child {
+    border-bottom: 1px solid var(--color-text-light);
   }
 `;

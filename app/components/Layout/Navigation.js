@@ -159,7 +159,7 @@ export default function Navigation() {
   const router = useRouter();
   const pathname = usePathname();
   const [isBurgerOpen, setIsBurgerOpen] = useState(false);
-  const { language, toggleLanguage } = useContext(LanguageContext); // Verwenden des LanguageContext
+  const { language, toggleLanguage } = useContext(LanguageContext);
 
   const handleLinkClick = () => {
     if (isBurgerOpen) setIsBurgerOpen(false);
@@ -187,8 +187,8 @@ export default function Navigation() {
         </NavItem>
       )}
       <NavItem>
-        <NavLink href='/about' $isActive={pathname === '/about'} onClick={handleLinkClick}>
-          {getText('navigation', 'about', language)}
+        <NavLink href='/info' $isActive={pathname === '/info'} onClick={handleLinkClick}>
+          {getText('navigation', 'info', language)}
         </NavLink>
       </NavItem>
       <NavItem>
@@ -214,8 +214,8 @@ export default function Navigation() {
         </BurgerMenuItem>
       )}
       <BurgerMenuItem>
-        <NavLink href='/about' $isActive={pathname === '/about'} onClick={handleLinkClick}>
-          {getText('navigation', 'about', language)}
+        <NavLink href='/info' $isActive={pathname === '/info'} onClick={handleLinkClick}>
+          {getText('navigation', 'info', language)}
         </NavLink>
       </BurgerMenuItem>
       {!session && (
