@@ -90,12 +90,12 @@ export const StyledLink = styled(Link)`
 `;
 
 export const ListContainer = styled.ul`
-  list-style: none; /* Entfernt die Bullet-Points */
-  padding-left: 0; /* Entfernt das Padding */
+  list-style: none;
+  padding-left: 0;
   margin: 0.5rem;
   display: flex;
   flex-direction: column;
-  width: 80%; /* Nimmt die gesamte Breite ein */
+  width: 75%;
 `;
 
 export const List = styled.li`
