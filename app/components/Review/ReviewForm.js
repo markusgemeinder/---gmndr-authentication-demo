@@ -18,6 +18,7 @@ import {
   CreatedUpdated,
   RatingContainer,
   CardElementsWrapper,
+  CharCounter,
 } from '@/app/components/Review/ReviewStyles';
 import LanguageContext from '@/app/components/LanguageProvider';
 import { getText } from '@/lib/languageLibrary';
@@ -29,6 +30,7 @@ export default function ReviewForm({ review, onSave, onCancel, isDemoReview }) {
   const [email, setEmail] = useState('');
   const [note, setNote] = useState('');
   const [rating, setRating] = useState(1);
+  const maxChars = 400;
 
   const noteRef = useRef(null);
 
@@ -46,6 +48,12 @@ export default function ReviewForm({ review, onSave, onCancel, isDemoReview }) {
 
     noteRef.current?.focus();
   }, [review, session]);
+
+  const handleNoteChange = (event) => {
+    if (event.target.value.length <= maxChars) {
+      setNote(event.target.value);
+    }
+  };
 
   async function handleSubmit(event) {
     event.preventDefault();
@@ -104,10 +112,14 @@ export default function ReviewForm({ review, onSave, onCancel, isDemoReview }) {
           id='note'
           rows='8'
           value={note}
-          onChange={(event) => setNote(event.target.value)}
+          onChange={handleNoteChange}
+          maxLength={maxChars}
           required
           ref={noteRef}
         />
+        <CharCounter>
+          {note.length}/{maxChars} {getText('review_form', 'label_chars', language)}
+        </CharCounter>
       </InputGroup>
       <InputGroup>
         <LabelContainer>

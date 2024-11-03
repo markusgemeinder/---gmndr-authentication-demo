@@ -43,6 +43,7 @@ export const InputGroup = styled.div`
   display: flex;
   flex-direction: column;
   align-items: flex-start;
+  position: relative;
 
   &:first-child {
     margin-top: 0;
@@ -120,6 +121,14 @@ export const Note = styled.p`
   border-radius: 0.3rem;
   background-color: var(--color-input-background);
   text-align: left;
+`;
+
+export const CharCounter = styled.div`
+  font-size: 0.8rem;
+  color: var(--color-text-light);
+  position: absolute;
+  bottom: 0.4rem;
+  right: 0.6rem;
 `;
 
 export const RatingContainer = styled.div`
