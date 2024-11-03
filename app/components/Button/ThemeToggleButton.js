@@ -39,8 +39,8 @@ const StyledMoonIcon = styled(MoonIcon)`
 `;
 
 const StyledSunIcon = styled(SunIcon)`
-  width: 42px;
-  height: 42px;
+  width: 36px;
+  height: 36px;
 `;
 
 export default function ThemeToggleButton() {
