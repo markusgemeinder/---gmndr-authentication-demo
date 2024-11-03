@@ -22,7 +22,7 @@ export default function NavigationButtonPreviousPage({ onClick }) {
       desktopTop='48%'
       desktopLeft='2rem'
       onClick={onClick}
-      ariaLabel={getText('navigation_button_previous_page', 'aria-label', language)}>
+      ariaLabel={getText('navigation_button_previous_page', 'aria_label', language)}>
       {svg}
     </NavigationButtonTemplate>
   );

@@ -42,7 +42,7 @@ export default function NavigationButtonPageUp() {
       desktopBottom='5rem'
       desktopRight='2rem'
       onClick={scrollToTop}
-      ariaLabel={getText('navigation_button_page_up', 'aria-label', language)}>
+      ariaLabel={getText('navigation_button_page_up', 'aria_label', language)}>
       {svg}
     </NavigationButtonTemplate>
   );

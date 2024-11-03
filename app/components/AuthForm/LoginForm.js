@@ -230,6 +230,15 @@ export default function LoginForm({ onLogin, onOAuthLogin, error, onDemoLogin })
               {getText('login_form', 'forgot_password', language)}
             </Button>
           </Link>
+          <Link href='/register'>
+            <Button
+              type='button'
+              bgColor='var(--color-button-forgot-password)'
+              hoverColor='var(--color-button-forgot-password-hover)'
+              style={{ width: '100%' }}>
+              {getText('login_form', 'register', language)}
+            </Button>
+          </Link>
         </ButtonContainerVertical>
       </FormContainer>
 

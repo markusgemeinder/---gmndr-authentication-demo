@@ -24,7 +24,7 @@ const SessionStatusText = styled(Paragraph)`
 
 const CountdownContainer = styled.span`
   display: inline-block;
-  width: 1.9rem;
+  width: 2.2rem;
   text-align: right;
 `;
 

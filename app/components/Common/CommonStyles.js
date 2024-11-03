@@ -81,7 +81,7 @@ export const Paragraph = styled.p`
 
 export const StyledLink = styled(Link)`
   text-align: center;
-  font-weight: 500;
+  font-weight: 700;
   color: var(--color-link);
   text-decoration: none;
 
@@ -109,7 +109,7 @@ export const List = styled.li`
   margin: 0;
   padding: 0.8rem 0;
   color: var(--color-title);
-  font-weight: 600;
+  font-weight: 700;
   width: 100%;
   border-top: 1px solid var(--color-text-light);
   hyphens: auto;
