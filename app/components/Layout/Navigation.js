@@ -30,7 +30,7 @@ const Header = styled.header`
   height: 5rem;
 
   @media (max-width: 768px) {
-    padding: 0 0.6rem;
+    padding: 0 0.75rem;
     height: 4rem;
   }
 `;
