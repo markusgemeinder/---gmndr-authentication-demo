@@ -42,7 +42,7 @@ const StyledButton = styled.button.withConfig({
 })`
   background-color: ${(props) => props.bgColor || 'var(--color-button)'};
   color: ${(props) => props.color || 'var(--color-button-text)'};
-  font-weight: 500;
+  font-weight: 700;
   padding: 0 0.7rem;
   border-radius: 0.6rem;
   min-width: 48px;

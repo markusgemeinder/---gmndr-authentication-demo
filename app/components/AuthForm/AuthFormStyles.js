@@ -33,7 +33,7 @@ export const LabelContainer = styled.div`
 
 export const Label = styled.label`
   font-size: 0.875rem;
-  font-weight: 600;
+  font-weight: 700;
   color: var(--color-label);
   margin: 0 0.5rem;
   line-height: 1.2;

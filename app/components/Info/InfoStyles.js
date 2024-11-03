@@ -46,7 +46,7 @@ export const Pagination = styled.p`
   padding: 0.7rem;
   width: 48px;
   color: var(--color-button-page-navigation-icon);
-  font-weight: 500;
+  font-weight: 700;
   font-size: 1.2rem;
 
   @media (min-width: 768px) and (min-height: 768px) {
@@ -64,7 +64,7 @@ export const InfoLinkContainer = styled.div`
 
 export const InfoLink = styled(Link)`
   text-align: center;
-  font-weight: 500;
+  font-weight: 700;
   color: var(--color-link);
   text-decoration: none;
 

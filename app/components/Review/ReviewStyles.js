@@ -57,7 +57,7 @@ export const LabelContainer = styled.div`
 
 export const Label = styled.label`
   font-size: 0.875rem;
-  font-weight: 600;
+  font-weight: 700;
   color: var(--color-label);
   margin-right: 1rem;
   line-height: 1.2;
@@ -96,7 +96,7 @@ export const IDLabel = styled.div`
 `;
 
 export const Email = styled.div`
-  font-weight: 600;
+  font-weight: 700;
   color: var(--color-text-light);
   margin: 0.4rem 0;
   text-align: left;
