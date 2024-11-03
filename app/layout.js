@@ -2,7 +2,7 @@
 
 import '@/app/globals.css';
 
-import { Istok_Web } from 'next/font/google';
+import { Ubuntu } from 'next/font/google';
 import Navigation from '@/app/components/Layout/Navigation';
 import AuthProvider from '@/app/components/Authentication/AuthProvider';
 import Footer from '@/app/components/Layout/Footer';
@@ -16,7 +16,7 @@ export const metadata = {
   description: 'Created with Next.js 14 and MongoDB | Erstellt mit Next.js 14 und MongoDB',
 };
 
-export const defaultFont = Istok_Web({
+export const defaultFont = Ubuntu({
   subsets: ['latin'],
   weight: ['400', '700'],
   style: ['normal'],
