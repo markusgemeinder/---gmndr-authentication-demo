@@ -240,30 +240,37 @@ export default function Navigation() {
     </>
   );
 
-  const renderSessionButtons = () => (
-    <ButtonContainerHorizontal>
-      <LogoutButton
-        text={getText('navigation', 'logout', language)}
-        onCloseMenu={handleLinkClick}
-        aria-label={getText('navigation', 'aria_label_auth_button_logout', language)}
-      />
-    </ButtonContainerHorizontal>
-  );
+  const renderSessionButtons = () => {
+    const logoutText = getText('navigation', 'logout', language);
 
-  const renderNoSessionButtons = () => (
-    <ButtonContainerHorizontal>
-      <LoginButton
-        text={getText('navigation', 'login', language)}
-        onCloseMenu={handleLinkClick}
-        aria-label={getText('navigation', 'aria_label_auth_button_login', language)}
-      />
-      <RegisterButton
-        text={getText('navigation', 'register', language)}
-        onCloseMenu={handleLinkClick}
-        aria-label={getText('navigation', 'aria_label_auth_button_register', language)}
-      />
-    </ButtonContainerHorizontal>
-  );
+    return (
+      <ButtonContainerHorizontal>
+        <LogoutButton
+          buttonText={logoutText}
+          onCloseMenu={handleLinkClick}
+          aria-label={logoutText}
+          title={logoutText}
+        />
+      </ButtonContainerHorizontal>
+    );
+  };
+
+  const renderNoSessionButtons = () => {
+    const loginText = getText('navigation', 'login', language);
+    const registerText = getText('navigation', 'register', language);
+
+    return (
+      <ButtonContainerHorizontal>
+        <LoginButton buttonText={loginText} onCloseMenu={handleLinkClick} aria-label={loginText} title={loginText} />
+        <RegisterButton
+          buttonText={registerText}
+          onCloseMenu={handleLinkClick}
+          aria-label={registerText}
+          title={registerText}
+        />
+      </ButtonContainerHorizontal>
+    );
+  };
 
   return (
     <>

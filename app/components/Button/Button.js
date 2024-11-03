@@ -44,7 +44,7 @@ const StyledButton = styled.button.withConfig({
   color: ${(props) => props.color || 'var(--color-button-text)'};
   font-weight: 500;
   padding: 0 0.7rem;
-  border-radius: 0.4rem;
+  border-radius: 0.6rem;
   min-width: 48px;
   min-height: 48px;
   cursor: ${(props) => (props.disabled ? 'not-allowed' : 'pointer')};
