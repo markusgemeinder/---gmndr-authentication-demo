@@ -46,6 +46,10 @@ export const NarrowContainer = styled.div`
   }
 `;
 
+export const Spacer = styled.div`
+  height: ${({ height }) => height || '1rem'};
+`;
+
 export const Title = styled.h1`
   font-size: 1.6rem;
   font-weight: bold;
@@ -111,11 +115,11 @@ export const List = styled.li`
   color: var(--color-title);
   font-weight: 700;
   width: 100%;
-  border-top: 1px solid var(--color-text-light);
+  border-top: 1px solid var(--color-border);
   hyphens: auto;
   word-wrap: break-word;
 
   &:last-child {
-    border-bottom: 1px solid var(--color-text-light);
+    border-bottom: 1px solid var(--color-border);
   }
 `;
