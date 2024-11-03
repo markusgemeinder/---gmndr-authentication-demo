@@ -110,6 +110,7 @@ export const WarningMessage = styled.p`
   padding: 0.8rem;
   line-height: 1.2;
   text-align: center;
+  font-weight: 700;
 `;
 
 export const IconButtonImage = styled(Image)`

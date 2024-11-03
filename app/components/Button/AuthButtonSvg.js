@@ -38,7 +38,7 @@ const AuthButtonSvg = styled.svg`
   height: 32px;
 
   fill: var(--color-button-text);
-  margin-right: 8px;
+  margin-right: 0.3rem;
 
   @media (max-width: 768px) {
     width: 100%;
@@ -50,6 +50,7 @@ const AuthButtonSvg = styled.svg`
 `;
 
 const ButtonText = styled.span`
+  font-weight: 700;
   display: block;
 
   @media (max-width: 768px) {

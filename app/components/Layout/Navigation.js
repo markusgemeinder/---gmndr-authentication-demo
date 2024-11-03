@@ -45,9 +45,28 @@ const BrandContainer = styled.div`
   }
 `;
 
-const Title = styled.div`
-  font-size: 1rem;
-  font-weight: bold;
+const Logo = styled.div`
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+`;
+
+const Title1 = styled.div`
+  font-size: 0.75rem;
+  font-weight: 700;
+
+  @media (max-width: 768px) {
+    font-size: 0.6rem;
+  }
+`;
+
+const Title2 = styled.div`
+  font-size: 1.2rem;
+  font-weight: 700;
+
+  @media (max-width: 768px) {
+    font-size: 1rem;
+  }
 `;
 
 const NavContainer = styled.div`
@@ -276,21 +295,24 @@ export default function Navigation() {
     <>
       <Header>
         <BrandContainer>
-          <Title>MyApp</Title>
+          <Logo>
+            <Title1>#GMNDR</Title1>
+            <Title2>Demo</Title2>
+          </Logo>
           {session ? renderSessionButtons() : renderNoSessionButtons()}
+          <ThemeToggleButton />
         </BrandContainer>
+        <NavItem>
+          <NavLink href='#' onClick={() => toggleLanguage()} $isActive={language === 'EN'}>
+            EN
+          </NavLink>
+          {' | '}
+          <NavLink href='#' onClick={() => toggleLanguage()} $isActive={language === 'DE'}>
+            DE
+          </NavLink>
+        </NavItem>
         <NavContainer>
           <NavList>{renderNavLinks()}</NavList>
-          <ThemeToggleButton />
-          <NavItem>
-            <NavLink href='#' onClick={() => toggleLanguage()} $isActive={language === 'EN'}>
-              EN
-            </NavLink>
-            {' | '}
-            <NavLink href='#' onClick={() => toggleLanguage()} $isActive={language === 'DE'}>
-              DE
-            </NavLink>
-          </NavItem>
 
           <BurgerMenuButton
             onClick={() => setIsBurgerOpen((prev) => !prev)}
