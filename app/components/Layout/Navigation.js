@@ -13,7 +13,6 @@ import { getText } from '@/lib/languageLibrary';
 import { LoginButton, LogoutButton, RegisterButton } from '@/app/components/Button/AuthButtonSvg';
 import { ButtonContainerHorizontal } from '@/app/components/Button/Button';
 
-// Styled components
 const Header = styled.header`
   background-color: var(--color-header);
   color: var(--color-header-text);
@@ -49,6 +48,7 @@ const Logo = styled.div`
   display: flex;
   align-items: center;
   flex-direction: column;
+  cursor: pointer;
 `;
 
 const Title1 = styled.div`
@@ -177,6 +177,10 @@ export default function Navigation() {
     if (isBurgerOpen) setIsBurgerOpen(false);
   };
 
+  const handleLogoClick = () => {
+    router.push('/');
+  };
+
   const renderNavLinks = () => (
     <>
       {!session && (
@@ -295,7 +299,9 @@ export default function Navigation() {
     <>
       <Header>
         <BrandContainer>
-          <Logo>
+          <Logo onClick={handleLogoClick}>
+            {' '}
+            {/* Event zum Navigieren */}
             <Title1>#GMNDR</Title1>
             <Title2>Demo</Title2>
           </Logo>
