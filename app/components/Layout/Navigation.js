@@ -44,6 +44,29 @@ const BrandContainer = styled.div`
   }
 `;
 
+const ShakeAnimation = styled.div`
+  display: inline-block;
+  animation: ${({ $isShaking }) => ($isShaking ? 'shake 0.3s' : 'none')};
+
+  @keyframes shake {
+    0% {
+      transform: translate(0);
+    }
+    25% {
+      transform: translate(-2px, 0);
+    }
+    50% {
+      transform: translate(2px, 0);
+    }
+    75% {
+      transform: translate(-2px, 0);
+    }
+    100% {
+      transform: translate(0);
+    }
+  }
+`;
+
 const Logo = styled.div`
   display: flex;
   align-items: center;
@@ -171,6 +194,7 @@ export default function Navigation() {
   const router = useRouter();
   const pathname = usePathname();
   const [isBurgerOpen, setIsBurgerOpen] = useState(false);
+  const [isShaking, setIsShaking] = useState(false); // Zustand für den Wackeleffekt
   const { language, toggleLanguage } = useContext(LanguageContext);
 
   const handleLinkClick = () => {
@@ -178,7 +202,14 @@ export default function Navigation() {
   };
 
   const handleLogoClick = () => {
-    router.push('/');
+    if (pathname === '/') {
+      setIsShaking(true);
+      setTimeout(() => {
+        setIsShaking(false);
+      }, 300); // Dauer der Animation
+    } else {
+      router.push('/');
+    }
   };
 
   const renderNavLinks = () => (
@@ -299,12 +330,12 @@ export default function Navigation() {
     <>
       <Header>
         <BrandContainer>
-          <Logo onClick={handleLogoClick}>
-            {' '}
-            {/* Event zum Navigieren */}
-            <Title1>#GMNDR</Title1>
-            <Title2>Demo</Title2>
-          </Logo>
+          <ShakeAnimation $isShaking={isShaking}>
+            <Logo onClick={handleLogoClick}>
+              <Title1>#GMNDR</Title1>
+              <Title2>Demo</Title2>
+            </Logo>
+          </ShakeAnimation>
           {session ? renderSessionButtons() : renderNoSessionButtons()}
           <ThemeToggleButton />
         </BrandContainer>
