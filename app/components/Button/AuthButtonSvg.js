@@ -50,7 +50,7 @@ const AuthButtonSvg = styled.svg`
 `;
 
 const ButtonText = styled.span`
-  font-weight: 700;
+  font-weight: 500;
   display: block;
 
   @media (max-width: 768px) {

@@ -18,7 +18,7 @@ export const metadata = {
 
 export const defaultFont = Ubuntu({
   subsets: ['latin'],
-  weight: ['400', '700'],
+  weight: ['400', '500', '700'],
   style: ['normal'],
 });
 

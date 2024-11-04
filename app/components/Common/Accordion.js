@@ -4,7 +4,7 @@ import { useContext } from 'react';
 import styled from 'styled-components';
 import LanguageContext from '@/app/components/LanguageProvider';
 import { getText } from '@/lib/languageLibrary';
-import { StyledLink } from '@/app/components/Common/CommonStyles';
+import { StyledLink, Spacer } from '@/app/components/Common/CommonStyles';
 import useAccordion from '@/app/hooks/useAccordion';
 
 const AccordionContainer = styled.div`
@@ -14,6 +14,11 @@ const AccordionContainer = styled.div`
   background-color: var(--color-form-background);
   border: 1px solid var(--color-border);
   border-radius: 0.6rem;
+
+  @media (min-width: 768px) and (min-height: 768px) {
+    width: 86%;
+    max-width: 30rem;
+  }
 `;
 
 const AccordionButton = styled.button`
@@ -33,7 +38,7 @@ const AccordionButton = styled.button`
 `;
 
 const AccordionContent = styled.div`
-  padding: ${({ isOpen }) => (isOpen ? '1rem' : '0')};
+  padding: ${({ isOpen }) => (isOpen ? '1rem 1rem' : '0')};
   height: ${({ isOpen, contentHeight }) => (isOpen ? `${contentHeight}px` : '0')};
   overflow: hidden;
   transition: height 0.3s ease, opacity 0.3s ease, transform 0.3s ease, padding 0.3s ease;
@@ -56,13 +61,7 @@ const AccordionIcon = ({ isOpen }) => (
 );
 
 const AccordionTitle = styled.h3`
-  font-weight: 700;
-`;
-
-const AccordionParagraph = styled.p`
-  margin: 0;
-  padding: 0.5rem 1rem;
-  transition: opacity 0.2s ease;
+  font-weight: 500;
 `;
 
 const AccordionList = styled.ul`
@@ -82,6 +81,7 @@ const AccordionListItem = styled.li`
   &:last-child {
     border-bottom: none;
     padding-bottom: 1.8rem;
+    margin-bottom: 0.5rem;
   }
 `;
 
@@ -96,10 +96,16 @@ const AboutProjectAccordion = () => {
         <AccordionIcon isOpen={isOpen} />
       </AccordionButton>
       <AccordionContent ref={contentRef} isOpen={isOpen} contentHeight={contentHeight}>
-        <AccordionParagraph>
-          {getText('accordion', 'about_project_content', language)}{' '}
-          <StyledLink href='/info'>{getText('accordion', 'about_project_link', language)}</StyledLink>.
-        </AccordionParagraph>
+        <AccordionList>
+          <AccordionListItem>{getText('accordion', 'about_project_overview', language)}</AccordionListItem>
+          <AccordionListItem>{getText('accordion', 'about_project_auth_focus', language)}</AccordionListItem>
+          <AccordionListItem>{getText('accordion', 'about_project_language_feature', language)}</AccordionListItem>
+          <AccordionListItem>
+            {getText('accordion', 'about_project_content', language)}
+            <StyledLink href='/info'>{getText('accordion', 'about_project_link', language)}</StyledLink>.
+          </AccordionListItem>
+        </AccordionList>
+        <Spacer height='0.8rem' />
       </AccordionContent>
     </AccordionContainer>
   );
@@ -118,13 +124,13 @@ const HowToUseAccordion = () => {
       <AccordionContent ref={contentRef} isOpen={isOpen} contentHeight={contentHeight}>
         <AccordionList>
           <AccordionListItem>{getText('accordion', 'how_to_use_create_account', language)}</AccordionListItem>
-          <AccordionListItem>{getText('accordion', 'how_to_use_add_reviews', language)}</AccordionListItem>
-          <AccordionListItem>{getText('accordion', 'how_to_use_reviews_saved', language)}</AccordionListItem>
+          <AccordionListItem>{getText('accordion', 'how_to_use_add_reviews_and_saved', language)}</AccordionListItem>
           <AccordionListItem>{getText('accordion', 'how_to_use_reviews_demo', language)}</AccordionListItem>
           <AccordionListItem>{getText('accordion', 'how_to_use_language_toggle', language)}</AccordionListItem>
           <AccordionListItem>{getText('accordion', 'how_to_use_forgot_password', language)}</AccordionListItem>
           <AccordionListItem>{getText('accordion', 'how_to_use_leave_message', language)}</AccordionListItem>
         </AccordionList>
+        <Spacer height='0.5rem' />
       </AccordionContent>
     </AccordionContainer>
   );

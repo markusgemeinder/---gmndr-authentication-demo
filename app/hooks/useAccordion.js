@@ -8,10 +8,7 @@ const useAccordion = (padding = 0) => {
   const calculateTotalHeight = () => {
     if (!contentRef.current) return 0;
     const scrollHeight = contentRef.current.scrollHeight;
-
-    // Dynamische Anpassung des Paddings
-    const adjustedPadding = scrollHeight < 200 ? padding : padding * 1.4;
-    return scrollHeight + adjustedPadding;
+    return scrollHeight + padding;
   };
 
   const toggleAccordion = () => {
