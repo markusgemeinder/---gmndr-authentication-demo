@@ -38,8 +38,8 @@ export default function InfoNeueFische() {
       <AvatarContainer>
         <Avatar src={`/images/neue-fische-logo.png`} alt='neue fische' width={160} height={160} />
       </AvatarContainer>
-      <Title>{getText('infoNeueFische', 'title', language)}</Title>
-      <Paragraph>{getText('infoNeueFische', 'paragraph_participation', language)}</Paragraph>
+      <Title>{getText('info_neue_fische', 'title', language)}</Title>
+      <Paragraph>{getText('info_neue_fische', 'paragraph_participation', language)}</Paragraph>
       <InfoImageContainer>
         <InfoImageWithLink
           src={`/images/neue-fische-certificate-1.png`}
@@ -95,7 +95,7 @@ export default function InfoNeueFische() {
       )}
       <InfoLinkContainer>
         <InfoLink href='https://neuefische.de' target='_blank' rel='noopener noreferrer'>
-          {getText('infoNeueFische', 'link_website', language)}
+          {getText('info_neue_fische', 'link_website', language)}
         </InfoLink>
       </InfoLinkContainer>
     </>

@@ -113,7 +113,7 @@ export const List = styled.li`
   margin: 0;
   padding: 0.8rem 0;
   color: var(--color-title);
-  font-weight: 700;
+  font-weight: 500;
   width: 100%;
   border-top: 1px solid var(--color-border);
   hyphens: auto;
