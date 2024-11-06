@@ -3,27 +3,28 @@
 'use client';
 
 import React, { createContext, useState, useEffect, useContext } from 'react';
+import { useCookies } from 'react-cookie';
 
 const LanguageContext = createContext();
 
 export const useLanguage = () => useContext(LanguageContext);
 
 export const LanguageProvider = ({ children }) => {
+  const [cookies, setCookie] = useCookies(['language']);
   const [language, setLanguage] = useState('EN');
 
   useEffect(() => {
-    const match = document.cookie.match(/language=(EN|DE)/);
-    if (match) {
-      setLanguage(match[1]);
+    if (cookies.language) {
+      setLanguage(cookies.language);
     } else {
-      document.cookie = `language=EN; path=/`;
+      setCookie('language', 'EN', { path: '/' });
     }
-  }, []);
+  }, [cookies, setCookie]);
 
   const toggleLanguage = () => {
     setLanguage((prevLanguage) => {
       const newLanguage = prevLanguage === 'EN' ? 'DE' : 'EN';
-      document.cookie = `language=${newLanguage}; path=/`;
+      setCookie('language', newLanguage, { path: '/' });
       return newLanguage;
     });
   };
