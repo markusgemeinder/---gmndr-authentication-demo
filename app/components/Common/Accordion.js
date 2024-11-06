@@ -14,6 +14,7 @@ const AccordionContainer = styled.div`
   background-color: var(--color-form-background);
   border: 1px solid var(--color-border);
   border-radius: 0.6rem;
+  max-width: 24rem;
 
   @media (min-width: 768px) and (min-height: 768px) {
     width: 86%;
