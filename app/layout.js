@@ -14,6 +14,9 @@ import { LanguageProvider } from '@/app/components/LanguageProvider';
 export const metadata = {
   title: '#GMNDR Auth Demo',
   description: 'Created with Next.js 14 and MongoDB | Erstellt mit Next.js 14 und MongoDB',
+  icons: {
+    icon: '/favicon/gmndr.ico',
+  },
 };
 
 export const defaultFont = Ubuntu({
