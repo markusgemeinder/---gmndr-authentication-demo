@@ -23,11 +23,11 @@ export default function VerifyEmailPage({ params }) {
   const router = useRouter();
   const { language } = useContext(LanguageContext);
 
-  useEffect(() => {
-    if (params.token) {
-      handleSubmit(params.token);
-    }
-  }, [params.token]);
+  // useEffect(() => {
+  //   if (params.token) {
+  //     handleSubmit(params.token);
+  //   }
+  // }, [params.token]);
 
   async function handleSubmit(token) {
     try {
