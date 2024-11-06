@@ -79,7 +79,7 @@ export const Paragraph = styled.p`
   text-align: center;
   margin: 0.5rem;
   color: var(--color-text);
-  hyphens: auto;
+  /* hyphens: auto; */
   word-wrap: break-word;
 `;
 
@@ -116,7 +116,7 @@ export const List = styled.li`
   font-weight: 500;
   width: 100%;
   border-top: 1px solid var(--color-border);
-  hyphens: auto;
+  /* hyphens: auto; */
   word-wrap: break-word;
 
   &:last-child {

@@ -76,7 +76,7 @@ const AccordionListItem = styled.li`
   padding: 0.6rem 1rem;
   /* color: var(--color-title); */
   border-bottom: 1px solid var(--color-border);
-  hyphens: auto;
+  /* hyphens: auto; */
   word-wrap: break-word;
 
   &:last-child {
