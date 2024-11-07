@@ -44,9 +44,11 @@ ol {
   list-style: none;
 }
 
-/* Grundfarben-Variablen */
+/* Farbvariablen für Light und Dark Theme */
+
+/* Grundfarben für beide Themes */
 :root {
-  /* Primärfarben */
+  /* Farbvariablen für Primärfarbe */
   --color-primary-0: #ffffff;
   --color-primary-50: #e5ebff;
   --color-primary-100: #ccd8ff;
@@ -61,22 +63,7 @@ ol {
   --color-primary-950: #000619;
   --color-primary-1000: #000000;
 
-  /* Tertiärfarben */
-  --color-tertiary-0: #ffffff;
-  --color-tertiary-50: #f2f2f3;
-  --color-tertiary-100: #e5e5e6;
-  --color-tertiary-200: #cbcbcd;
-  --color-tertiary-300: #b0b1b5;
-  --color-tertiary-400: #96979c;
-  --color-tertiary-500: #7c7d83;
-  --color-tertiary-600: #636469;
-  --color-tertiary-700: #4a4b4f;
-  --color-tertiary-800: #323234;
-  --color-tertiary-900: #19191a;
-  --color-tertiary-950: #0c0d0d;
-  --color-tertiary-1000: #000000;
-
-  /* Sekundärfarben */
+  /* Farbvariablen für Sekundärfarben */
   --color-secondary-0: #ffffff;
   --color-secondary-50: #fff3e6;
   --color-secondary-100: #ffe6cc;
@@ -91,7 +78,22 @@ ol {
   --color-secondary-950: #190d00;
   --color-secondary-1000: #000000;
 
-  /* Warnfarben */
+  /* Farbvariablen für Tertiärfarben */
+  --color-tertiary-0: #ffffff;
+  --color-tertiary-50: #f2f2f3;
+  --color-tertiary-100: #e5e5e6;
+  --color-tertiary-200: #cbcbcd;
+  --color-tertiary-300: #b0b1b5;
+  --color-tertiary-400: #96979c;
+  --color-tertiary-500: #7c7d83;
+  --color-tertiary-600: #636469;
+  --color-tertiary-700: #4a4b4f;
+  --color-tertiary-800: #323234;
+  --color-tertiary-900: #19191a;
+  --color-tertiary-950: #0c0d0d;
+  --color-tertiary-1000: #000000;
+
+  /* Farbvariablen für Warnfarben */
   --color-warning-0: #ffffff;
   --color-warning-50: #fde8e8;
   --color-warning-100: #fbd0d0;
@@ -106,7 +108,7 @@ ol {
   --color-warning-950: #170202;
   --color-warning-1000: #000000;
 
-  /* Bestätigungsfarben */
+  /* Farbvariablen für Bestätigungsfarben */
   --color-confirmation-0: #ffffff;
   --color-confirmation-50: #e9fbf0;
   --color-confirmation-100: #d4f7e1;
@@ -129,43 +131,62 @@ ol {
   --color-text: var(--color-tertiary-1000);
   --color-title: var(--color-primary-800);
 
-  /* Kopf- und Fußzeilenfarben */
+  /* Header */
   --color-header: var(--color-primary-1000);
   --color-header-text: var(--color-tertiary-0);
   --color-modal-header: var(--color-primary-600);
 
-  /* Hintergrundfarben */
+  /* Formulare und Eingabefelder */
   --color-form-background: var(--color-tertiary-0);
-  --color-modal-background: var(--color-tertiary-0);
   --color-input-background: var(--color-background);
+  --color-form-border: var(--color-tertiary-200);
+
+  /* Modale Fenster */
+  --color-modal-background: var(--color-tertiary-0);
+
+  /* Zusatz-Elemente */
   --color-review-card-background: var(--color-form-background);
   --color-burger-menu-background: var(--color-primary-800);
   --color-accordion-background: var(--color-primary-400);
   --color-accordion-background-light: var(--color-primary-200);
-
-  /* Rahmenfarben */
   --color-border: var(--color-tertiary-200);
   --color-border-light: var(--color-tertiary-100);
-  --color-form-border: var(--color-border);
 
-  /* Button-Farben */
+  /* Textfarben */
+  --color-text-medium: var(--color-tertiary-500);
+  --color-text-light: var(--color-tertiary-400);
+
+  /* Links */
+  --color-link: var(--color-primary-200);
+  --color-link-hover: var(--color-primary-400);
+
+  /* Buttons */
   --color-button-primary: var(--color-primary-800);
   --color-button-primary-hover: var(--color-primary-600);
   --color-button-secondary: var(--color-tertiary-800);
   --color-button-secondary-hover: var(--color-tertiary-600);
   --color-button-text: var(--color-tertiary-0);
-
-  /* Aktionsbutton-Farben */
   --color-button-review: var(--color-confirmation-1000);
   --color-button-review-hover: var(--color-confirmation-800);
   --color-button-demo-review: var(--color-secondary-1000);
   --color-button-demo-review-hover: var(--color-secondary-800);
   --color-button-warning: var(--color-warning-1000);
   --color-button-warning-hover: var(--color-warning-800);
+  --color-button-edit: var(--color-primary-800);
+  --color-button-edit-hover: var(--color-primary-600);
+  --color-button-delete: var(--color-warning-500);
+  --color-button-delete-hover: var(--color-warning-700);
+  --color-button-page-navigation: var(--color-primary-600);
+  --color-button-page-navigation-hover: var(--color-primary-400);
+  --color-button-page-navigation-icon: var(--color-primary-600);
 
-  /* Sternfarben */
-  --star-color: var(--color-secondary-400);
-  --star-focus-color: var(--color-secondary-600);
+  /* Warnungen & Bestätigungen */
+  --color-check-warning: var(--color-warning-400);
+  --color-check-ok: var(--color-confirmation-600);
+
+  /* Sterne-Bewertung */
+  --star-color: var(--color-secondary-300);
+  --star-focus-color: var(--color-secondary-400);
   --star-empty-color: var(--color-tertiary-200);
 }
 
@@ -176,44 +197,63 @@ ol {
   --color-text: var(--color-tertiary-50);
   --color-title: var(--color-primary-200);
 
-  /* Kopf- und Fußzeilenfarben */
+  /* Header */
   --color-header: var(--color-primary-800);
   --color-header-text: var(--color-tertiary-0);
   --color-modal-header: var(--color-primary-400);
 
-  /* Hintergrundfarben */
+  /* Formulare und Eingabefelder */
   --color-form-background: var(--color-tertiary-900);
-  --color-modal-background: var(--color-tertiary-800);
   --color-input-background: var(--color-tertiary-700);
-  --color-review-card-background: var(--color-tertiary-800);
-  --color-burger-menu-background: var(--color-primary-800);
-  --color-accordion-background: var(--color-primary-400);
-  --color-accordion-background-light: var(--color-primary-200);
+  --color-form-border: var(--color-tertiary-600);
 
-  /* Rahmenfarben */
+  /* Modale Fenster */
+  --color-modal-background: var(--color-tertiary-900);
+
+  /* Zusatz-Elemente */
+  --color-review-card-background: var(--color-form-background);
+  --color-burger-menu-background: var(--color-primary-700);
+  --color-accordion-background: var(--color-primary-500);
+  --color-accordion-background-light: var(--color-primary-600);
   --color-border: var(--color-tertiary-600);
-  --color-border-light: var(--color-tertiary-400);
-  --color-form-border: var(--color-border);
+  --color-border-light: var(--color-tertiary-700);
 
-  /* Button-Farben */
-  --color-button-primary: var(--color-primary-400);
-  --color-button-primary-hover: var(--color-primary-200);
-  --color-button-secondary: var(--color-tertiary-400);
-  --color-button-secondary-hover: var(--color-tertiary-200);
-  --color-button-text: var(--color-tertiary-0);
+  /* Textfarben */
+  --color-text-medium: var(--color-tertiary-300);
+  --color-text-light: var(--color-tertiary-400);
 
-  /* Aktionsbutton-Farben */
-  --color-button-review: var(--color-confirmation-400);
-  --color-button-review-hover: var(--color-confirmation-200);
-  --color-button-demo-review: var(--color-secondary-400);
-  --color-button-demo-review-hover: var(--color-secondary-200);
-  --color-button-warning: var(--color-warning-400);
-  --color-button-warning-hover: var(--color-warning-200);
+  /* Links */
+  --color-link: var(--color-primary-300);
+  --color-link-hover: var(--color-primary-500);
 
-  /* Sternfarben */
-  --star-color: var(--color-secondary-400);
-  --star-focus-color: var(--color-secondary-600);
-  --star-empty-color: var(--color-tertiary-600);
+  /* Buttons */
+  --color-button-primary: var(--color-primary-200);
+  --color-button-primary-hover: var(--color-primary-400);
+  --color-button-secondary: var(--color-tertiary-700);
+  --color-button-secondary-hover: var(--color-tertiary-600);
+  --color-button-text: var(--color-tertiary-900);
+  --color-button-review: var(--color-confirmation-1000);
+  --color-button-review-hover: var(--color-confirmation-800);
+  --color-button-demo-review: var(--color-secondary-1000);
+  --color-button-demo-review-hover: var(--color-secondary-800);
+  --color-button-warning: var(--color-warning-1000);
+  --color-button-warning-hover: var(--color-warning-800);
+  --color-button-edit: var(--color-primary-400);
+  --color-button-edit-hover: var(--color-primary-600);
+  --color-button-delete: var(--color-warning-500);
+  --color-button-delete-hover: var(--color-warning-700);
+  --color-button-page-navigation: var(--color-primary-500);
+  --color-button-page-navigation-hover: var(--color-primary-700);
+  --color-button-page-navigation-icon: var(--color-primary-600);
+
+  /* Warnungen & Bestätigungen */
+  --color-check-warning: var(--color-warning-600);
+  --color-check-ok: var(--color-confirmation-500);
+
+  /* Sterne-Bewertung */
+  --star-color: var(--color-secondary-600);
+  --star-focus-color: var(--color-secondary-700);
+  --star-empty-color: var(--color-tertiary-500);
 }
 
 body {
