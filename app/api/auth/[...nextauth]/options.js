@@ -6,13 +6,13 @@ import CredentialsProvider from 'next-auth/providers/credentials';
 import User from '@/db/models/User';
 import bcrypt from 'bcrypt';
 import dbConnect from '@/db/connect';
-import { getText } from '@/lib/languageLibrary'; // Importiere die Funktion zur Sprachabfrage
+import { getText } from '@/lib/languageLibrary';
 
 export const options = {
   providers: [
     CredentialsProvider({
       id: 'credentials',
-      name: getText('api_auth_nextauth_options', 'name', 'EN'), // Standardwert
+      name: getText('api_auth_nextauth_options', 'name', 'EN'),
       credentials: {
         email: { label: getText('api_auth_nextauth_options', 'email_label', 'EN'), type: 'text' },
         password: { label: getText('api_auth_nextauth_options', 'password_label', 'EN'), type: 'password' },
@@ -66,7 +66,7 @@ export const options = {
             isDemoUser: false,
           };
         } catch (error) {
-          throw error; // Werfe den Fehler weiter
+          throw error;
         }
       },
     }),

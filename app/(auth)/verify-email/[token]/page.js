@@ -159,8 +159,8 @@ export default function VerifyEmailPage({ params }) {
             <ButtonContainerHorizontal>
               <Button
                 onClick={handleResendVerification}
-                bgColor='var(--color-button-login)'
-                hoverColor='var(--color-button-login-hover)'>
+                bgColor='var(--color-button-warning)'
+                hoverColor='var(--color-button-warning-hover)'>
                 {getText('auth_verify_email_token', 'button_resend_verification', language)}
               </Button>
             </ButtonContainerHorizontal>
