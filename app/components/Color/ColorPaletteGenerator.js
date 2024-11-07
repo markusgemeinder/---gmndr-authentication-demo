@@ -65,10 +65,18 @@ const Select = styled.select`
 `;
 
 const CheckboxGroup = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
   margin-top: 0.5rem;
+
+  & > label {
+    padding-left: 0.5rem;
+    border-right: 1px solid #ddd;
+
+    &:nth-child(3n) {
+      border-right: none;
+    }
+  }
 `;
 
 const CheckboxLabel = styled.label`

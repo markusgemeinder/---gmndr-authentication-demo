@@ -44,192 +44,176 @@ ol {
   list-style: none;
 }
 
-/* Base Color Variables */
+/* Grundfarben-Variablen */
 :root {
-  /* Blues */
-  --color-blue-1000: #000000;
-  --color-blue-950: #00071f;
-  --color-blue-900: #000e3d;
-  --color-blue-800: #001b75;
-  --color-blue-700: #002ab3;
-  --color-blue-600: #0037eb;
-  --color-blue-500: #295bff;
-  --color-blue-400: #527aff;
-  --color-blue-300: #809dff;
-  --color-blue-200: #a8bdff;
-  --color-blue-100: #d6e0ff;
-  --color-blue-50: #ebefff;
-  --color-blue-0: #ffffff;
+  /* Primärfarben */
+  --color-primary-0: #ffffff;
+  --color-primary-50: #e5ebff;
+  --color-primary-100: #ccd8ff;
+  --color-primary-200: #99b1ff;
+  --color-primary-300: #668aff;
+  --color-primary-400: #3363ff;
+  --color-primary-500: #003cff;
+  --color-primary-600: #0030cc;
+  --color-primary-700: #002499;
+  --color-primary-800: #001866;
+  --color-primary-900: #000c33;
+  --color-primary-950: #000619;
+  --color-primary-1000: #000000;
 
-  /* Greys */
-  --color-grey-1000: #10131a;
-  --color-grey-950: #1f222c;
-  --color-grey-900: #383a43;
-  --color-grey-800: #44474f;
-  --color-grey-700: #6a6b72;
-  --color-grey-600: #6a6b72;
-  --color-grey-500: #8f9095;
-  --color-grey-400: #afb0b4;
-  --color-grey-300: #c1c2c4;
-  --color-grey-200: #d5d5d7;
-  --color-grey-100: #e6e6e8;
-  --color-grey-50: #f8f8f8;
-  --color-grey-0: #ffffff;
+  /* Tertiärfarben */
+  --color-tertiary-0: #ffffff;
+  --color-tertiary-50: #f2f2f3;
+  --color-tertiary-100: #e5e5e6;
+  --color-tertiary-200: #cbcbcd;
+  --color-tertiary-300: #b0b1b5;
+  --color-tertiary-400: #96979c;
+  --color-tertiary-500: #7c7d83;
+  --color-tertiary-600: #636469;
+  --color-tertiary-700: #4a4b4f;
+  --color-tertiary-800: #323234;
+  --color-tertiary-900: #19191a;
+  --color-tertiary-950: #0c0d0d;
+  --color-tertiary-1000: #000000;
 
-  /* Oranges */
-  --color-orange-1000: #f97316;
-  --color-orange-900: #ea580c;
-  --color-orange-800: #f59e0b;
-  --color-orange-700: #fbbf24;
-  --color-orange-600: #f97316;
-  --color-orange-500: #f69b55;
-  --color-orange-400: #fbbf24;
-  --color-orange-300: #fbd38d;
-  --color-orange-200: #fcd34d;
-  --color-orange-100: #fef3c7;
-  --color-orange-50: #fef9c3;
-  --color-orange-0: #ffffff;
+  /* Sekundärfarben */
+  --color-secondary-0: #ffffff;
+  --color-secondary-50: #fff3e6;
+  --color-secondary-100: #ffe6cc;
+  --color-secondary-200: #ffce99;
+  --color-secondary-300: #feb567;
+  --color-secondary-400: #fe9c34;
+  --color-secondary-500: #fe8301;
+  --color-secondary-600: #cb6901;
+  --color-secondary-700: #984f01;
+  --color-secondary-800: #663500;
+  --color-secondary-900: #331a00;
+  --color-secondary-950: #190d00;
+  --color-secondary-1000: #000000;
 
-  /* Reds */
-  --color-red-1000: #ef4444;
-  --color-red-900: #dc2626;
-  --color-red-800: #b91c1c;
-  --color-red-700: #991b1b;
-  --color-red-600: #991b1b;
-  --color-red-500: #f87171;
-  --color-red-400: #fca5a5;
-  --color-red-300: #fcd9d9;
-  --color-red-200: #fca5a5;
-  --color-red-100: #fef2f2;
-  --color-red-50: #fef2f2;
-  --color-red-0: #ffffff;
+  /* Warnfarben */
+  --color-warning-0: #ffffff;
+  --color-warning-50: #fde8e8;
+  --color-warning-100: #fbd0d0;
+  --color-warning-200: #f7a1a1;
+  --color-warning-300: #f37272;
+  --color-warning-400: #ef4343;
+  --color-warning-500: #eb1414;
+  --color-warning-600: #bc1010;
+  --color-warning-700: #8d0c0c;
+  --color-warning-800: #5e0808;
+  --color-warning-900: #2f0404;
+  --color-warning-950: #170202;
+  --color-warning-1000: #000000;
 
-  /* Greens */
-  --color-green-1000: #16a34a;
-  --color-green-900: #15803d;
-  --color-green-800: #15803d;
-  --color-green-700: #1d6e4f;
-  --color-green-600: #1a9c41;
-  --color-green-500: #22c55e;
-  --color-green-400: #86efac;
-  --color-green-300: #6ee7b7;
-  --color-green-200: #34d399;
-  --color-green-100: #d1fae5;
-  --color-green-50: #a7f3d0;
-  --color-green-0: #ffffff;
+  /* Bestätigungsfarben */
+  --color-confirmation-0: #ffffff;
+  --color-confirmation-50: #e9fbf0;
+  --color-confirmation-100: #d4f7e1;
+  --color-confirmation-200: #a8f0c3;
+  --color-confirmation-300: #7de8a4;
+  --color-confirmation-400: #51e186;
+  --color-confirmation-500: #26d968;
+  --color-confirmation-600: #1eae53;
+  --color-confirmation-700: #17823e;
+  --color-confirmation-800: #0f572a;
+  --color-confirmation-900: #082b15;
+  --color-confirmation-950: #04160a;
+  --color-confirmation-1000: #000000;
+}
 
-  /* Text Colors */
-  --color-text: var(--color-grey-1000);
-  --color-text-medium: var(--color-grey-800);
-  --color-text-light: var(--color-grey-600);
-  --color-title: var(--color-blue-800);
+/* Light Theme */
+[data-theme='light'] {
+  /* Grundfarben */
+  --color-background: var(--color-tertiary-50);
+  --color-text: var(--color-tertiary-1000);
+  --color-title: var(--color-primary-800);
 
-  /* Header & Footer Colors */
-  --color-header: var(--color-blue-1000);
-  --color-header-text: var(--color-grey-0);
-  --color-modal-header: var(--color-blue-600);
+  /* Kopf- und Fußzeilenfarben */
+  --color-header: var(--color-primary-1000);
+  --color-header-text: var(--color-tertiary-0);
+  --color-modal-header: var(--color-primary-600);
 
-  /* Background Colors */
-  --color-background: var(--color-grey-50);
-  --color-form-background: var(--color-grey-0);
-  --color-modal-background: var(--color-grey-0);
+  /* Hintergrundfarben */
+  --color-form-background: var(--color-tertiary-0);
+  --color-modal-background: var(--color-tertiary-0);
   --color-input-background: var(--color-background);
   --color-review-card-background: var(--color-form-background);
-  --color-burger-menu-background: var(--color-blue-800);
-  --color-accordion-background: var(--color-blue-400);
-  --color-accordion-background-light: var(--color-blue-200);
+  --color-burger-menu-background: var(--color-primary-800);
+  --color-accordion-background: var(--color-primary-400);
+  --color-accordion-background-light: var(--color-primary-200);
 
-  /* Border Colors */
-  --color-border: var(--color-grey-200);
-  --color-border-light: var(--color-grey-100);
+  /* Rahmenfarben */
+  --color-border: var(--color-tertiary-200);
+  --color-border-light: var(--color-tertiary-100);
   --color-form-border: var(--color-border);
-  --color-input-border: var(--color-border);
-  --color-review-card-border: var(--color-border);
 
-  /* Modal Colors */
-  --color-modal: rgba(31, 41, 55, 0.75);
-  --color-modal-text: var(--color-grey-0);
+  /* Button-Farben */
+  --color-button-primary: var(--color-primary-800);
+  --color-button-primary-hover: var(--color-primary-600);
+  --color-button-secondary: var(--color-tertiary-800);
+  --color-button-secondary-hover: var(--color-tertiary-600);
+  --color-button-text: var(--color-tertiary-0);
 
-  /* Button Colors */
-  --color-button-primary: var(--color-blue-800);
-  --color-button-primary-hover: var(--color-blue-600);
-  --color-button-secondary: var(--color-grey-800);
-  --color-button-secondary-hover: var(--color-grey-600);
-  --color-button-text: var(--color-grey-0);
+  /* Aktionsbutton-Farben */
+  --color-button-review: var(--color-confirmation-1000);
+  --color-button-review-hover: var(--color-confirmation-800);
+  --color-button-demo-review: var(--color-secondary-1000);
+  --color-button-demo-review-hover: var(--color-secondary-800);
+  --color-button-warning: var(--color-warning-1000);
+  --color-button-warning-hover: var(--color-warning-800);
 
-  /* Action Button Colors */
-  --color-button-review: var(--color-green-1000);
-  --color-button-review-hover: var(--color-green-800);
-  --color-button-demo-review: var(--color-orange-1000);
-  --color-button-demo-review-hover: var(--color-orange-800);
-  --color-button-edit: var(--color-button-primary);
-  --color-button-edit-hover: var(--color-button-primary-hover);
-  --color-button-delete: var(--color-red-1000);
-  --color-button-delete-hover: var(--color-red-800);
-  --color-button-page-navigation: var(--color-blue-1000);
-  --color-button-page-navigation-hover: var(--color-blue-200);
-  --color-button-page-navigation-icon: var(--color-blue-1000);
-  --color-button-warning: var(--color-red-1000);
-  --color-button-warning-hover: var(--color-red-800);
-
-  /* Authentication Button Colors */
-  --color-button-login: var(--color-button-edit);
-  --color-button-login-hover: var(--color-button-edit-hover);
-  --color-button-register: var(--color-button-secondary);
-  --color-button-register-hover: var(--color-button-secondary-hover);
-  --color-button-logout: var(--color-button-warning);
-  --color-button-logout-hover: var(--color-button-warning-hover);
-  --color-button-ok: var(--color-button-review);
-  --color-button-ok-hover: var(--color-button-review-hover);
-  --color-button-cancel: var(--color-button-secondary);
-  --color-button-cancel-hover: var(--color-button-secondary-hover);
-  --color-button-forgot-password: var(--color-button-secondary);
-  --color-button-forgot-password-hover: var(--color-button-secondary-hover);
-  --color-button-demo-user: var(--color-button-secondary);
-  --color-button-demo-user-hover: var(--color-button-secondary-hover);
-
-  /* Warning Colors */
-  --color-check-warning: var(--color-red-400);
-  --color-check-ok: var(--color-green-400);
-
-  /* Star Colors */
-  --star-color: var(--color-orange-400);
-  --star-focus-color: var(--color-orange-600);
-  --star-empty-color: var(--color-grey-200);
+  /* Sternfarben */
+  --star-color: var(--color-secondary-400);
+  --star-focus-color: var(--color-secondary-600);
+  --star-empty-color: var(--color-tertiary-200);
 }
 
-/* Light Theme Colors */
-[data-theme='light'] {
-  /* Reference Base Colors */
-  --color-background: var(--color-grey-50);
-  --color-text: var(--color-grey-1000);
-  --color-header: var(--color-blue-1000);
-  --color-modal-header: var(--color-blue-600);
-  --color-button-primary: var(--color-blue-800);
-  --color-button-primary-hover: var(--color-blue-600);
-  --color-button-secondary: var(--color-grey-800);
-  --color-button-secondary-hover: var(--color-grey-600);
-  --color-button-review: var(--color-green-1000);
-  --color-button-review-hover: var(--color-green-800);
-  --color-button-demo-review: var(--color-orange-1000);
-  --color-button-demo-review-hover: var(--color-orange-800);
-}
-
-/* Dark Theme Colors */
+/* Dark Theme */
 [data-theme='dark'] {
-  /* Reference Base Colors */
-  --color-background: var(--color-grey-900);
-  --color-text: var(--color-grey-50);
-  --color-header: var(--color-blue-200);
-  --color-modal-header: var(--color-blue-400);
-  --color-button-primary: var(--color-blue-400);
-  --color-button-primary-hover: var(--color-blue-200);
-  --color-button-secondary: var(--color-grey-600);
-  --color-button-secondary-hover: var(--color-grey-400);
-  --color-button-review: var(--color-green-800);
-  --color-button-review-hover: var(--color-green-600);
-  --color-button-demo-review: var(--color-orange-600);
-  --color-button-demo-review-hover: var(--color-orange-400);
+  /* Grundfarben */
+  --color-background: var(--color-tertiary-900);
+  --color-text: var(--color-tertiary-50);
+  --color-title: var(--color-primary-200);
+
+  /* Kopf- und Fußzeilenfarben */
+  --color-header: var(--color-primary-800);
+  --color-header-text: var(--color-tertiary-0);
+  --color-modal-header: var(--color-primary-400);
+
+  /* Hintergrundfarben */
+  --color-form-background: var(--color-tertiary-900);
+  --color-modal-background: var(--color-tertiary-800);
+  --color-input-background: var(--color-tertiary-700);
+  --color-review-card-background: var(--color-tertiary-800);
+  --color-burger-menu-background: var(--color-primary-800);
+  --color-accordion-background: var(--color-primary-400);
+  --color-accordion-background-light: var(--color-primary-200);
+
+  /* Rahmenfarben */
+  --color-border: var(--color-tertiary-600);
+  --color-border-light: var(--color-tertiary-400);
+  --color-form-border: var(--color-border);
+
+  /* Button-Farben */
+  --color-button-primary: var(--color-primary-400);
+  --color-button-primary-hover: var(--color-primary-200);
+  --color-button-secondary: var(--color-tertiary-400);
+  --color-button-secondary-hover: var(--color-tertiary-200);
+  --color-button-text: var(--color-tertiary-0);
+
+  /* Aktionsbutton-Farben */
+  --color-button-review: var(--color-confirmation-400);
+  --color-button-review-hover: var(--color-confirmation-200);
+  --color-button-demo-review: var(--color-secondary-400);
+  --color-button-demo-review-hover: var(--color-secondary-200);
+  --color-button-warning: var(--color-warning-400);
+  --color-button-warning-hover: var(--color-warning-200);
+
+  /* Sternfarben */
+  --star-color: var(--color-secondary-400);
+  --star-focus-color: var(--color-secondary-600);
+  --star-empty-color: var(--color-tertiary-600);
 }
 
 body {
