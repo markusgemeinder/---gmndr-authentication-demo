@@ -102,19 +102,25 @@ export const InfoImageWrapper = styled.div`
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  width: 90%;
+  width: 90vw;
   height: auto;
-  max-width: 90vw;
   max-height: 90vh;
   border-radius: 8px;
   box-shadow: 0 0 8px rgba(0, 0, 0, 0.5);
   z-index: 1000;
+  overflow: hidden;
+
+  @media (max-width: 768px) and (orientation: landscape) {
+    max-height: 86vh;
+  }
 `;
 
 export const InfoImageFullSize = styled(Image)`
-  max-width: 90vw;
-  max-height: 90vh;
+  width: 100%;
+  height: auto;
   object-fit: contain;
+  max-width: 100%;
+  max-height: 100%;
 `;
 
 export const Overlay = styled.div`
