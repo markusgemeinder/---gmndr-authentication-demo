@@ -64,7 +64,11 @@ export default function InfoNeueFische() {
       </InfoImageContainer>
       {isImageExpanded && (
         <>
-          <Overlay onClick={handleCloseImage} role='button' aria-label='Close expanded image' />
+          <Overlay
+            onClick={handleCloseImage}
+            role='button'
+            aria-label={getText('info_neue_fische', 'aria_label_close_expanded_image', language)}
+          />
           <InfoImageWrapper>
             <InfoImageFullSize
               src={expandedImageSrc}
