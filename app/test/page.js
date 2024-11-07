@@ -2,8 +2,8 @@
 
 import { useState } from 'react';
 
+// Funktion zur Umwandlung von Hex in RGB
 function hexToRgb(hex) {
-  // Falls der Hex-Wert 3-stellig ist, erweitere ihn auf 6-stellig
   if (hex.length === 4) {
     hex = `#${hex[1]}${hex[1]}${hex[2]}${hex[2]}${hex[3]}${hex[3]}`;
   }
@@ -18,33 +18,99 @@ function hexToRgb(hex) {
     b = parseInt(hex[5] + hex[6], 16);
   }
 
-  return [r, g, b]; // RGB-Werte zurück
+  return [r, g, b];
 }
 
-function rgbToHex(r, g, b) {
-  // Konvertiert RGB zu Hex
+// Funktion zur Umwandlung von RGB in HSL
+function rgbToHsl(r, g, b) {
+  r /= 255;
+  g /= 255;
+  b /= 255;
+
+  let max = Math.max(r, g, b);
+  let min = Math.min(r, g, b);
+  let h,
+    s,
+    l = (max + min) / 2;
+
+  if (max === min) {
+    h = s = 0; // Achse bei grau
+  } else {
+    let d = max - min;
+    s = l > 0.5 ? d / (2 - max - min) : d / (max + min);
+    switch (max) {
+      case r:
+        h = (g - b) / d + (g < b ? 6 : 0);
+        break;
+      case g:
+        h = (b - r) / d + 2;
+        break;
+      case b:
+        h = (r - g) / d + 4;
+        break;
+    }
+    h /= 6;
+  }
+
+  return [h * 360, s * 100, l * 100];
+}
+
+// Funktion zur Umwandlung von HSL in Hex
+function hslToHex(h, s, l) {
+  s /= 100;
+  l /= 100;
+  let c = (1 - Math.abs(2 * l - 1)) * s;
+  let x = c * (1 - Math.abs(((h / 60) % 2) - 1));
+  let m = l - c / 2;
+
+  let r, g, b;
+  if (h >= 0 && h < 60) {
+    r = c;
+    g = x;
+    b = 0;
+  } else if (h >= 60 && h < 120) {
+    r = x;
+    g = c;
+    b = 0;
+  } else if (h >= 120 && h < 180) {
+    r = 0;
+    g = c;
+    b = x;
+  } else if (h >= 180 && h < 240) {
+    r = 0;
+    g = x;
+    b = c;
+  } else if (h >= 240 && h < 300) {
+    r = x;
+    g = 0;
+    b = c;
+  } else {
+    r = c;
+    g = 0;
+    b = x;
+  }
+
+  r = Math.round((r + m) * 255);
+  g = Math.round((g + m) * 255);
+  b = Math.round((b + m) * 255);
+
   return `#${((1 << 24) | (r << 16) | (g << 8) | b).toString(16).slice(1).toUpperCase()}`;
 }
 
+// Funktion zur Generierung der Farbpalette
 function generatePalette(hex, name) {
   const [r, g, b] = hexToRgb(hex);
+  const [h, s, l] = rgbToHsl(r, g, b);
   const palette = {};
 
-  // Funktion zum Erstellen der RGB-Werte mit angepasster Helligkeit
+  // Funktion zur Anpassung der Lightness
   const adjustLightness = (lightnessPercent) => {
-    const scale = lightnessPercent / 100;
-
-    // Berechnung der neuen RGB-Werte, indem der Farbton (RGB) mit dem Lightness-Faktor multipliziert wird
-    const newR = Math.round(r * scale);
-    const newG = Math.round(g * scale);
-    const newB = Math.round(b * scale);
-
-    return rgbToHex(newR, newG, newB);
+    return hslToHex(h, s, lightnessPercent);
   };
 
-  // Farbpalette mit verschiedenen Helligkeitswerten (Lightness von 100% bis 0%)
-  for (let i = 0; i <= 1000; i += 50) {
-    const lightnessPercent = 100 - i / 10; // Umwandlung von 0-1000 auf 100%-0% Lightness
+  // Farbpalette in absteigender Reihenfolge von L = 0% bis L = 100%
+  for (let i = 1000; i >= 0; i -= 50) {
+    const lightnessPercent = 100 - i / 10; // L startet bei 100% und geht runter bis 0%
     palette[`--color-${name}-${i}`] = adjustLightness(lightnessPercent);
   }
 
