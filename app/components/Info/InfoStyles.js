@@ -102,7 +102,6 @@ export const InfoImageWrapper = styled.div`
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  width: 90vw;
   height: auto;
   max-height: 90vh;
   border-radius: 8px;
@@ -111,7 +110,13 @@ export const InfoImageWrapper = styled.div`
   overflow: hidden;
 
   @media (max-width: 768px) and (orientation: landscape) {
+    width: 68vw;
     max-height: 86vh;
+  }
+
+  @media (max-width: 768px) and (orientation: portrait) {
+    width: 90vw;
+    max-height: 90vh;
   }
 `;
 
