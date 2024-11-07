@@ -61,6 +61,7 @@ const AccordionIcon = ({ isOpen }) => (
 );
 
 const AccordionTitle = styled.h3`
+  font-size: 1rem;
   font-weight: 500;
 `;
 

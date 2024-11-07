@@ -50,6 +50,7 @@ const AuthButtonSvg = styled.svg`
 `;
 
 const ButtonText = styled.span`
+  color: var(--color-button-text);
   font-weight: 500;
   display: block;
 

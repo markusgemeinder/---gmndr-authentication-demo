@@ -12,12 +12,10 @@ import { getText } from '@/lib/languageLibrary';
 
 const StatusContainer = styled.div`
   margin-bottom: 0.4rem;
-  font-size: 0.875rem;
   color: var(--color-text-light);
 `;
 
 const SessionStatusText = styled(Paragraph)`
-  /* font-size: 0.9rem; */
   margin: 0.2rem;
   color: var(--color-text-medium);
 `;
