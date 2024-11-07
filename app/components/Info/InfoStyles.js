@@ -103,11 +103,17 @@ export const InfoImageWrapper = styled.div`
   left: 50%;
   transform: translate(-50%, -50%);
   height: auto;
+  width: 90vw;
   max-height: 90vh;
   border-radius: 8px;
   box-shadow: 0 0 8px rgba(0, 0, 0, 0.5);
   z-index: 1000;
   overflow: hidden;
+
+  @media (min-width: 768px) and (min-height: 768px) {
+    width: 68vw;
+    max-height: 90vh;
+  }
 
   @media (max-width: 768px) and (orientation: landscape) {
     width: 68vw;
