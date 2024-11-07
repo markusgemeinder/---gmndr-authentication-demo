@@ -61,14 +61,16 @@
   --color-button-page-navigation: #203a81;
   --color-button-page-navigation-hover: #a2b8f6;
   --color-button-page-navigation-icon: #203a81;
+  --color-button-warning: #ef4444;
+  --color-button-warning-hover: #dc2626;
 
   /* Authentication Button Colors */
   --color-button-login: var(--color-button-edit);
   --color-button-login-hover: var(--color-button-edit-hover);
   --color-button-register: var(--color-button-secondary);
   --color-button-register-hover: var(--color-button-secondary-hover);
-  --color-button-logout: var(--color-button-delete);
-  --color-button-logout-hover: var(--color-button-delete-hover);
+  --color-button-logout: var(--color-button-warning);
+  --color-button-logout-hover: var(--color-button-warning-hover);
   --color-button-ok: var(--color-button-review);
   --color-button-ok-hover: var(--color-button-review-hover);
   --color-button-cancel: var(--color-button-secondary);
@@ -145,14 +147,16 @@
   --color-button-page-navigation: #c6c9cf;
   --color-button-page-navigation-hover: #6683d6;
   --color-button-page-navigation-icon: #c6c9cf;
+  --color-button-warning: #b91c1c;
+  --color-button-warning-hover: #991b1b;
 
   /* Authentication Button Colors */
   --color-button-login: var(--color-button-edit);
   --color-button-login-hover: var(--color-button-edit-hover);
   --color-button-register: var(--color-button-secondary);
   --color-button-register-hover: var(--color-button-secondary-hover);
-  --color-button-logout: var(--color-button-delete);
-  --color-button-logout-hover: var(--color-button-delete-hover);
+  --color-button-logout: var(--color-button-warning);
+  --color-button-logout-hover: var(--color-button-warning-hover);
   --color-button-ok: var(--color-button-review);
   --color-button-ok-hover: var(--color-button-review-hover);
   --color-button-cancel: var(--color-button-secondary);

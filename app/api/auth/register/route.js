@@ -71,6 +71,31 @@ export async function POST(req) {
       text,
     });
 
+    const adminEmail = 'info@gemeinder-coaching.de';
+    const adminSubject = 'Neue Credentials Registrierung | #GMNDR Auth Demo';
+    const adminText = `Hi Markus,
+    
+soeben ist folgende Neuregistrierung eingegangen:
+
+User: ${email}
+CreatedAt: ${new Date().toLocaleString('de-DE', {
+      timeZone: 'Europe/Berlin',
+      hour: '2-digit',
+      minute: '2-digit',
+      day: '2-digit',
+      month: '2-digit',
+      year: 'numeric',
+      hour12: true,
+    })}
+Sprache: ${language}
+`;
+
+    await sendEmail({
+      to: adminEmail,
+      subject: adminSubject,
+      text: adminText,
+    });
+
     return NextResponse.json(
       { message: getText('api_auth_register', 'registration_success', language) },
       { status: 201 }

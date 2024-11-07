@@ -23,11 +23,11 @@ export default function VerifyEmailPage({ params }) {
   const router = useRouter();
   const { language } = useContext(LanguageContext);
 
-  useEffect(() => {
-    if (params.token) {
-      handleSubmit(params.token);
-    }
-  }, [params.token]);
+  // useEffect(() => {
+  //   if (params.token) {
+  //     handleSubmit(params.token);
+  //   }
+  // }, [params.token]);
 
   async function handleSubmit(token) {
     try {
@@ -159,8 +159,8 @@ export default function VerifyEmailPage({ params }) {
             <ButtonContainerHorizontal>
               <Button
                 onClick={handleResendVerification}
-                bgColor='var(--color-button-login)'
-                hoverColor='var(--color-button-login-hover)'>
+                bgColor='var(--color-button-warning)'
+                hoverColor='var(--color-button-warning-hover)'>
                 {getText('auth_verify_email_token', 'button_resend_verification', language)}
               </Button>
             </ButtonContainerHorizontal>

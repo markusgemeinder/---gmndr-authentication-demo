@@ -86,7 +86,6 @@ export const getPasswordResetEmailText = (token, language) => {
   const disregardMessage = getText('utils_email_template', 'disregard_message', language);
   const closingRemark = getText('utils_email_template', 'closing_remark', language);
 
-  // Fertiger Text
   const emailText = `${greeting},${lineBreak}${resetMessage}${lineBreak}${resetUrl}${lineBreak}${expiryLinkMessage} ${formatExpiryTime(
     expiryTime
   )}.${lineBreak}${disregardMessage}${lineBreak}${closingRemark}`;
