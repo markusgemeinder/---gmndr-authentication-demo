@@ -48,8 +48,6 @@ ol {
 
 /* Grundfarben für beide Themes */
 :root {
-  --color-white: #ffffff;
-
   /* Farbvariablen für Primärfarbe */
   --color-blue-0: #ffffff;
   --color-blue-50: #e5ebff;
@@ -128,63 +126,77 @@ ol {
 
 /* Light Theme */
 [data-theme='light'] {
-  /* Header und Navigation */
-  --color-header-background: var(--color-blue-500);
-  --color-header-text: var(--color-white);
+  /* Grundfarben */
+  --color-background: var(--color-grey-50);
+  --color-text: var(--color-grey-1000);
+  --color-title: var(--color-blue-700);
 
-  /* Formulare */
+  /* Header */
+  --color-header: var(--color-blue-700);
+  --color-header-text: var(--color-blue-0);
+  --color-modal-header: var(--color-blue-800);
+
+  /* Formulare und Eingabefelder */
   --color-form-background: var(--color-grey-0);
   --color-input-background: var(--color-grey-50);
-  --color-form-border: var(--color-grey-300);
+  --color-form-border: var(--color-grey-200);
 
-  /* Modals */
-  --color-modal-background: rgba(0, 0, 0, 0.2);
-  --color-modal-text: var(--color-grey-0);
+  /* Modale Fenster */
+  --color-modal-background: var(--color-grey-);
+
+  /* Zusatz-Elemente */
+  --color-review-card-background: var(--color-form-background);
+  --color-burger-menu-background: rgba(0, 24, 102, 0.9);
+  --color-accordion-background: var(--color-red-700);
+  --color-accordion-background-light: var(--color-blue-600);
+  --color-border: var(--color-grey-200);
+  --color-border-light: var(--color-grey-100);
+
+  /* Textfarben */
+  --color-text-medium: var(--color-grey-500);
+  --color-text-light: var(--color-grey-400);
+
+  /* Links */
+  --color-link: var(--color-blue-200);
+  --color-link-hover: var(--color-blue-400);
 
   /* Buttons */
-  --color-button-text: var(--color-white);
-
-  --color-button-primary: var(--color-blue-500);
+  --color-button-primary: var(--color-blue-800);
   --color-button-primary-hover: var(--color-blue-600);
-  --color-button-secondary: var(--color-grey-500);
-  --color-button-secondary-hover: var(--color-grey-400);
-
+  --color-button-secondary: var(--color-grey-800);
+  --color-button-secondary-hover: var(--color-grey-600);
+  --color-button-text: var(--color-grey-0);
+  --color-button-review: var(--color-green-1000);
+  --color-button-review-hover: var(--color-green-800);
+  --color-button-demo-review: var(--color-orange-1000);
+  --color-button-demo-review-hover: var(--color-orange-800);
+  --color-button-warning: var(--color-red-1000);
+  --color-button-warning-hover: var(--color-red-800);
+  --color-button-edit: var(--color-blue-800);
+  --color-button-edit-hover: var(--color-blue-600);
   --color-button-delete: var(--color-red-500);
-  --color-button-delete-hover: var(--color-red-400);
-  --color-button-edit: var(--color-blue-600);
-  --color-button-edit-hover: var(--color-blue-500);
-  --color-button-forgot-password: var(--color-orange-500);
-  --color-button-forgot-password-hover: var(--color-orange-400);
-  --color-button-login: var(--color-blue-500);
-  --color-button-login-hover: var(--color-blue-600);
-  --color-button-logout: var(--color-red-500);
-  --color-button-logout-hover: var(--color-red-600);
-  --color-button-register: var(--color-blue-400);
-  --color-button-register-hover: var(--color-blue-600);
-  --color-button-demo-review: var(--color-orange-500);
-  --color-button-demo-review-hover: var(--color-orange-400);
-  --color-button-review: var(--color-green-500);
-  --color-button-review-hover: var(--color-green-400);
-  --color-button-warning: var(--color-red-500);
-  --color-button-warning-hover: var(--color-red-400);
+  --color-button-delete-hover: var(--color-red-700);
+  --color-button-page-navigation: var(--color-blue-600);
+  --color-button-page-navigation-hover: var(--color-blue-400);
+  --color-button-page-navigation-icon: var(--color-blue-600);
 
-  --color-button-page-navigation: var(--color-blue-400);
-  --color-button-page-navigation-hover: var(--color-blue-500);
+  /* Warnungen & Bestätigungen */
+  --color-check-warning: var(--color-red-400);
+  --color-check-ok: var(--color-green-600);
 
   /* Sterne-Bewertung */
   --star-color: var(--color-orange-300);
   --star-focus-color: var(--color-orange-400);
   --star-empty-color: var(--color-grey-200);
 
-  /* Warnungen & Bestätigungen */
-  --color-check-warning: var(--color-red-400);
-  --color-check-ok: var(--color-green-600);
-
-  /* Weitere Farben */
-  --color-link: var(--color-blue-400);
-  --color-link-hover: var(--color-blue-500);
-  --color-border: var(--color-grey-400);
-  --color-border-light: var(--color-grey-50);
+  --color-modal: rgba(0, 0, 0, 0.2);
+  --color-modal-text: var(--color-grey-0);
+  --color-button-login: var(--color-blue-500);
+  --color-button-logout: var(--color-red-500);
+  --color-button-register: var(--color-blue-400);
+  --color-button-register-hover: var(--color-blue-600);
+  --color-button-forgot-password: var(--color-orange-500);
+  --color-button-forgot-password-hover: var(--color-orange-400);
 }
 
 /* Dark Theme */
@@ -288,51 +300,3 @@ body {
 .blinking-text {
   animation: blink 1s infinite;
 }
-
---color-accordion-background: var(--NEU);
---color-accordion-background-light: var(--NEU);
---color-background: var(--NEU);
---color-border: var(--NEU);
---color-border-light: var(--NEU);
---color-button-delete: var(--NEU);
---color-button-delete-hover: var(--NEU);
---color-button-edit: var(--NEU);
---color-button-edit-hover: var(--NEU);
---color-button-login: var(--NEU);
---color-button-login-hover: var(--NEU);
---color-button-page-navigation: var(--NEU);
---color-button-page-navigation-hover: var(--NEU);
---color-button-page-navigation-icon: var(--NEU);
---color-button-primary: var(--NEU);
---color-button-primary-hover: var(--NEU);
---color-button-register: var(--NEU);
---color-button-register-hover: var(--NEU);
---color-button-review: var(--NEU);
---color-button-review-hover: var(--NEU);
---color-button-secondary: var(--NEU);
---color-button-secondary-hover: var(--NEU);
---color-button-text: var(--NEU);
---color-button-warning: var(--NEU);
---color-button-warning-hover: var(--NEU);
---color-check-ok: var(--NEU);
---color-check-warning: var(--NEU);
---color-form-background: var(--NEU);
---color-input-background: var(--NEU);
---color-link: var(--NEU);
---color-link-hover: var(--NEU);
---color-modal: var(--NEU);
---color-modal-background: var(--NEU);
---color-modal-header: var(--NEU);
---color-modal-text: var(--NEU);
---color-text: var(--NEU);
---color-text-light: var(--NEU);
---color-text-medium: var(--NEU);
---color-title: var(--NEU);
---color-review-card-background: var(--NEU);
---color-star-color: var(--NEU);
---color-star-empty-color: var(--NEU);
---color-star-focus-color: var(--NEU);
---color-header: var(--NEU);
---color-header-text: var(--NEU);
---color-burger-menu-background: var(--NEU);
---color-modal-header: var(--NEU);
