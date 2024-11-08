@@ -1,3 +1,5 @@
+// /app/components/Color/ColorPaletteGenerator.js
+
 'use client';
 
 import { useState } from 'react';
@@ -10,7 +12,7 @@ const Wrapper = styled.div`
   flex-direction: column;
   align-items: center;
   margin: 4rem auto;
-  padding: 1.4rem 1.2rem;
+  padding: 1.4rem 1.8rem;
   width: 96%;
   max-width: 600px;
   background-color: #f4f4f9;
@@ -24,7 +26,6 @@ const Wrapper = styled.div`
 `;
 
 const Title = styled.h2`
-  /* font-size: 1.8rem; */
   font-weight: bold;
   color: #333;
   text-align: center;
@@ -45,13 +46,38 @@ const Label = styled.label`
   color: #555;
 `;
 
-const Input = styled.input`
+const ColorPickerWrapper = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.6rem;
+`;
+
+const ColorPicker = styled.input`
+  type: 'color';
+  border: 2px solid #ddd;
+  border-radius: 8px;
+  width: 5rem;
+  height: 3rem;
+  padding: 0.2rem;
+  cursor: pointer;
+  background-color: #fff;
+
+  &:focus {
+    outline: none;
+    border-color: #4caf50;
+  }
+`;
+
+const TextInput = styled.input`
   padding: 0.75rem;
   font-size: 1rem;
   border-radius: 8px;
   border: 1px solid #ddd;
   background-color: #fff;
   color: #333;
+  flex-grow: 1;
+  width: 100%;
 `;
 
 const Select = styled.select`
@@ -257,24 +283,25 @@ function generatePalette(hex, name) {
   return palette;
 }
 
+// Hauptkomponente
 export default function ColorPaletteGenerator() {
-  const [hex, setHex] = useState('');
-  const [paletteName, setPaletteName] = useState('');
+  const [hex, setHex] = useState('#ff00ff');
+  const [paletteName, setPaletteName] = useState('test');
   const [generatedPalette, setGeneratedPalette] = useState(null);
-  const [isCopied, setIsCopied] = useState(false);
   const [sortOrder, setSortOrder] = useState('asc');
-  const [checkedValues, setCheckedValues] = useState([0, 50, 100, 200, 300, 400, 500, 600, 700, 800, 900, 950, 1000]);
+  const [checkedValues, setCheckedValues] = useState([50, 100, 200, 300, 400, 500, 600, 700, 800, 900, 950]);
+  const [isCopied, setIsCopied] = useState(false);
 
-  const handleHexChange = (e) => setHex(e.target.value);
-  const handlePaletteNameChange = (e) => setPaletteName(e.target.value);
-  const handleSortOrderChange = (e) => setSortOrder(e.target.value);
+  const handleHexChange = (e) => {
+    setHex(e.target.value);
+  };
 
-  const handleCheckboxChange = (value) => {
-    setCheckedValues((prev) => (prev.includes(value) ? prev.filter((v) => v !== value) : [...prev, value]));
+  const handleColorPickerChange = (e) => {
+    setHex(e.target.value);
   };
 
   const handleGeneratePalette = () => {
-    const formattedHex = hex.startsWith('#') ? hex : `#${hex}`;
+    const formattedHex = hex;
     const formattedName = paletteName.toLowerCase().replace(/[^a-z0-9-]/g, '-');
     const palette = generatePalette(formattedHex, formattedName);
 
@@ -305,15 +332,23 @@ export default function ColorPaletteGenerator() {
       <Title>Color Palette Generator</Title>
       <InputGroup>
         <Label>Farbwert (Hex):</Label>
-        <Input type='text' value={hex} onChange={handleHexChange} placeholder='#' />
+        <ColorPickerWrapper>
+          <ColorPicker type='color' value={hex} onChange={handleColorPickerChange} />
+          <TextInput type='text' value={hex} onChange={handleHexChange} placeholder='#' />
+        </ColorPickerWrapper>
       </InputGroup>
       <InputGroup>
         <Label>Palettenname:</Label>
-        <Input type='text' value={paletteName} onChange={handlePaletteNameChange} placeholder='name' />
+        <TextInput
+          type='text'
+          value={paletteName}
+          onChange={(e) => setPaletteName(e.target.value)}
+          placeholder='name'
+        />
       </InputGroup>
       <InputGroup>
         <Label>Sortierung:</Label>
-        <Select value={sortOrder} onChange={handleSortOrderChange}>
+        <Select value={sortOrder} onChange={(e) => setSortOrder(e.target.value)}>
           <option value='asc'>0 ... 1000</option>
           <option value='desc'>1000 ... 0</option>
         </Select>
@@ -327,7 +362,11 @@ export default function ColorPaletteGenerator() {
                 <input
                   type='checkbox'
                   checked={checkedValues.includes(value)}
-                  onChange={() => handleCheckboxChange(value)}
+                  onChange={() =>
+                    setCheckedValues((prev) =>
+                      prev.includes(value) ? prev.filter((v) => v !== value) : [...prev, value]
+                    )
+                  }
                 />{' '}
                 {value}
               </CheckboxLabel>
