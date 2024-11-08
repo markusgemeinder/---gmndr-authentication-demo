@@ -1,174 +1,25 @@
-// /app/components/Color/ColorPaletteGenerator.js
+// /app/components/Color/MonochromePaletteGenerator.js
 
 'use client';
 
 import { useState } from 'react';
-import styled from 'styled-components';
+import {
+  Wrapper,
+  Title,
+  InputGroup,
+  Label,
+  ColorPickerWrapper,
+  ColorPicker,
+  TextInput,
+  Select,
+  CheckboxGroup,
+  CheckboxLabel,
+  Button,
+  PaletteWrapper,
+  CopyButton,
+  PaletteOutput,
+} from '@/app/components/Color/PaletteGeneratorStyles';
 import { FaCopy } from 'react-icons/fa';
-
-// Styled Components für das Layout
-const Wrapper = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  margin: 4rem auto;
-  padding: 1.4rem 1.8rem;
-  width: 96%;
-  max-width: 600px;
-  background-color: #f4f4f9;
-  border-radius: 8px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-
-  @media (min-width: 768px) and (min-height: 768px) {
-    width: 84%;
-    max-width: 30rem;
-  }
-`;
-
-const Title = styled.h2`
-  font-weight: bold;
-  color: #333;
-  text-align: center;
-  margin-bottom: 0.8rem;
-`;
-
-const InputGroup = styled.div`
-  margin: 0.5rem 0;
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-`;
-
-const Label = styled.label`
-  font-size: 1rem;
-  font-weight: 600;
-  margin-bottom: 0.5rem;
-  color: #555;
-`;
-
-const ColorPickerWrapper = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 0.6rem;
-`;
-
-const ColorPicker = styled.input`
-  type: 'color';
-  border: 2px solid #ddd;
-  border-radius: 8px;
-  width: 5rem;
-  height: 3rem;
-  padding: 0.2rem;
-  cursor: pointer;
-  background-color: #fff;
-
-  &:focus {
-    outline: none;
-    border-color: #4caf50;
-  }
-`;
-
-const TextInput = styled.input`
-  padding: 0.75rem;
-  font-size: 1rem;
-  border-radius: 8px;
-  border: 1px solid #ddd;
-  background-color: #fff;
-  color: #333;
-  flex-grow: 1;
-  width: 100%;
-`;
-
-const Select = styled.select`
-  padding: 0.5rem;
-  font-size: 1rem;
-  border-radius: 8px;
-  border: 1px solid #ddd;
-  background-color: #fff;
-  color: #333;
-  margin-top: 0.5rem;
-`;
-
-const CheckboxGroup = styled.div`
-  display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
-  margin-top: 0.5rem;
-
-  & > label {
-    padding-left: 0.5rem;
-    border-right: 1px solid #ddd;
-
-    &:nth-child(3n) {
-      border-right: none;
-    }
-  }
-`;
-
-const CheckboxLabel = styled.label`
-  font-size: 0.9rem;
-  color: #555;
-`;
-
-const Button = styled.button`
-  padding: 0.75rem 1.5rem;
-  background-color: #4caf50;
-  color: white;
-  font-weight: 600;
-  border: none;
-  border-radius: 8px;
-  cursor: pointer;
-  margin-top: 1.2rem;
-
-  &:hover {
-    background-color: #45a049;
-  }
-
-  &:active {
-    background-color: #388e3c;
-  }
-`;
-
-const PaletteWrapper = styled.div`
-  width: 100%;
-  margin-top: 2rem;
-  padding: 1rem;
-  border-radius: 8px;
-  background-color: #f0f5f9;
-  border: 1px solid #ddd;
-  position: relative;
-`;
-
-const CopyButton = styled.button`
-  position: absolute;
-  top: 10px;
-  right: 10px;
-  background-color: #5a5a5a; /* Grauton */
-  color: white;
-  font-weight: 600;
-  border: none;
-  border-radius: 8px;
-  cursor: pointer;
-  padding: 0.5rem 1rem;
-  width: 7.6rem;
-  height: 2.4rem;
-
-  &:hover {
-    background-color: #757575; /* Etwas dunklerer Grauton */
-  }
-
-  &:active {
-    background-color: #616161; /* Noch dunkler beim Klicken */
-  }
-`;
-
-const PaletteOutput = styled.pre`
-  font-family: monospace;
-  color: #333;
-  white-space: pre-wrap;
-  word-wrap: break-word;
-  margin-top: 3rem;
-`;
 
 // Funktion zur Umwandlung von Hex in RGB
 function hexToRgb(hex) {
@@ -266,7 +117,7 @@ function hslToHex(h, s, l) {
 }
 
 // Funktion zur Generierung der Farbpalette
-function generatePalette(hex, name) {
+function generateMonochromePalette(hex, name) {
   const [r, g, b] = hexToRgb(hex);
   const [h, s, l] = rgbToHsl(r, g, b);
   const palette = {};
@@ -303,7 +154,7 @@ export default function ColorPaletteGenerator() {
   const handleGeneratePalette = () => {
     const formattedHex = hex;
     const formattedName = paletteName.toLowerCase().replace(/[^a-z0-9-]/g, '-');
-    const palette = generatePalette(formattedHex, formattedName);
+    const palette = generateMonochromePalette(formattedHex, formattedName);
 
     const filteredPalette = Object.entries(palette)
       .filter(([key]) => checkedValues.includes(parseInt(key.split('-').pop())))
@@ -329,7 +180,7 @@ export default function ColorPaletteGenerator() {
 
   return (
     <Wrapper>
-      <Title>Color Palette Generator</Title>
+      <Title>Monochrome Palette Generator</Title>
       <InputGroup>
         <Label>Farbwert (Hex):</Label>
         <ColorPickerWrapper>

@@ -5,14 +5,14 @@
 import { Container, Title } from '@/app/components/Common/CommonStyles';
 import ScrollToTop from '@/app/components/Common/ScrollToTop';
 
-import ColorPaletteGenerator from '@/app/components/Color/ColorPaletteGenerator';
+import MonochromePaletteGenerator from '@/app/components/Color/MonochromePaletteGenerator';
 
 export default function TestPage() {
   return (
     <Container>
       <ScrollToTop />
       <Title>Test</Title>
-      <ColorPaletteGenerator />
+      <MonochromePaletteGenerator />
     </Container>
   );
 }
