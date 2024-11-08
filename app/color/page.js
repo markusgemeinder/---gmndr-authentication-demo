@@ -7,11 +7,11 @@ import ScrollToTop from '@/app/components/Common/ScrollToTop';
 
 import MonochromePaletteGenerator from '@/app/components/Color/MonochromePaletteGenerator';
 
-export default function TestPage() {
+export default function ColoringPage() {
   return (
     <Container>
       <ScrollToTop />
-      <Title>Test</Title>
+      <Title>Color Variables</Title>
       <MonochromePaletteGenerator />
     </Container>
   );
