@@ -169,3 +169,62 @@ export const PaletteOutput = styled.pre`
 export const Spacer = styled.div`
   height: 0.4rem;
 `;
+
+export const ColorTileWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.8rem; /* Abstand zwischen den Elementen */
+  width: 100%;
+`;
+
+export const ColorPreview = styled.div`
+  width: 40px;
+  height: 40px;
+  border-radius: 4px;
+  background-color: ${(props) => props.bgColor || '#fff'};
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+`;
+
+export const StyledSlider = styled.input`
+  width: 100%;
+  height: 12px;
+  border-radius: 6px;
+  background: ${(props) => `linear-gradient(to right, ${props.endColor}, ${props.startColor})`};
+  appearance: none;
+  outline: none;
+  transition: background-color 0.3s ease;
+
+  &:focus {
+    background: ${(props) => `linear-gradient(to right, ${props.endColor}, ${props.startColor})`};
+  }
+
+  &::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: ${(props) => props.thumbColor || '#fff'};
+    border: 2px solid ${(props) => props.thumbBorderColor || '#333'};
+    cursor: pointer;
+  }
+
+  &::-moz-range-thumb {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: ${(props) => props.thumbColor || '#fff'};
+    border: 2px solid ${(props) => props.thumbBorderColor || '#333'};
+    cursor: pointer;
+  }
+`;
+
+export const SliderText = styled.div`
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.8rem;
+  font-weight: bold;
+  color: #777;
+`;

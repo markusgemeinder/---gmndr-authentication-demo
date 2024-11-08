@@ -18,6 +18,10 @@ import {
   PaletteWrapper,
   CopyButton,
   PaletteOutput,
+  ColorTileWrapper,
+  ColorPreview,
+  StyledSlider,
+  SliderText,
 } from '@/app/components/Color/PaletteGeneratorStyles';
 import { FaCopy } from 'react-icons/fa';
 
@@ -145,6 +149,13 @@ function generateMonochromePalette(hex, name, leftLimit, rightLimit) {
   return palette;
 }
 
+// Neue Funktion, um die Farbe basierend auf dem Helligkeitswert zu berechnen
+function getColorPreview(hex, lightnessPercent) {
+  const [r, g, b] = hexToRgb(hex);
+  const [h, s, _] = rgbToHsl(r, g, b);
+  return hslToHex(h, s, lightnessPercent);
+}
+
 // Hauptkomponente
 export default function MonochromePaletteGenerator() {
   const [hex, setHex] = useState('#ff00ff');
@@ -155,8 +166,8 @@ export default function MonochromePaletteGenerator() {
   const [isCopied, setIsCopied] = useState(false);
 
   // Slider-Werte für Helligkeit
-  const [leftLimit, setLeftLimit] = useState(0); // Linke Grenze von Weiß bis Helles Grau
-  const [rightLimit, setRightLimit] = useState(100); // Rechte Grenze von Schwarz bis Dunkles Grau
+  const [leftLimit, setLeftLimit] = useState(20); // Linke Grenze = Weiß
+  const [rightLimit, setRightLimit] = useState(90); // Rechte Grenze = Schwarz
 
   const [metaCheckboxState, setMetaCheckboxState] = useState(null);
 
@@ -212,48 +223,65 @@ export default function MonochromePaletteGenerator() {
     }
   };
 
+  const getCurrentColor = (limit) => {
+    return getColorPreview(hex, limit);
+  };
+
   return (
     <Wrapper>
       <Title>Monochrome Palette Generator</Title>
       <InputGroup>
-        <Label>Farbwert (Hex):</Label>
+        <Label>Basisfarbwert (Hex):</Label>
         <ColorPickerWrapper>
           <ColorPicker type='color' value={hex} onChange={handleColorPickerChange} />
           <TextInput type='text' value={hex} onChange={handleHexChange} placeholder='#' />
         </ColorPickerWrapper>
       </InputGroup>
 
-      {/* Helligkeitseinstellungen */}
+      {/* Hellster Wert */}
       <InputGroup>
-        <Label>Dunkelster Wert (0% = #000000):</Label>
-        <div style={{ display: 'flex', alignItems: 'center' }}>
-          {/* Slider-Input */}
-          <input
+        <Label>Hellster Wert:</Label>
+        <ColorTileWrapper>
+          <ColorPreview bgColor={getCurrentColor(rightLimit)} />
+          <StyledSlider
             type='range'
-            min={0}
-            max={25}
-            value={leftLimit}
-            onChange={(e) => setLeftLimit(parseInt(e.target.value))}
-          />
-          {/* Anzeige des aktuellen Wertes */}
-          <div style={{ marginLeft: '1rem' }}>{leftLimit}%</div>
-        </div>
-      </InputGroup>
-
-      <InputGroup>
-        <Label>Hellster Wert (100% = #ffffff):</Label>
-        <div style={{ display: 'flex', alignItems: 'center' }}>
-          {/* Slider-Input */}
-          <input
-            type='range'
-            min={75}
+            min={70}
             max={100}
             value={rightLimit}
             onChange={(e) => setRightLimit(parseInt(e.target.value))}
+            startColor='#ffffff'
+            endColor={getCurrentColor(rightLimit)}
+            thumbColor='#fff'
+            thumbBorderColor='#333'
           />
-          {/* Anzeige des aktuellen Wertes */}
-          <div style={{ marginLeft: '1rem' }}>{rightLimit}%</div>
-        </div>
+          <SliderText>
+            <span>dunkler</span>
+            <span>heller</span>
+          </SliderText>
+        </ColorTileWrapper>
+      </InputGroup>
+
+      {/* Dunkelster Wert */}
+      <InputGroup>
+        <Label>Dunkelster Wert:</Label>
+        <ColorTileWrapper>
+          <ColorPreview bgColor={getCurrentColor(leftLimit)} />
+          <StyledSlider
+            type='range'
+            min={0}
+            max={30}
+            value={leftLimit}
+            onChange={(e) => setLeftLimit(parseInt(e.target.value))}
+            startColor={getCurrentColor(leftLimit)}
+            endColor='#000000'
+            thumbColor='#fff'
+            thumbBorderColor='#333'
+          />
+          <SliderText>
+            <span>dunkler</span>
+            <span>heller</span>
+          </SliderText>
+        </ColorTileWrapper>
       </InputGroup>
 
       <InputGroup>
