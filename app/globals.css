@@ -163,17 +163,27 @@ ol {
   --color-grey-dark: #5a5e63;
   --color-grey-dark-hover: #4a4b4d;
 
-  --color-test-50: #ffe5ff;
-  --color-test-100: #ffccff;
-  --color-test-200: #ff99ff;
-  --color-test-300: #ff66ff;
-  --color-test-400: #ff33ff;
-  --color-test-500: #ff00ff;
-  --color-test-600: #cc00cc;
-  --color-test-700: #990099;
+  --color-test-0: #ff99ff;
+  --color-test-50: #ff86ff;
+  --color-test-100: #ff73ff;
+  --color-test-150: #ff60ff;
+  --color-test-200: #ff4dff;
+  --color-test-250: #ff39ff;
+  --color-test-300: #ff26ff;
+  --color-test-350: #ff13ff;
+  --color-test-400: #ff00ff;
+  --color-test-450: #ec00ec;
+  --color-test-500: #d900d9;
+  --color-test-550: #c600c6;
+  --color-test-600: #b300b3;
+  --color-test-650: #9f009f;
+  --color-test-700: #8c008c;
+  --color-test-750: #790079;
   --color-test-800: #660066;
-  --color-test-900: #330033;
-  --color-test-950: #190019;
+  --color-test-850: #530053;
+  --color-test-900: #400040;
+  --color-test-950: #2d002d;
+  --color-test-1000: #190019;
 }
 
 /* Light Theme */
