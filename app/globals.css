@@ -162,6 +162,18 @@ ol {
   --color-grey-light-hover: #6b7280;
   --color-grey-dark: #5a5e63;
   --color-grey-dark-hover: #4a4b4d;
+
+  --color-test-50: #ffe5ff;
+  --color-test-100: #ffccff;
+  --color-test-200: #ff99ff;
+  --color-test-300: #ff66ff;
+  --color-test-400: #ff33ff;
+  --color-test-500: #ff00ff;
+  --color-test-600: #cc00cc;
+  --color-test-700: #990099;
+  --color-test-800: #660066;
+  --color-test-900: #330033;
+  --color-test-950: #190019;
 }
 
 /* Light Theme */

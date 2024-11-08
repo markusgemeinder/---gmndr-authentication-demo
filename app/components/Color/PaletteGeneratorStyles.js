@@ -165,3 +165,62 @@ export const PaletteOutput = styled.pre`
   word-wrap: break-word;
   margin-top: 3rem;
 `;
+
+export const Spacer = styled.div`
+  height: 0.4rem;
+`;
+
+export const SliderWrapper = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  width: 100%;
+  margin-top: 0.5rem;
+`;
+
+export const Slider = styled.input`
+  type: range;
+  width: 100%;
+  height: 8px;
+  background: #ddd;
+  border-radius: 4px;
+  cursor: pointer;
+  -webkit-appearance: none;
+
+  &::-webkit-slider-runnable-track {
+    height: 8px;
+    background: #ddd;
+    border-radius: 4px;
+  }
+
+  &::-webkit-slider-thumb {
+    width: 20px;
+    height: 20px;
+    background: #4caf50;
+    border-radius: 50%;
+    border: none;
+    -webkit-appearance: none;
+    cursor: pointer;
+  }
+
+  &::-moz-range-thumb {
+    width: 20px;
+    height: 20px;
+    background: #4caf50;
+    border-radius: 50%;
+    border: none;
+    cursor: pointer;
+  }
+
+  &:focus {
+    outline: none;
+  }
+`;
+
+export const SliderColorBox = styled.div`
+  width: 40px;
+  height: 40px;
+  border-radius: 4px;
+  background-color: ${(props) => props.color || '#fff'};
+  border: 2px solid #ddd;
+`;

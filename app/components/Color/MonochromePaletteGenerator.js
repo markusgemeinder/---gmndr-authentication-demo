@@ -21,7 +21,7 @@ import {
 } from '@/app/components/Color/PaletteGeneratorStyles';
 import { FaCopy } from 'react-icons/fa';
 
-// Funktion zur Umwandlung von Hex in RGB
+// hexToRgb beibehalten!
 function hexToRgb(hex) {
   if (hex.length === 4) {
     hex = `#${hex[1]}${hex[1]}${hex[2]}${hex[2]}${hex[3]}${hex[3]}`;
@@ -40,7 +40,7 @@ function hexToRgb(hex) {
   return [r, g, b];
 }
 
-// Funktion zur Umwandlung von RGB in HSL
+// rgbToHSL beibehalten!
 function rgbToHsl(r, g, b) {
   r /= 255;
   g /= 255;
@@ -74,7 +74,7 @@ function rgbToHsl(r, g, b) {
   return [h * 360, s * 100, l * 100];
 }
 
-// Funktion zur Umwandlung von HSL in Hex
+// hslToHex beibehalten!
 function hslToHex(h, s, l) {
   s /= 100;
   l /= 100;
@@ -116,7 +116,7 @@ function hslToHex(h, s, l) {
   return `#${((1 << 24) | (r << 16) | (g << 8) | b).toString(16).slice(1).toUpperCase()}`;
 }
 
-// Funktion zur Generierung der Farbpalette
+// generateMonochromePalette anpassen!!!
 function generateMonochromePalette(hex, name) {
   const [r, g, b] = hexToRgb(hex);
   const [h, s, l] = rgbToHsl(r, g, b);
@@ -134,8 +134,8 @@ function generateMonochromePalette(hex, name) {
   return palette;
 }
 
-// Hauptkomponente
-export default function ColorPaletteGenerator() {
+// Hauptkomponente beibehalten
+export default function MonochromePaletteGenerator() {
   const [hex, setHex] = useState('#ff00ff');
   const [paletteName, setPaletteName] = useState('test');
   const [generatedPalette, setGeneratedPalette] = useState(null);
@@ -143,14 +143,17 @@ export default function ColorPaletteGenerator() {
   const [checkedValues, setCheckedValues] = useState([50, 100, 200, 300, 400, 500, 600, 700, 800, 900, 950]);
   const [isCopied, setIsCopied] = useState(false);
 
+  // handleHexChange beibehalten!
   const handleHexChange = (e) => {
     setHex(e.target.value);
   };
 
+  // handleColorPickerChange beibehalten!
   const handleColorPickerChange = (e) => {
     setHex(e.target.value);
   };
 
+  // handleGeneratePalette beibehalten!
   const handleGeneratePalette = () => {
     const formattedHex = hex;
     const formattedName = paletteName.toLowerCase().replace(/[^a-z0-9-]/g, '-');
@@ -168,6 +171,7 @@ export default function ColorPaletteGenerator() {
     setGeneratedPalette(filteredPalette);
   };
 
+  // handleCopyPalette beibehalten!
   const handleCopyPalette = () => {
     navigator.clipboard.writeText(
       Object.entries(generatedPalette)
@@ -188,6 +192,9 @@ export default function ColorPaletteGenerator() {
           <TextInput type='text' value={hex} onChange={handleHexChange} placeholder='#' />
         </ColorPickerWrapper>
       </InputGroup>
+
+      {/* Hier die beiden neuen Slider InputGroups, keine Veränderungen darüber hinaus im Return Element!!! */}
+
       <InputGroup>
         <Label>Palettenname:</Label>
         <TextInput
@@ -197,6 +204,7 @@ export default function ColorPaletteGenerator() {
           placeholder='name'
         />
       </InputGroup>
+
       <InputGroup>
         <Label>Sortierung:</Label>
         <Select value={sortOrder} onChange={(e) => setSortOrder(e.target.value)}>
@@ -204,6 +212,7 @@ export default function ColorPaletteGenerator() {
           <option value='desc'>1000 ... 0</option>
         </Select>
       </InputGroup>
+
       <InputGroup>
         <Label>Ausgabewerte:</Label>
         <CheckboxGroup>
@@ -225,7 +234,9 @@ export default function ColorPaletteGenerator() {
           )}
         </CheckboxGroup>
       </InputGroup>
+
       <Button onClick={handleGeneratePalette}>Palette generieren</Button>
+
       {generatedPalette && (
         <PaletteWrapper>
           <CopyButton onClick={handleCopyPalette}>
