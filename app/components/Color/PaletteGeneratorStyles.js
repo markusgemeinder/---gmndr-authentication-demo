@@ -77,19 +77,20 @@ export const TextInput = styled.input`
 `;
 
 export const Select = styled.select`
-  padding: 0.5rem;
+  padding: 0.75rem;
   font-size: 1rem;
   border-radius: 8px;
   border: 1px solid #ddd;
   background-color: #fff;
   color: #333;
-  margin-top: 0.5rem;
 `;
 
 export const CheckboxGroup = styled.div`
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
   margin-top: 0.5rem;
+  margin-left: 0.6rem;
+  gap: 0.2rem;
 
   & > label {
     padding-left: 0.5rem;
@@ -99,11 +100,16 @@ export const CheckboxGroup = styled.div`
       border-right: none;
     }
   }
+
+  @media (min-width: 768px) and (min-height: 768px) {
+    margin-left: 2rem;
+  }
 `;
 
 export const CheckboxLabel = styled.label`
   font-size: 0.9rem;
   color: #555;
+  text-align: left;
 `;
 
 export const Button = styled.button`
