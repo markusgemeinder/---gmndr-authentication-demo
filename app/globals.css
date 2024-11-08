@@ -186,6 +186,18 @@ ol {
   --color-test2-800: #005aad;
   --color-test2-900: #00478a;
   --color-test2-1000: #003566;
+
+  --color-test4-0: #a5ff9e;
+  --color-test4-100: #89ff81;
+  --color-test4-200: #6eff64;
+  --color-test4-300: #53ff47;
+  --color-test4-400: #38ff2a;
+  --color-test4-500: #1dff0d;
+  --color-test4-600: #10ef00;
+  --color-test4-700: #0ed200;
+  --color-test4-800: #0cb500;
+  --color-test4-900: #0a9700;
+  --color-test4-1000: #087a00;
 }
 
 /* Light Theme */

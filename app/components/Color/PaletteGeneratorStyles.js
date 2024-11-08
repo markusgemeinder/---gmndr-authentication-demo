@@ -166,6 +166,7 @@ export const CopyButton = styled.button`
 
 export const PaletteOutput = styled.pre`
   font-family: monospace;
+  font-size: 0.9rem;
   color: #333;
   white-space: pre-wrap;
   word-wrap: break-word;
@@ -177,10 +178,10 @@ export const Spacer = styled.div`
 `;
 
 export const ColorTileWrapper = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 0.8rem; /* Abstand zwischen den Elementen */
+  display: grid;
+  grid-template-columns: 1fr auto 4fr auto; /* 4 Spalten: 1. ColorPreview, 2. SliderText, 3. StyledSlider, 4. SliderText */
+  gap: 0.6rem; /* Abstand zwischen den Spalten */
+  align-items: center; /* Vertikale Ausrichtung der Elemente */
   width: 100%;
 `;
 
@@ -194,43 +195,39 @@ export const ColorPreview = styled.div`
 
 export const StyledSlider = styled.input`
   width: 100%;
-  height: 12px;
-  border-radius: 6px;
-  background: ${(props) => `linear-gradient(to right, ${props.endColor}, ${props.startColor})`};
-  appearance: none;
+  height: 10px;
+  background: linear-gradient(to right, #ffffff, ${(props) => props.endColor});
+  border-radius: 5px;
   outline: none;
-  transition: background-color 0.3s ease;
+  -webkit-appearance: none;
+  appearance: none;
+  transition: background 0.3s ease;
+  cursor: pointer;
 
-  &:focus {
-    background: ${(props) => `linear-gradient(to right, ${props.endColor}, ${props.startColor})`};
-  }
-
-  &::-webkit-slider-thumb {
+  ::-webkit-slider-thumb {
     -webkit-appearance: none;
     appearance: none;
-    width: 20px;
     height: 20px;
+    width: 20px;
+    background: #333;
     border-radius: 50%;
-    background: ${(props) => props.thumbColor || '#fff'};
-    border: 2px solid ${(props) => props.thumbBorderColor || '#333'};
     cursor: pointer;
+    border: 2px solid #fff;
   }
 
-  &::-moz-range-thumb {
-    width: 20px;
+  ::-moz-range-thumb {
     height: 20px;
+    width: 20px;
+    background: #333;
     border-radius: 50%;
-    background: ${(props) => props.thumbColor || '#fff'};
-    border: 2px solid ${(props) => props.thumbBorderColor || '#333'};
     cursor: pointer;
+    border: 2px solid #fff;
   }
 `;
 
 export const SliderText = styled.div`
+  text-align: center;
+  font-size: 0.7rem;
+  color: #333;
   width: 100%;
-  display: flex;
-  justify-content: space-between;
-  font-size: 0.8rem;
-  font-weight: bold;
-  color: #777;
 `;

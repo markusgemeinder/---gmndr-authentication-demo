@@ -248,11 +248,13 @@ export default function MonochromePaletteGenerator() {
         </ColorPickerWrapper>
       </InputGroup>
 
-      {/* Hellster Wert */}
       <InputGroup>
         <Label>Hellster Wert:</Label>
         <ColorTileWrapper>
           <ColorPreview bgColor={getCurrentColor(rightLimit)} />
+          <SliderText>
+            <span>dunkler</span>
+          </SliderText>
           <StyledSlider
             type='range'
             min={70}
@@ -265,17 +267,18 @@ export default function MonochromePaletteGenerator() {
             thumbBorderColor='#333'
           />
           <SliderText>
-            <span>dunkler</span>
             <span>heller</span>
           </SliderText>
         </ColorTileWrapper>
       </InputGroup>
 
-      {/* Dunkelster Wert */}
       <InputGroup>
         <Label>Dunkelster Wert:</Label>
         <ColorTileWrapper>
           <ColorPreview bgColor={getCurrentColor(leftLimit)} />
+          <SliderText>
+            <span>dunkler</span>
+          </SliderText>
           <StyledSlider
             type='range'
             min={0}
@@ -288,7 +291,6 @@ export default function MonochromePaletteGenerator() {
             thumbBorderColor='#333'
           />
           <SliderText>
-            <span>dunkler</span>
             <span>heller</span>
           </SliderText>
         </ColorTileWrapper>
@@ -302,14 +304,6 @@ export default function MonochromePaletteGenerator() {
           onChange={(e) => setPaletteName(e.target.value)}
           placeholder='name'
         />
-      </InputGroup>
-
-      <InputGroup>
-        <Label>Sortierung:</Label>
-        <Select value={sortOrder} onChange={(e) => setSortOrder(e.target.value)}>
-          <option value='asc'>Aufsteigend (0 ... 1000)</option>
-          <option value='desc'>Absteigend (1000 ... 0)</option>
-        </Select>
       </InputGroup>
 
       <InputGroup>
@@ -348,6 +342,14 @@ export default function MonochromePaletteGenerator() {
             );
           })}
         </CheckboxGroup>
+      </InputGroup>
+
+      <InputGroup>
+        <Label>Sortierung:</Label>
+        <Select value={sortOrder} onChange={(e) => setSortOrder(e.target.value)}>
+          <option value='asc'>Aufsteigend (0 ... 1000)</option>
+          <option value='desc'>Absteigend (1000 ... 0)</option>
+        </Select>
       </InputGroup>
 
       <Button onClick={handleGeneratePalette}>Palette generieren</Button>
