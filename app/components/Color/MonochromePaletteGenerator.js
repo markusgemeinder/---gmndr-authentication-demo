@@ -225,7 +225,7 @@ export default function MonochromePaletteGenerator() {
 
       {/* Helligkeitseinstellungen */}
       <InputGroup>
-        <Label>Hellster Wert (0% = #ffffff):</Label>
+        <Label>Dunkelster Wert (0% = #000000):</Label>
         <div style={{ display: 'flex', alignItems: 'center' }}>
           {/* Slider-Input */}
           <input
@@ -241,7 +241,7 @@ export default function MonochromePaletteGenerator() {
       </InputGroup>
 
       <InputGroup>
-        <Label>Dunkelster Wert (100% = #000000):</Label>
+        <Label>Hellster Wert (100% = #ffffff):</Label>
         <div style={{ display: 'flex', alignItems: 'center' }}>
           {/* Slider-Input */}
           <input
