@@ -183,15 +183,15 @@ ol {
   --color-orange-new-800: #cb6500;
   --color-orange-new-900: #a85400;
 
-  --color-test-100: #bcf2f9;
-  --color-test-200: #99ebf5;
-  --color-test-300: #77e4f2;
-  --color-test-400: #54ddef;
-  --color-test-500: #32d7ec;
-  --color-test-600: #15cbe3;
-  --color-test-700: #12acc0;
-  --color-test-800: #0f8d9e;
-  --color-test-900: #0c6e7b;
+  --color-test-900: #610c61;
+  --color-test-800: #871187;
+  --color-test-700: #ad16ad;
+  --color-test-600: #d31ad3;
+  --color-test-500: #e533e5;
+  --color-test-400: #ea59ea;
+  --color-test-300: #ef7fef;
+  --color-test-200: #f4a5f4;
+  --color-test-100: #f9cbf9;
 }
 
 /* Light Theme */
