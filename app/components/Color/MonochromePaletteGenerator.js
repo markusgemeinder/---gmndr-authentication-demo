@@ -28,17 +28,30 @@ import { generateMonochromePalette, getColorPreview } from '@/utils/colorUtils';
 
 // Hauptkomponente
 export default function MonochromePaletteGenerator() {
-  const [hex, setHex] = useState('#ff00ff');
-  const [prefix, setPrefix] = useState('--color-');
-  const [suffix, setSuffix] = useState('test');
+  // Funktion zum Abrufen von Werten aus dem LocalStorage
+  const getStoredValue = (key, defaultValue) => {
+    const storedValue = localStorage.getItem(key);
+    if (storedValue === null) return defaultValue;
+    // Wenn der gespeicherte Wert ein JSON-String ist, parsen wir ihn
+    try {
+      return JSON.parse(storedValue);
+    } catch (e) {
+      // Wenn es kein JSON-String ist (z.B. einfache Strings wie '#ff00ff'), geben wir den Wert direkt zurück
+      return storedValue;
+    }
+  };
+
+  const [hex, setHex] = useState(() => getStoredValue('hex', '#ff00ff'));
+  const [prefix, setPrefix] = useState(() => getStoredValue('prefix', '--color-'));
+  const [suffix, setSuffix] = useState(() => getStoredValue('suffix', 'test'));
   const [generatedPalette, setGeneratedPalette] = useState(null);
-  const [sortOrder, setSortOrder] = useState('asc');
-  const [checkedValues, setCheckedValues] = useState([]);
+  const [sortOrder, setSortOrder] = useState(() => getStoredValue('sortOrder', 'asc'));
+  const [checkedValues, setCheckedValues] = useState(() => getStoredValue('checkedValues', []));
   const [isCopied, setIsCopied] = useState(false);
 
   // Slider-Werte für Helligkeit
-  const [leftLimit, setLeftLimit] = useState(20); // Linke Grenze = Weiß
-  const [rightLimit, setRightLimit] = useState(90); // Rechte Grenze = Schwarz
+  const [leftLimit, setLeftLimit] = useState(() => getStoredValue('leftLimit', 20)); // Linke Grenze = Weiß
+  const [rightLimit, setRightLimit] = useState(() => getStoredValue('rightLimit', 90)); // Rechte Grenze = Schwarz
 
   // Auswahlmöglichkeiten für den neuen Selektor
   const selectorOptions = {
@@ -51,7 +64,7 @@ export default function MonochromePaletteGenerator() {
     Keine: [],
   };
 
-  const [selectedOption, setSelectedOption] = useState('100er');
+  const [selectedOption, setSelectedOption] = useState(() => getStoredValue('selectedOption', '100er'));
 
   useEffect(() => {
     setCheckedValues(selectorOptions[selectedOption]);
@@ -103,6 +116,18 @@ export default function MonochromePaletteGenerator() {
   const getCurrentColor = (limit) => {
     return getColorPreview(hex, limit);
   };
+
+  useEffect(() => {
+    // Speichern der Werte im LocalStorage, wenn sich etwas ändert
+    localStorage.setItem('hex', hex);
+    localStorage.setItem('prefix', prefix);
+    localStorage.setItem('suffix', suffix);
+    localStorage.setItem('sortOrder', sortOrder);
+    localStorage.setItem('checkedValues', JSON.stringify(checkedValues));
+    localStorage.setItem('selectedOption', selectedOption);
+    localStorage.setItem('leftLimit', leftLimit.toString());
+    localStorage.setItem('rightLimit', rightLimit.toString());
+  }, [hex, prefix, suffix, sortOrder, checkedValues, selectedOption, leftLimit, rightLimit]);
 
   return (
     <Wrapper>
@@ -194,9 +219,7 @@ export default function MonochromePaletteGenerator() {
       </InputGroup>
 
       <InputGroup>
-        {/* <Label>Ausgabewerte:</Label> */}
         <CheckboxGroup>
-          {/* Alle Checkboxen anzeigen, unabhängig vom selektierten Preset */}
           {[...Array(21)].map((_, idx) => {
             const value = idx * 50; // Werte: 0, 50, 100, ..., 1000
             return (

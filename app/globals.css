@@ -183,17 +183,17 @@ ol {
   --color-orange-new-800: #cb6500;
   --color-orange-new-900: #a85400;
 
-  --color-test-0: #fff0ff;
-  --color-test-100: #ffcbff;
-  --color-test-200: #ffa7ff;
-  --color-test-300: #ff83ff;
-  --color-test-400: #ff5fff;
-  --color-test-500: #ff3bff;
-  --color-test-600: #ff16ff;
-  --color-test-700: #f100f1;
-  --color-test-800: #cd00cd;
-  --color-test-900: #a900a9;
-  --color-test-1000: #850085;
+  --color-schwunggustel-0: #ccffd2;
+  --color-schwunggustel-100: #a8ffb3;
+  --color-schwunggustel-200: #85ff93;
+  --color-schwunggustel-300: #61ff73;
+  --color-schwunggustel-400: #3dff54;
+  --color-schwunggustel-500: #1aff35;
+  --color-schwunggustel-600: #00f51d;
+  --color-schwunggustel-700: #00d119;
+  --color-schwunggustel-800: #00ad14;
+  --color-schwunggustel-900: #008a10;
+  --color-schwunggustel-1000: #00660c;
 }
 
 /* Light Theme */
