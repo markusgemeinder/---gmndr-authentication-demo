@@ -50,8 +50,8 @@ export default function MonochromePaletteGenerator() {
   const [isCopied, setIsCopied] = useState(false);
 
   // Slider-Werte für Helligkeit
-  const [leftLimit, setLeftLimit] = useState(() => getStoredValue('leftLimit', 20)); // Linke Grenze = Weiß
-  const [rightLimit, setRightLimit] = useState(() => getStoredValue('rightLimit', 90)); // Rechte Grenze = Schwarz
+  const [darkLimit, setDarkLimit] = useState(() => getStoredValue('darkLimit', 20));
+  const [brightLimit, setBrightLimit] = useState(() => getStoredValue('brightLimit', 90));
 
   // Auswahlmöglichkeiten für den neuen Selektor
   const selectorOptions = {
@@ -82,7 +82,7 @@ export default function MonochromePaletteGenerator() {
 
   // handleGeneratePalette beibehalten!
   const handleGeneratePalette = () => {
-    const palette = generateMonochromePalette(hex, prefix, suffix, leftLimit, rightLimit);
+    const palette = generateMonochromePalette(hex, prefix, suffix, darkLimit, brightLimit);
 
     const filteredPalette = Object.entries(palette)
       .filter(([key]) => checkedValues.includes(parseInt(key.split('-').pop())))
@@ -125,9 +125,9 @@ export default function MonochromePaletteGenerator() {
     localStorage.setItem('sortOrder', sortOrder);
     localStorage.setItem('checkedValues', JSON.stringify(checkedValues));
     localStorage.setItem('selectedOption', selectedOption);
-    localStorage.setItem('leftLimit', leftLimit.toString());
-    localStorage.setItem('rightLimit', rightLimit.toString());
-  }, [hex, prefix, suffix, sortOrder, checkedValues, selectedOption, leftLimit, rightLimit]);
+    localStorage.setItem('darkLimit', darkLimit.toString());
+    localStorage.setItem('brightLimit', brightLimit.toString());
+  }, [hex, prefix, suffix, sortOrder, checkedValues, selectedOption, darkLimit, brightLimit]);
 
   return (
     <Wrapper>
@@ -144,7 +144,7 @@ export default function MonochromePaletteGenerator() {
       <InputGroup>
         <Label>Hellster Wert:</Label>
         <ColorTileWrapper>
-          <ColorPreview bgColor={getCurrentColor(rightLimit)} />
+          <ColorPreview bgColor={getCurrentColor(brightLimit)} />
           <SliderText>
             <span>dunkler</span>
           </SliderText>
@@ -152,10 +152,10 @@ export default function MonochromePaletteGenerator() {
             type='range'
             min={70}
             max={100}
-            value={rightLimit}
-            onChange={(e) => setRightLimit(parseInt(e.target.value))}
+            value={brightLimit}
+            onChange={(e) => setBrightLimit(parseInt(e.target.value))}
             startColor='#ffffff'
-            endColor={getCurrentColor(rightLimit)}
+            endColor={getCurrentColor(brightLimit)}
             thumbColor='#fff'
             thumbBorderColor='#333'
           />
@@ -168,7 +168,7 @@ export default function MonochromePaletteGenerator() {
       <InputGroup>
         <Label>Dunkelster Wert:</Label>
         <ColorTileWrapper>
-          <ColorPreview bgColor={getCurrentColor(leftLimit)} />
+          <ColorPreview bgColor={getCurrentColor(darkLimit)} />
           <SliderText>
             <span>dunkler</span>
           </SliderText>
@@ -176,10 +176,10 @@ export default function MonochromePaletteGenerator() {
             type='range'
             min={0}
             max={30}
-            value={leftLimit}
-            onChange={(e) => setLeftLimit(parseInt(e.target.value))}
-            startColor={getCurrentColor(leftLimit)}
-            endColor='#000000'
+            value={darkLimit}
+            onChange={(e) => setDarkLimit(parseInt(e.target.value))}
+            startColor={getCurrentColor(darkLimit)}
+            endColor={getCurrentColor(darkLimit)}
             thumbColor='#fff'
             thumbBorderColor='#333'
           />

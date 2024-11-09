@@ -196,7 +196,7 @@ export const ColorPreview = styled.div`
 export const StyledSlider = styled.input`
   width: 100%;
   height: 10px;
-  background: linear-gradient(to right, #ffffff, ${(props) => props.endColor});
+  background: linear-gradient(to right, ${(props) => props.endColor}, #ffffff);
   border-radius: 5px;
   outline: none;
   -webkit-appearance: none;
