@@ -1,5 +1,4 @@
 // /app/components/Color/MonochromePaletteGenerator.js
-
 'use client';
 
 import { useEffect, useState } from 'react';
@@ -28,15 +27,12 @@ import { generateMonochromePalette, getColorPreview } from '@/utils/colorUtils';
 
 // Hauptkomponente
 export default function MonochromePaletteGenerator() {
-  // Funktion zum Abrufen von Werten aus dem LocalStorage
   const getStoredValue = (key, defaultValue) => {
     const storedValue = localStorage.getItem(key);
     if (storedValue === null) return defaultValue;
-    // Wenn der gespeicherte Wert ein JSON-String ist, parsen wir ihn
     try {
       return JSON.parse(storedValue);
     } catch (e) {
-      // Wenn es kein JSON-String ist (z.B. einfache Strings wie '#ff00ff'), geben wir den Wert direkt zurück
       return storedValue;
     }
   };
@@ -48,39 +44,33 @@ export default function MonochromePaletteGenerator() {
   const [sortOrder, setSortOrder] = useState(() => getStoredValue('sortOrder', 'asc'));
   const [checkedValues, setCheckedValues] = useState(() => getStoredValue('checkedValues', []));
   const [isCopied, setIsCopied] = useState(false);
-
-  // Slider-Werte für Helligkeit
   const [darkLimit, setDarkLimit] = useState(() => getStoredValue('darkLimit', 20));
   const [brightLimit, setBrightLimit] = useState(() => getStoredValue('brightLimit', 90));
 
-  // Auswahlmöglichkeiten für den neuen Selektor
   const selectorOptions = {
-    '100er': [0, 100, 200, 300, 400, 500, 600, 700, 800, 900, 1000],
-    '100er (ohne 0 und 1000)': [100, 200, 300, 400, 500, 600, 700, 800, 900],
-    '100er (mit 50 und 950)': [50, 100, 200, 300, 400, 500, 600, 700, 800, 900, 950],
-    '200er': [0, 200, 400, 600, 800, 1000],
-    '200er (ohne 0 und 1000)': [200, 400, 600, 800],
+    '100er [0-1000]': [0, 100, 200, 300, 400, 500, 600, 700, 800, 900, 1000],
+    '100er [100-900]': [100, 200, 300, 400, 500, 600, 700, 800, 900],
+    '100er [mit 50, 950]': [50, 100, 200, 300, 400, 500, 600, 700, 800, 900, 950],
+    '200er [0-1000]': [0, 200, 400, 600, 800, 1000],
+    '200er [200-800]': [200, 400, 600, 800],
     Alle: [0, 50, 100, 150, 200, 250, 300, 350, 400, 450, 500, 550, 600, 650, 700, 750, 800, 850, 900, 950, 1000],
     Keine: [],
   };
 
-  const [selectedOption, setSelectedOption] = useState(() => getStoredValue('selectedOption', '100er'));
+  const [selectedOption, setSelectedOption] = useState(() => getStoredValue('selectedOption', '100er [0-1000]'));
 
   useEffect(() => {
-    setCheckedValues(selectorOptions[selectedOption]);
+    setCheckedValues(selectorOptions[selectedOption] || []);
   }, [selectedOption]);
 
-  // handleHexChange beibehalten!
   const handleHexChange = (e) => {
     setHex(e.target.value);
   };
 
-  // handleColorPickerChange beibehalten!
   const handleColorPickerChange = (e) => {
     setHex(e.target.value);
   };
 
-  // handleGeneratePalette beibehalten!
   const handleGeneratePalette = () => {
     const palette = generateMonochromePalette(hex, prefix, suffix, darkLimit, brightLimit);
 
@@ -93,10 +83,9 @@ export default function MonochromePaletteGenerator() {
       })
       .reduce((acc, [key, value]) => ({ ...acc, [key]: value }), {});
 
-    setGeneratedPalette(filteredPalette);
+    setGeneratedPalette(filteredPalette); // Palette wird gesetzt
   };
 
-  // handleCopyPalette beibehalten!
   const handleCopyPalette = () => {
     navigator.clipboard.writeText(
       Object.entries(generatedPalette)
@@ -107,10 +96,21 @@ export default function MonochromePaletteGenerator() {
     setTimeout(() => setIsCopied(false), 2000);
   };
 
-  // handleSelectOption beibehalten!
   const handleSelectOption = (option) => {
     setSelectedOption(option);
-    setCheckedValues(selectorOptions[option]);
+    setCheckedValues(selectorOptions[option] || []);
+  };
+
+  const resetForm = () => {
+    setHex('#ff00ff');
+    setPrefix('--color-');
+    setSuffix('test');
+    setSortOrder('asc');
+    setCheckedValues(selectorOptions['100er [0-1000]'] || []);
+    setSelectedOption('100er [0-1000]');
+    setDarkLimit(20);
+    setBrightLimit(90);
+    setGeneratedPalette(null); // Palette zurücksetzen nach dem Reset
   };
 
   const getCurrentColor = (limit) => {
@@ -118,7 +118,6 @@ export default function MonochromePaletteGenerator() {
   };
 
   useEffect(() => {
-    // Speichern der Werte im LocalStorage, wenn sich etwas ändert
     localStorage.setItem('hex', hex);
     localStorage.setItem('prefix', prefix);
     localStorage.setItem('suffix', suffix);
@@ -128,6 +127,24 @@ export default function MonochromePaletteGenerator() {
     localStorage.setItem('darkLimit', darkLimit.toString());
     localStorage.setItem('brightLimit', brightLimit.toString());
   }, [hex, prefix, suffix, sortOrder, checkedValues, selectedOption, darkLimit, brightLimit]);
+
+  const isFormChanged = () => {
+    return (
+      hex !== '#ff00ff' ||
+      prefix !== '--color-' ||
+      suffix !== 'test' ||
+      sortOrder !== 'asc' ||
+      !isArraysEqual(checkedValues, selectorOptions['100er [0-1000]']) ||
+      selectedOption !== '100er [0-1000]' ||
+      darkLimit !== 20 ||
+      brightLimit !== 90
+    );
+  };
+
+  const isArraysEqual = (arr1, arr2) => {
+    if (arr1.length !== arr2.length) return false;
+    return arr1.every((value, index) => value === arr2[index]);
+  };
 
   return (
     <Wrapper>
@@ -179,7 +196,7 @@ export default function MonochromePaletteGenerator() {
             value={darkLimit}
             onChange={(e) => setDarkLimit(parseInt(e.target.value))}
             startColor={getCurrentColor(darkLimit)}
-            endColor={getCurrentColor(darkLimit)}
+            endColor='#000'
             thumbColor='#fff'
             thumbBorderColor='#333'
           />
@@ -187,16 +204,6 @@ export default function MonochromePaletteGenerator() {
             <span>heller</span>
           </SliderText>
         </ColorTileWrapper>
-      </InputGroup>
-
-      <InputGroup>
-        <Label>Prefix:</Label>
-        <TextInput type='text' value={prefix} onChange={(e) => setPrefix(e.target.value)} placeholder='--color-' />
-      </InputGroup>
-
-      <InputGroup>
-        <Label>Suffix:</Label>
-        <TextInput type='text' value={suffix} onChange={(e) => setSuffix(e.target.value)} placeholder='test' />
       </InputGroup>
 
       <InputGroup>
@@ -228,11 +235,10 @@ export default function MonochromePaletteGenerator() {
                   type='checkbox'
                   checked={checkedValues.includes(value)}
                   onChange={() => {
-                    // Toggle the checked state of the value
                     if (checkedValues.includes(value)) {
-                      setCheckedValues(checkedValues.filter((item) => item !== value)); // Uncheck it
+                      setCheckedValues(checkedValues.filter((item) => item !== value));
                     } else {
-                      setCheckedValues([...checkedValues, value]); // Check it
+                      setCheckedValues([...checkedValues, value]);
                     }
                   }}
                 />{' '}
@@ -244,6 +250,12 @@ export default function MonochromePaletteGenerator() {
       </InputGroup>
 
       <Button onClick={handleGeneratePalette}>Palette generieren</Button>
+
+      {isFormChanged() && (
+        <Button onClick={resetForm} style={{ marginTop: '10px', backgroundColor: 'gray' }}>
+          Formular zurücksetzen
+        </Button>
+      )}
 
       {generatedPalette && (
         <PaletteWrapper>
