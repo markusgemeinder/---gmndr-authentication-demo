@@ -182,6 +182,18 @@ ol {
   --color-orange-new-700: #ee7700;
   --color-orange-new-800: #cb6500;
   --color-orange-new-900: #a85400;
+
+  --color-test-0: #fff0ff;
+  --color-test-100: #ffcbff;
+  --color-test-200: #ffa7ff;
+  --color-test-300: #ff83ff;
+  --color-test-400: #ff5fff;
+  --color-test-500: #ff3bff;
+  --color-test-600: #ff16ff;
+  --color-test-700: #f100f1;
+  --color-test-800: #cd00cd;
+  --color-test-900: #a900a9;
+  --color-test-1000: #850085;
 }
 
 /* Light Theme */

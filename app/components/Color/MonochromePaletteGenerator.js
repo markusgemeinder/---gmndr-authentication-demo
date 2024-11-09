@@ -126,7 +126,7 @@ function getHexFromLightness(h, s, lightness) {
 }
 
 // Monochrome Palette Generierung
-function generateMonochromePalette(hex, name, leftLimit, rightLimit) {
+function generateMonochromePalette(hex, prefix, suffix, leftLimit, rightLimit) {
   const [r, g, b] = hexToRgb(hex);
   const [h, s, l] = rgbToHsl(r, g, b);
   const palette = {};
@@ -142,7 +142,7 @@ function generateMonochromePalette(hex, name, leftLimit, rightLimit) {
   // Werte korrekt von hell nach dunkel generieren
   for (let i = 0; i <= 1000; i += 50) {
     const lightnessPercent = rightLimit - step * i; // Von leftLimit zu rightLimit
-    palette[`--color-${name}-${i}`] = adjustLightness(lightnessPercent);
+    palette[`${prefix}${suffix}-${i}`] = adjustLightness(lightnessPercent);
   }
 
   return palette;
@@ -158,7 +158,8 @@ function getColorPreview(hex, lightnessPercent) {
 // Hauptkomponente
 export default function MonochromePaletteGenerator() {
   const [hex, setHex] = useState('#ff00ff');
-  const [paletteName, setPaletteName] = useState('test');
+  const [prefix, setPrefix] = useState('--color-');
+  const [suffix, setSuffix] = useState('test');
   const [generatedPalette, setGeneratedPalette] = useState(null);
   const [sortOrder, setSortOrder] = useState('asc');
   const [checkedValues, setCheckedValues] = useState([]);
@@ -199,9 +200,7 @@ export default function MonochromePaletteGenerator() {
 
   // handleGeneratePalette beibehalten!
   const handleGeneratePalette = () => {
-    const formattedHex = hex;
-    const formattedName = paletteName.toLowerCase().replace(/[^a-z0-9-]/g, '-');
-    const palette = generateMonochromePalette(formattedHex, formattedName, leftLimit, rightLimit);
+    const palette = generateMonochromePalette(hex, prefix, suffix, leftLimit, rightLimit);
 
     const filteredPalette = Object.entries(palette)
       .filter(([key]) => checkedValues.includes(parseInt(key.split('-').pop())))
@@ -297,13 +296,21 @@ export default function MonochromePaletteGenerator() {
       </InputGroup>
 
       <InputGroup>
-        <Label>Palettenname:</Label>
-        <TextInput
-          type='text'
-          value={paletteName}
-          onChange={(e) => setPaletteName(e.target.value)}
-          placeholder='name'
-        />
+        <Label>Prefix:</Label>
+        <TextInput type='text' value={prefix} onChange={(e) => setPrefix(e.target.value)} placeholder='--color-' />
+      </InputGroup>
+
+      <InputGroup>
+        <Label>Suffix:</Label>
+        <TextInput type='text' value={suffix} onChange={(e) => setSuffix(e.target.value)} placeholder='test' />
+      </InputGroup>
+
+      <InputGroup>
+        <Label>Sortierung:</Label>
+        <Select value={sortOrder} onChange={(e) => setSortOrder(e.target.value)}>
+          <option value='asc'>Aufsteigend (0 ... 1000)</option>
+          <option value='desc'>Absteigend (1000 ... 0)</option>
+        </Select>
       </InputGroup>
 
       <InputGroup>
@@ -342,14 +349,6 @@ export default function MonochromePaletteGenerator() {
             );
           })}
         </CheckboxGroup>
-      </InputGroup>
-
-      <InputGroup>
-        <Label>Sortierung:</Label>
-        <Select value={sortOrder} onChange={(e) => setSortOrder(e.target.value)}>
-          <option value='asc'>Aufsteigend (0 ... 1000)</option>
-          <option value='desc'>Absteigend (1000 ... 0)</option>
-        </Select>
       </InputGroup>
 
       <Button onClick={handleGeneratePalette}>Palette generieren</Button>
