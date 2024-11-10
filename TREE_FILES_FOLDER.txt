@@ -62,7 +62,7 @@
     62	│   │   │   ├── NavigationButtonTemplate.js
     63	│   │   │   └── ThemeToggleButton.js
     64	│   │   ├── Color
-    65	│   │   │   ├── MonochromePaletteGenerator.js
+    65	│   │   │   ├── PaletteGenerator.js
     66	│   │   │   └── PaletteGeneratorStyles.js
     67	│   │   ├── Common
     68	│   │   │   ├── Accordion.js

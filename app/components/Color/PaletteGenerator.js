@@ -1,4 +1,4 @@
-// /app/components/Color/MonochromePaletteGenerator.js
+// /app/components/Color/PaletteGenerator.js
 
 'use client';
 
@@ -97,7 +97,7 @@ function loadFromLocalStorage() {
   return storedState;
 }
 
-export default function MonochromePaletteGenerator() {
+export default function PaletteGenerator() {
   // Initialisierung des States aus dem Local Storage
   const [state, dispatch] = useReducer(paletteReducer, loadFromLocalStorage());
 
