@@ -37,11 +37,13 @@ const AccordionButton = styled.button`
   text-align: left;
 `;
 
-const AccordionContent = styled.div`
+const AccordionContent = styled.div.withConfig({
+  shouldForwardProp: (prop) => prop !== 'contentHeight' && prop !== 'isOpen',
+})`
   padding: ${({ isOpen }) => (isOpen ? '1rem 1rem' : '0')};
   height: ${({ isOpen, contentHeight }) => (isOpen ? `${contentHeight}px` : '0')};
   overflow: hidden;
-  transition: height 0.3s ease, opacity 0.3s ease, transform 0.3s ease, padding 0.3s ease;
+  transition: height 0.2s ease, opacity 0.2s ease, transform 0.2s ease, padding 0.01s ease;
   background-color: var(--color-accordion-content-background);
   opacity: ${({ isOpen }) => (isOpen ? '1' : '0')};
   transform: ${({ isOpen }) => (isOpen ? 'scaleY(1)' : 'scaleY(0)')};

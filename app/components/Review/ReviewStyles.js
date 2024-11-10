@@ -15,7 +15,7 @@ export const CardContainer = styled.div`
   border-radius: 0.6rem;
   box-shadow: 0 0.3rem 0.5rem rgba(0, 0, 0, 0.1);
   margin: 0.2rem 0;
-  transition: transform 0.3s, box-shadow 0.3s;
+  transition: transform 0.2s, box-shadow 0.2s;
   position: relative;
 
   &:first-of-type {

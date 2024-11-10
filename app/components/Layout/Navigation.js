@@ -146,7 +146,7 @@ const BurgerMenuButtonSvg = styled.svg`
   stroke-width: 2;
   stroke-linecap: round;
   stroke-linejoin: round;
-  transition: transform 0.3s ease;
+  transition: transform 0.15s ease;
 
   transform: ${({ $isOpen }) => ($isOpen ? 'rotate(-25deg)' : 'rotate(0deg)')};
 `;
@@ -159,7 +159,7 @@ const BurgerMenuNavigation = styled.nav`
   height: 100vh;
   background-color: var(--color-burger-menu-background);
   transform: ${({ $isOpen }) => ($isOpen ? 'translateX(0)' : 'translateX(-100%)')};
-  transition: transform 0.3s ease-in-out;
+  transition: transform 0.15s ease-in-out;
   z-index: 10;
 
   @media (min-width: 768px) {

@@ -38,23 +38,24 @@ export const ButtonContainerHorizontal = styled.div`
 `;
 
 const StyledButton = styled.button.withConfig({
-  shouldForwardProp: (prop) => !['bgColor', 'hoverColor', 'color', 'disabled'].includes(prop),
+  shouldForwardProp: (prop) => prop !== 'bgColor' && prop !== 'hoverColor',
 })`
-  background-color: ${(props) => props.bgColor || 'var(--color-button)'};
-  color: ${(props) => props.color || 'var(--color-button-text)'};
+  background-color: ${({ bgColor }) => bgColor || 'var(--color-button)'};
+  color: ${({ color }) => color || 'var(--color-button-text)'};
   font-weight: 500;
   padding: 0 0.7rem;
   border-radius: 0.6rem;
   min-width: 48px;
   min-height: 48px;
   cursor: ${(props) => (props.disabled ? 'not-allowed' : 'pointer')};
+  /* transition: background-color 0.05s ease; */
 
   &:hover {
-    background-color: ${(props) => props.hoverColor || 'var(--color-button-hover)'};
+    background-color: ${({ hoverColor }) => hoverColor || 'var(--color-button-hover)'};
   }
 
   &:active {
-    background-color: ${(props) => props.hoverColor || 'var(--color-button-hover)'};
+    background-color: ${({ bgColor }) => bgColor || 'var(--color-button-hover)'};
     transform: scale(0.98);
   }
 

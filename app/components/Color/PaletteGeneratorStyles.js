@@ -84,11 +84,13 @@ export const ColorTileWrapper = styled.div`
   width: 100%;
 `;
 
-export const ColorPreview = styled.div`
+export const ColorPreview = styled.div.withConfig({
+  shouldForwardProp: (prop) => prop !== 'bgColor',
+})`
   width: 40px;
   height: 40px;
   border-radius: 4px;
-  background-color: ${(props) => props.bgColor || '#fff'};
+  background-color: ${({ bgColor }) => bgColor || '#fff'};
   box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
 `;
 
@@ -195,7 +197,7 @@ export const PaletteOutput = styled.pre`
 
 export const Button = styled.button`
   padding: 0.75rem 1.5rem;
-  background-color: ${({ backgroundColor, isClicked }) => (isClicked ? '#357a38' : backgroundColor || '#4caf50')};
+  background-color: ${({ $backgroundColor, $isClicked }) => ($isClicked ? '#357a38' : $backgroundColor || '#4caf50')};
   color: white;
   font-weight: 600;
   border: none;
@@ -219,7 +221,7 @@ export const Button = styled.button`
   `}
 
   &:hover {
-    background-color: ${({ hoverColor, isClicked }) => (isClicked ? '#357a38' : hoverColor || '#3a3a3a')};
+    background-color: ${({ $hoverColor, $isClicked }) => ($isClicked ? '#357a38' : $hoverColor || '#3a3a3a')};
   }
 
   svg {

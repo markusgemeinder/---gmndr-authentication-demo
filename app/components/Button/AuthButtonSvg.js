@@ -6,7 +6,9 @@ import styled from 'styled-components';
 import { useRouter } from 'next/navigation';
 import { signOut } from 'next-auth/react';
 
-const AuthButtonLink = styled.button`
+const AuthButtonLink = styled.button.withConfig({
+  shouldForwardProp: (prop) => prop !== 'bgColor' && prop !== 'hoverBgColor',
+})`
   display: flex;
   align-items: center;
   justify-content: center;
@@ -15,12 +17,12 @@ const AuthButtonLink = styled.button`
   width: 100%;
   height: 48px;
   padding: 0 0.6rem;
-  transition: background-color 0.3s ease;
+  /* transition: background-color 0.05s ease; */
   cursor: pointer;
-  background-color: ${(props) => props.bgColor || 'transparent'};
+  background-color: ${({ bgColor }) => bgColor || 'transparent'};
 
   &:hover {
-    background-color: ${(props) => props.hoverBgColor || 'transparent'};
+    background-color: ${({ hoverBgColor }) => hoverBgColor || 'transparent'};
   }
 
   &:focus {
