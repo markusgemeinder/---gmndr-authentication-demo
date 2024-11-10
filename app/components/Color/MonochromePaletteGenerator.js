@@ -115,6 +115,7 @@ export default function MonochromePaletteGenerator() {
   };
 
   const handleGeneratePalette = () => {
+    // Erstelle die Palette ohne die Basisfarbwert-Zeile
     const palette = generateMonochromePalette(
       state.hex,
       state.prefix,
@@ -122,6 +123,8 @@ export default function MonochromePaletteGenerator() {
       state.darkLimit,
       state.brightLimit
     );
+
+    // Palette nach den ausgewählten Werten und Sortierung filtern
     const filteredPalette = Object.entries(palette)
       .filter(([key]) => state.checkedValues.includes(parseInt(key.split('-').pop())))
       .sort(([keyA], [keyB]) => {
@@ -134,11 +137,15 @@ export default function MonochromePaletteGenerator() {
   };
 
   const handleCopyPalette = () => {
-    navigator.clipboard.writeText(
-      Object.entries(state.generatedPalette)
-        .map(([key, value]) => `${key.toLowerCase()}: ${value.toLowerCase()};`)
-        .join('\n')
-    );
+    const comment = `/* ${state.prefix}${state.suffix}-base: ${state.hex}; */\n`;
+
+    const paletteText = Object.entries(state.generatedPalette)
+      .map(([key, value]) => `${key.toLowerCase()}: ${value.toLowerCase()};`)
+      .join('\n');
+
+    // Beide Teile (Kommentar und Palette) kombinieren und in die Zwischenablage kopieren
+    navigator.clipboard.writeText(comment + paletteText);
+
     setIsCopied(true);
     setTimeout(() => setIsCopied(false), 2000); // Nach 2 Sekunden den "Kopiert!"-Text zurücksetzen
   };
@@ -233,6 +240,28 @@ export default function MonochromePaletteGenerator() {
         </ColorTileWrapper>
       </InputGroup>
 
+      {/* New Input for Prefix */}
+      <InputGroup>
+        <Label>Prefix:</Label>
+        <TextInput
+          type='text'
+          value={state.prefix}
+          onChange={(e) => dispatch({ type: 'SET_VALUE', key: 'prefix', value: e.target.value })}
+          placeholder='--color-'
+        />
+      </InputGroup>
+
+      {/* New Input for Suffix */}
+      <InputGroup>
+        <Label>Suffix:</Label>
+        <TextInput
+          type='text'
+          value={state.suffix}
+          onChange={(e) => dispatch({ type: 'SET_VALUE', key: 'suffix', value: e.target.value })}
+          placeholder='test'
+        />
+      </InputGroup>
+
       <InputGroup>
         <Label>Sortierung:</Label>
         <Select
@@ -260,11 +289,11 @@ export default function MonochromePaletteGenerator() {
             <CheckboxLabel key={value}>
               <input
                 type='checkbox'
-                checked={state.checkedValues.includes(value)} // Zeigt an, ob die Checkbox markiert ist
+                checked={state.checkedValues.includes(value)}
                 onChange={() => {
                   const newCheckedValues = state.checkedValues.includes(value)
-                    ? state.checkedValues.filter((item) => item !== value) // Entfernt den Wert, wenn er bereits ausgewählt ist
-                    : [...state.checkedValues, value]; // Fügt den Wert hinzu, wenn er nicht ausgewählt ist
+                    ? state.checkedValues.filter((item) => item !== value)
+                    : [...state.checkedValues, value];
                   dispatch({ type: 'SET_CHECKED_VALUES', value: newCheckedValues });
                 }}
               />
