@@ -144,8 +144,7 @@ export default function MonochromePaletteGenerator() {
     // Kommentar mit den zusätzlichen Zeilen
     const comment =
       `/* ${state.prefix}${state.suffix}-base: ${state.hex}; */\n` +
-      `/* brightLimit: ${state.brightLimit} | darkLimit: ${state.darkLimit} */\n` +
-      `/* brightLimitDisplayed: ${brightLimitDisplayed} | darkLimitDisplayed: ${darkLimitDisplayed} */\n`;
+      `/* Light level (0): ${brightLimitDisplayed}% | Dark level (1000): ${darkLimitDisplayed}% */\n`;
 
     // Palette als CSS-Format erstellen
     const paletteText = Object.entries(state.generatedPalette)
