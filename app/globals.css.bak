@@ -153,7 +153,7 @@ ol {
   --color-border-light: var(--color-grey-100);
 
   /* Textfarben */
-  --color-text-medium: var(--color-grey-500);
+  --color-text-light: var(--color-grey-500);
   --color-text-light: var(--color-grey-400);
 
   /* Links */
@@ -228,7 +228,7 @@ ol {
   --color-border-light: var(--color-grey-700);
 
   /* Textfarben */
-  --color-text-medium: var(--color-grey-300);
+  --color-text-light: var(--color-grey-300);
   --color-text-light: var(--color-grey-400);
 
   /* Links */

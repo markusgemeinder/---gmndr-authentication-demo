@@ -60,7 +60,7 @@ export const ToggleVisibility = styled.button`
   background: none;
   border: none;
   cursor: pointer;
-  color: var(--color-text-medium);
+  color: var(--color-text-light);
   display: flex;
   align-items: center;
 `;

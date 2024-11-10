@@ -17,7 +17,7 @@ const StatusContainer = styled.div`
 
 const SessionStatusText = styled(Paragraph)`
   margin: 0.2rem;
-  color: var(--color-text-medium);
+  color: var(--color-text-light);
 `;
 
 const CountdownContainer = styled.span`
@@ -34,7 +34,7 @@ const Timer = styled.div`
   font-size: 2rem;
   margin-bottom: 1rem;
   text-align: center;
-  color: var(--color-text-medium);
+  color: var(--color-text-light);
 `;
 
 const SessionStatusModalOverlay = styled(ModalOverlay)`

@@ -62,7 +62,7 @@ export const ModalInput = styled.input`
   margin-bottom: 1rem;
   border: 1px solid var(--color-border);
   border-radius: 0.25rem;
-  color: var(--color-text-medium);
+  color: var(--color-modal-text);
 `;
 
 const ModalPopup = ({ message, onOkClick, showOkButton }) => {
