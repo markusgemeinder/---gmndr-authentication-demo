@@ -206,26 +206,23 @@ ol {
   --color-title: var(--color-blue-800);
   --color-text: var(--color-grey-1000);
   --color-text-light: var(--color-grey-450);
-  --color-modal-text: var(--color-grey-650);
 
   /* Header & Footer Colors */
   --color-header-footer: var(--color-blue-850);
   --color-header-footer-text: var(--color-white);
-  --color-modal-header: var(--color-blue-700);
 
-  /* Background Colors */
-
+  /* Background & Border Colors */
   --color-background: var(--color-yellow-0);
   --color-background-light: var(--color-white);
-  --color-burger-menu-background: rgba(42, 59, 128, 0.9375);
-  --color-accordion-title-background: var(--color-blue-700);
-  --color-accordion-content-background: var(--color-white);
-
-  /* Border Color */
   --color-border: var(--color-grey-100);
 
-  /* Modal Colors */
+  /* Special Elements*/
+  --color-burger-menu-background: rgba(42, 59, 128, 0.9375);
   --color-modal: rgba(31, 41, 55, 0.75);
+  --color-modal-header: var(--color-blue-700);
+  --color-modal-text: var(--color-grey-650);
+  --color-accordion-title-background: var(--color-blue-700);
+  --color-accordion-content-background: var(--color-white);
 
   /* Warning Colors */
   --color-check-warning: var(--color-red-300);
@@ -273,25 +270,23 @@ ol {
   --color-title: var(--color-blue-150);
   --color-text: var(--color-grey-50);
   --color-text-light: var(--color-grey-250);
-  --color-modal-text: var(--color-grey-600);
 
   /* Header & Footer Colors */
   --color-header-footer: var(--color-blue-850);
   --color-header-footer-text: var(--color-white);
-  --color-modal-header: var(--color-blue-150);
 
-  /* Background Colors */
+  /* Background & Border Colors */
   --color-background: var(--color-grey-1000);
   --color-background-light: var(--color-grey-800);
-  --color-burger-menu-background: rgba(12, 36, 103, 0.9375);
-  --color-accordion-title-background: var(--color-blue-600);
-  --color-accordion-content-background: var(--color-grey-800);
-
-  /* Border Color */
   --color-border: var(--color-grey-600);
 
-  /* Modal Colors */
+  /* Special Elements*/
+  --color-burger-menu-background: rgba(12, 36, 103, 0.9375);
   --color-modal: rgba(31, 41, 55, 0.85);
+  --color-modal-header: var(--color-blue-150);
+  --color-modal-text: var(--color-grey-600);
+  --color-accordion-title-background: var(--color-blue-600);
+  --color-accordion-content-background: var(--color-grey-800);
 
   /* Warning Colors */
   --color-check-warning: var(--color-red-400);
