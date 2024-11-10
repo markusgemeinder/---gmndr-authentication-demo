@@ -84,16 +84,16 @@ export default function ReviewsPage() {
           session.user.isDemoUser ? (
             <Button
               onClick={handleCreateDemoReview}
-              bgColor='var(--color-button-demo-review)'
-              hoverColor='var(--color-button-demo-review-hover)'
+              bgColor='var(--color-button-orange)'
+              hoverColor='var(--color-button-orange-hover)'
               color='var(--color-button-text)'>
               {getText('reviews', 'button_create_demo_review', language)}
             </Button>
           ) : (
             <Button
               onClick={() => router.push('/reviews/create')}
-              bgColor='var(--color-button-review)'
-              hoverColor='var(--color-button-review-hover)'
+              bgColor='var(--color-button-green)'
+              hoverColor='var(--color-button-green-hover)'
               color='var(--color-button-text)'>
               {getText('reviews', 'button_create_review', language)}
             </Button>

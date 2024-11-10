@@ -144,14 +144,14 @@ export default function ReviewForm({ review, onSave, onCancel, isDemoReview }) {
         )}
 
         <ButtonContainerHorizontal>
-          <Button type='submit' bgColor='var(--color-button-ok)' hoverColor='var(--color-button-ok-hover)'>
+          <Button type='submit' bgColor='var(--color-button-green)' hoverColor='var(--color-button-green-hover)'>
             {getText('review_form', 'button_save', language)}
           </Button>
           <Button
             type='button'
             onClick={onCancel}
-            bgColor='var(--color-button-cancel)'
-            hoverColor='var(--color-button-cancel-hover)'>
+            bgColor='var(--color-button-grey)'
+            hoverColor='var(--color-button-grey-hover)'>
             {getText('review_form', 'button_cancel', language)}
           </Button>
         </ButtonContainerHorizontal>

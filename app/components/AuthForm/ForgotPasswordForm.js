@@ -123,7 +123,7 @@ export default function ForgotPasswordForm() {
           />
         </InputGroup>
         <ButtonContainerVertical>
-          <Button type='submit' bgColor='var(--color-button-login)' hoverColor='var(--color-button-login-hover)'>
+          <Button type='submit' bgColor='var(--color-button-blue)' hoverColor='var(--color-button-blue-hover)'>
             {getText('forgot_password_form', 'send_reset_link', language)}
           </Button>
         </ButtonContainerVertical>

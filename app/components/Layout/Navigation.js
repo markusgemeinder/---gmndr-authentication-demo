@@ -14,8 +14,8 @@ import { LoginButton, LogoutButton, RegisterButton } from '@/app/components/Butt
 import { ButtonContainerHorizontal } from '@/app/components/Button/Button';
 
 const Header = styled.header`
-  background-color: var(--color-header);
-  color: var(--color-header-text);
+  background-color: var(--color-header-footer);
+  color: var(--color-header-footer-text);
   position: fixed;
   top: 0;
   left: 0;
@@ -115,9 +115,9 @@ const NavItem = styled.li`
 `;
 
 const NavLink = styled(Link)`
-  color: var(--color-header-text);
+  color: var(--color-header-footer-text);
   text-decoration: none;
-  border-bottom: ${({ $isActive }) => ($isActive ? '2px solid var(--color-header-text)' : 'none')};
+  border-bottom: ${({ $isActive }) => ($isActive ? '2px solid var(--color-header-footer-text)' : 'none')};
 
   &:hover {
     color: var(--color-link);
@@ -127,7 +127,7 @@ const NavLink = styled(Link)`
 const BurgerMenuButton = styled.button`
   background: none;
   border: none;
-  color: var(--color-header-text);
+  color: var(--color-header-footer-text);
   cursor: pointer;
   font-size: 1.5rem;
   display: none;
@@ -142,7 +142,7 @@ const BurgerMenuButton = styled.button`
 const BurgerMenuButtonSvg = styled.svg`
   width: 42px;
   height: 42px;
-  stroke: var(--color-header-text);
+  stroke: var(--color-header-footer-text);
   stroke-width: 2;
   stroke-linecap: round;
   stroke-linejoin: round;

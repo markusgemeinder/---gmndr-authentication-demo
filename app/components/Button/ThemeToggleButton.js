@@ -12,7 +12,7 @@ import { getText } from '@/lib/languageLibrary';
 const ToggleButton = styled.button`
   background: none;
   border: none;
-  color: var(--color-header-text);
+  color: var(--color-header-footer-text);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -25,7 +25,7 @@ const ToggleButton = styled.button`
   }
 
   &:active {
-    color: var(--color-header-text);
+    color: var(--color-header-footer-text);
   }
 
   &:focus {

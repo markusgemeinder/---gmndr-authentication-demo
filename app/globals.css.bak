@@ -132,20 +132,20 @@ ol {
   --color-title: var(--color-blue-700);
 
   /* Header */
-  --color-header: var(--color-blue-700);
-  --color-header-text: var(--color-blue-0);
+  --color-header-footer: var(--color-blue-700);
+  --color-header-footer-text: var(--color-blue-0);
   --color-modal-header: var(--color-blue-800);
 
   /* Formulare und Eingabefelder */
-  --color-form-background: var(--color-grey-0);
-  --color-input-background: var(--color-grey-50);
-  --color-form-border: var(--color-grey-200);
+  --color-background-light: var(--color-grey-0);
+  --color-background: var(--color-grey-50);
+  --color-border: var(--color-grey-200);
 
   /* Modale Fenster */
-  --color-modal-background: var(--color-grey-);
+  --color-background-light: var(--color-grey-);
 
   /* Zusatz-Elemente */
-  --color-review-card-background: var(--color-form-background);
+  --color-background-light: var(--color-background-light);
   --color-burger-menu-background: rgba(0, 24, 102, 0.9);
   --color-accordion-background: var(--color-red-700);
   --color-accordion-background-light: var(--color-blue-600);
@@ -161,21 +161,21 @@ ol {
   --color-link-hover: var(--color-blue-400);
 
   /* Buttons */
-  --color-button-primary: var(--color-blue-800);
-  --color-button-primary-hover: var(--color-blue-600);
-  --color-button-secondary: var(--color-grey-800);
-  --color-button-secondary-hover: var(--color-grey-600);
+  --color-button-blue: var(--color-blue-800);
+  --color-button-blue-hover: var(--color-blue-600);
+  --color-button-grey: var(--color-grey-800);
+  --color-button-grey-hover: var(--color-grey-600);
   --color-button-text: var(--color-grey-0);
-  --color-button-review: var(--color-green-1000);
-  --color-button-review-hover: var(--color-green-800);
-  --color-button-demo-review: var(--color-orange-1000);
-  --color-button-demo-review-hover: var(--color-orange-800);
-  --color-button-warning: var(--color-red-1000);
-  --color-button-warning-hover: var(--color-red-800);
-  --color-button-edit: var(--color-blue-800);
-  --color-button-edit-hover: var(--color-blue-600);
-  --color-button-delete: var(--color-red-500);
-  --color-button-delete-hover: var(--color-red-700);
+  --color-button-green: var(--color-green-1000);
+  --color-button-green-hover: var(--color-green-800);
+  --color-button-orange: var(--color-orange-1000);
+  --color-button-orange-hover: var(--color-orange-800);
+  --color-button-red: var(--color-red-1000);
+  --color-button-red-hover: var(--color-red-800);
+  --color-button-blue: var(--color-blue-800);
+  --color-button-blue-hover: var(--color-blue-600);
+  --color-button-red: var(--color-red-500);
+  --color-button-red-hover: var(--color-red-700);
   --color-button-page-navigation: var(--color-blue-600);
   --color-button-page-navigation-hover: var(--color-blue-400);
   --color-button-page-navigation-icon: var(--color-blue-600);
@@ -191,12 +191,12 @@ ol {
 
   --color-modal: rgba(0, 0, 0, 0.2);
   --color-modal-text: var(--color-grey-0);
-  --color-button-login: var(--color-blue-500);
-  --color-button-logout: var(--color-red-500);
-  --color-button-register: var(--color-blue-400);
-  --color-button-register-hover: var(--color-blue-600);
-  --color-button-forgot-password: var(--color-orange-500);
-  --color-button-forgot-password-hover: var(--color-orange-400);
+  --color-button-blue: var(--color-blue-500);
+  --color-button-red: var(--color-red-500);
+  --color-button-grey: var(--color-blue-400);
+  --color-button-grey-hover: var(--color-blue-600);
+  --color-button-grey: var(--color-orange-500);
+  --color-button-grey-hover: var(--color-orange-400);
 }
 
 /* Dark Theme */
@@ -207,20 +207,20 @@ ol {
   --color-title: var(--color-blue-200);
 
   /* Header */
-  --color-header: var(--color-blue-800);
-  --color-header-text: var(--color-grey-0);
+  --color-header-footer: var(--color-blue-800);
+  --color-header-footer-text: var(--color-grey-0);
   --color-modal-header: var(--color-blue-400);
 
   /* Formulare und Eingabefelder */
-  --color-form-background: var(--color-grey-900);
-  --color-input-background: var(--color-grey-700);
-  --color-form-border: var(--color-grey-600);
+  --color-background-light: var(--color-grey-900);
+  --color-background: var(--color-grey-700);
+  --color-border: var(--color-grey-600);
 
   /* Modale Fenster */
-  --color-modal-background: var(--color-grey-900);
+  --color-background-light: var(--color-grey-900);
 
   /* Zusatz-Elemente */
-  --color-review-card-background: var(--color-form-background);
+  --color-background-light: var(--color-background-light);
   --color-burger-menu-background: var(--color-blue-700);
   --color-accordion-background: var(--color-blue-500);
   --color-accordion-background-light: var(--color-blue-600);
@@ -236,21 +236,21 @@ ol {
   --color-link-hover: var(--color-blue-500);
 
   /* Buttons */
-  --color-button-primary: var(--color-blue-200);
-  --color-button-primary-hover: var(--color-blue-400);
-  --color-button-secondary: var(--color-grey-700);
-  --color-button-secondary-hover: var(--color-grey-600);
+  --color-button-blue: var(--color-blue-200);
+  --color-button-blue-hover: var(--color-blue-400);
+  --color-button-grey: var(--color-grey-700);
+  --color-button-grey-hover: var(--color-grey-600);
   --color-button-text: var(--color-grey-900);
-  --color-button-review: var(--color-green-1000);
-  --color-button-review-hover: var(--color-green-800);
-  --color-button-demo-review: var(--color-orange-1000);
-  --color-button-demo-review-hover: var(--color-orange-800);
-  --color-button-warning: var(--color-red-1000);
-  --color-button-warning-hover: var(--color-red-800);
-  --color-button-edit: var(--color-blue-400);
-  --color-button-edit-hover: var(--color-blue-600);
-  --color-button-delete: var(--color-red-500);
-  --color-button-delete-hover: var(--color-red-700);
+  --color-button-green: var(--color-green-1000);
+  --color-button-green-hover: var(--color-green-800);
+  --color-button-orange: var(--color-orange-1000);
+  --color-button-orange-hover: var(--color-orange-800);
+  --color-button-red: var(--color-red-1000);
+  --color-button-red-hover: var(--color-red-800);
+  --color-button-blue: var(--color-blue-400);
+  --color-button-blue-hover: var(--color-blue-600);
+  --color-button-red: var(--color-red-500);
+  --color-button-red-hover: var(--color-red-700);
   --color-button-page-navigation: var(--color-blue-500);
   --color-button-page-navigation-hover: var(--color-blue-700);
   --color-button-page-navigation-icon: var(--color-blue-600);
@@ -266,12 +266,12 @@ ol {
 
   --color-modal: rgba(0, 0, 0, 0.7);
   --color-modal-text: var(--color-grey-50);
-  --color-button-login: var(--color-blue-400);
-  --color-button-logout: var(--color-red-400);
-  --color-button-register: var(--color-blue-500);
-  --color-button-register-hover: var(--color-blue-700);
-  --color-button-forgot-password: var(--color-orange-400);
-  --color-button-forgot-password-hover: var(--color-orange-500);
+  --color-button-blue: var(--color-blue-400);
+  --color-button-red: var(--color-red-400);
+  --color-button-grey: var(--color-blue-500);
+  --color-button-grey-hover: var(--color-blue-700);
+  --color-button-grey: var(--color-orange-400);
+  --color-button-grey-hover: var(--color-orange-500);
 }
 
 body {

@@ -140,15 +140,15 @@ export default function SessionStatus() {
                 <ButtonContainerHorizontal>
                   <Button
                     onClick={renewSession}
-                    bgColor='var(--color-button-login)'
-                    hoverColor='var(--color-button-login-hover)'
+                    bgColor='var(--color-button-blue)'
+                    hoverColor='var(--color-button-blue-hover)'
                     color='var(--color-button-text)'>
                     {getText('session_status', 'renewSession', language)}
                   </Button>
                   <Button
                     onClick={handleLogout}
-                    bgColor='var(--color-button-logout)'
-                    hoverColor='var(--color-button-logout-hover)'
+                    bgColor='var(--color-button-red)'
+                    hoverColor='var(--color-button-red-hover)'
                     color='var(--color-button-text)'>
                     {language === 'DE' ? 'Abmelden' : 'Logout'}
                   </Button>

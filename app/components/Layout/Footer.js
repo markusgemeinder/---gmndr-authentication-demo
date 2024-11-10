@@ -5,8 +5,8 @@
 import styled from 'styled-components';
 
 const FooterContainer = styled.footer`
-  background-color: var(--color-header);
-  color: var(--color-header-text);
+  background-color: var(--color-header-footer);
+  color: var(--color-header-footer-text);
   position: fixed;
   bottom: 0;
   left: 0;

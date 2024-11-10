@@ -157,68 +157,24 @@ ol {
   --color-title: var(--color-blue-700);
 
   /* Header & Footer Colors */
-  --color-header: var(--color-blue-700);
-  --color-header-text: var(--color-white);
+  --color-header-footer: var(--color-blue-800);
+  --color-header-footer-text: var(--color-white);
   --color-modal-header: var(--color-blue-700);
 
   /* Background Colors */
-  --color-background: var(--color-grey-50);
-  --color-form-background: var(--color-white);
-  --color-modal-background: var(--color-white);
-  --color-input-background: var(--color-grey-50);
-  --color-review-card-background: var(--color-white);
-  --color-burger-menu-background: rgba(42, 59, 128, 0.9375);
-  --color-accordion-background: var(--color-blue-600);
-  --color-accordion-background-light: var(--color-blue-200);
 
-  /* Border Colors */
+  --color-background: var(--color-grey-50);
+  --color-background-light: var(--color-white);
+  --color-burger-menu-background: rgba(42, 59, 128, 0.9375);
+  --color-accordion-title-background: var(--color-blue-700);
+  --color-accordion-content-background: var(--color-white);
+
+  /* Border Color */
   --color-border: var(--color-grey-200);
-  --color-border-light: var(--color-grey-100);
-  --color-form-border: var(--color-grey-200);
-  --color-input-border: var(--color-grey-200);
-  --color-review-card-border: var(--color-grey-200);
 
   /* Modal Colors */
   --color-modal: rgba(31, 41, 55, 0.75);
   --color-modal-text: var(--color-grey-50);
-
-  /* Button Colors */
-  --color-button-primary: var(--color-blue-700);
-  --color-button-primary-hover: var(--color-blue-800);
-  --color-button-secondary: var(--color-grey-700);
-  --color-button-secondary-hover: var(--color-grey-900);
-  --color-button-text: var(--color-white);
-
-  /* Action Button Colors */
-  --color-button-review: var(--color-green-600);
-  --color-button-review-hover: var(--color-green-700);
-  --color-button-demo-review: var(--color-orange-600);
-  --color-button-demo-review-hover: var(--color-orange-700);
-  --color-button-edit: var(--color-blue-700);
-  --color-button-edit-hover: var(--color-blue-800);
-  --color-button-delete: var(--color-red-500);
-  --color-button-delete-hover: var(--color-red-600);
-  --color-button-page-navigation: var(--color-blue-950);
-  --color-button-page-navigation-hover: var(--color-blue-200);
-  --color-button-page-navigation-icon: var(--color-blue-950);
-  --color-button-warning: var(--color-red-500);
-  --color-button-warning-hover: var(--color-red-600);
-
-  /* Authentication Button Colors */
-  --color-button-login: var(--color-blue-700);
-  --color-button-login-hover: var(--color-blue-800);
-  --color-button-register: var(--color-grey-700);
-  --color-button-register-hover: var(--color-grey-900);
-  --color-button-logout: var(--color-red-500);
-  --color-button-logout-hover: var(--color-red-600);
-  --color-button-ok: var(--color-green-600);
-  --color-button-ok-hover: var(--color-green-700);
-  --color-button-cancel: var(--color-grey-700);
-  --color-button-cancel-hover: var(--color-grey-900);
-  --color-button-forgot-password: var(--color-grey-700);
-  --color-button-forgot-password-hover: var(--color-grey-900);
-  --color-button-demo-user: var(--color-grey-700);
-  --color-button-demo-user-hover: var(--color-grey-900);
 
   /* Warning Colors */
   --color-check-warning: var(--color-red-300);
@@ -228,6 +184,32 @@ ol {
   --star-color: var(--color-yellow-500);
   --star-focus-color: var(--color-yellow-400);
   --star-empty-color: var(--color-grey-200);
+
+  /* ===== Block BUTTONS LIGHTTHEME Beginn ===== */
+
+  /* Button Colors */
+  --color-button-blue: var(--color-blue-700);
+  --color-button-blue-hover: var(--color-blue-800);
+  --color-button-grey: var(--color-grey-700);
+  --color-button-grey-hover: var(--color-grey-900);
+
+  /* Action Button Colors */
+  --color-button-orange: var(--color-orange-600);
+  --color-button-orange-hover: var(--color-orange-700);
+  --color-button-red: var(--color-red-500);
+  --color-button-red-hover: var(--color-red-600);
+  --color-button-green: var(--color-green-600);
+  --color-button-green-hover: var(--color-green-700);
+
+  /* Button Text Color */
+  --color-button-text: var(--color-white);
+
+  /* Page Navigation Button Colors */
+  --color-button-page-navigation: var(--color-blue-950);
+  --color-button-page-navigation-hover: var(--color-blue-200);
+  --color-button-page-navigation-icon: var(--color-blue-950);
+
+  /* ===== Block BUTTONS LIGHTTHEME Ende ===== */
 }
 
 /* Dark Theme */
@@ -243,66 +225,23 @@ ol {
   --color-title: var(--color-blue-200);
 
   /* Header & Footer Colors */
-  --color-header: var(--color-blue-900);
-  --color-header-text: var(--color-white);
+  --color-header-footer: var(--color-blue-900);
+  --color-header-footer-text: var(--color-white);
   --color-modal-header: var(--color-blue-100);
 
   /* Background Colors */
   --color-background: var(--color-grey-900);
-  --color-form-background: var(--color-grey-800);
-  --color-modal-background: var(--color-grey-700);
-  --color-input-background: var(--color-grey-900);
-  --color-review-card-background: var(--color-grey-800);
+  --color-background-light: var(--color-grey-700);
   --color-burger-menu-background: rgba(12, 36, 103, 0.9375);
-  --color-accordion-background: var(--color-blue-600);
-  --color-accordion-background-light: var(--color-blue-200);
+  --color-accordion-title-background: var(--color-blue-500);
+  --color-accordion-content-background: var(--color-grey-800);
 
-  /* Border Colors */
+  /* Border Color */
   --color-border: var(--color-grey-600);
-  --color-border-light: var(--color-grey-500);
-  --color-form-border: var(--color-grey-600);
-  --color-input-border: var(--color-grey-600);
-  --color-review-card-border: var(--color-grey-600);
 
   /* Modal Colors */
   --color-modal: rgba(31, 41, 55, 0.85);
   --color-modal-text: var(--color-grey-50);
-
-  /* Button Colors */
-  --color-button-primary: var(--color-blue-800);
-  --color-button-primary-hover: var(--color-blue-900);
-  --color-button-secondary: var(--color-grey-600);
-  --color-button-secondary-hover: var(--color-grey-800);
-  --color-button-text: var(--color-white);
-
-  /* Action Button Colors */
-  --color-button-review: var(--color-green-700);
-  --color-button-review-hover: var(--color-green-800);
-  --color-button-demo-review: var(--color-orange-700);
-  --color-button-demo-review-hover: var(--color-orange-800);
-  --color-button-edit: var(--color-blue-800);
-  --color-button-edit-hover: var(--color-blue-900);
-  --color-button-delete: var(--color-red-600);
-  --color-button-delete-hover: var(--color-red-700);
-  --color-button-page-navigation: var(--color-grey-200);
-  --color-button-page-navigation-hover: var(--color-blue-200);
-  --color-button-page-navigation-icon: var(--color-grey-200);
-  --color-button-warning: var(--color-red-600);
-  --color-button-warning-hover: var(--color-red-700);
-
-  /* Authentication Button Colors */
-  --color-button-login: var(--color-blue-800);
-  --color-button-login-hover: var(--color-blue-900);
-  --color-button-register: var(--color-grey-600);
-  --color-button-register-hover: var(--color-grey-800);
-  --color-button-logout: var(--color-red-600);
-  --color-button-logout-hover: var(--color-red-700);
-  --color-button-ok: var(--color-green-700);
-  --color-button-ok-hover: var(--color-green-800);
-  --color-button-cancel: var(--color-grey-600);
-  --color-button-cancel-hover: var(--color-grey-800);
-  --color-button-forgot-password: var(--color-grey-600);
-  --color-button-forgot-password-hover: var(--color-grey-800);
 
   /* Warning Colors */
   --color-check-warning: var(--color-red-400);
@@ -312,6 +251,32 @@ ol {
   --star-color: var(--color-yellow-500);
   --star-focus-color: var(--color-yellow-400);
   --star-empty-color: var(--color-grey-600);
+
+  /* ===== Block BUTTONS DARKTHEME Beginn ===== */
+
+  /* Button Colors */
+  --color-button-blue: var(--color-blue-800);
+  --color-button-blue-hover: var(--color-blue-900);
+  --color-button-grey: var(--color-grey-600);
+  --color-button-grey-hover: var(--color-grey-800);
+
+  /* Action Button Colors */
+  --color-button-orange: var(--color-orange-700);
+  --color-button-orange-hover: var(--color-orange-800);
+  --color-button-red: var(--color-red-600);
+  --color-button-red-hover: var(--color-red-700);
+  --color-button-green: var(--color-green-700);
+  --color-button-green-hover: var(--color-green-800);
+
+  /* Button Text Color */
+  --color-button-text: var(--color-white);
+
+  /* Page Navigation Button Colors */
+  --color-button-page-navigation: var(--color-blue-200);
+  --color-button-page-navigation-hover: var(--color-blue-950);
+  --color-button-page-navigation-icon: var(--color-blue-200);
+
+  /* ===== Block BUTTONS DARKTHEME Ende ===== */
 }
 
 /* ===== Block THEMEFARBEN Ende ===== */
