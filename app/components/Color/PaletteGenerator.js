@@ -22,10 +22,14 @@ import {
   GeneratePaletteButton,
   ResetFormButton,
   CopyPaletteButton,
+  SnapshotContainer,
+  SnapshotButton,
+  UndoButton,
+  RedoButton,
   PaletteWrapper,
   PaletteOutput,
 } from '@/app/components/Color/PaletteGeneratorStyles';
-import { FaCopy, FaRedo, FaSlidersH } from 'react-icons/fa';
+import { FaCopy, FaSlidersH, FaRedo, FaUndo, FaCamera, FaCheck } from 'react-icons/fa';
 import { generateMonochromePalette, getColorPreview } from '@/utils/colorUtils';
 
 // Default Werte
@@ -100,13 +104,15 @@ function loadFromLocalStorage() {
 export default function PaletteGenerator() {
   // Initialisierung des States aus dem Local Storage
   const [state, dispatch] = useReducer(paletteReducer, loadFromLocalStorage());
+  const [snapshots, setSnapshots] = useState([]);
+  const [snapshotIndex, setSnapshotIndex] = useState(-1);
+  const [snapshotTaken, setSnapshotTaken] = useState(false);
 
   const [isCopied, setIsCopied] = useState(false);
   const [isGenerateClicked, setIsGenerateClicked] = useState(false);
   const [isResetClicked, setIsResetClicked] = useState(false);
 
   useEffect(() => {
-    // Speichern der aktuellen Werte im localStorage bei Änderungen
     localStorage.setItem('hex', state.hex);
     localStorage.setItem('prefix', state.prefix);
     localStorage.setItem('suffix', state.suffix);
@@ -116,6 +122,109 @@ export default function PaletteGenerator() {
     localStorage.setItem('darkLimit', state.darkLimit.toString());
     localStorage.setItem('brightLimit', state.brightLimit.toString());
   }, [state]);
+
+  useEffect(() => {
+    const storedSnapshots = JSON.parse(sessionStorage.getItem('snapshots')) || [];
+    const storedIndex = parseInt(sessionStorage.getItem('snapshotIndex')) || -1;
+
+    if (storedSnapshots.length !== snapshots.length || storedIndex !== snapshotIndex) {
+      setSnapshots(storedSnapshots);
+      setSnapshotIndex(storedIndex);
+    }
+  }, []); // Beim ersten Laden aus sessionStorage
+
+  useEffect(() => {
+    const currentSnapshots = JSON.parse(sessionStorage.getItem('snapshots')) || [];
+    if (snapshots !== currentSnapshots) {
+      sessionStorage.setItem('snapshots', JSON.stringify(snapshots));
+    }
+  }, [snapshots]); // Nur, wenn der snapshots State sich ändert
+
+  useEffect(() => {
+    sessionStorage.setItem('snapshotIndex', snapshotIndex); // Snapshot Index speichern
+  }, [snapshotIndex]); // Nur wenn der snapshotIndex sich ändert
+
+  useEffect(() => {
+    const storedSnapshots = JSON.parse(sessionStorage.getItem('snapshots')) || [];
+    const storedIndex = parseInt(sessionStorage.getItem('snapshotIndex')) || -1;
+    setSnapshots(storedSnapshots);
+    setSnapshotIndex(storedIndex);
+  }, []);
+
+  const handleSnapshot = () => {
+    // Erstelle den aktuellen Snapshot
+    const snapshot = {
+      hex: state.hex,
+      prefix: state.prefix,
+      suffix: state.suffix,
+      sortOrder: state.sortOrder,
+      checkedValues: state.checkedValues,
+      selectedOption: state.selectedOption,
+      darkLimit: state.darkLimit,
+      brightLimit: state.brightLimit,
+    };
+
+    // Überprüfen, ob der aktuelle Snapshot sich vom letzten unterscheidet
+    const lastSnapshot = snapshots[snapshotIndex];
+
+    // Wenn der letzte Snapshot existiert und der aktuelle Snapshot gleich ist, keinen neuen Snapshot speichern
+    if (
+      lastSnapshot &&
+      lastSnapshot.hex === snapshot.hex &&
+      lastSnapshot.prefix === snapshot.prefix &&
+      lastSnapshot.suffix === snapshot.suffix &&
+      lastSnapshot.sortOrder === snapshot.sortOrder &&
+      isArraysEqual(lastSnapshot.checkedValues, snapshot.checkedValues) &&
+      lastSnapshot.selectedOption === snapshot.selectedOption &&
+      lastSnapshot.darkLimit === snapshot.darkLimit &&
+      lastSnapshot.brightLimit === snapshot.brightLimit
+    ) {
+      return; // Keine Änderung, also kein Snapshot speichern
+    }
+
+    // Wenn es eine Änderung gibt, Snapshot speichern
+    const newSnapshots = [...snapshots.slice(0, snapshotIndex + 1), snapshot];
+    setSnapshots(newSnapshots);
+    setSnapshotIndex(newSnapshots.length - 1);
+  };
+
+  const handleUndo = () => {
+    if (snapshotIndex > 0) {
+      const prevSnapshot = snapshots[snapshotIndex - 1];
+      console.log('Undo: Prev Snapshot', prevSnapshot); // Debugging
+      dispatch({ type: 'SET_VALUE', key: 'hex', value: prevSnapshot.hex });
+      dispatch({ type: 'SET_VALUE', key: 'prefix', value: prevSnapshot.prefix });
+      dispatch({ type: 'SET_VALUE', key: 'suffix', value: prevSnapshot.suffix });
+      dispatch({ type: 'SET_VALUE', key: 'sortOrder', value: prevSnapshot.sortOrder });
+      dispatch({ type: 'SET_CHECKED_VALUES', value: prevSnapshot.checkedValues });
+      dispatch({ type: 'SET_SELECTED_OPTION', value: prevSnapshot.selectedOption });
+      dispatch({ type: 'SET_VALUE', key: 'darkLimit', value: prevSnapshot.darkLimit });
+      dispatch({ type: 'SET_VALUE', key: 'brightLimit', value: prevSnapshot.brightLimit });
+      setSnapshotIndex(snapshotIndex - 1);
+    }
+  };
+
+  const handleRedo = () => {
+    if (snapshotIndex < snapshots.length - 1) {
+      const nextSnapshot = snapshots[snapshotIndex + 1];
+      console.log('Redo: Next Snapshot', nextSnapshot); // Debugging
+      dispatch({ type: 'SET_VALUE', key: 'hex', value: nextSnapshot.hex });
+      dispatch({ type: 'SET_VALUE', key: 'prefix', value: nextSnapshot.prefix });
+      dispatch({ type: 'SET_VALUE', key: 'suffix', value: nextSnapshot.suffix });
+      dispatch({ type: 'SET_VALUE', key: 'sortOrder', value: nextSnapshot.sortOrder });
+      dispatch({ type: 'SET_CHECKED_VALUES', value: nextSnapshot.checkedValues });
+      dispatch({ type: 'SET_SELECTED_OPTION', value: nextSnapshot.selectedOption });
+      dispatch({ type: 'SET_VALUE', key: 'darkLimit', value: nextSnapshot.darkLimit });
+      dispatch({ type: 'SET_VALUE', key: 'brightLimit', value: nextSnapshot.brightLimit });
+      setSnapshotIndex(snapshotIndex + 1);
+    }
+  };
+
+  const handleSnapshotClick = () => {
+    setSnapshotTaken(true);
+    handleSnapshot();
+    setTimeout(() => setSnapshotTaken(false), 1000);
+  };
 
   const handleHexChange = (e) => {
     dispatch({ type: 'SET_VALUE', key: 'hex', value: e.target.value });
@@ -181,6 +290,11 @@ export default function PaletteGenerator() {
     dispatch({ type: 'SET_CHECKED_VALUES', value: selectorOptions[option] || [] });
   };
 
+  const isArraysEqual = (arr1, arr2) => {
+    if (arr1.length !== arr2.length) return false;
+    return arr1.every((value, index) => value === arr2[index]);
+  };
+
   const isFormChanged = () => {
     return (
       state.hex !== defaults.hex ||
@@ -194,15 +308,9 @@ export default function PaletteGenerator() {
     );
   };
 
-  const isArraysEqual = (arr1, arr2) => {
-    if (arr1.length !== arr2.length) return false;
-    return arr1.every((value, index) => value === arr2[index]);
-  };
-
   return (
     <Wrapper>
       <Title>Monochrome Palette Generator</Title>
-
       <InputGroup>
         <Label>Basisfarbwert (Hex):</Label>
         <ColorPickerWrapper>
@@ -210,7 +318,6 @@ export default function PaletteGenerator() {
           <TextInput type='text' value={state.hex} onChange={handleHexChange} placeholder='#' />
         </ColorPickerWrapper>
       </InputGroup>
-
       <InputGroup>
         <Label>Hellster Wert (0):</Label>
         <ColorTileWrapper>
@@ -235,7 +342,6 @@ export default function PaletteGenerator() {
           <SliderValue>{-(state.brightLimit - 100)}</SliderValue>
         </ColorTileWrapper>
       </InputGroup>
-
       <InputGroup>
         <Label>Dunkelster Wert (1000):</Label>
         <ColorTileWrapper>
@@ -261,7 +367,6 @@ export default function PaletteGenerator() {
           <SliderValue>{100 - state.darkLimit}</SliderValue>
         </ColorTileWrapper>
       </InputGroup>
-
       {/* New Input for Prefix */}
       <InputGroup>
         <Label>Prefix:</Label>
@@ -272,7 +377,6 @@ export default function PaletteGenerator() {
           placeholder='--color-'
         />
       </InputGroup>
-
       {/* New Input for Suffix */}
       <InputGroup>
         <Label>Suffix:</Label>
@@ -283,7 +387,6 @@ export default function PaletteGenerator() {
           placeholder='test'
         />
       </InputGroup>
-
       <InputGroup>
         <Label>Sortierung:</Label>
         <Select
@@ -293,7 +396,6 @@ export default function PaletteGenerator() {
           <option value='desc'>Absteigend (1000 ... 0)</option>
         </Select>
       </InputGroup>
-
       <InputGroup>
         <Label>Ausgabewerte:</Label>
         <Select value={state.selectedOption} onChange={(e) => handleSelectOption(e.target.value)}>
@@ -304,7 +406,6 @@ export default function PaletteGenerator() {
           ))}
         </Select>
       </InputGroup>
-
       <InputGroup>
         <CheckboxGroup>
           {allValues.map((value) => (
@@ -325,16 +426,24 @@ export default function PaletteGenerator() {
         </CheckboxGroup>
       </InputGroup>
 
+      <SnapshotContainer>
+        <SnapshotButton onClick={handleSnapshotClick}>{snapshotTaken ? <FaCheck /> : <FaCamera />}</SnapshotButton>
+        <UndoButton onClick={handleUndo}>
+          <FaUndo />
+        </UndoButton>
+        <RedoButton onClick={handleRedo}>
+          <FaRedo />
+        </RedoButton>
+      </SnapshotContainer>
+
       <GeneratePaletteButton width='100%' onClick={handleGeneratePalette}>
         <FaSlidersH /> Palette generieren
       </GeneratePaletteButton>
-
       {isFormChanged() && (
         <ResetFormButton width='auto' onClick={resetForm}>
           <FaRedo /> Formular zurücksetzen
         </ResetFormButton>
       )}
-
       {state.generatedPalette && (
         <PaletteWrapper>
           <CopyPaletteButton width='auto' onClick={handleCopyPalette}>

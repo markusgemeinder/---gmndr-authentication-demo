@@ -7,6 +7,7 @@ export const Wrapper = styled.div`
   flex-direction: column;
   align-items: center;
   margin: 0.6rem auto;
+  margin-right: 1rem;
   padding: 1.4rem 1.8rem;
   width: 96%;
   max-width: 600px;
@@ -15,6 +16,7 @@ export const Wrapper = styled.div`
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 
   @media (min-width: 768px) and (min-height: 768px) {
+    margin-left: 0;
     width: 84%;
     max-width: 30rem;
   }
@@ -254,6 +256,54 @@ export const CopyPaletteButton = styled(Button)`
   background-color: #3a3a3a;
   &:hover {
     background-color: #1a1a1a;
+  }
+`;
+
+export const SnapshotContainer = styled.div`
+  position: fixed;
+  top: 4.7rem;
+  right: 0.7rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  z-index: 4;
+
+  @media (min-width: 768px) and (min-height: 768px) {
+    top: 7rem;
+    right: 2rem;
+  }
+`;
+
+export const SnapshotButton = styled.button`
+  background: none;
+  border: none;
+  padding: 0.5rem;
+  border-radius: 0.6rem;
+  width: 48px;
+  height: 48px;
+  cursor: pointer;
+  background-color: #5a5a5a;
+  &:hover {
+    background-color: #3a3a3a;
+  }
+
+  svg {
+    font-size: 1.8rem;
+    color: white;
+  }
+`;
+
+export const UndoButton = styled(SnapshotButton)`
+  background-color: #c0c0c0;
+  &:hover {
+    background-color: #a0a0a0;
+  }
+`;
+
+export const RedoButton = styled(SnapshotButton)`
+  background-color: #c0c0c0;
+  &:hover {
+    background-color: #a0a0a0;
   }
 `;
 
