@@ -195,7 +195,7 @@ export const PaletteOutput = styled.pre`
 
 export const Button = styled.button`
   padding: 0.75rem 1.5rem;
-  background-color: ${({ backgroundColor }) => backgroundColor || '#4caf50'};
+  background-color: ${({ backgroundColor, isClicked }) => (isClicked ? '#357a38' : backgroundColor || '#4caf50')};
   color: white;
   font-weight: 600;
   border: none;
@@ -219,7 +219,7 @@ export const Button = styled.button`
   `}
 
   &:hover {
-    background-color: ${({ hoverColor }) => hoverColor || '#3a3a3a'};
+    background-color: ${({ hoverColor, isClicked }) => (isClicked ? '#357a38' : hoverColor || '#3a3a3a')};
   }
 
   svg {
