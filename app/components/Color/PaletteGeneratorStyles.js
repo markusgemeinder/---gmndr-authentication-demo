@@ -94,7 +94,9 @@ export const ColorPreview = styled.div.withConfig({
   box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
 `;
 
-export const StyledSlider = styled.input`
+export const StyledSlider = styled.input.withConfig({
+  shouldForwardProp: (prop) => !['thumbColor', 'thumbBorderColor', 'startColor', 'endColor'].includes(prop),
+})`
   width: 100%;
   height: 10px;
   background: linear-gradient(to right, ${(props) => props.endColor}, #ffffff);

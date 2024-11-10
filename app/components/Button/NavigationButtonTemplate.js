@@ -4,7 +4,19 @@
 
 import styled from 'styled-components';
 
-const ButtonContainer = styled.div`
+const ButtonContainer = styled.div.withConfig({
+  shouldForwardProp: (prop) =>
+    ![
+      'mobileTop',
+      'mobileBottom',
+      'mobileLeft',
+      'mobileRight',
+      'desktopTop',
+      'desktopBottom',
+      'desktopLeft',
+      'desktopRight',
+    ].includes(prop), // Diese Props sollen nicht an das DOM weitergegeben werden
+})`
   display: flex;
   position: fixed;
   z-index: 2;
