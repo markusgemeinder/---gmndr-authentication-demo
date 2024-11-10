@@ -11,19 +11,19 @@ import {
   ColorPickerWrapper,
   ColorPicker,
   TextInput,
+  ColorTileWrapper,
+  ColorPreview,
+  StyledSlider,
+  SliderText,
+  SliderValue,
   Select,
   CheckboxGroup,
   CheckboxLabel,
   Button,
   PaletteWrapper,
-  CopyButton,
   PaletteOutput,
-  ColorTileWrapper,
-  ColorPreview,
-  StyledSlider,
-  SliderText,
 } from '@/app/components/Color/PaletteGeneratorStyles';
-import { FaCopy } from 'react-icons/fa';
+import { FaCopy, FaRedo, FaSlidersH } from 'react-icons/fa';
 import { generateMonochromePalette, getColorPreview } from '@/utils/colorUtils';
 
 // Default Werte
@@ -71,11 +71,31 @@ function paletteReducer(state, action) {
   }
 }
 
+// Funktion, um Werte aus dem localStorage zu laden
+function loadFromLocalStorage() {
+  const storedState = {
+    hex: localStorage.getItem('hex') || defaults.hex,
+    prefix: localStorage.getItem('prefix') || defaults.prefix,
+    suffix: localStorage.getItem('suffix') || defaults.suffix,
+    sortOrder: localStorage.getItem('sortOrder') || defaults.sortOrder,
+    checkedValues: JSON.parse(localStorage.getItem('checkedValues')) || defaults.checkedValues,
+    selectedOption: localStorage.getItem('selectedOption') || defaults.selectedOption,
+    darkLimit: parseInt(localStorage.getItem('darkLimit')) || defaults.darkLimit,
+    brightLimit: parseInt(localStorage.getItem('brightLimit')) || defaults.brightLimit,
+    generatedPalette: null,
+  };
+
+  return storedState;
+}
+
 export default function MonochromePaletteGenerator() {
-  const [state, dispatch] = useReducer(paletteReducer, defaults);
-  const [isCopied, setIsCopied] = useState(false); // Definiere isCopied als State
+  // Initialisierung des States aus dem Local Storage
+  const [state, dispatch] = useReducer(paletteReducer, loadFromLocalStorage());
+
+  const [isCopied, setIsCopied] = useState(false);
 
   useEffect(() => {
+    // Speichern der aktuellen Werte im localStorage bei Änderungen
     localStorage.setItem('hex', state.hex);
     localStorage.setItem('prefix', state.prefix);
     localStorage.setItem('suffix', state.suffix);
@@ -183,6 +203,7 @@ export default function MonochromePaletteGenerator() {
           <SliderText>
             <span>heller</span>
           </SliderText>
+          <SliderValue>{-(state.brightLimit - 100)}</SliderValue>
         </ColorTileWrapper>
       </InputGroup>
 
@@ -200,13 +221,15 @@ export default function MonochromePaletteGenerator() {
             value={state.darkLimit}
             onChange={(e) => dispatch({ type: 'SET_VALUE', key: 'darkLimit', value: parseInt(e.target.value) })}
             startColor={getColorPreview(state.hex, state.darkLimit)}
-            endColor='#000000'
+            endColor={getColorPreview(state.hex, state.darkLimit)}
+            // endColor='#000000'
             thumbColor='#fff'
             thumbBorderColor='#333'
           />
           <SliderText>
             <span>heller</span>
           </SliderText>
+          <SliderValue>{100 - state.darkLimit}</SliderValue>
         </ColorTileWrapper>
       </InputGroup>
 
@@ -251,25 +274,33 @@ export default function MonochromePaletteGenerator() {
         </CheckboxGroup>
       </InputGroup>
 
-      <Button onClick={handleGeneratePalette}>Palette generieren</Button>
+      {/* Einziger Button für alle Aktionen */}
+      <Button backgroundColor='#4caf50' hoverColor='#45a049' onClick={handleGeneratePalette} width='15.6rem'>
+        <FaSlidersH style={{ marginRight: '0.5rem' }} />
+        Palette generieren
+      </Button>
 
+      {/* Formular zurücksetzen Button */}
       {isFormChanged() && (
-        <Button onClick={resetForm} style={{ marginTop: '10px', backgroundColor: 'gray' }}>
+        <Button backgroundColor='#b0b0b0' hoverColor='#a0a0a0' onClick={resetForm} width='15.6rem'>
+          <FaRedo style={{ marginRight: '0.5rem' }} />
           Formular zurücksetzen
         </Button>
       )}
 
+      {/* Palette Output */}
       {state.generatedPalette && (
         <PaletteWrapper>
-          <CopyButton onClick={handleCopyPalette}>
-            {isCopied ? (
-              'Kopiert!'
-            ) : (
-              <>
-                <FaCopy /> Kopieren
-              </>
-            )}
-          </CopyButton>
+          <Button
+            backgroundColor={'#5a5a5a'}
+            hoverColor={'#3a3a3a'}
+            onClick={handleCopyPalette}
+            position={{ position: 'absolute', top: '0', right: '0.8rem' }}
+            width='8.8rem'>
+            <FaCopy style={{ marginRight: '0.5rem' }} />
+            {isCopied ? 'Kopiert!' : 'Kopieren'}
+          </Button>
+
           <PaletteOutput>
             {Object.entries(state.generatedPalette)
               .map(([key, value]) => `${key.toLowerCase()}: ${value.toLowerCase()};`)

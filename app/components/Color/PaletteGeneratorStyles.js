@@ -76,112 +76,11 @@ export const TextInput = styled.input`
   width: 100%;
 `;
 
-export const Select = styled.select`
-  padding: 0.75rem;
-  font-size: 1rem;
-  border-radius: 8px;
-  border: 1px solid #ddd;
-  background-color: #fff;
-  color: #333;
-`;
-
-export const CheckboxGroup = styled.div`
-  display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
-  margin-top: 0.5rem;
-  margin-left: 0.6rem;
-  gap: 0.2rem;
-
-  & > label {
-    padding-left: 0.5rem;
-    border-right: 1px solid #ddd;
-
-    &:nth-child(3n) {
-      border-right: none;
-    }
-  }
-
-  @media (min-width: 768px) and (min-height: 768px) {
-    margin-left: 2rem;
-  }
-`;
-
-export const CheckboxLabel = styled.label`
-  font-size: 0.9rem;
-  color: #555;
-  text-align: left;
-`;
-
-export const Button = styled.button`
-  padding: 0.75rem 1.5rem;
-  background-color: #4caf50;
-  color: white;
-  font-weight: 600;
-  border: none;
-  border-radius: 8px;
-  cursor: pointer;
-  margin-top: 1.2rem;
-
-  &:hover {
-    background-color: #45a049;
-  }
-
-  &:active {
-    background-color: #388e3c;
-  }
-`;
-
-export const PaletteWrapper = styled.div`
-  width: 100%;
-  margin-top: 2rem;
-  padding: 1rem;
-  border-radius: 8px;
-  background-color: #f0f5f9;
-  border: 1px solid #ddd;
-  position: relative;
-`;
-
-export const CopyButton = styled.button`
-  position: absolute;
-  top: 10px;
-  right: 10px;
-  background-color: #5a5a5a; /* Grauton */
-  color: white;
-  font-weight: 600;
-  border: none;
-  border-radius: 8px;
-  cursor: pointer;
-  padding: 0.5rem 1rem;
-  width: 7.6rem;
-  height: 2.4rem;
-
-  &:hover {
-    background-color: #757575; /* Etwas dunklerer Grauton */
-  }
-
-  &:active {
-    background-color: #616161; /* Noch dunkler beim Klicken */
-  }
-`;
-
-export const PaletteOutput = styled.pre`
-  font-family: monospace;
-  font-size: 0.9rem;
-  color: #333;
-  white-space: pre-wrap;
-  word-wrap: break-word;
-  margin-top: 3rem;
-`;
-
-export const Spacer = styled.div`
-  height: 0.4rem;
-`;
-
 export const ColorTileWrapper = styled.div`
   display: grid;
-  grid-template-columns: 1fr auto 4fr auto; /* 4 Spalten: 1. ColorPreview, 2. SliderText, 3. StyledSlider, 4. SliderText */
-  gap: 0.6rem; /* Abstand zwischen den Spalten */
-  align-items: center; /* Vertikale Ausrichtung der Elemente */
+  grid-template-columns: 1.4fr 1fr 4fr 1fr 0.6fr;
+  gap: 0.6rem;
+  align-items: center;
   width: 100%;
 `;
 
@@ -230,4 +129,104 @@ export const SliderText = styled.div`
   font-size: 0.7rem;
   color: #333;
   width: 100%;
+`;
+
+export const SliderValue = styled.div`
+  text-align: center;
+  font-size: 0.9rem;
+  font-weight: bold;
+  color: #555;
+`;
+
+export const Select = styled.select`
+  padding: 0.75rem;
+  font-size: 1rem;
+  border-radius: 8px;
+  border: 1px solid #ddd;
+  background-color: #fff;
+  color: #333;
+`;
+
+export const CheckboxGroup = styled.div`
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  margin-top: 0.5rem;
+  margin-left: 0.6rem;
+  gap: 0.2rem;
+
+  & > label {
+    padding-left: 0.5rem;
+    border-right: 1px solid #ddd;
+
+    &:nth-child(3n) {
+      border-right: none;
+    }
+  }
+
+  @media (min-width: 768px) and (min-height: 768px) {
+    margin-left: 2rem;
+  }
+`;
+
+export const CheckboxLabel = styled.label`
+  font-size: 0.9rem;
+  color: #555;
+  text-align: left;
+`;
+
+export const PaletteWrapper = styled.div`
+  width: 100%;
+  margin-top: 1.4rem;
+  padding: 1rem;
+  border-radius: 8px;
+  background-color: #f0f5f9;
+  border: 1px solid #ddd;
+  position: relative;
+`;
+
+export const PaletteOutput = styled.pre`
+  font-family: monospace;
+  font-size: 0.9rem;
+  color: #333;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+  margin-top: 3.6rem;
+`;
+
+export const Button = styled.button`
+  padding: 0.75rem 1.5rem;
+  background-color: ${({ backgroundColor }) => backgroundColor || '#4caf50'};
+  color: white;
+  font-weight: 600;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  margin-top: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  width: ${({ width }) => width || 'auto'};
+
+  ${({ position }) =>
+    position &&
+    `
+    position: ${position.position || 'static'};
+    top: ${position.top || 'auto'};
+    right: ${position.right || 'auto'};
+    bottom: ${position.bottom || 'auto'};
+    left: ${position.left || 'auto'};
+  `}
+
+  &:hover {
+    background-color: ${({ hoverColor }) => hoverColor || '#3a3a3a'};
+  }
+
+  svg {
+    margin-right: 8px;
+  }
+`;
+
+export const Spacer = styled.div`
+  height: 0.4rem;
 `;
