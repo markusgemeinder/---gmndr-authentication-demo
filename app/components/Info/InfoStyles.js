@@ -94,21 +94,53 @@ export const InfoImageWithLink = styled(Image)`
   }
 `;
 
-export const InfoImageFullSize = styled(Image)`
+export const InfoImageWrapper = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
   position: fixed;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  width: auto;
-  max-width: 90vw;
+  height: auto;
+  width: 90vw;
   max-height: 90vh;
-  z-index: 9999;
   border-radius: 8px;
   box-shadow: 0 0 8px rgba(0, 0, 0, 0.5);
+  z-index: 1000;
+  overflow: hidden;
 
-  @media (max-width: 375px) {
-    /* z.B. iPhone SE */
-    width: 100vw;
+  @media (min-width: 768px) and (min-height: 768px) {
+    width: 68vw;
     max-height: 90vh;
   }
+
+  @media (max-width: 768px) and (orientation: landscape) {
+    width: 68vw;
+    max-height: 86vh;
+  }
+
+  @media (max-width: 768px) and (orientation: portrait) {
+    width: 90vw;
+    max-height: 90vh;
+  }
+`;
+
+export const InfoImageFullSize = styled(Image)`
+  width: 100%;
+  height: auto;
+  object-fit: contain;
+  max-width: 100%;
+  max-height: 100%;
+`;
+
+export const Overlay = styled.div`
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 999;
+  cursor: pointer;
 `;

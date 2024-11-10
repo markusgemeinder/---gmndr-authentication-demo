@@ -9,13 +9,13 @@ export const ReviewsContainer = styled.div`
 `;
 
 export const CardContainer = styled.div`
-  background-color: var(--color-form-background);
-  border: 1px solid var(--color-form-border);
+  background-color: var(--color-background-light);
+  border: 1px solid var(--color-border);
   padding: 1.2rem;
   border-radius: 0.6rem;
   box-shadow: 0 0.3rem 0.5rem rgba(0, 0, 0, 0.1);
   margin: 0.2rem 0;
-  transition: transform 0.3s, box-shadow 0.3s;
+  transition: transform 0.2s, box-shadow 0.2s;
   position: relative;
 
   &:first-of-type {
@@ -29,8 +29,8 @@ export const CardContainer = styled.div`
 `;
 
 export const FormContainer = styled.form`
-  background-color: var(--color-form-background);
-  border: 1px solid var(--color-form-border);
+  background-color: var(--color-background-light);
+  border: 1px solid var(--color-border);
   border-radius: 0.6rem;
   padding: 1.5rem;
   width: 100%;
@@ -72,8 +72,8 @@ export const InputContainer = styled.div`
 export const Input = styled.input`
   width: 100%;
   padding: 0.6rem;
-  background-color: var(--color-input-background);
-  border: 1px solid var(--color-input-border);
+  background-color: var(--color-background);
+  border: 1px solid var(--color-border);
   border-radius: 0.4rem;
   font-size: 1rem;
   color: var(--color-text);
@@ -106,20 +106,20 @@ export const Email = styled.div`
 export const Textarea = styled.textarea`
   width: 100%;
   padding: 0.8rem;
-  border: 1px solid var(--color-input-border);
+  border: 1px solid var(--color-border);
   border-radius: 0.3rem;
   font-size: 1rem;
   color: var(--color-text);
-  background-color: var(--color-input-background);
+  background-color: var(--color-background);
 `;
 
 export const Note = styled.p`
   color: var(--color-text);
   /* margin-bottom: 0.9rem; */
   padding: 0.8rem;
-  border: 1px solid var(--color-input-border);
+  border: 1px solid var(--color-border);
   border-radius: 0.3rem;
-  background-color: var(--color-input-background);
+  background-color: var(--color-background);
   text-align: left;
 `;
 

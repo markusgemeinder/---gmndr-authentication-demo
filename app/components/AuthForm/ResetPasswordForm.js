@@ -146,16 +146,16 @@ export default function ResetPasswordForm() {
         <ButtonContainerVertical>
           <Button
             type='submit'
-            bgColor='var(--color-button-login)'
-            hoverColor='var(--color-button-login-hover)'
+            bgColor='var(--color-button-primary)'
+            hoverColor='var(--color-button-primary-hover)'
             disabled={!isPasswordValid || isTokenExpired}>
             {getText('reset_password_form', 'confirm', language)}
           </Button>
           <Button
             type='button'
             onClick={() => router.push('/')}
-            bgColor='var(--color-button-cancel)'
-            hoverColor='var(--color-button-cancel-hover)'>
+            bgColor='var(--color-button-secondary)'
+            hoverColor='var(--color-button-secondary-hover)'>
             {getText('reset_password_form', 'cancel', language)}
           </Button>
         </ButtonContainerVertical>

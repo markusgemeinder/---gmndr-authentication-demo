@@ -133,8 +133,8 @@ export default function LoginForm({ onLogin, onOAuthLogin, error, onDemoLogin })
         <ButtonContainerVertical>
           <Button
             type='button'
-            bgColor='var(--color-button-demo-user)'
-            hoverColor='var(--color-button-demo-user-hover)'
+            bgColor='var(--color-button-secondary)'
+            hoverColor='var(--color-button-secondary-hover)'
             style={{ width: '100%' }}
             onClick={handleDemoUserLogin}>
             {getText('login_form', 'demo_user', language)}
@@ -142,8 +142,8 @@ export default function LoginForm({ onLogin, onOAuthLogin, error, onDemoLogin })
 
           <Button
             type='button'
-            bgColor='var(--color-button-login)'
-            hoverColor='var(--color-button-login-hover)'
+            bgColor='var(--color-button-primary)'
+            hoverColor='var(--color-button-primary-hover)'
             onClick={() => onOAuthLogin('github')}
             style={{ width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
             <IconButtonImage src={`/images/github-logo.svg`} alt='GitHub Logo' width={20} height={20} />
@@ -152,8 +152,8 @@ export default function LoginForm({ onLogin, onOAuthLogin, error, onDemoLogin })
 
           <Button
             type='button'
-            bgColor='var(--color-button-login)'
-            hoverColor='var(--color-button-login-hover)'
+            bgColor='var(--color-button-primary)'
+            hoverColor='var(--color-button-primary-hover)'
             onClick={() => onOAuthLogin('google')}
             style={{ width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
             <IconButtonImage src={`/images/google-logo.svg`} alt='Google Logo' width={20} height={20} />
@@ -215,8 +215,8 @@ export default function LoginForm({ onLogin, onOAuthLogin, error, onDemoLogin })
         <ButtonContainerVertical>
           <Button
             type='submit'
-            bgColor='var(--color-button-login)'
-            hoverColor='var(--color-button-login-hover)'
+            bgColor='var(--color-button-primary)'
+            hoverColor='var(--color-button-primary-hover)'
             style={{ width: '100%' }}>
             {getText('login_form', 'login', language)}
           </Button>
@@ -224,8 +224,8 @@ export default function LoginForm({ onLogin, onOAuthLogin, error, onDemoLogin })
           <Link href='/forgot-password'>
             <Button
               type='button'
-              bgColor='var(--color-button-forgot-password)'
-              hoverColor='var(--color-button-forgot-password-hover)'
+              bgColor='var(--color-button-secondary)'
+              hoverColor='var(--color-button-secondary-hover)'
               style={{ width: '100%' }}>
               {getText('login_form', 'forgot_password', language)}
             </Button>
@@ -233,8 +233,8 @@ export default function LoginForm({ onLogin, onOAuthLogin, error, onDemoLogin })
           <Link href='/register'>
             <Button
               type='button'
-              bgColor='var(--color-button-forgot-password)'
-              hoverColor='var(--color-button-forgot-password-hover)'
+              bgColor='var(--color-button-secondary)'
+              hoverColor='var(--color-button-secondary-hover)'
               style={{ width: '100%' }}>
               {getText('login_form', 'register', language)}
             </Button>

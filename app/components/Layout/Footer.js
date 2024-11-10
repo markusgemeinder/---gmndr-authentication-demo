@@ -5,15 +5,15 @@
 import styled from 'styled-components';
 
 const FooterContainer = styled.footer`
-  background-color: var(--color-header);
-  color: var(--color-header-text);
+  background-color: var(--color-header-footer);
+  color: var(--color-header-footer-text);
   position: fixed;
   bottom: 0;
   left: 0;
   height: 2.5rem;
   width: 100%;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  z-index: 1000;
+  z-index: 99;
 `;
 
 const FooterContent = styled.div`

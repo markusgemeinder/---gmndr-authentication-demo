@@ -10,7 +10,7 @@ const AccordionContainer = styled.div`
   width: 100%;
   overflow: hidden;
   margin: 0.5rem 0;
-  background-color: var(--color-form-background);
+  background-color: var(--color-background-light);
   border: 1px solid var(--color-border);
   border-radius: 0.6rem;
   max-width: 24rem;
@@ -22,7 +22,7 @@ const AccordionContainer = styled.div`
 `;
 
 const AccordionButton = styled.button`
-  background-color: var(--color-accordion-background);
+  background-color: var(--color-accordion-title-background);
   color: var(--color-button-text);
   font-weight: 700;
   width: 100%;
@@ -37,12 +37,14 @@ const AccordionButton = styled.button`
   text-align: left;
 `;
 
-const AccordionContent = styled.div`
+const AccordionContent = styled.div.withConfig({
+  shouldForwardProp: (prop) => prop !== 'contentHeight' && prop !== 'isOpen',
+})`
   padding: ${({ isOpen }) => (isOpen ? '1rem 1rem' : '0')};
   height: ${({ isOpen, contentHeight }) => (isOpen ? `${contentHeight}px` : '0')};
   overflow: hidden;
-  transition: height 0.3s ease, opacity 0.3s ease, transform 0.3s ease, padding 0.3s ease;
-  background-color: var(--color-form-background);
+  transition: height 0.2s ease, opacity 0.2s ease, transform 0.2s ease, padding 0.01s ease;
+  background-color: var(--color-accordion-content-background);
   opacity: ${({ isOpen }) => (isOpen ? '1' : '0')};
   transform: ${({ isOpen }) => (isOpen ? 'scaleY(1)' : 'scaleY(0)')};
   transform-origin: top;
@@ -61,6 +63,7 @@ const AccordionIcon = ({ isOpen }) => (
 );
 
 const AccordionTitle = styled.h3`
+  font-size: 1rem;
   font-weight: 500;
 `;
 

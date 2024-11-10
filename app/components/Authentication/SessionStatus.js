@@ -12,14 +12,12 @@ import { getText } from '@/lib/languageLibrary';
 
 const StatusContainer = styled.div`
   margin-bottom: 0.4rem;
-  font-size: 0.875rem;
   color: var(--color-text-light);
 `;
 
 const SessionStatusText = styled(Paragraph)`
-  /* font-size: 0.9rem; */
   margin: 0.2rem;
-  color: var(--color-text-medium);
+  color: var(--color-text-light);
 `;
 
 const CountdownContainer = styled.span`
@@ -36,7 +34,7 @@ const Timer = styled.div`
   font-size: 2rem;
   margin-bottom: 1rem;
   text-align: center;
-  color: var(--color-text-medium);
+  color: var(--color-text);
 `;
 
 const SessionStatusModalOverlay = styled(ModalOverlay)`
@@ -142,15 +140,15 @@ export default function SessionStatus() {
                 <ButtonContainerHorizontal>
                   <Button
                     onClick={renewSession}
-                    bgColor='var(--color-button-login)'
-                    hoverColor='var(--color-button-login-hover)'
+                    bgColor='var(--color-button-primary)'
+                    hoverColor='var(--color-button-primary-hover)'
                     color='var(--color-button-text)'>
                     {getText('session_status', 'renewSession', language)}
                   </Button>
                   <Button
                     onClick={handleLogout}
-                    bgColor='var(--color-button-logout)'
-                    hoverColor='var(--color-button-logout-hover)'
+                    bgColor='var(--color-button-warning)'
+                    hoverColor='var(--color-button-warning-hover)'
                     color='var(--color-button-text)'>
                     {language === 'DE' ? 'Abmelden' : 'Logout'}
                   </Button>

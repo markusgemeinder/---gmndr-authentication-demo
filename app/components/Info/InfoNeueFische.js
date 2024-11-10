@@ -14,7 +14,9 @@ import {
   InfoImageWithLink,
   InfoLinkContainer,
   InfoLink,
-  InfoImageFullSize,
+  Overlay,
+  InfoImageWrapper,
+  InfoImageFullSize, // Direkt importiert
 } from '@/app/components/Info/InfoStyles';
 
 export default function InfoNeueFische() {
@@ -62,35 +64,20 @@ export default function InfoNeueFische() {
       </InfoImageContainer>
       {isImageExpanded && (
         <>
-          <div
+          <Overlay
             onClick={handleCloseImage}
-            style={{
-              position: 'fixed',
-              top: 0,
-              bottom: 0,
-              left: 0,
-              right: 0,
-              background: 'rgba(0, 0, 0, 0.5)',
-              zIndex: 999,
-            }}
             role='button'
-            aria-label='Close expanded image'
+            aria-label={getText('info_neue_fische', 'aria_label_close_expanded_image', language)}
           />
-          <InfoImageFullSize
-            src={expandedImageSrc}
-            alt='Expanded Image'
-            width={800}
-            height={800}
-            style={{
-              zIndex: 1000,
-              position: 'fixed',
-              top: '50%',
-              left: '50%',
-              transform: 'translate(-50%, -50%)',
-              cursor: 'pointer',
-            }}
-            onClick={handleCloseImage}
-          />
+          <InfoImageWrapper>
+            <InfoImageFullSize
+              src={expandedImageSrc}
+              alt='Expanded Image'
+              width={800}
+              height={800}
+              onClick={handleCloseImage}
+            />
+          </InfoImageWrapper>
         </>
       )}
       <InfoLinkContainer>

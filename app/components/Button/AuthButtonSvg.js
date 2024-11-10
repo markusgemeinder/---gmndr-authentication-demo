@@ -6,7 +6,9 @@ import styled from 'styled-components';
 import { useRouter } from 'next/navigation';
 import { signOut } from 'next-auth/react';
 
-const AuthButtonLink = styled.button`
+const AuthButtonLink = styled.button.withConfig({
+  shouldForwardProp: (prop) => prop !== 'bgColor' && prop !== 'hoverBgColor',
+})`
   display: flex;
   align-items: center;
   justify-content: center;
@@ -15,12 +17,12 @@ const AuthButtonLink = styled.button`
   width: 100%;
   height: 48px;
   padding: 0 0.6rem;
-  transition: background-color 0.3s ease;
+  /* transition: background-color 0.05s ease; */
   cursor: pointer;
-  background-color: ${(props) => props.bgColor || 'transparent'};
+  background-color: ${({ bgColor }) => bgColor || 'transparent'};
 
   &:hover {
-    background-color: ${(props) => props.hoverBgColor || 'transparent'};
+    background-color: ${({ hoverBgColor }) => hoverBgColor || 'transparent'};
   }
 
   &:focus {
@@ -50,6 +52,7 @@ const AuthButtonSvg = styled.svg`
 `;
 
 const ButtonText = styled.span`
+  color: var(--color-button-text);
   font-weight: 500;
   display: block;
 
@@ -63,8 +66,8 @@ export const LoginButton = ({ onCloseMenu, buttonText }) => {
 
   return (
     <AuthButtonLink
-      bgColor='var(--color-button-login)'
-      hoverBgColor='var(--color-button-login-hover)'
+      bgColor='var(--color-button-primary)'
+      hoverBgColor='var(--color-button-primary-hover)'
       type='button'
       onClick={() => {
         onCloseMenu();
@@ -81,8 +84,8 @@ export const LoginButton = ({ onCloseMenu, buttonText }) => {
 export const LogoutButton = ({ onCloseMenu, buttonText }) => {
   return (
     <AuthButtonLink
-      bgColor='var(--color-button-logout)'
-      hoverBgColor='var(--color-button-logout-hover)'
+      bgColor='var(--color-button-secondary)'
+      hoverBgColor='var(--color-button-secondary-hover)'
       type='button'
       onClick={() => {
         onCloseMenu();
@@ -101,8 +104,8 @@ export const RegisterButton = ({ onCloseMenu, buttonText }) => {
 
   return (
     <AuthButtonLink
-      bgColor='var(--color-button-register)'
-      hoverBgColor='var(--color-button-register-hover)'
+      bgColor='var(--color-button-secondary)'
+      hoverBgColor='var(--color-button-secondary-hover)'
       type='button'
       onClick={() => {
         onCloseMenu();

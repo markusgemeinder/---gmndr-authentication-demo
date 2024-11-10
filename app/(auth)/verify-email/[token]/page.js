@@ -147,8 +147,8 @@ export default function VerifyEmailPage({ params }) {
             <ButtonContainerHorizontal>
               <Button
                 onClick={handleVerifyClick}
-                bgColor='var(--color-button-login)'
-                hoverColor='var(--color-button-login-hover)'>
+                bgColor='var(--color-button-primary)'
+                hoverColor='var(--color-button-primary-hover)'>
                 {getText('auth_verify_email_token', 'button_confirm_email', language)}
               </Button>
             </ButtonContainerHorizontal>

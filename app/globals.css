@@ -1,177 +1,323 @@
 /* /app/globals.css */
 
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
-
-/* Light Theme Colors */
-:root {
-  /* Link Colors */
-  --color-link: #839bde;
-  --color-link-hover: #3356b7;
-
-  /* Text Colors */
-  --color-text: #111827;
-  --color-text-medium: #374151;
-  --color-text-light: #6b7280;
-  --color-title: #2c4da8;
-
-  /* Header & Footer Colors */
-  --color-header: #152d6d;
-  --color-header-text: #ffffff;
-  --color-modal-header: #07498b;
-
-  /* Background Colors */
-  --color-background: #f7f7f7;
-  --color-form-background: #ffffff;
-  --color-modal-background: #ffffff;
-  --color-input-background: var(--color-background);
-  --color-review-card-background: var(--color-form-background);
-  --color-burger-menu-background: #2a3b80ef;
-  --color-accordion-background: var(--color-link-hover);
-  --color-accordion-background-light: var(--color-link);
-
-  /* Border Colors */
-  --color-border: #dcdcdc;
-  --color-border-light: #e9e9e9;
-  --color-form-border: var(--color-border);
-  --color-input-border: var(--color-border);
-  --color-review-card-border: var(--color-border);
-
-  /* Modal Colors */
-  --color-modal: rgba(31, 41, 55, 0.75);
-  --color-modal-text: #f3f4f6;
-
-  /* Button Colors */
-  --color-button-primary: #3161e6;
-  --color-button-primary-hover: #1044b4;
-  --color-button-secondary: #4b5563;
-  --color-button-secondary-hover: #374151;
-  --color-button-text: #ffffff;
-
-  /* Action Button Colors */
-  --color-button-review: #13b64f;
-  --color-button-review-hover: #16a34a;
-  --color-button-demo-review: #f97316;
-  --color-button-demo-review-hover: #ea580c;
-  --color-button-edit: var(--color-button-primary);
-  --color-button-edit-hover: var(--color-button-primary-hover);
-  --color-button-delete: #ef4444;
-  --color-button-delete-hover: #dc2626;
-  --color-button-page-navigation: #203a81;
-  --color-button-page-navigation-hover: #a2b8f6;
-  --color-button-page-navigation-icon: #203a81;
-  --color-button-warning: #ef4444;
-  --color-button-warning-hover: #dc2626;
-
-  /* Authentication Button Colors */
-  --color-button-login: var(--color-button-edit);
-  --color-button-login-hover: var(--color-button-edit-hover);
-  --color-button-register: var(--color-button-secondary);
-  --color-button-register-hover: var(--color-button-secondary-hover);
-  --color-button-logout: var(--color-button-warning);
-  --color-button-logout-hover: var(--color-button-warning-hover);
-  --color-button-ok: var(--color-button-review);
-  --color-button-ok-hover: var(--color-button-review-hover);
-  --color-button-cancel: var(--color-button-secondary);
-  --color-button-cancel-hover: var(--color-button-secondary-hover);
-  --color-button-forgot-password: var(--color-button-secondary);
-  --color-button-forgot-password-hover: var(--color-button-secondary-hover);
-  --color-button-demo-user: var(--color-button-secondary);
-  --color-button-demo-user-hover: var(--color-button-secondary-hover);
-
-  /* Warning Colors */
-  --color-check-warning: #f87171;
-  --color-check-ok: #1a9c4a;
-
-  /* Star Colors */
-  --star-color: #fbbf24;
-  --star-focus-color: #f59e0b;
-  --star-empty-color: #d1d5db;
+/* CSS Reset */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
 }
 
-/* Dark Theme Colors */
-[data-theme='dark'] {
+html,
+body {
+  margin: 0;
+  padding: 0;
+  font-family: system-ui, sans-serif;
+  font-size: 1rem;
+  line-height: 1.25;
+  color: var(--color-text);
+  background-color: var(--color-background);
+}
+
+input,
+button,
+textarea,
+select {
+  font: inherit;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+button {
+  cursor: pointer;
+  background: none;
+  border: none;
+  padding: 0;
+}
+
+ul,
+ol {
+  list-style: none;
+}
+
+/* ===== Block GRUNDFARBEN Beginn ===== */
+:root {
+  --color-white: #ffffff;
+  --color-black: #000000;
+
+  /* Farbvariablen für Primärfarbe */
+  /* --color-primary-base: #186595; */
+  /* Light level (0): 2% | Dark level (1000): 90% */
+  --color-primary-0: #f6fbfe;
+  --color-primary-50: #e3f1fa;
+  --color-primary-100: #d0e8f7;
+  --color-primary-150: #bcdff4;
+  --color-primary-200: #a9d5f1;
+  --color-primary-250: #96ccee;
+  --color-primary-300: #82c3eb;
+  --color-primary-350: #6fb9e8;
+  --color-primary-400: #5cb0e5;
+  --color-primary-450: #48a7e2;
+  --color-primary-500: #359dde;
+  --color-primary-550: #2394da;
+  --color-primary-600: #2087c7;
+  --color-primary-650: #1d79b3;
+  --color-primary-700: #1a6ca0;
+  --color-primary-750: #175f8d;
+  --color-primary-800: #145279;
+  --color-primary-850: #104566;
+  --color-primary-900: #0d3853;
+  --color-primary-950: #0a2b3f;
+  --color-primary-1000: #071e2c;
+
+  /* Farbvariablen für Sekundärfarbe */
+  /* --color-secondary-base: #52616b; */
+  /* Light level (0): 2% | Dark level (1000): 90% */
+  --color-secondary-0: #f9fafb;
+  --color-secondary-50: #edeff1;
+  --color-secondary-100: #e0e4e7;
+  --color-secondary-150: #d3d9dd;
+  --color-secondary-200: #c6ced4;
+  --color-secondary-250: #bac3ca;
+  --color-secondary-300: #adb8c0;
+  --color-secondary-350: #a0aeb6;
+  --color-secondary-400: #94a3ad;
+  --color-secondary-450: #8798a3;
+  --color-secondary-500: #7a8d99;
+  --color-secondary-550: #6e828f;
+  --color-secondary-600: #647683;
+  --color-secondary-650: #5a6b76;
+  --color-secondary-700: #515f69;
+  --color-secondary-750: #47545c;
+  --color-secondary-800: #3d4850;
+  --color-secondary-850: #333d43;
+  --color-secondary-900: #2a3136;
+  --color-secondary-950: #20262a;
+  --color-secondary-1000: #161a1d;
+
+  /* Farbvariablen für Schmuckfarbe Gelb */
+  /* --color-yellow-base: #ffd15c; */
+  /* Light level (0): 4% | Dark level (1000): 98% */
+  --color-yellow-0: #fff9eb;
+  --color-yellow-50: #fff2d3;
+  --color-yellow-100: #ffecbb;
+  --color-yellow-150: #ffe5a3;
+  --color-yellow-200: #ffde8b;
+  --color-yellow-250: #ffd773;
+  --color-yellow-300: #ffd15b;
+  --color-yellow-350: #ffca43;
+  --color-yellow-400: #ffc32b;
+  --color-yellow-450: #ffbc13;
+  --color-yellow-500: #fab300;
+  --color-yellow-550: #e2a200;
+  --color-yellow-600: #ca9100;
+  --color-yellow-650: #b28000;
+  --color-yellow-700: #9a6f00;
+  --color-yellow-750: #825d00;
+  --color-yellow-800: #6a4c00;
+  --color-yellow-850: #523b00;
+  --color-yellow-900: #3a2a00;
+  --color-yellow-950: #221900;
+  --color-yellow-1000: #0a0700;
+
+  /* Farbvariablen für Schmuckfarbe Orange */
+  /* --color-orange-base: #f97316; */
+  /* Light level (0): 2% | Dark level (1000): 80% */
+  --color-orange-0: #fff9f5;
+  --color-orange-50: #feede2;
+  --color-orange-100: #fee2ce;
+  --color-orange-150: #fdd6bb;
+  --color-orange-200: #fdcaa7;
+  --color-orange-250: #fcbf94;
+  --color-orange-300: #fcb381;
+  --color-orange-350: #fba76d;
+  --color-orange-400: #fb9c5a;
+  --color-orange-450: #fa9047;
+  --color-orange-500: #fa8533;
+  --color-orange-550: #f97920;
+  --color-orange-600: #f96d0c;
+  --color-orange-650: #eb6406;
+  --color-orange-700: #d85c06;
+  --color-orange-750: #c45305;
+  --color-orange-800: #b14b05;
+  --color-orange-850: #9e4304;
+  --color-orange-900: #8a3b04;
+  --color-orange-950: #773203;
+  --color-orange-1000: #632a03;
+
+  /* Farbvariablen für Schmuckfarbe Rot */
+  /* --color-red-base: #951818; */
+  /* Light level (0): 5% | Dark level (1000): 90% */
+  --color-red-0: #fbe9e9;
+  --color-red-50: #f8d6d6;
+  --color-red-100: #f5c4c4;
+  --color-red-150: #f2b1b1;
+  --color-red-200: #ef9e9e;
+  --color-red-250: #ec8c8c;
+  --color-red-300: #e97979;
+  --color-red-350: #e66666;
+  --color-red-400: #e35454;
+  --color-red-450: #e04141;
+  --color-red-500: #dd2e2e;
+  --color-red-550: #d42222;
+  --color-red-600: #c11f1f;
+  --color-red-650: #af1c1c;
+  --color-red-700: #9c1919;
+  --color-red-750: #891616;
+  --color-red-800: #771313;
+  --color-red-850: #641010;
+  --color-red-900: #510d0d;
+  --color-red-950: #3f0a0a;
+  --color-red-1000: #2c0707;
+
+  /* Farbvariablen für Schmuckfarbe Grün */
+  /* --color-green-base: #189531; */
+  /* Light level (0): 2% | Dark level (1000): 86% */
+  --color-green-0: #f6fef8;
+  --color-green-50: #e4fbe8;
+  --color-green-100: #d1f8d9;
+  --color-green-150: #bff5ca;
+  --color-green-200: #acf2ba;
+  --color-green-250: #9aefab;
+  --color-green-300: #88ec9c;
+  --color-green-350: #75e98c;
+  --color-green-400: #63e67d;
+  --color-green-450: #50e36e;
+  --color-green-500: #3ee05e;
+  --color-green-550: #2bdd4f;
+  --color-green-600: #22d145;
+  --color-green-650: #1fbf3f;
+  --color-green-700: #1cac39;
+  --color-green-750: #199a33;
+  --color-green-800: #16872c;
+  --color-green-850: #137526;
+  --color-green-900: #106220;
+  --color-green-950: #0d501a;
+  --color-green-1000: #0a3d14;
+}
+
+[data-theme='light'] {
   /* Link Colors */
-  --color-link: #acc2ff;
-  --color-link-hover: #6683d6;
+  --color-link: var(--color-primary-300);
+  --color-link-hover: var(--color-primary-600);
 
   /* Text Colors */
-  --color-text: #e5e7eb;
-  --color-text-medium: #9ca3af;
-  --color-text-light: #6b7280;
-  --color-title: #acc2ff;
+  --color-title: var(--color-primary-800);
+  --color-text: var(--color-secondary-1000);
+  --color-text-light: var(--color-secondary-550);
 
   /* Header & Footer Colors */
-  --color-header: #152d6d;
-  --color-header-text: #ffffff;
-  --color-modal-header: #bbcdff;
+  --color-header-footer: var(--color-primary-850);
+  --color-header-footer-text: var(--color-white);
 
-  /* Background Colors */
-  --color-background: #1f2937;
-  --color-form-background: #2d3748;
-  --color-modal-background: #424e61;
-  --color-input-background: var(--color-background);
-  --color-review-card-background: var(--color-form-background);
-  --color-burger-menu-background: #3c4b92ef;
-  --color-accordion-background: var(--color-link-hover);
-  --color-accordion-background-light: var(--color-link);
+  /* Background & Border Colors */
+  --color-background: var(--color-primary-0);
+  --color-background-light: var(--color-primary-100);
+  --color-border: var(--color-primary-250);
 
-  /* Border Colors */
-  --color-border: #4b5563;
-  --color-border-light: #6a7381;
-  --color-form-border: var(--color-border);
-  --color-input-border: var(--color-border);
-  --color-review-card-border: var(--color-border);
+  /* Special Elements*/
 
-  /* Modal Colors */
-  --color-modal: rgba(31, 41, 55, 0.85);
-  --color-modal-text: #f3f4f6;
+  --color-burger-menu-background: rgba(23, 95, 141, 0.95);
+  --color-modal: rgba(16, 69, 102, 0.75);
+  --color-modal-header: var(--color-primary-700);
+  --color-modal-text: var(--color-secondary-650);
+  --color-accordion-title-background: var(--color-primary-700);
+  --color-accordion-content-background: var(--color-white);
 
   /* Button Colors */
-  --color-button-primary: #004ecb;
-  --color-button-primary-hover: #023bb6;
-  --color-button-secondary: #5a5e63;
-  --color-button-secondary-hover: #4a4b4d;
-  --color-button-text: #ffffff;
+  --color-button-primary: var(--color-primary-600);
+  --color-button-primary-hover: var(--color-primary-650);
+  --color-button-secondary: var(--color-secondary-600);
+  --color-button-secondary-hover: var(--color-secondary-700);
 
   /* Action Button Colors */
-  --color-button-review: #15803d;
-  --color-button-review-hover: #166534;
-  --color-button-demo-review: #d85007;
-  --color-button-demo-review-hover: #ae3708;
-  --color-button-edit: var(--color-button-primary);
-  --color-button-edit-hover: var(--color-button-primary-hover);
-  --color-button-delete: #b91c1c;
-  --color-button-delete-hover: #991b1b;
-  --color-button-page-navigation: #c6c9cf;
-  --color-button-page-navigation-hover: #6683d6;
-  --color-button-page-navigation-icon: #c6c9cf;
-  --color-button-warning: #b91c1c;
-  --color-button-warning-hover: #991b1b;
+  --color-button-attention: var(--color-orange-650);
+  --color-button-attention-hover: var(--color-orange-700);
+  --color-button-warning: var(--color-red-550);
+  --color-button-warning-hover: var(--color-red-600);
+  --color-button-confirmation: var(--color-green-700);
+  --color-button-confirmation-hover: var(--color-green-750);
 
-  /* Authentication Button Colors */
-  --color-button-login: var(--color-button-edit);
-  --color-button-login-hover: var(--color-button-edit-hover);
-  --color-button-register: var(--color-button-secondary);
-  --color-button-register-hover: var(--color-button-secondary-hover);
-  --color-button-logout: var(--color-button-warning);
-  --color-button-logout-hover: var(--color-button-warning-hover);
-  --color-button-ok: var(--color-button-review);
-  --color-button-ok-hover: var(--color-button-review-hover);
-  --color-button-cancel: var(--color-button-secondary);
-  --color-button-cancel-hover: var(--color-button-secondary-hover);
-  --color-button-forgot-password: var(--color-button-secondary);
-  --color-button-forgot-password-hover: var(--color-button-secondary-hover);
+  /* Button Text Color */
+  --color-button-text: var(--color-white);
+
+  /* Page Navigation Button Colors */
+  --color-button-page-navigation: var(--color-primary-700);
+  --color-button-page-navigation-hover: var(--color-primary-200);
+  --color-button-page-navigation-icon: var(--color-primary-700);
 
   /* Warning Colors */
-  --color-check-warning: #f66666;
-  --color-check-ok: #1a9c4a;
+  --color-check-warning: var(--color-red-500);
+  --color-check-ok: var(--color-green-700);
 
   /* Star Colors */
-  --star-color: #fbbf24;
-  --star-focus-color: #f59e0b;
-  --star-empty-color: #616161;
+  --star-color: var(--color-yellow-500);
+  --star-focus-color: var(--color-yellow-400);
+  --star-empty-color: var(--color-secondary-200);
+}
+
+/* Dark Theme */
+[data-theme='dark'] {
+  /* Link Colors */
+  --color-link: var(--color-primary-200);
+  --color-link-hover: var(--color-primary-350);
+
+  /* Text Colors */
+  --color-title: var(--color-primary-150);
+  --color-text: var(--color-secondary-50);
+  --color-text-light: var(--color-secondary-250);
+
+  /* Header & Footer Colors */
+  --color-header-footer: var(--color-primary-850);
+  --color-header-footer-text: var(--color-white);
+
+  /* Background & Border Colors */
+  --color-background: var(--color-primary-1000);
+  --color-background-light: var(--color-primary-800);
+  --color-border: var(--color-primary-650);
+
+  /* Special Elements*/
+  --color-burger-menu-background: rgba(23, 95, 141, 0.95);
+  --color-modal: rgba(10, 43, 63, 0.85);
+  --color-modal-header: var(--color-primary-150);
+  --color-modal-text: var(--color-secondary-600);
+  --color-accordion-title-background: var(--color-primary-650);
+  --color-accordion-content-background: var(--color-secondary-800);
+
+  /* Button Colors */
+  --color-button-primary: var(--color-primary-550);
+  --color-button-primary-hover: var(--color-primary-450);
+  --color-button-secondary: var(--color-secondary-600);
+  --color-button-secondary-hover: var(--color-secondary-500);
+
+  /* Action Button Colors */
+  --color-button-attention: var(--color-orange-700);
+  --color-button-attention-hover: var(--color-orange-650);
+  --color-button-warning: var(--color-red-600);
+  --color-button-warning-hover: var(--color-red-500);
+  --color-button-confirmation: var(--color-green-750);
+  --color-button-confirmation-hover: var(--color-green-700);
+
+  /* Button Text Color */
+  --color-button-text: var(--color-white);
+
+  /* Page Navigation Button Colors */
+  --color-button-page-navigation: var(--color-primary-200);
+  --color-button-page-navigation-hover: var(--color-primary-900);
+  --color-button-page-navigation-icon: var(--color-primary-200);
+
+  /* Warning Colors */
+  --color-check-warning: var(--color-red-200);
+  --color-check-ok: var(--color-green-400);
+
+  /* Star Colors */
+  --star-color: var(--color-yellow-500);
+  --star-focus-color: var(--color-yellow-400);
+  --star-empty-color: var(--color-secondary-600);
 }
 
 body {
