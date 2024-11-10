@@ -321,7 +321,7 @@ export default function PaletteGenerator() {
       <InputGroup>
         <Label>Hellster Wert (0):</Label>
         <ColorTileWrapper>
-          <ColorPreview bgColor={getColorPreview(state.hex, state.brightLimit)} />
+          <ColorPreview $bgColor={getColorPreview(state.hex, state.brightLimit)} />
           <SliderText>
             <span>dunkler</span>
           </SliderText>
@@ -331,10 +331,10 @@ export default function PaletteGenerator() {
             max={100}
             value={state.brightLimit}
             onChange={(e) => dispatch({ type: 'SET_VALUE', key: 'brightLimit', value: parseInt(e.target.value) })}
-            startColor='#ffffff'
-            endColor={getColorPreview(state.hex, state.brightLimit)}
-            thumbColor='#fff'
-            thumbBorderColor='#333'
+            $startColor='#ffffff'
+            $endColor={getColorPreview(state.hex, state.brightLimit)}
+            $thumbColor='#fff'
+            $thumbBorderColor='#333'
           />
           <SliderText>
             <span>heller</span>
@@ -345,7 +345,7 @@ export default function PaletteGenerator() {
       <InputGroup>
         <Label>Dunkelster Wert (1000):</Label>
         <ColorTileWrapper>
-          <ColorPreview bgColor={getColorPreview(state.hex, state.darkLimit)} />
+          <ColorPreview $bgColor={getColorPreview(state.hex, state.darkLimit)} />
           <SliderText>
             <span>dunkler</span>
           </SliderText>
@@ -355,11 +355,11 @@ export default function PaletteGenerator() {
             max={30}
             value={state.darkLimit}
             onChange={(e) => dispatch({ type: 'SET_VALUE', key: 'darkLimit', value: parseInt(e.target.value) })}
-            startColor={getColorPreview(state.hex, state.darkLimit)}
-            endColor={getColorPreview(state.hex, state.darkLimit)}
-            // endColor='#000000'
-            thumbColor='#fff'
-            thumbBorderColor='#333'
+            $startColor={getColorPreview(state.hex, state.darkLimit)}
+            $endColor={getColorPreview(state.hex, state.darkLimit)}
+            // $endColor='#000000'
+            $thumbColor='#fff'
+            $thumbBorderColor='#333'
           />
           <SliderText>
             <span>heller</span>

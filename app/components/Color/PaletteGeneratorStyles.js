@@ -86,22 +86,24 @@ export const ColorTileWrapper = styled.div`
   width: 100%;
 `;
 
-export const ColorPreview = styled.div.withConfig({
-  shouldForwardProp: (prop) => prop !== 'bgColor',
-})`
+export const ColorPreview = styled.div.attrs((props) => ({
+  style: {
+    backgroundColor: props.$bgColor || '#fff',
+  },
+}))`
   width: 40px;
   height: 40px;
   border-radius: 4px;
-  background-color: ${({ bgColor }) => bgColor || '#fff'};
   box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
 `;
 
-export const StyledSlider = styled.input.withConfig({
-  shouldForwardProp: (prop) => !['thumbColor', 'thumbBorderColor', 'startColor', 'endColor'].includes(prop),
-})`
+export const StyledSlider = styled.input.attrs((props) => ({
+  style: {
+    background: `linear-gradient(to right, ${props.$startColor}, ${props.$endColor || '#ffffff'})`,
+  },
+}))`
   width: 100%;
   height: 10px;
-  background: linear-gradient(to right, ${(props) => props.endColor}, #ffffff);
   border-radius: 5px;
   outline: none;
   -webkit-appearance: none;
@@ -114,19 +116,19 @@ export const StyledSlider = styled.input.withConfig({
     appearance: none;
     height: 20px;
     width: 20px;
-    background: #333;
+    background: ${(props) => props.$thumbColor || '#333'};
     border-radius: 50%;
     cursor: pointer;
-    border: 2px solid #fff;
+    border: 2px solid ${(props) => props.$thumbBorderColor || '#fff'};
   }
 
   ::-moz-range-thumb {
     height: 20px;
     width: 20px;
-    background: #333;
+    background: ${(props) => props.$thumbColor || '#333'};
     border-radius: 50%;
     cursor: pointer;
-    border: 2px solid #fff;
+    border: 2px solid ${(props) => props.$thumbBorderColor || '#fff'};
   }
 `;
 
