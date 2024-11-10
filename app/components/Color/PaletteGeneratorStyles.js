@@ -197,7 +197,6 @@ export const PaletteOutput = styled.pre`
 
 export const Button = styled.button`
   padding: 0.75rem 1.5rem;
-  background-color: ${({ $backgroundColor, $isClicked }) => ($isClicked ? '#357a38' : $backgroundColor || '#4caf50')};
   color: white;
   font-weight: 600;
   border: none;
@@ -221,11 +220,38 @@ export const Button = styled.button`
   `}
 
   &:hover {
-    background-color: ${({ $hoverColor, $isClicked }) => ($isClicked ? '#357a38' : $hoverColor || '#3a3a3a')};
+    background-color: ${({ $hoverColor }) => $hoverColor || '#555'};
   }
 
   svg {
     margin-right: 8px;
+  }
+`;
+
+export const GeneratePaletteButton = styled(Button)`
+  width: 15.6rem;
+  background-color: #1fbf3f;
+  &:hover {
+    background-color: #199a33;
+  }
+`;
+
+export const ResetFormButton = styled(Button)`
+  width: 15.6rem;
+  background-color: #c0c0c0;
+  &:hover {
+    background-color: #a0a0a0;
+  }
+`;
+
+export const CopyPaletteButton = styled(Button)`
+  width: 8.8rem;
+  position: absolute;
+  top: 0;
+  right: 0.8rem;
+  background-color: #3a3a3a;
+  &:hover {
+    background-color: #1a1a1a;
   }
 `;
 

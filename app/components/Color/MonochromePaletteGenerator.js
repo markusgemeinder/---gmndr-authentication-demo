@@ -19,7 +19,9 @@ import {
   Select,
   CheckboxGroup,
   CheckboxLabel,
-  Button,
+  GeneratePaletteButton,
+  ResetFormButton,
+  CopyPaletteButton,
   PaletteWrapper,
   PaletteOutput,
 } from '@/app/components/Color/PaletteGeneratorStyles';
@@ -28,24 +30,26 @@ import { generateMonochromePalette, getColorPreview } from '@/utils/colorUtils';
 
 // Default Werte
 const defaults = {
-  hex: '#ff00ff',
+  hex: '#00ffff',
   prefix: '--color-',
   suffix: 'test',
   sortOrder: 'asc',
-  checkedValues: [0, 100, 200, 300, 400, 500, 600, 700, 800, 900, 1000], // Beispielwerte
-  selectedOption: '100er [0-1000]',
-  darkLimit: 18,
-  brightLimit: 98,
+  checkedValues: [
+    0, 50, 100, 150, 200, 250, 300, 350, 400, 450, 500, 550, 600, 650, 700, 750, 800, 850, 900, 950, 1000,
+  ],
+  selectedOption: 'Alle',
+  darkLimit: 15,
+  brightLimit: 95,
   generatedPalette: null,
 };
 
 const selectorOptions = {
+  Alle: [0, 50, 100, 150, 200, 250, 300, 350, 400, 450, 500, 550, 600, 650, 700, 750, 800, 850, 900, 950, 1000],
   '100er [0-1000]': [0, 100, 200, 300, 400, 500, 600, 700, 800, 900, 1000],
   '100er [100-900]': [100, 200, 300, 400, 500, 600, 700, 800, 900],
   '100er [mit 50, 950]': [50, 100, 200, 300, 400, 500, 600, 700, 800, 900, 950],
   '200er [0-1000]': [0, 200, 400, 600, 800, 1000],
   '200er [200-800]': [200, 400, 600, 800],
-  Alle: [0, 50, 100, 150, 200, 250, 300, 350, 400, 450, 500, 550, 600, 650, 700, 750, 800, 850, 900, 950, 1000],
   Keine: [],
 };
 
@@ -321,39 +325,21 @@ export default function MonochromePaletteGenerator() {
         </CheckboxGroup>
       </InputGroup>
 
-      <Button
-        backgroundColor='#4caf50'
-        hoverColor='#45a049'
-        onClick={handleGeneratePalette}
-        isClicked={isGenerateClicked}
-        width='15.6rem'>
-        <FaSlidersH style={{ marginRight: '0.5rem' }} />
-        Palette generieren
-      </Button>
+      <GeneratePaletteButton width='100%' onClick={handleGeneratePalette}>
+        <FaSlidersH /> Palette generieren
+      </GeneratePaletteButton>
 
       {isFormChanged() && (
-        <Button
-          backgroundColor='#b0b0b0'
-          hoverColor='#a0a0a0'
-          onClick={resetForm}
-          isClicked={isResetClicked}
-          width='15.6rem'>
-          <FaRedo style={{ marginRight: '0.5rem' }} />
-          Formular zurücksetzen
-        </Button>
+        <ResetFormButton width='auto' onClick={resetForm}>
+          <FaRedo /> Formular zurücksetzen
+        </ResetFormButton>
       )}
 
       {state.generatedPalette && (
         <PaletteWrapper>
-          <Button
-            backgroundColor={'#5a5a5a'}
-            hoverColor={'#3a3a3a'}
-            onClick={handleCopyPalette}
-            position={{ position: 'absolute', top: '0', right: '0.8rem' }}
-            width='8.8rem'>
-            <FaCopy style={{ marginRight: '0.5rem' }} />
-            {isCopied ? 'Kopiert!' : 'Kopieren'}
-          </Button>
+          <CopyPaletteButton width='auto' onClick={handleCopyPalette}>
+            <FaCopy /> {isCopied ? 'Kopiert!' : 'Kopieren'}
+          </CopyPaletteButton>
 
           <PaletteOutput>
             {Object.entries(state.generatedPalette)
