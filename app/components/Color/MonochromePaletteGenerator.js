@@ -137,13 +137,22 @@ export default function MonochromePaletteGenerator() {
   };
 
   const handleCopyPalette = () => {
-    const comment = `/* ${state.prefix}${state.suffix}-base: ${state.hex}; */\n`;
+    // Berechnung der angezeigten Helligkeitslimits
+    const brightLimitDisplayed = 100 - state.brightLimit;
+    const darkLimitDisplayed = 100 - state.darkLimit;
 
+    // Kommentar mit den zusätzlichen Zeilen
+    const comment =
+      `/* ${state.prefix}${state.suffix}-base: ${state.hex}; */\n` +
+      `/* brightLimit: ${state.brightLimit} | darkLimit: ${state.darkLimit} */\n` +
+      `/* brightLimitDisplayed: ${brightLimitDisplayed} | darkLimitDisplayed: ${darkLimitDisplayed} */\n`;
+
+    // Palette als CSS-Format erstellen
     const paletteText = Object.entries(state.generatedPalette)
       .map(([key, value]) => `${key.toLowerCase()}: ${value.toLowerCase()};`)
       .join('\n');
 
-    // Beide Teile (Kommentar und Palette) kombinieren und in die Zwischenablage kopieren
+    // Alles in die Zwischenablage kopieren
     navigator.clipboard.writeText(comment + paletteText);
 
     setIsCopied(true);

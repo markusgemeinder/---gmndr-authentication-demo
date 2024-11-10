@@ -64,30 +64,33 @@ ol {
   --color-blue-900: #000c33;
   --color-blue-950: #000619;
 
-  --color-new-blue-50: #ddeaff;
-  --color-new-blue-100: #c9deff;
-  --color-new-blue-200: #a3c6ff;
-  --color-new-blue-300: #7dafff;
-  --color-new-blue-400: #5797ff;
-  --color-new-blue-500: #3080ff;
-  --color-new-blue-600: #0a68ff;
-  --color-new-blue-700: #0057e3;
-  --color-new-blue-800: #0049bd;
-  --color-new-blue-900: #003a96;
-  --color-new-blue-950: #003283;
+  /* --color-new-blue-base: #183bc9; */
+  --color-new-blue-50: #eaeefc;
+  --color-new-blue-100: #dae0fb;
+  --color-new-blue-200: #b9c5f7;
+  --color-new-blue-300: #98aaf3;
+  --color-new-blue-400: #778fef;
+  --color-new-blue-500: #5674eb;
+  --color-new-blue-600: #3659e7;
+  --color-new-blue-700: #1a41dd;
+  --color-new-blue-800: #1737bd;
+  --color-new-blue-900: #132e9c;
+  --color-new-blue-950: #11298b;
 
-  /* --color-test2-base: #18c96d; */
-  --color-test2-0: #d1fae5;
-  --color-test2-100: #b2f6d3;
-  --color-test2-200: #93f2c0;
-  --color-test2-300: #73eeae;
-  --color-test2-400: #54eb9c;
-  --color-test2-500: #34e78a;
-  --color-test2-600: #1add78;
-  --color-test2-700: #17be67;
-  --color-test2-800: #139f56;
-  --color-test2-900: #0f7f45;
-  --color-test2-1000: #0b6034;
+  /* --color-new-blue-after-refactoring-base: #183bc9; */
+  /* brightLimit: 99 | darkLimit: 27 */
+  /* brightLimitDisplayed: 1 | darkLimitDisplayed: 73 */
+  --color-new-blue-after-refactoring-50: #eaeefc;
+  --color-new-blue-after-refactoring-100: #dae0fb;
+  --color-new-blue-after-refactoring-200: #b9c5f7;
+  --color-new-blue-after-refactoring-300: #98aaf3;
+  --color-new-blue-after-refactoring-400: #778fef;
+  --color-new-blue-after-refactoring-500: #5674eb;
+  --color-new-blue-after-refactoring-600: #3659e7;
+  --color-new-blue-after-refactoring-700: #1a41dd;
+  --color-new-blue-after-refactoring-800: #1737bd;
+  --color-new-blue-after-refactoring-900: #132e9c;
+  --color-new-blue-after-refactoring-950: #11298b;
 
   /* Farbvariablen für Sekundärfarben */
   --color-yellow-50: #fffbe6;
