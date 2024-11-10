@@ -64,8 +64,8 @@ export const LoginButton = ({ onCloseMenu, buttonText }) => {
 
   return (
     <AuthButtonLink
-      bgColor='var(--color-button-blue)'
-      hoverBgColor='var(--color-button-blue-hover)'
+      bgColor='var(--color-button-primary)'
+      hoverBgColor='var(--color-button-primary-hover)'
       type='button'
       onClick={() => {
         onCloseMenu();
@@ -82,8 +82,8 @@ export const LoginButton = ({ onCloseMenu, buttonText }) => {
 export const LogoutButton = ({ onCloseMenu, buttonText }) => {
   return (
     <AuthButtonLink
-      bgColor='var(--color-button-red)'
-      hoverBgColor='var(--color-button-red-hover)'
+      bgColor='var(--color-button-secondary)'
+      hoverBgColor='var(--color-button-secondary-hover)'
       type='button'
       onClick={() => {
         onCloseMenu();
@@ -102,8 +102,8 @@ export const RegisterButton = ({ onCloseMenu, buttonText }) => {
 
   return (
     <AuthButtonLink
-      bgColor='var(--color-button-grey)'
-      hoverBgColor='var(--color-button-grey-hover)'
+      bgColor='var(--color-button-secondary)'
+      hoverBgColor='var(--color-button-secondary-hover)'
       type='button'
       onClick={() => {
         onCloseMenu();

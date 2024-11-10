@@ -25,6 +25,7 @@ export const ModalOverlay = styled.div`
 
 export const ModalContent = styled.div`
   background-color: var(--color-background-light);
+  /* background-color: var(--color-background); */
   padding: 1.5rem;
   border-radius: 0.25rem;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
@@ -74,8 +75,8 @@ const ModalPopup = ({ message, onOkClick, showOkButton }) => {
           <ButtonContainerHorizontal>
             <Button
               onClick={onOkClick}
-              bgColor='var(--color-button-green)'
-              hoverColor='var(--color-button-green-hover)'
+              bgColor='var(--color-button-confirmation)'
+              hoverColor='var(--color-button-confirmation-hover)'
               color='var(--color-button-text)'>
               OK
             </Button>

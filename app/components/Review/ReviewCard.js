@@ -80,15 +80,15 @@ export default function ReviewCard({ review, onDelete }) {
             <ButtonContainerHorizontal>
               <Button
                 onClick={() => router.push(`/reviews/${_id}`)}
-                bgColor='var(--color-button-blue)'
-                hoverColor='var(--color-button-blue-hover)'
+                bgColor='var(--color-button-primary)'
+                hoverColor='var(--color-button-primary-hover)'
                 color='var(--color-button-text)'>
                 {getText('review_card', 'button_edit', language)}
               </Button>
               <Button
                 onClick={() => setConfirmDelete(true)}
-                bgColor='var(--color-button-red)'
-                hoverColor='var(--color-button-red-hover)'
+                bgColor='var(--color-button-warning)'
+                hoverColor='var(--color-button-warning-hover)'
                 color='var(--color-button-text)'>
                 {getText('review_card', 'button_delete', language)}
               </Button>
@@ -113,14 +113,14 @@ export default function ReviewCard({ review, onDelete }) {
             <ButtonContainerHorizontal>
               <Button
                 onClick={handleDelete}
-                bgColor='var(--color-button-red)'
-                hoverColor='var(--color-button-red-hover)'>
+                bgColor='var(--color-button-warning)'
+                hoverColor='var(--color-button-warning-hover)'>
                 {getText('review_card', 'button_confirm', language)}
               </Button>
               <Button
                 onClick={() => setConfirmDelete(false)}
-                bgColor='var(--color-button-grey)'
-                hoverColor='var(--color-button-grey-hover)'>
+                bgColor='var(--color-button-secondary)'
+                hoverColor='var(--color-button-secondary-hover)'>
                 {getText('review_card', 'button_cancel', language)}
               </Button>
             </ButtonContainerHorizontal>

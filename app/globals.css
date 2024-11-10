@@ -50,71 +50,79 @@ ol {
   --color-black: #000000;
 
   /* Farbvariablen für Primärfarbe */
-  /* --color-blue-base: #3161e6; */
-  /* Light level (0): 2% | Dark level (1000): 80% */
-  --color-blue-0: #f6f8fe;
-  --color-blue-50: #e4eafc;
-  --color-blue-100: #d2ddfa;
-  --color-blue-150: #c1cff7;
-  --color-blue-200: #afc2f5;
-  --color-blue-250: #9db4f3;
-  --color-blue-300: #8ba6f1;
-  --color-blue-350: #7a99ef;
-  --color-blue-400: #688bed;
-  --color-blue-450: #567eeb;
-  --color-blue-500: #4570e8;
-  --color-blue-550: #3362e6;
-  --color-blue-600: #2155e4;
-  --color-blue-650: #1a4cd7;
-  --color-blue-700: #1846c5;
-  --color-blue-750: #1640b4;
-  --color-blue-800: #1439a2;
-  --color-blue-850: #113390;
-  --color-blue-900: #0f2d7e;
-  --color-blue-950: #0d276d;
-  --color-blue-1000: #0b205b;
+  /* --color-primary-base: #186595; */
+  /* Light level (0): 2% | Dark level (1000): 90% */
+  --color-primary-0: #f6fbfe;
+  --color-primary-50: #e3f1fa;
+  --color-primary-100: #d0e8f7;
+  --color-primary-150: #bcdff4;
+  --color-primary-200: #a9d5f1;
+  --color-primary-250: #96ccee;
+  --color-primary-300: #82c3eb;
+  --color-primary-350: #6fb9e8;
+  --color-primary-400: #5cb0e5;
+  --color-primary-450: #48a7e2;
+  --color-primary-500: #359dde;
+  --color-primary-550: #2394da;
+  --color-primary-600: #2087c7;
+  --color-primary-650: #1d79b3;
+  --color-primary-700: #1a6ca0;
+  --color-primary-750: #175f8d;
+  --color-primary-800: #145279;
+  --color-primary-850: #104566;
+  --color-primary-900: #0d3853;
+  --color-primary-950: #0a2b3f;
+  --color-primary-1000: #071e2c;
 
   /* Farbvariablen für Sekundärfarbe */
-  /* --color-grey-base: #4b5563; */
+  /* --color-secondary-base: #52616b; */
   /* Light level (0): 2% | Dark level (1000): 90% */
-  --color-grey-0: #f9fafb;
-  --color-grey-50: #eceef1;
-  --color-grey-100: #e0e3e7;
-  --color-grey-150: #d3d7de;
-  --color-grey-200: #c6ccd4;
-  --color-grey-250: #b9c0ca;
-  --color-grey-300: #adb5c1;
-  --color-grey-350: #a0a9b7;
-  --color-grey-400: #939ead;
-  --color-grey-450: #8692a4;
-  --color-grey-500: #7a879a;
-  --color-grey-550: #6d7c90;
-  --color-grey-600: #637183;
-  --color-grey-650: #5a6676;
-  --color-grey-700: #505b6a;
-  --color-grey-750: #46505d;
-  --color-grey-800: #3d4550;
-  --color-grey-850: #333a43;
-  --color-grey-900: #292f37;
-  --color-grey-950: #20242a;
-  --color-grey-1000: #16191d;
+  --color-secondary-0: #f9fafb;
+  --color-secondary-50: #edeff1;
+  --color-secondary-100: #e0e4e7;
+  --color-secondary-150: #d3d9dd;
+  --color-secondary-200: #c6ced4;
+  --color-secondary-250: #bac3ca;
+  --color-secondary-300: #adb8c0;
+  --color-secondary-350: #a0aeb6;
+  --color-secondary-400: #94a3ad;
+  --color-secondary-450: #8798a3;
+  --color-secondary-500: #7a8d99;
+  --color-secondary-550: #6e828f;
+  --color-secondary-600: #647683;
+  --color-secondary-650: #5a6b76;
+  --color-secondary-700: #515f69;
+  --color-secondary-750: #47545c;
+  --color-secondary-800: #3d4850;
+  --color-secondary-850: #333d43;
+  --color-secondary-900: #2a3136;
+  --color-secondary-950: #20262a;
+  --color-secondary-1000: #161a1d;
 
   /* Farbvariablen für Schmuckfarbe Gelb */
   /* --color-yellow-base: #ffd15c; */
-  /* Light level (0): 4% | Dark level (1000): 100% */
+  /* Light level (0): 4% | Dark level (1000): 98% */
   --color-yellow-0: #fff9eb;
-  --color-yellow-50: #fff2d2;
-  --color-yellow-100: #ffebba;
-  --color-yellow-200: #ffde89;
-  --color-yellow-300: #ffd058;
-  --color-yellow-400: #ffc227;
-  --color-yellow-500: #f5b000;
-  --color-yellow-600: #c48d00;
-  --color-yellow-700: #936900;
-  --color-yellow-800: #624600;
-  --color-yellow-900: #312300;
-  --color-yellow-950: #181200;
-  --color-yellow-1000: #000000;
+  --color-yellow-50: #fff2d3;
+  --color-yellow-100: #ffecbb;
+  --color-yellow-150: #ffe5a3;
+  --color-yellow-200: #ffde8b;
+  --color-yellow-250: #ffd773;
+  --color-yellow-300: #ffd15b;
+  --color-yellow-350: #ffca43;
+  --color-yellow-400: #ffc32b;
+  --color-yellow-450: #ffbc13;
+  --color-yellow-500: #fab300;
+  --color-yellow-550: #e2a200;
+  --color-yellow-600: #ca9100;
+  --color-yellow-650: #b28000;
+  --color-yellow-700: #9a6f00;
+  --color-yellow-750: #825d00;
+  --color-yellow-800: #6a4c00;
+  --color-yellow-850: #523b00;
+  --color-yellow-900: #3a2a00;
+  --color-yellow-950: #221900;
+  --color-yellow-1000: #0a0700;
 
   /* Farbvariablen für Schmuckfarbe Orange */
   /* --color-orange-base: #f97316; */
@@ -142,189 +150,175 @@ ol {
   --color-orange-1000: #632a03;
 
   /* Farbvariablen für Schmuckfarbe Rot */
-  /* --color-red-base: #d60000; */
+  /* --color-red-base: #951818; */
   /* Light level (0): 5% | Dark level (1000): 90% */
-  --color-red-0: #ffe5e5;
-  --color-red-50: #ffd0d0;
-  --color-red-100: #ffbaba;
-  --color-red-150: #ffa4a4;
-  --color-red-200: #ff8f8f;
-  --color-red-250: #ff7979;
-  --color-red-300: #ff6363;
-  --color-red-350: #ff4e4e;
-  --color-red-400: #ff3838;
-  --color-red-450: #ff2222;
-  --color-red-500: #ff0d0d;
-  --color-red-550: #f60000;
-  --color-red-600: #e00000;
-  --color-red-650: #cb0000;
-  --color-red-700: #b50000;
-  --color-red-750: #9f0000;
-  --color-red-800: #8a0000;
-  --color-red-850: #740000;
-  --color-red-900: #5e0000;
-  --color-red-950: #490000;
-  --color-red-1000: #330000;
+  --color-red-0: #fbe9e9;
+  --color-red-50: #f8d6d6;
+  --color-red-100: #f5c4c4;
+  --color-red-150: #f2b1b1;
+  --color-red-200: #ef9e9e;
+  --color-red-250: #ec8c8c;
+  --color-red-300: #e97979;
+  --color-red-350: #e66666;
+  --color-red-400: #e35454;
+  --color-red-450: #e04141;
+  --color-red-500: #dd2e2e;
+  --color-red-550: #d42222;
+  --color-red-600: #c11f1f;
+  --color-red-650: #af1c1c;
+  --color-red-700: #9c1919;
+  --color-red-750: #891616;
+  --color-red-800: #771313;
+  --color-red-850: #641010;
+  --color-red-900: #510d0d;
+  --color-red-950: #3f0a0a;
+  --color-red-1000: #2c0707;
 
   /* Farbvariablen für Schmuckfarbe Grün */
-
-  /* --color-green-base: #1d8b21; */
+  /* --color-green-base: #189531; */
   /* Light level (0): 2% | Dark level (1000): 86% */
-  --color-green-0: #f7fdf7;
-  --color-green-50: #e5fae6;
-  --color-green-100: #d3f6d4;
-  --color-green-150: #c1f2c3;
-  --color-green-200: #b0eeb2;
-  --color-green-250: #9eeba1;
-  --color-green-300: #8ce790;
-  --color-green-350: #7be37e;
-  --color-green-400: #69e06d;
-  --color-green-450: #57dc5c;
-  --color-green-500: #45d84b;
-  --color-green-550: #34d539;
-  --color-green-600: #2ac930;
-  --color-green-650: #26b72b;
-  --color-green-700: #23a527;
-  --color-green-750: #1f9423;
-  --color-green-800: #1b821f;
-  --color-green-850: #17701b;
-  --color-green-900: #145f16;
-  --color-green-950: #104d12;
-  --color-green-1000: #0c3b0e;
+  --color-green-0: #f6fef8;
+  --color-green-50: #e4fbe8;
+  --color-green-100: #d1f8d9;
+  --color-green-150: #bff5ca;
+  --color-green-200: #acf2ba;
+  --color-green-250: #9aefab;
+  --color-green-300: #88ec9c;
+  --color-green-350: #75e98c;
+  --color-green-400: #63e67d;
+  --color-green-450: #50e36e;
+  --color-green-500: #3ee05e;
+  --color-green-550: #2bdd4f;
+  --color-green-600: #22d145;
+  --color-green-650: #1fbf3f;
+  --color-green-700: #1cac39;
+  --color-green-750: #199a33;
+  --color-green-800: #16872c;
+  --color-green-850: #137526;
+  --color-green-900: #106220;
+  --color-green-950: #0d501a;
+  --color-green-1000: #0a3d14;
 }
-
-/* ===== Block GRUNDFARBEN Ende ===== */
-
-/* ===== Block THEMEFARBEN Beginn ===== */
 
 [data-theme='light'] {
   /* Link Colors */
-  --color-link: var(--color-blue-300);
-  --color-link-hover: var(--color-blue-600);
+  --color-link: var(--color-primary-300);
+  --color-link-hover: var(--color-primary-600);
 
   /* Text Colors */
-  --color-title: var(--color-blue-800);
-  --color-text: var(--color-grey-1000);
-  --color-text-light: var(--color-grey-450);
+  --color-title: var(--color-primary-800);
+  --color-text: var(--color-secondary-1000);
+  --color-text-light: var(--color-secondary-550);
 
   /* Header & Footer Colors */
-  --color-header-footer: var(--color-blue-850);
+  --color-header-footer: var(--color-primary-850);
   --color-header-footer-text: var(--color-white);
 
   /* Background & Border Colors */
-  --color-background: var(--color-yellow-0);
-  --color-background-light: var(--color-white);
-  --color-border: var(--color-grey-100);
+  --color-background: var(--color-primary-0);
+  --color-background-light: var(--color-primary-100);
+  --color-border: var(--color-primary-250);
 
   /* Special Elements*/
-  --color-burger-menu-background: rgba(42, 59, 128, 0.9375);
-  --color-modal: rgba(31, 41, 55, 0.75);
-  --color-modal-header: var(--color-blue-700);
-  --color-modal-text: var(--color-grey-650);
-  --color-accordion-title-background: var(--color-blue-700);
+
+  --color-burger-menu-background: rgba(23, 95, 141, 0.95);
+  --color-modal: rgba(16, 69, 102, 0.75);
+  --color-modal-header: var(--color-primary-700);
+  --color-modal-text: var(--color-secondary-650);
+  --color-accordion-title-background: var(--color-primary-700);
   --color-accordion-content-background: var(--color-white);
 
-  /* Warning Colors */
-  --color-check-warning: var(--color-red-300);
-  --color-check-ok: var(--color-green-700);
-
-  /* Star Colors */
-  --star-color: var(--color-yellow-500);
-  --star-focus-color: var(--color-yellow-400);
-  --star-empty-color: var(--color-grey-200);
-
-  /* ===== Block BUTTONS LIGHTTHEME Beginn ===== */
-
   /* Button Colors */
-  --color-button-blue: var(--color-blue-550);
-  --color-button-blue-hover: var(--color-blue-650);
-  --color-button-grey: var(--color-grey-600);
-  --color-button-grey-hover: var(--color-grey-700);
+  --color-button-primary: var(--color-primary-600);
+  --color-button-primary-hover: var(--color-primary-650);
+  --color-button-secondary: var(--color-secondary-600);
+  --color-button-secondary-hover: var(--color-secondary-700);
 
   /* Action Button Colors */
-  --color-button-orange: var(--color-orange-550);
-  --color-button-orange-hover: var(--color-orange-650);
-  --color-button-red: var(--color-red-550);
-  --color-button-red-hover: var(--color-red-600);
-  --color-button-green: var(--color-green-600);
-  --color-button-green-hover: var(--color-green-650);
+  --color-button-attention: var(--color-orange-650);
+  --color-button-attention-hover: var(--color-orange-700);
+  --color-button-warning: var(--color-red-550);
+  --color-button-warning-hover: var(--color-red-600);
+  --color-button-confirmation: var(--color-green-700);
+  --color-button-confirmation-hover: var(--color-green-750);
 
   /* Button Text Color */
   --color-button-text: var(--color-white);
 
   /* Page Navigation Button Colors */
-  --color-button-page-navigation: var(--color-blue-700);
-  --color-button-page-navigation-hover: var(--color-blue-200);
-  --color-button-page-navigation-icon: var(--color-blue-700);
+  --color-button-page-navigation: var(--color-primary-700);
+  --color-button-page-navigation-hover: var(--color-primary-200);
+  --color-button-page-navigation-icon: var(--color-primary-700);
 
-  /* ===== Block BUTTONS LIGHTTHEME Ende ===== */
+  /* Warning Colors */
+  --color-check-warning: var(--color-red-500);
+  --color-check-ok: var(--color-green-700);
+
+  /* Star Colors */
+  --star-color: var(--color-yellow-500);
+  --star-focus-color: var(--color-yellow-400);
+  --star-empty-color: var(--color-secondary-200);
 }
 
 /* Dark Theme */
 [data-theme='dark'] {
   /* Link Colors */
-  --color-link: var(--color-blue-250);
-  --color-link-hover: var(--color-blue-400);
+  --color-link: var(--color-primary-200);
+  --color-link-hover: var(--color-primary-350);
 
   /* Text Colors */
-  --color-title: var(--color-blue-150);
-  --color-text: var(--color-grey-50);
-  --color-text-light: var(--color-grey-250);
+  --color-title: var(--color-primary-150);
+  --color-text: var(--color-secondary-50);
+  --color-text-light: var(--color-secondary-250);
 
   /* Header & Footer Colors */
-  --color-header-footer: var(--color-blue-850);
+  --color-header-footer: var(--color-primary-850);
   --color-header-footer-text: var(--color-white);
 
   /* Background & Border Colors */
-  --color-background: var(--color-grey-1000);
-  --color-background-light: var(--color-grey-800);
-  --color-border: var(--color-grey-600);
+  --color-background: var(--color-primary-1000);
+  --color-background-light: var(--color-primary-800);
+  --color-border: var(--color-primary-650);
 
   /* Special Elements*/
-  --color-burger-menu-background: rgba(12, 36, 103, 0.9375);
-  --color-modal: rgba(31, 41, 55, 0.85);
-  --color-modal-header: var(--color-blue-150);
-  --color-modal-text: var(--color-grey-600);
-  --color-accordion-title-background: var(--color-blue-600);
-  --color-accordion-content-background: var(--color-grey-800);
-
-  /* Warning Colors */
-  --color-check-warning: var(--color-red-400);
-  --color-check-ok: var(--color-green-700);
-
-  /* Star Colors */
-  --star-color: var(--color-yellow-500);
-  --star-focus-color: var(--color-yellow-400);
-  --star-empty-color: var(--color-grey-600);
-
-  /* ===== Block BUTTONS DARKTHEME Beginn ===== */
+  --color-burger-menu-background: rgba(23, 95, 141, 0.95);
+  --color-modal: rgba(10, 43, 63, 0.85);
+  --color-modal-header: var(--color-primary-150);
+  --color-modal-text: var(--color-secondary-600);
+  --color-accordion-title-background: var(--color-primary-650);
+  --color-accordion-content-background: var(--color-secondary-800);
 
   /* Button Colors */
-  --color-button-blue: var(--color-blue-500);
-  --color-button-blue-hover: var(--color-blue-600);
-  --color-button-grey: var(--color-grey-550);
-  --color-button-grey-hover: var(--color-grey-650);
+  --color-button-primary: var(--color-primary-550);
+  --color-button-primary-hover: var(--color-primary-450);
+  --color-button-secondary: var(--color-secondary-600);
+  --color-button-secondary-hover: var(--color-secondary-500);
 
   /* Action Button Colors */
-  --color-button-orange: var(--color-orange-650);
-  --color-button-orange-hover: var(--color-orange-700);
-  --color-button-red: var(--color-red-550);
-  --color-button-red-hover: var(--color-red-600);
-  --color-button-green: var(--color-green-700);
-  --color-button-green-hover: var(--color-green-750);
+  --color-button-attention: var(--color-orange-700);
+  --color-button-attention-hover: var(--color-orange-650);
+  --color-button-warning: var(--color-red-600);
+  --color-button-warning-hover: var(--color-red-500);
+  --color-button-confirmation: var(--color-green-750);
+  --color-button-confirmation-hover: var(--color-green-700);
 
   /* Button Text Color */
   --color-button-text: var(--color-white);
 
   /* Page Navigation Button Colors */
-  --color-button-page-navigation: var(--color-blue-200);
-  --color-button-page-navigation-hover: var(--color-blue-900);
-  --color-button-page-navigation-icon: var(--color-blue-200);
+  --color-button-page-navigation: var(--color-primary-200);
+  --color-button-page-navigation-hover: var(--color-primary-900);
+  --color-button-page-navigation-icon: var(--color-primary-200);
 
-  /* ===== Block BUTTONS DARKTHEME Ende ===== */
+  /* Warning Colors */
+  --color-check-warning: var(--color-red-200);
+  --color-check-ok: var(--color-green-400);
+
+  /* Star Colors */
+  --star-color: var(--color-yellow-500);
+  --star-focus-color: var(--color-yellow-400);
+  --star-empty-color: var(--color-secondary-600);
 }
-
-/* ===== Block THEMEFARBEN Ende ===== */
 
 body {
   margin: 0;
