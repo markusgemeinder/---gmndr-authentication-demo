@@ -71,7 +71,6 @@ function paletteReducer(state, action) {
   }
 }
 
-// Funktion, um Werte aus dem localStorage zu laden
 function loadFromLocalStorage() {
   const storedState = {
     hex: localStorage.getItem('hex') || defaults.hex,
@@ -80,8 +79,14 @@ function loadFromLocalStorage() {
     sortOrder: localStorage.getItem('sortOrder') || defaults.sortOrder,
     checkedValues: JSON.parse(localStorage.getItem('checkedValues')) || defaults.checkedValues,
     selectedOption: localStorage.getItem('selectedOption') || defaults.selectedOption,
-    darkLimit: parseInt(localStorage.getItem('darkLimit')) || defaults.darkLimit,
-    brightLimit: parseInt(localStorage.getItem('brightLimit')) || defaults.brightLimit,
+    // Sicherstellen, dass der Wert von darkLimit korrekt geladen wird
+    darkLimit: !isNaN(parseInt(localStorage.getItem('darkLimit')))
+      ? parseInt(localStorage.getItem('darkLimit'))
+      : defaults.darkLimit,
+    // Sicherstellen, dass der Wert von brightLimit korrekt geladen wird
+    brightLimit: !isNaN(parseInt(localStorage.getItem('brightLimit')))
+      ? parseInt(localStorage.getItem('brightLimit'))
+      : defaults.brightLimit,
     generatedPalette: null,
   };
 
