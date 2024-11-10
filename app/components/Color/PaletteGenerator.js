@@ -80,6 +80,8 @@ function paletteReducer(state, action) {
 }
 
 function loadFromLocalStorage() {
+  if (typeof window === 'undefined') return defaults; // Rückgabe von Defaults, wenn nicht im Browser
+
   const storedState = {
     hex: localStorage.getItem('hex') || defaults.hex,
     prefix: localStorage.getItem('prefix') || defaults.prefix,
@@ -87,11 +89,9 @@ function loadFromLocalStorage() {
     sortOrder: localStorage.getItem('sortOrder') || defaults.sortOrder,
     checkedValues: JSON.parse(localStorage.getItem('checkedValues')) || defaults.checkedValues,
     selectedOption: localStorage.getItem('selectedOption') || defaults.selectedOption,
-    // Sicherstellen, dass der Wert von darkLimit korrekt geladen wird
     darkLimit: !isNaN(parseInt(localStorage.getItem('darkLimit')))
       ? parseInt(localStorage.getItem('darkLimit'))
       : defaults.darkLimit,
-    // Sicherstellen, dass der Wert von brightLimit korrekt geladen wird
     brightLimit: !isNaN(parseInt(localStorage.getItem('brightLimit')))
       ? parseInt(localStorage.getItem('brightLimit'))
       : defaults.brightLimit,
@@ -113,43 +113,56 @@ export default function PaletteGenerator() {
   const [isResetClicked, setIsResetClicked] = useState(false);
 
   useEffect(() => {
-    localStorage.setItem('hex', state.hex);
-    localStorage.setItem('prefix', state.prefix);
-    localStorage.setItem('suffix', state.suffix);
-    localStorage.setItem('sortOrder', state.sortOrder);
-    localStorage.setItem('checkedValues', JSON.stringify(state.checkedValues));
-    localStorage.setItem('selectedOption', state.selectedOption);
-    localStorage.setItem('darkLimit', state.darkLimit.toString());
-    localStorage.setItem('brightLimit', state.brightLimit.toString());
+    if (typeof window !== 'undefined') {
+      localStorage.setItem('hex', state.hex);
+      localStorage.setItem('prefix', state.prefix);
+      localStorage.setItem('suffix', state.suffix);
+      localStorage.setItem('sortOrder', state.sortOrder);
+      localStorage.setItem('checkedValues', JSON.stringify(state.checkedValues));
+      localStorage.setItem('selectedOption', state.selectedOption);
+      localStorage.setItem('darkLimit', state.darkLimit.toString());
+      localStorage.setItem('brightLimit', state.brightLimit.toString());
+    }
   }, [state]);
 
   useEffect(() => {
-    const storedSnapshots = JSON.parse(sessionStorage.getItem('snapshots')) || [];
-    const storedIndex = parseInt(sessionStorage.getItem('snapshotIndex')) || -1;
+    if (typeof window !== 'undefined') {
+      const storedSnapshots = JSON.parse(sessionStorage.getItem('snapshots')) || [];
+      const storedIndex = parseInt(sessionStorage.getItem('snapshotIndex')) || -1;
 
-    if (storedSnapshots.length !== snapshots.length || storedIndex !== snapshotIndex) {
-      setSnapshots(storedSnapshots);
-      setSnapshotIndex(storedIndex);
+      if (storedSnapshots.length !== snapshots.length || storedIndex !== snapshotIndex) {
+        setSnapshots(storedSnapshots);
+        setSnapshotIndex(storedIndex);
+      }
     }
   }, []); // Beim ersten Laden aus sessionStorage
 
   useEffect(() => {
-    const currentSnapshots = JSON.parse(sessionStorage.getItem('snapshots')) || [];
-    if (snapshots !== currentSnapshots) {
-      sessionStorage.setItem('snapshots', JSON.stringify(snapshots));
+    if (typeof window !== 'undefined') {
+      const currentSnapshots = JSON.parse(sessionStorage.getItem('snapshots')) || [];
+      if (snapshots !== currentSnapshots) {
+        sessionStorage.setItem('snapshots', JSON.stringify(snapshots));
+      }
     }
   }, [snapshots]); // Nur, wenn der snapshots State sich ändert
 
   useEffect(() => {
-    sessionStorage.setItem('snapshotIndex', snapshotIndex); // Snapshot Index speichern
+    if (typeof window !== 'undefined') {
+      sessionStorage.setItem('snapshotIndex', snapshotIndex); // Snapshot Index speichern
+    }
   }, [snapshotIndex]); // Nur wenn der snapshotIndex sich ändert
 
   useEffect(() => {
-    const storedSnapshots = JSON.parse(sessionStorage.getItem('snapshots')) || [];
-    const storedIndex = parseInt(sessionStorage.getItem('snapshotIndex')) || -1;
-    setSnapshots(storedSnapshots);
-    setSnapshotIndex(storedIndex);
-  }, []);
+    if (typeof window !== 'undefined') {
+      const storedSnapshots = JSON.parse(sessionStorage.getItem('snapshots')) || [];
+      const storedIndex = parseInt(sessionStorage.getItem('snapshotIndex')) || -1;
+
+      if (storedSnapshots.length !== snapshots.length || storedIndex !== snapshotIndex) {
+        setSnapshots(storedSnapshots);
+        setSnapshotIndex(storedIndex);
+      }
+    }
+  }, [snapshots, snapshotIndex]);
 
   const handleSnapshot = () => {
     // Erstelle den aktuellen Snapshot
