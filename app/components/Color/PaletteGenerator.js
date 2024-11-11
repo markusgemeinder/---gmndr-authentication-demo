@@ -28,9 +28,9 @@ import {
   RedoButton,
   PaletteWrapper,
   PaletteOutput,
-} from '@/app/components/Color/PaletteGeneratorStyles';
+} from './PaletteGeneratorStyles';
 import { FaCopy, FaSlidersH, FaRedo, FaUndo, FaCamera, FaCheck } from 'react-icons/fa';
-import { generateMonochromePalette, getColorPreview } from '@/utils/colorUtils';
+import { generateMonochromePalette, getColorPreview } from './colorUtils';
 
 // Default Werte
 const defaults = {
