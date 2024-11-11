@@ -84,35 +84,22 @@ function paletteReducer(state, action) {
   }
 }
 
-// Helper function to set a cookie
-function setCookie(name, value, days) {
-  const expires = new Date(Date.now() + days * 86400000).toUTCString();
-  document.cookie = `${name}=${encodeURIComponent(value)}; expires=${expires}; path=/`;
-}
+function loadFromLocalStorage() {
+  if (typeof window === 'undefined') return defaults; // Rückgabe von Defaults, wenn nicht im Browser
 
-// Helper function to get a cookie
-function getCookie(name) {
-  const cookies = document.cookie.split('; ');
-  const cookie = cookies.find((row) => row.startsWith(name));
-  return cookie ? decodeURIComponent(cookie.split('=')[1]) : null;
-}
-
-// Helper function to delete a cookie
-function deleteCookie(name) {
-  document.cookie = `${name}=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;`;
-}
-
-// Loading state from cookies
-function loadFromCookies() {
   const storedState = {
-    hex: getCookie('hex') || defaults.hex,
-    prefix: getCookie('prefix') || defaults.prefix,
-    suffix: getCookie('suffix') || defaults.suffix,
-    sortOrder: getCookie('sortOrder') || defaults.sortOrder,
-    checkedValues: JSON.parse(getCookie('checkedValues') || JSON.stringify(defaults.checkedValues)),
-    selectedOption: getCookie('selectedOption') || defaults.selectedOption,
-    darkLimit: !isNaN(parseInt(getCookie('darkLimit'))) ? parseInt(getCookie('darkLimit')) : defaults.darkLimit,
-    brightLimit: !isNaN(parseInt(getCookie('brightLimit'))) ? parseInt(getCookie('brightLimit')) : defaults.brightLimit,
+    hex: localStorage.getItem('hex') || defaults.hex,
+    prefix: localStorage.getItem('prefix') || defaults.prefix,
+    suffix: localStorage.getItem('suffix') || defaults.suffix,
+    sortOrder: localStorage.getItem('sortOrder') || defaults.sortOrder,
+    checkedValues: JSON.parse(localStorage.getItem('checkedValues')) || defaults.checkedValues,
+    selectedOption: localStorage.getItem('selectedOption') || defaults.selectedOption,
+    darkLimit: !isNaN(parseInt(localStorage.getItem('darkLimit')))
+      ? parseInt(localStorage.getItem('darkLimit'))
+      : defaults.darkLimit,
+    brightLimit: !isNaN(parseInt(localStorage.getItem('brightLimit')))
+      ? parseInt(localStorage.getItem('brightLimit'))
+      : defaults.brightLimit,
     generatedPalette: null,
   };
 
@@ -120,13 +107,47 @@ function loadFromCookies() {
 }
 
 export default function PaletteGenerator() {
-  // State initialisieren aus Cookies
-  const [state, dispatch] = useReducer(paletteReducer, loadFromCookies());
-  const [snapshots, setSnapshots] = useState(JSON.parse(getCookie('snapshots')) || []);
-  const [snapshotIndex, setSnapshotIndex] = useState(parseInt(getCookie('snapshotIndex')) || -1);
-  const [snapshotTaken, setSnapshotTaken] = useState(false); // Add snapshotTaken state
-  const [isCopied, setIsCopied] = useState(false); // Add isCopied state to control copy status
-  const [isGenerateClicked, setIsGenerateClicked] = useState(false); // Control button state for generate click
+  // Initialisierung des States aus dem Local Storage
+  const [state, dispatch] = useReducer(paletteReducer, loadFromLocalStorage());
+  const [snapshots, setSnapshots] = useState([]);
+  const [snapshotIndex, setSnapshotIndex] = useState(-1);
+  const [snapshotTaken, setSnapshotTaken] = useState(false);
+
+  const [isCopied, setIsCopied] = useState(false);
+  const [isGenerateClicked, setIsGenerateClicked] = useState(false);
+  const [isResetClicked, setIsResetClicked] = useState(false);
+
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      localStorage.setItem('hex', state.hex);
+      localStorage.setItem('prefix', state.prefix);
+      localStorage.setItem('suffix', state.suffix);
+      localStorage.setItem('sortOrder', state.sortOrder);
+      localStorage.setItem('checkedValues', JSON.stringify(state.checkedValues));
+      localStorage.setItem('selectedOption', state.selectedOption);
+      localStorage.setItem('darkLimit', state.darkLimit.toString());
+      localStorage.setItem('brightLimit', state.brightLimit.toString());
+    }
+  }, [state]);
+
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      const storedSnapshots = JSON.parse(localStorage.getItem('snapshots')) || [];
+      const storedIndex = parseInt(localStorage.getItem('snapshotIndex')) || -1;
+
+      if (storedSnapshots.length !== snapshots.length || storedIndex !== snapshotIndex) {
+        setSnapshots(storedSnapshots);
+        setSnapshotIndex(storedIndex);
+      }
+    }
+  }, []); // Beim ersten Laden aus localStorage
+
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      localStorage.setItem('snapshots', JSON.stringify(snapshots));
+      localStorage.setItem('snapshotIndex', snapshotIndex);
+    }
+  }, [snapshots, snapshotIndex]); // Speichern im localStorage
 
   const handleSnapshot = () => {
     const snapshot = {
@@ -140,15 +161,15 @@ export default function PaletteGenerator() {
       brightLimit: state.brightLimit,
     };
 
-    // Prüfen, ob die neuen Werte einen Snapshot benötigen
     const lastSnapshot = snapshots[snapshotIndex];
+
     if (
       lastSnapshot &&
       lastSnapshot.hex === snapshot.hex &&
       lastSnapshot.prefix === snapshot.prefix &&
       lastSnapshot.suffix === snapshot.suffix &&
       lastSnapshot.sortOrder === snapshot.sortOrder &&
-      JSON.stringify(lastSnapshot.checkedValues) === JSON.stringify(snapshot.checkedValues) &&
+      isArraysEqual(lastSnapshot.checkedValues, snapshot.checkedValues) &&
       lastSnapshot.selectedOption === snapshot.selectedOption &&
       lastSnapshot.darkLimit === snapshot.darkLimit &&
       lastSnapshot.brightLimit === snapshot.brightLimit
@@ -157,29 +178,15 @@ export default function PaletteGenerator() {
     }
 
     const newSnapshots = [...snapshots.slice(0, snapshotIndex + 1), snapshot];
-    if (newSnapshots.length > 20) newSnapshots.shift(); // Limitiere auf maximal 20 Snapshots
+
+    // Limitierung auf maximal 20 Snapshots
+    if (newSnapshots.length > 20) {
+      newSnapshots.shift(); // Ältesten Snapshot entfernen, um Platz zu schaffen
+    }
 
     setSnapshots(newSnapshots);
     setSnapshotIndex(newSnapshots.length - 1);
-
-    setCookie('snapshots', JSON.stringify(newSnapshots), 7);
-    setCookie('snapshotIndex', (newSnapshots.length - 1).toString(), 7);
   };
-
-  // Weitere Funktionen und UI-Komponenten bleiben unverändert
-  // Zum Beispiel: handleUndo, handleRedo, handleGeneratePalette, handleCopyPalette, resetForm, etc.
-
-  useEffect(() => {
-    // Speichern des States bei jeder Änderung in den Cookies
-    setCookie('hex', state.hex, 7);
-    setCookie('prefix', state.prefix, 7);
-    setCookie('suffix', state.suffix, 7);
-    setCookie('sortOrder', state.sortOrder, 7);
-    setCookie('checkedValues', JSON.stringify(state.checkedValues), 7);
-    setCookie('selectedOption', state.selectedOption, 7);
-    setCookie('darkLimit', state.darkLimit.toString(), 7);
-    setCookie('brightLimit', state.brightLimit.toString(), 7);
-  }, [state]);
 
   const handleUndo = () => {
     if (snapshotIndex > 0) {
