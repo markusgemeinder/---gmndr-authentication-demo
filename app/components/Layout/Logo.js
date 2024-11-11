@@ -17,7 +17,7 @@ const LogoContainer = styled.div`
 export default function Logo() {
   return (
     <LogoContainer>
-      <Image src={logoSrc} alt='GMNDR Demo Logo' width={70} height={25} />
+      <Image src={logoSrc} alt='GMNDR Demo Logo' width={70} height={28} />
     </LogoContainer>
   );
 }

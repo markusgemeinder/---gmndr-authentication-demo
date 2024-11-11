@@ -1,4 +1,4 @@
-// /pages/test.js
+// /pages/color.js
 
 'use client';
 

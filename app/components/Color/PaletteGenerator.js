@@ -84,26 +84,34 @@ function paletteReducer(state, action) {
   }
 }
 
-// Helper function to set a cookie
+// Check if we are on the client side
+const isClient = typeof window !== 'undefined';
+
+// Helper function to set a cookie (only on the client side)
 function setCookie(name, value, days) {
+  if (!isClient) return;
   const expires = new Date(Date.now() + days * 86400000).toUTCString();
   document.cookie = `${name}=${encodeURIComponent(value)}; expires=${expires}; path=/`;
 }
 
-// Helper function to get a cookie
+// Helper function to get a cookie (only on the client side)
 function getCookie(name) {
+  if (!isClient) return null;
   const cookies = document.cookie.split('; ');
   const cookie = cookies.find((row) => row.startsWith(name));
   return cookie ? decodeURIComponent(cookie.split('=')[1]) : null;
 }
 
-// Helper function to delete a cookie
+// Helper function to delete a cookie (only on the client side)
 function deleteCookie(name) {
+  if (!isClient) return;
   document.cookie = `${name}=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;`;
 }
 
-// Loading state from cookies
+// Loading state from cookies (only on the client side)
 function loadFromCookies() {
+  if (!isClient) return defaults; // Return defaults if not on client side
+
   const storedState = {
     hex: getCookie('hex') || defaults.hex,
     prefix: getCookie('prefix') || defaults.prefix,
