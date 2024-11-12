@@ -63,62 +63,66 @@
     63	│   │   │   └── ThemeToggleButton.js
     64	│   │   ├── Color
     65	│   │   │   ├── PaletteGenerator.js
-    66	│   │   │   └── PaletteGeneratorStyles.js
-    67	│   │   ├── Common
-    68	│   │   │   ├── Accordion.js
-    69	│   │   │   ├── CommonStyles.js
-    70	│   │   │   ├── LoadingAnimation.js
-    71	│   │   │   ├── ModalPopup.js
-    72	│   │   │   ├── ScrollToTop.js
-    73	│   │   │   ├── StarRating.js
-    74	│   │   │   ├── ThemeProvider.js
-    75	│   │   │   └── ValidatePassword.js
-    76	│   │   ├── Info
-    77	│   │   │   ├── InfoContact.js
-    78	│   │   │   ├── InfoNeueFische.js
-    79	│   │   │   ├── InfoProject.js
-    80	│   │   │   ├── InfoStyles.js
-    81	│   │   │   └── InfoTechstack.js
-    82	│   │   ├── LanguageProvider.js
-    83	│   │   ├── Layout
-    84	│   │   │   ├── Footer.js
-    85	│   │   │   ├── MainContainer.js
-    86	│   │   │   └── Navigation.js
-    87	│   │   └── Review
-    88	│   │       ├── ReviewCard.js
-    89	│   │       ├── ReviewForm.js
-    90	│   │       └── ReviewStyles.js
-    91	│   ├── globals.css
-    92	│   ├── globals.css.bak
-    93	│   ├── info
-    94	│   │   └── page.js
-    95	│   ├── layout.js
-    96	│   ├── page.js
-    97	│   └── reviews
-    98	│       ├── [id]
-    99	│       │   └── page.js
-   100	│       ├── create
-   101	│       │   └── page.js
-   102	│       └── page.js
-   103	├── db
-   104	│   ├── connect.js
-   105	│   └── models
-   106	│       ├── Review.js
-   107	│       └── User.js
-   108	├── jsconfig.json
-   109	├── lib
-   110	│   └── languageLibrary.js
-   111	├── middleware.js
-   112	├── next.config.mjs
-   113	├── package.json
-   114	├── postcss.config.mjs
-   115	├── tailwind.config.js.bak
-   116	└── utils
-   117	    ├── colorUtils.js
-   118	    ├── emailTemplate.js
-   119	    ├── getLanguageFromCookies.js
-   120	    ├── maskEmail.js
-   121	    ├── sendEmail.js
-   122	    └── sendEmail.js.bak
+    66	│   │   │   ├── PaletteGenerator.js.bak
+    67	│   │   │   ├── PaletteGeneratorStyles.js
+    68	│   │   │   └── colorUtils.js
+    69	│   │   ├── Common
+    70	│   │   │   ├── Accordion.js
+    71	│   │   │   ├── CommonStyles.js
+    72	│   │   │   ├── LoadingAnimation.js
+    73	│   │   │   ├── ModalPopup.js
+    74	│   │   │   ├── ScrollToTop.js
+    75	│   │   │   ├── StarRating.js
+    76	│   │   │   ├── ThemeProvider.js
+    77	│   │   │   └── ValidatePassword.js
+    78	│   │   ├── Info
+    79	│   │   │   ├── InfoContact.js
+    80	│   │   │   ├── InfoNeueFische.js
+    81	│   │   │   ├── InfoProject.js
+    82	│   │   │   ├── InfoStyles.js
+    83	│   │   │   └── InfoTechstack.js
+    84	│   │   ├── LanguageProvider.js
+    85	│   │   ├── Layout
+    86	│   │   │   ├── Footer.js
+    87	│   │   │   ├── Logo.js.NEW
+    88	│   │   │   ├── MainContainer.js
+    89	│   │   │   ├── Navigation.js
+    90	│   │   │   ├── Navigation.js.NEW
+    91	│   │   │   └── NavigationStyles.js.NEW
+    92	│   │   └── Review
+    93	│   │       ├── ReviewCard.js
+    94	│   │       ├── ReviewForm.js
+    95	│   │       └── ReviewStyles.js
+    96	│   ├── globals.css
+    97	│   ├── globals.css.bak
+    98	│   ├── info
+    99	│   │   └── page.js
+   100	│   ├── layout.js
+   101	│   ├── page.js
+   102	│   └── reviews
+   103	│       ├── [id]
+   104	│       │   └── page.js
+   105	│       ├── create
+   106	│       │   └── page.js
+   107	│       └── page.js
+   108	├── db
+   109	│   ├── connect.js
+   110	│   └── models
+   111	│       ├── Review.js
+   112	│       └── User.js
+   113	├── jsconfig.json
+   114	├── lib
+   115	│   └── languageLibrary.js
+   116	├── middleware.js
+   117	├── next.config.mjs
+   118	├── package.json
+   119	├── postcss.config.mjs
+   120	├── tailwind.config.js.bak
+   121	└── utils
+   122	    ├── emailTemplate.js
+   123	    ├── getLanguageFromCookies.js
+   124	    ├── maskEmail.js
+   125	    ├── sendEmail.js
+   126	    └── sendEmail.js.bak
       	
-   123	40 directories, 82 files
+   127	40 directories, 86 files
