@@ -7,17 +7,17 @@ export const Wrapper = styled.div`
   flex-direction: column;
   align-items: center;
   margin: 0.6rem auto;
-  margin-right: 1rem;
+  margin-right: 2rem;
   padding: 1.4rem 1.8rem;
-  width: 96%;
+  width: 88%;
   max-width: 600px;
   background-color: #f4f4f9;
   border-radius: 8px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 
   @media (min-width: 768px) and (min-height: 768px) {
-    margin-left: 0;
-    width: 84%;
+    /* margin-left: 0; */
+    width: 88%;
     max-width: 30rem;
   }
 `;

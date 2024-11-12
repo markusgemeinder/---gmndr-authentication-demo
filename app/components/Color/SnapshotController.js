@@ -22,12 +22,16 @@ const SnapshotContainer = styled.div`
 `;
 
 const SnapshotButton = styled.button`
+  display: grid;
+  grid-template-columns: auto auto;
+  gap: 0.4rem;
+  align-items: center;
   background: none;
   border: none;
-  padding: 0.5rem;
+  padding: 0.8rem;
   border-radius: 0.6rem;
-  width: 48px;
-  height: 48px;
+  width: 72px;
+  min-height: 48px;
   cursor: pointer;
   background-color: #5a5a5a;
   &:hover {
@@ -51,6 +55,13 @@ const RedoButton = styled(SnapshotButton)`
   &:hover {
     background-color: #a0a0a0;
   }
+`;
+
+const ButtonText = styled.span`
+  color: white;
+  font-size: 0.8rem;
+  /* font-weight: bold; */
+  text-align: center;
 `;
 
 export default function SnapshotController({ state, onApplySnapshot }) {
@@ -107,12 +118,22 @@ export default function SnapshotController({ state, onApplySnapshot }) {
 
   return (
     <SnapshotContainer>
-      <SnapshotButton onClick={handleSnapshot}>{snapshotTaken ? <FaCheck /> : <FaCamera />}</SnapshotButton>
-      <UndoButton onClick={handleUndo}>
+      {/* Snapshot Button mit Index-Anzeige */}
+      <SnapshotButton onClick={handleSnapshot}>
+        {snapshotTaken ? <FaCheck /> : <FaCamera />}
+        <ButtonText>{snapshots.length}</ButtonText>
+      </SnapshotButton>
+
+      {/* Undo Button mit verbleibenden Undo-Schritten */}
+      <UndoButton onClick={handleUndo} disabled={snapshotIndex === 0}>
         <FaUndo />
+        <ButtonText>{snapshotIndex > 0 ? snapshotIndex : 0}</ButtonText>
       </UndoButton>
-      <RedoButton onClick={handleRedo}>
+
+      {/* Redo Button mit verbleibenden Redo-Schritten */}
+      <RedoButton onClick={handleRedo} disabled={snapshotIndex >= snapshots.length - 1}>
         <FaRedo />
+        <ButtonText>{snapshotIndex < snapshots.length - 1 ? snapshots.length - snapshotIndex - 1 : 0}</ButtonText>
       </RedoButton>
     </SnapshotContainer>
   );

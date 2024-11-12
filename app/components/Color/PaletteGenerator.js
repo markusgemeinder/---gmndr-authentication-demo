@@ -174,6 +174,8 @@ export default function PaletteGenerator() {
 
   return (
     <Wrapper>
+      <SnapshotController state={state} onApplySnapshot={applySnapshot} />
+
       <Title>Monochrome Palette Generator</Title>
       <InputGroup>
         <Label>Basisfarbwert (Hex):</Label>
@@ -311,7 +313,6 @@ export default function PaletteGenerator() {
           </PaletteOutput>
         </PaletteWrapper>
       )}
-      <SnapshotController state={state} onApplySnapshot={applySnapshot} />
     </Wrapper>
   );
 }
