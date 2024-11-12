@@ -34,6 +34,11 @@ export function saveSnapshotsToLocalStorage(snapshots, snapshotIndex) {
 
 export function loadSnapshotsFromLocalStorage() {
   const snapshots = getLocalStorage('snapshots') || [];
-  const snapshotIndex = getLocalStorage('snapshotIndex') || -1;
+  let snapshotIndex = getLocalStorage('snapshotIndex') || -1;
+
+  if (snapshots.length === 0 || snapshotIndex < 0) {
+    snapshotIndex = 0;
+  }
+
   return { snapshots, snapshotIndex };
 }
