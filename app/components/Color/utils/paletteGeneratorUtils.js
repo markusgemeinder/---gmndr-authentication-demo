@@ -1,4 +1,4 @@
-// /utils/colorUtils.js
+// /utils/paletteGeneratorUtils.js
 
 // Hex-zu-RGB-Umwandlung
 export function hexToRgb(hex) {

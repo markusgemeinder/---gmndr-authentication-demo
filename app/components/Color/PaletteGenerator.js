@@ -22,19 +22,21 @@ import {
   GeneratePaletteButton,
   ResetFormButton,
   CopyPaletteButton,
-  SnapshotContainer,
-  SnapshotButton,
-  UndoButton,
-  RedoButton,
   PaletteWrapper,
   PaletteOutput,
 } from './PaletteGeneratorStyles';
-import { FaCopy, FaSlidersH, FaRedo, FaUndo, FaCamera, FaCheck } from 'react-icons/fa';
-import { generateMonochromePalette, getColorPreview } from './colorUtils';
+import { FaCopy, FaSlidersH, FaRedo } from 'react-icons/fa';
+import { generateMonochromePalette, getColorPreview } from './utils/paletteGeneratorUtils';
 import SnapshotController from './SnapshotController';
+import {
+  loadFormDataFromLocalStorage,
+  saveFormDataToLocalStorage,
+  loadSnapshotsFromLocalStorage,
+  saveSnapshotsToLocalStorage,
+} from './utils/localStorageUtils';
 
 // Default Werte
-const defaults = {
+export const defaults = {
   hex: '#00ffff',
   prefix: '--color-',
   suffix: 'test',
@@ -85,55 +87,27 @@ function paletteReducer(state, action) {
   }
 }
 
-// Check if we are on the client side
-const isClient = typeof window !== 'undefined';
-
-// Helper function to set data in localStorage (only on the client side)
-function setLocalStorage(name, value) {
-  if (!isClient) return;
-  localStorage.setItem(name, JSON.stringify(value));
-}
-
-// Helper function to get data from localStorage (only on the client side)
-function getLocalStorage(name) {
-  if (!isClient) return null;
-  const value = localStorage.getItem(name);
-  return value ? JSON.parse(value) : null;
-}
-
-// Helper function to remove data from localStorage (only on the client side)
-function removeLocalStorage(name) {
-  if (!isClient) return;
-  localStorage.removeItem(name);
-}
-
-// Loading state from localStorage (only on the client side)
-function loadFromLocalStorage() {
-  if (!isClient) return defaults; // Return defaults if not on client side
-
-  const storedState = {
-    hex: getLocalStorage('hex') || defaults.hex,
-    prefix: getLocalStorage('prefix') || defaults.prefix,
-    suffix: getLocalStorage('suffix') || defaults.suffix,
-    sortOrder: getLocalStorage('sortOrder') || defaults.sortOrder,
-    checkedValues: getLocalStorage('checkedValues') || defaults.checkedValues,
-    selectedOption: getLocalStorage('selectedOption') || defaults.selectedOption,
-    darkLimit: getLocalStorage('darkLimit') || defaults.darkLimit,
-    brightLimit: getLocalStorage('brightLimit') || defaults.brightLimit,
-    generatedPalette: null,
-  };
-
-  return storedState;
-}
+const formData = loadFormDataFromLocalStorage() || defaults;
 
 export default function PaletteGenerator() {
-  // State initialisieren aus LocalStorage
-  const [state, dispatch] = useReducer(paletteReducer, loadFromLocalStorage());
-  const [snapshots, setSnapshots] = useState(getLocalStorage('snapshots') || []);
-  const [snapshotIndex, setSnapshotIndex] = useState(getLocalStorage('snapshotIndex') || -1);
-  const [snapshotTaken, setSnapshotTaken] = useState(false); // Add snapshotTaken state
-  const [isCopied, setIsCopied] = useState(false); // Add isCopied state to control copy status
-  const [isGenerateClicked, setIsGenerateClicked] = useState(false); // Control button state for generate click
+  const [state, dispatch] = useReducer(paletteReducer, formData);
+
+  // Hole Snapshots und Snapshot-Index von loadSnapshotsFromLocalStorage
+  const { snapshots: initialSnapshots, snapshotIndex: initialSnapshotIndex } = loadSnapshotsFromLocalStorage();
+
+  // Verwende die geladenen Werte zur Initialisierung der States
+  const [snapshots, setSnapshots] = useState(initialSnapshots);
+  const [snapshotIndex, setSnapshotIndex] = useState(initialSnapshotIndex);
+
+  // Weitere useState-Initialisierungen
+  const [snapshotTaken, setSnapshotTaken] = useState(false);
+  const [isCopied, setIsCopied] = useState(false);
+  const [isGenerateClicked, setIsGenerateClicked] = useState(false);
+
+  // Save form data to localStorage when state changes
+  useEffect(() => {
+    saveFormDataToLocalStorage(state);
+  }, [state]);
 
   const handleSnapshot = () => {
     const snapshot = {
@@ -169,20 +143,12 @@ export default function PaletteGenerator() {
     setSnapshots(newSnapshots);
     setSnapshotIndex(newSnapshots.length - 1);
 
-    setLocalStorage('snapshots', newSnapshots);
-    setLocalStorage('snapshotIndex', newSnapshots.length - 1);
+    // Speichern der Snapshots und des Snapshot-Index im lokalen Speicher
+    saveSnapshotsToLocalStorage(newSnapshots, newSnapshots.length - 1);
   };
 
   useEffect(() => {
-    // Speichern des States bei jeder Änderung in den LocalStorage
-    setLocalStorage('hex', state.hex);
-    setLocalStorage('prefix', state.prefix);
-    setLocalStorage('suffix', state.suffix);
-    setLocalStorage('sortOrder', state.sortOrder);
-    setLocalStorage('checkedValues', state.checkedValues);
-    setLocalStorage('selectedOption', state.selectedOption);
-    setLocalStorage('darkLimit', state.darkLimit);
-    setLocalStorage('brightLimit', state.brightLimit);
+    saveFormDataToLocalStorage(state);
   }, [state]);
 
   const handleUndo = () => {
@@ -233,7 +199,6 @@ export default function PaletteGenerator() {
     setIsGenerateClicked(true);
     setTimeout(() => setIsGenerateClicked(false), 200);
 
-    // Erstelle die Palette ohne die Basisfarbwert-Zeile
     const palette = generateMonochromePalette(
       state.hex,
       state.prefix,
@@ -242,7 +207,6 @@ export default function PaletteGenerator() {
       state.brightLimit
     );
 
-    // Palette nach den ausgewählten Werten und Sortierung filtern
     const filteredPalette = Object.entries(palette)
       .filter(([key]) => state.checkedValues.includes(parseInt(key.split('-').pop())))
       .sort(([keyA], [keyB]) => {
@@ -259,25 +223,20 @@ export default function PaletteGenerator() {
   };
 
   const handleCopyPalette = () => {
-    // Berechnung der angezeigten Helligkeitslimits
     const brightLimitDisplayed = 100 - state.brightLimit;
     const darkLimitDisplayed = 100 - state.darkLimit;
 
-    // Kommentar mit den zusätzlichen Zeilen
     const comment =
       `/* ${state.prefix}${state.suffix}-base: ${state.hex}; */\n` +
       `/* Light level (0): ${brightLimitDisplayed}% | Dark level (1000): ${darkLimitDisplayed}% */\n`;
 
-    // Palette als CSS-Format erstellen
     const paletteText = Object.entries(state.generatedPalette)
       .map(([key, value]) => `${key.toLowerCase()}: ${value.toLowerCase()};`)
       .join('\n');
 
-    // Alles in die Zwischenablage kopieren
     navigator.clipboard.writeText(comment + paletteText);
-
     setIsCopied(true);
-    setTimeout(() => setIsCopied(false), 2000); // Nach 2 Sekunden den "Kopiert!"-Text zurücksetzen
+    setTimeout(() => setIsCopied(false), 2000);
   };
 
   const handleSelectOption = (option) => {

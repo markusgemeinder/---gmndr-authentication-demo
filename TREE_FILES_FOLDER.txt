@@ -64,7 +64,7 @@
     64	│   │   ├── Color
     65	│   │   │   ├── PaletteGenerator.js
     66	│   │   │   ├── PaletteGeneratorStyles.js
-    67	│   │   │   └── colorUtils.js
+    67	│   │   │   └── paletteGeneratorUtils.js
     68	│   │   ├── Common
     69	│   │   │   ├── Accordion.js
     70	│   │   │   ├── CommonStyles.js
