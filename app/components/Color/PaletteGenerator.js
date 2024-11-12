@@ -31,6 +31,7 @@ import {
 } from './PaletteGeneratorStyles';
 import { FaCopy, FaSlidersH, FaRedo, FaUndo, FaCamera, FaCheck } from 'react-icons/fa';
 import { generateMonochromePalette, getColorPreview } from './colorUtils';
+import SnapshotController from './SnapshotController';
 
 // Default Werte
 const defaults = {
@@ -415,15 +416,12 @@ export default function PaletteGenerator() {
         </CheckboxGroup>
       </InputGroup>
 
-      <SnapshotContainer>
-        <SnapshotButton onClick={handleSnapshotClick}>{snapshotTaken ? <FaCheck /> : <FaCamera />}</SnapshotButton>
-        <UndoButton onClick={handleUndo}>
-          <FaUndo />
-        </UndoButton>
-        <RedoButton onClick={handleRedo}>
-          <FaRedo />
-        </RedoButton>
-      </SnapshotContainer>
+      <SnapshotController
+        handleSnapshotClick={handleSnapshotClick}
+        snapshotTaken={snapshotTaken}
+        handleUndo={handleUndo}
+        handleRedo={handleRedo}
+      />
 
       <GeneratePaletteButton width='100%' onClick={handleGeneratePalette}>
         <FaSlidersH /> Palette generieren
