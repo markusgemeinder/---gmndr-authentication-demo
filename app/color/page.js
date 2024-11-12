@@ -5,9 +5,10 @@
 import { Container } from '@/app/components/Common/CommonStyles';
 import ScrollToTop from '@/app/components/Common/ScrollToTop';
 
-import PaletteGenerator from '@/app/components/Color/PaletteGenerator';
+import dynamic from 'next/dynamic';
+const PaletteGenerator = dynamic(() => import('@/app/components/Color/PaletteGenerator'), { ssr: false });
 
-export default function ColoringPage() {
+export default function ColorPage() {
   return (
     <Container>
       <ScrollToTop />
