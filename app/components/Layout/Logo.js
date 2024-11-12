@@ -2,8 +2,7 @@
 
 import styled from 'styled-components';
 import Image from 'next/image';
-
-const logoSrc = '/images/gmndr-demobits-logo.png?v=' + new Date().getTime();
+import { useEffect, useState } from 'react';
 
 const LogoContainer = styled.div`
   display: flex;
@@ -15,9 +14,16 @@ const LogoContainer = styled.div`
 `;
 
 export default function Logo() {
+  const [logoSrc, setLogoSrc] = useState('/images/gmndr-demobits-logo.png');
+
+  useEffect(() => {
+    // Append a timestamp only on the client side
+    setLogoSrc(`/images/gmndr-demobits-logo.png?v=${new Date().getTime()}`);
+  }, []);
+
   return (
     <LogoContainer>
-      <Image src={logoSrc} alt='GMNDR Demo Logo' width={70} height={28} />
+      <Image src={logoSrc} alt='GMNDR Demo Logo' width={70} height={26} />
     </LogoContainer>
   );
 }
