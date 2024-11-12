@@ -63,66 +63,65 @@
     63	│   │   │   └── ThemeToggleButton.js
     64	│   │   ├── Color
     65	│   │   │   ├── PaletteGenerator.js
-    66	│   │   │   ├── PaletteGenerator.js.bak
-    67	│   │   │   ├── PaletteGeneratorStyles.js
-    68	│   │   │   └── colorUtils.js
-    69	│   │   ├── Common
-    70	│   │   │   ├── Accordion.js
-    71	│   │   │   ├── CommonStyles.js
-    72	│   │   │   ├── LoadingAnimation.js
-    73	│   │   │   ├── ModalPopup.js
-    74	│   │   │   ├── ScrollToTop.js
-    75	│   │   │   ├── StarRating.js
-    76	│   │   │   ├── ThemeProvider.js
-    77	│   │   │   └── ValidatePassword.js
-    78	│   │   ├── Info
-    79	│   │   │   ├── InfoContact.js
-    80	│   │   │   ├── InfoNeueFische.js
-    81	│   │   │   ├── InfoProject.js
-    82	│   │   │   ├── InfoStyles.js
-    83	│   │   │   └── InfoTechstack.js
-    84	│   │   ├── LanguageProvider.js
-    85	│   │   ├── Layout
-    86	│   │   │   ├── Footer.js
-    87	│   │   │   ├── Logo.js.NEW
-    88	│   │   │   ├── MainContainer.js
-    89	│   │   │   ├── Navigation.js
-    90	│   │   │   ├── Navigation.js.NEW
-    91	│   │   │   └── NavigationStyles.js.NEW
-    92	│   │   └── Review
-    93	│   │       ├── ReviewCard.js
-    94	│   │       ├── ReviewForm.js
-    95	│   │       └── ReviewStyles.js
-    96	│   ├── globals.css
-    97	│   ├── globals.css.bak
-    98	│   ├── info
-    99	│   │   └── page.js
-   100	│   ├── layout.js
-   101	│   ├── page.js
-   102	│   └── reviews
-   103	│       ├── [id]
-   104	│       │   └── page.js
-   105	│       ├── create
-   106	│       │   └── page.js
-   107	│       └── page.js
-   108	├── db
-   109	│   ├── connect.js
-   110	│   └── models
-   111	│       ├── Review.js
-   112	│       └── User.js
-   113	├── jsconfig.json
-   114	├── lib
-   115	│   └── languageLibrary.js
-   116	├── middleware.js
-   117	├── next.config.mjs
-   118	├── package.json
-   119	├── postcss.config.mjs
-   120	├── tailwind.config.js.bak
-   121	└── utils
-   122	    ├── emailTemplate.js
-   123	    ├── getLanguageFromCookies.js
-   124	    ├── maskEmail.js
-   125	    ├── sendEmail.js
-   126	    └── sendEmail.js.bak
+    66	│   │   │   ├── PaletteGeneratorStyles.js
+    67	│   │   │   └── paletteGeneratorUtils.js
+    68	│   │   ├── Common
+    69	│   │   │   ├── Accordion.js
+    70	│   │   │   ├── CommonStyles.js
+    71	│   │   │   ├── LoadingAnimation.js
+    72	│   │   │   ├── ModalPopup.js
+    73	│   │   │   ├── ScrollToTop.js
+    74	│   │   │   ├── StarRating.js
+    75	│   │   │   ├── ThemeProvider.js
+    76	│   │   │   └── ValidatePassword.js
+    77	│   │   ├── Info
+    78	│   │   │   ├── InfoContact.js
+    79	│   │   │   ├── InfoNeueFische.js
+    80	│   │   │   ├── InfoProject.js
+    81	│   │   │   ├── InfoStyles.js
+    82	│   │   │   └── InfoTechstack.js
+    83	│   │   ├── LanguageProvider.js
+    84	│   │   ├── Layout
+    85	│   │   │   ├── Footer.js
+    86	│   │   │   ├── Logo.js.NEW
+    87	│   │   │   ├── MainContainer.js
+    88	│   │   │   ├── Navigation.js
+    89	│   │   │   ├── Navigation.js.NEW
+    90	│   │   │   └── NavigationStyles.js.NEW
+    91	│   │   └── Review
+    92	│   │       ├── ReviewCard.js
+    93	│   │       ├── ReviewForm.js
+    94	│   │       └── ReviewStyles.js
+    95	│   ├── globals.css
+    96	│   ├── globals.css.bak
+    97	│   ├── info
+    98	│   │   └── page.js
+    99	│   ├── layout.js
+   100	│   ├── page.js
+   101	│   └── reviews
+   102	│       ├── [id]
+   103	│       │   └── page.js
+   104	│       ├── create
+   105	│       │   └── page.js
+   106	│       └── page.js
+   107	├── db
+   108	│   ├── connect.js
+   109	│   └── models
+   110	│       ├── Review.js
+   111	│       └── User.js
+   112	├── jsconfig.json
+   113	├── lib
+   114	│   └── languageLibrary.js
+   115	├── middleware.js
+   116	├── next.config.mjs
+   117	├── package.json
+   118	├── postcss.config.mjs
+   119	├── tailwind.config.js.bak
+   120	└── utils
+   121	    ├── emailTemplate.js
+   122	    ├── getLanguageFromCookies.js
+   123	    ├── maskEmail.js
+   124	    ├── sendEmail.js
+   125	    └── sendEmail.js.bak
       	
-   127	40 directories, 86 files
+   126	40 directories, 85 files

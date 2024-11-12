@@ -7,17 +7,17 @@ export const Wrapper = styled.div`
   flex-direction: column;
   align-items: center;
   margin: 0.6rem auto;
-  margin-right: 1rem;
-  padding: 1.4rem 1.8rem;
-  width: 96%;
+  margin-right: 1.6rem;
+  padding: 1.2rem 1.4rem;
+  width: 92%;
   max-width: 600px;
   background-color: #f4f4f9;
   border-radius: 8px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 
   @media (min-width: 768px) and (min-height: 768px) {
-    margin-left: 0;
-    width: 84%;
+    /* margin-left: 0; */
+    width: 88%;
     max-width: 30rem;
   }
 `;
@@ -52,7 +52,8 @@ export const ColorPickerWrapper = styled.div`
 `;
 
 export const ColorPicker = styled.input`
-  type: 'color';
+  /* type: 'color'; */
+
   border: 2px solid #ddd;
   border-radius: 8px;
   width: 5rem;
@@ -134,7 +135,7 @@ export const StyledSlider = styled.input.attrs((props) => ({
 
 export const SliderText = styled.div`
   text-align: center;
-  font-size: 0.7rem;
+  font-size: 0.6rem;
   color: #333;
   width: 100%;
 `;
@@ -143,6 +144,7 @@ export const SliderValue = styled.div`
   text-align: center;
   font-size: 0.9rem;
   font-weight: bold;
+  min-width: 1.4rem;
   color: #555;
 `;
 
@@ -204,7 +206,7 @@ export const PaletteOutput = styled.pre`
 export const Button = styled.button`
   padding: 0.75rem 1.5rem;
   color: white;
-  font-weight: 600;
+  font-weight: bold;
   border: none;
   border-radius: 8px;
   cursor: pointer;

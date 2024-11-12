@@ -28,9 +28,9 @@ import {
   RedoButton,
   PaletteWrapper,
   PaletteOutput,
-} from '@/app/components/Color/PaletteGeneratorStyles';
+} from './PaletteGeneratorStyles';
 import { FaCopy, FaSlidersH, FaRedo, FaUndo, FaCamera, FaCheck } from 'react-icons/fa';
-import { generateMonochromePalette, getColorPreview } from '@/utils/colorUtils';
+import { generateMonochromePalette, getColorPreview } from './paletteGeneratorUtils';
 
 // Default Werte
 const defaults = {
@@ -84,22 +84,41 @@ function paletteReducer(state, action) {
   }
 }
 
+// Check if we are on the client side
+const isClient = typeof window !== 'undefined';
+
+// Helper function to set data in localStorage (only on the client side)
+function setLocalStorage(name, value) {
+  if (!isClient) return;
+  localStorage.setItem(name, JSON.stringify(value));
+}
+
+// Helper function to get data from localStorage (only on the client side)
+function getLocalStorage(name) {
+  if (!isClient) return null;
+  const value = localStorage.getItem(name);
+  return value ? JSON.parse(value) : null;
+}
+
+// Helper function to remove data from localStorage (only on the client side)
+function removeLocalStorage(name) {
+  if (!isClient) return;
+  localStorage.removeItem(name);
+}
+
+// Loading state from localStorage (only on the client side)
 function loadFromLocalStorage() {
-  if (typeof window === 'undefined') return defaults; // Rückgabe von Defaults, wenn nicht im Browser
+  if (!isClient) return defaults; // Return defaults if not on client side
 
   const storedState = {
-    hex: localStorage.getItem('hex') || defaults.hex,
-    prefix: localStorage.getItem('prefix') || defaults.prefix,
-    suffix: localStorage.getItem('suffix') || defaults.suffix,
-    sortOrder: localStorage.getItem('sortOrder') || defaults.sortOrder,
-    checkedValues: JSON.parse(localStorage.getItem('checkedValues')) || defaults.checkedValues,
-    selectedOption: localStorage.getItem('selectedOption') || defaults.selectedOption,
-    darkLimit: !isNaN(parseInt(localStorage.getItem('darkLimit')))
-      ? parseInt(localStorage.getItem('darkLimit'))
-      : defaults.darkLimit,
-    brightLimit: !isNaN(parseInt(localStorage.getItem('brightLimit')))
-      ? parseInt(localStorage.getItem('brightLimit'))
-      : defaults.brightLimit,
+    hex: getLocalStorage('hex') || defaults.hex,
+    prefix: getLocalStorage('prefix') || defaults.prefix,
+    suffix: getLocalStorage('suffix') || defaults.suffix,
+    sortOrder: getLocalStorage('sortOrder') || defaults.sortOrder,
+    checkedValues: getLocalStorage('checkedValues') || defaults.checkedValues,
+    selectedOption: getLocalStorage('selectedOption') || defaults.selectedOption,
+    darkLimit: getLocalStorage('darkLimit') || defaults.darkLimit,
+    brightLimit: getLocalStorage('brightLimit') || defaults.brightLimit,
     generatedPalette: null,
   };
 
@@ -107,47 +126,13 @@ function loadFromLocalStorage() {
 }
 
 export default function PaletteGenerator() {
-  // Initialisierung des States aus dem Local Storage
+  // State initialisieren aus LocalStorage
   const [state, dispatch] = useReducer(paletteReducer, loadFromLocalStorage());
-  const [snapshots, setSnapshots] = useState([]);
-  const [snapshotIndex, setSnapshotIndex] = useState(-1);
-  const [snapshotTaken, setSnapshotTaken] = useState(false);
-
-  const [isCopied, setIsCopied] = useState(false);
-  const [isGenerateClicked, setIsGenerateClicked] = useState(false);
-  const [isResetClicked, setIsResetClicked] = useState(false);
-
-  useEffect(() => {
-    if (typeof window !== 'undefined') {
-      localStorage.setItem('hex', state.hex);
-      localStorage.setItem('prefix', state.prefix);
-      localStorage.setItem('suffix', state.suffix);
-      localStorage.setItem('sortOrder', state.sortOrder);
-      localStorage.setItem('checkedValues', JSON.stringify(state.checkedValues));
-      localStorage.setItem('selectedOption', state.selectedOption);
-      localStorage.setItem('darkLimit', state.darkLimit.toString());
-      localStorage.setItem('brightLimit', state.brightLimit.toString());
-    }
-  }, [state]);
-
-  useEffect(() => {
-    if (typeof window !== 'undefined') {
-      const storedSnapshots = JSON.parse(localStorage.getItem('snapshots')) || [];
-      const storedIndex = parseInt(localStorage.getItem('snapshotIndex')) || -1;
-
-      if (storedSnapshots.length !== snapshots.length || storedIndex !== snapshotIndex) {
-        setSnapshots(storedSnapshots);
-        setSnapshotIndex(storedIndex);
-      }
-    }
-  }, []); // Beim ersten Laden aus localStorage
-
-  useEffect(() => {
-    if (typeof window !== 'undefined') {
-      localStorage.setItem('snapshots', JSON.stringify(snapshots));
-      localStorage.setItem('snapshotIndex', snapshotIndex);
-    }
-  }, [snapshots, snapshotIndex]); // Speichern im localStorage
+  const [snapshots, setSnapshots] = useState(getLocalStorage('snapshots') || []);
+  const [snapshotIndex, setSnapshotIndex] = useState(getLocalStorage('snapshotIndex') || -1);
+  const [snapshotTaken, setSnapshotTaken] = useState(false); // Add snapshotTaken state
+  const [isCopied, setIsCopied] = useState(false); // Add isCopied state to control copy status
+  const [isGenerateClicked, setIsGenerateClicked] = useState(false); // Control button state for generate click
 
   const handleSnapshot = () => {
     const snapshot = {
@@ -161,15 +146,15 @@ export default function PaletteGenerator() {
       brightLimit: state.brightLimit,
     };
 
+    // Prüfen, ob die neuen Werte einen Snapshot benötigen
     const lastSnapshot = snapshots[snapshotIndex];
-
     if (
       lastSnapshot &&
       lastSnapshot.hex === snapshot.hex &&
       lastSnapshot.prefix === snapshot.prefix &&
       lastSnapshot.suffix === snapshot.suffix &&
       lastSnapshot.sortOrder === snapshot.sortOrder &&
-      isArraysEqual(lastSnapshot.checkedValues, snapshot.checkedValues) &&
+      JSON.stringify(lastSnapshot.checkedValues) === JSON.stringify(snapshot.checkedValues) &&
       lastSnapshot.selectedOption === snapshot.selectedOption &&
       lastSnapshot.darkLimit === snapshot.darkLimit &&
       lastSnapshot.brightLimit === snapshot.brightLimit
@@ -178,15 +163,26 @@ export default function PaletteGenerator() {
     }
 
     const newSnapshots = [...snapshots.slice(0, snapshotIndex + 1), snapshot];
-
-    // Limitierung auf maximal 20 Snapshots
-    if (newSnapshots.length > 20) {
-      newSnapshots.shift(); // Ältesten Snapshot entfernen, um Platz zu schaffen
-    }
+    if (newSnapshots.length > 20) newSnapshots.shift(); // Limitiere auf maximal 20 Snapshots
 
     setSnapshots(newSnapshots);
     setSnapshotIndex(newSnapshots.length - 1);
+
+    setLocalStorage('snapshots', newSnapshots);
+    setLocalStorage('snapshotIndex', newSnapshots.length - 1);
   };
+
+  useEffect(() => {
+    // Speichern des States bei jeder Änderung in den LocalStorage
+    setLocalStorage('hex', state.hex);
+    setLocalStorage('prefix', state.prefix);
+    setLocalStorage('suffix', state.suffix);
+    setLocalStorage('sortOrder', state.sortOrder);
+    setLocalStorage('checkedValues', state.checkedValues);
+    setLocalStorage('selectedOption', state.selectedOption);
+    setLocalStorage('darkLimit', state.darkLimit);
+    setLocalStorage('brightLimit', state.brightLimit);
+  }, [state]);
 
   const handleUndo = () => {
     if (snapshotIndex > 0) {
