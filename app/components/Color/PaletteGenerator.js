@@ -28,12 +28,7 @@ import {
 import { FaCopy, FaSlidersH, FaRedo } from 'react-icons/fa';
 import { generateMonochromePalette, getColorPreview } from './utils/paletteGeneratorUtils';
 import SnapshotController from './SnapshotController';
-import {
-  loadFormDataFromLocalStorage,
-  saveFormDataToLocalStorage,
-  loadSnapshotsFromLocalStorage,
-  saveSnapshotsToLocalStorage,
-} from './utils/localStorageUtils';
+import { loadFormDataFromLocalStorage, saveFormDataToLocalStorage } from './utils/localStorageUtils';
 
 // Default Werte
 export const defaults = {
@@ -82,6 +77,8 @@ function paletteReducer(state, action) {
       return { ...state, selectedOption: action.value };
     case 'SET_GENERATED_PALETTE':
       return { ...state, generatedPalette: action.value };
+    case 'LOAD_SNAPSHOT':
+      return { ...action.payload }; // Lädt den gesamten Snapshot
     default:
       return state;
   }
@@ -92,15 +89,7 @@ const formData = loadFormDataFromLocalStorage() || defaults;
 export default function PaletteGenerator() {
   const [state, dispatch] = useReducer(paletteReducer, formData);
 
-  // Hole Snapshots und Snapshot-Index von loadSnapshotsFromLocalStorage
-  const { snapshots: initialSnapshots, snapshotIndex: initialSnapshotIndex } = loadSnapshotsFromLocalStorage();
-
-  // Verwende die geladenen Werte zur Initialisierung der States
-  const [snapshots, setSnapshots] = useState(initialSnapshots);
-  const [snapshotIndex, setSnapshotIndex] = useState(initialSnapshotIndex);
-
   // Weitere useState-Initialisierungen
-  const [snapshotTaken, setSnapshotTaken] = useState(false);
   const [isCopied, setIsCopied] = useState(false);
   const [isGenerateClicked, setIsGenerateClicked] = useState(false);
 
@@ -109,83 +98,9 @@ export default function PaletteGenerator() {
     saveFormDataToLocalStorage(state);
   }, [state]);
 
-  const handleSnapshot = () => {
-    const snapshot = {
-      hex: state.hex,
-      prefix: state.prefix,
-      suffix: state.suffix,
-      sortOrder: state.sortOrder,
-      checkedValues: state.checkedValues,
-      selectedOption: state.selectedOption,
-      darkLimit: state.darkLimit,
-      brightLimit: state.brightLimit,
-    };
-
-    // Prüfen, ob die neuen Werte einen Snapshot benötigen
-    const lastSnapshot = snapshots[snapshotIndex];
-    if (
-      lastSnapshot &&
-      lastSnapshot.hex === snapshot.hex &&
-      lastSnapshot.prefix === snapshot.prefix &&
-      lastSnapshot.suffix === snapshot.suffix &&
-      lastSnapshot.sortOrder === snapshot.sortOrder &&
-      JSON.stringify(lastSnapshot.checkedValues) === JSON.stringify(snapshot.checkedValues) &&
-      lastSnapshot.selectedOption === snapshot.selectedOption &&
-      lastSnapshot.darkLimit === snapshot.darkLimit &&
-      lastSnapshot.brightLimit === snapshot.brightLimit
-    ) {
-      return; // Keine Änderung, also kein Snapshot speichern
-    }
-
-    const newSnapshots = [...snapshots.slice(0, snapshotIndex + 1), snapshot];
-    if (newSnapshots.length > 20) newSnapshots.shift(); // Limitiere auf maximal 20 Snapshots
-
-    setSnapshots(newSnapshots);
-    setSnapshotIndex(newSnapshots.length - 1);
-
-    // Speichern der Snapshots und des Snapshot-Index im lokalen Speicher
-    saveSnapshotsToLocalStorage(newSnapshots, newSnapshots.length - 1);
-  };
-
-  useEffect(() => {
-    saveFormDataToLocalStorage(state);
-  }, [state]);
-
-  const handleUndo = () => {
-    if (snapshotIndex > 0) {
-      const prevSnapshot = snapshots[snapshotIndex - 1];
-      dispatch({ type: 'SET_VALUE', key: 'hex', value: prevSnapshot.hex });
-      dispatch({ type: 'SET_VALUE', key: 'prefix', value: prevSnapshot.prefix });
-      dispatch({ type: 'SET_VALUE', key: 'suffix', value: prevSnapshot.suffix });
-      dispatch({ type: 'SET_VALUE', key: 'sortOrder', value: prevSnapshot.sortOrder });
-      dispatch({ type: 'SET_CHECKED_VALUES', value: prevSnapshot.checkedValues });
-      dispatch({ type: 'SET_SELECTED_OPTION', value: prevSnapshot.selectedOption });
-      dispatch({ type: 'SET_VALUE', key: 'darkLimit', value: prevSnapshot.darkLimit });
-      dispatch({ type: 'SET_VALUE', key: 'brightLimit', value: prevSnapshot.brightLimit });
-      setSnapshotIndex(snapshotIndex - 1);
-    }
-  };
-
-  const handleRedo = () => {
-    if (snapshotIndex < snapshots.length - 1) {
-      const nextSnapshot = snapshots[snapshotIndex + 1];
-      dispatch({ type: 'SET_VALUE', key: 'hex', value: nextSnapshot.hex });
-      dispatch({ type: 'SET_VALUE', key: 'prefix', value: nextSnapshot.prefix });
-      dispatch({ type: 'SET_VALUE', key: 'suffix', value: nextSnapshot.suffix });
-      dispatch({ type: 'SET_VALUE', key: 'sortOrder', value: nextSnapshot.sortOrder });
-      dispatch({ type: 'SET_CHECKED_VALUES', value: nextSnapshot.checkedValues });
-      dispatch({ type: 'SET_SELECTED_OPTION', value: nextSnapshot.selectedOption });
-      dispatch({ type: 'SET_VALUE', key: 'darkLimit', value: nextSnapshot.darkLimit });
-      dispatch({ type: 'SET_VALUE', key: 'brightLimit', value: nextSnapshot.brightLimit });
-      setSnapshotIndex(snapshotIndex + 1);
-    }
-  };
-
-  const handleSnapshotClick = () => {
-    setSnapshotTaken(true);
-    handleSnapshot();
-    setTimeout(() => setSnapshotTaken(false), 1000);
-  };
+  function applySnapshot(snapshot) {
+    dispatch({ type: 'LOAD_SNAPSHOT', payload: snapshot });
+  }
 
   const handleHexChange = (e) => {
     dispatch({ type: 'SET_VALUE', key: 'hex', value: e.target.value });
@@ -375,13 +290,6 @@ export default function PaletteGenerator() {
         </CheckboxGroup>
       </InputGroup>
 
-      <SnapshotController
-        handleSnapshotClick={handleSnapshotClick}
-        snapshotTaken={snapshotTaken}
-        handleUndo={handleUndo}
-        handleRedo={handleRedo}
-      />
-
       <GeneratePaletteButton width='100%' onClick={handleGeneratePalette}>
         <FaSlidersH /> Palette generieren
       </GeneratePaletteButton>
@@ -403,6 +311,7 @@ export default function PaletteGenerator() {
           </PaletteOutput>
         </PaletteWrapper>
       )}
+      <SnapshotController state={state} onApplySnapshot={applySnapshot} />
     </Wrapper>
   );
 }
