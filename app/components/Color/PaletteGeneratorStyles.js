@@ -206,7 +206,7 @@ export const PaletteOutput = styled.pre`
 export const Button = styled.button`
   padding: 0.75rem 1.5rem;
   color: white;
-  font-weight: 600;
+  font-weight: bold;
   border: none;
   border-radius: 8px;
   cursor: pointer;
