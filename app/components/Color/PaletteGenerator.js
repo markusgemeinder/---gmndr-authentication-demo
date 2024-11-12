@@ -87,40 +87,38 @@ function paletteReducer(state, action) {
 // Check if we are on the client side
 const isClient = typeof window !== 'undefined';
 
-// Helper function to set a cookie (only on the client side)
-function setCookie(name, value, days) {
+// Helper function to set data in localStorage (only on the client side)
+function setLocalStorage(name, value) {
   if (!isClient) return;
-  const expires = new Date(Date.now() + days * 86400000).toUTCString();
-  document.cookie = `${name}=${encodeURIComponent(value)}; expires=${expires}; path=/`;
+  localStorage.setItem(name, JSON.stringify(value));
 }
 
-// Helper function to get a cookie (only on the client side)
-function getCookie(name) {
+// Helper function to get data from localStorage (only on the client side)
+function getLocalStorage(name) {
   if (!isClient) return null;
-  const cookies = document.cookie.split('; ');
-  const cookie = cookies.find((row) => row.startsWith(name));
-  return cookie ? decodeURIComponent(cookie.split('=')[1]) : null;
+  const value = localStorage.getItem(name);
+  return value ? JSON.parse(value) : null;
 }
 
-// Helper function to delete a cookie (only on the client side)
-function deleteCookie(name) {
+// Helper function to remove data from localStorage (only on the client side)
+function removeLocalStorage(name) {
   if (!isClient) return;
-  document.cookie = `${name}=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;`;
+  localStorage.removeItem(name);
 }
 
-// Loading state from cookies (only on the client side)
-function loadFromCookies() {
+// Loading state from localStorage (only on the client side)
+function loadFromLocalStorage() {
   if (!isClient) return defaults; // Return defaults if not on client side
 
   const storedState = {
-    hex: getCookie('hex') || defaults.hex,
-    prefix: getCookie('prefix') || defaults.prefix,
-    suffix: getCookie('suffix') || defaults.suffix,
-    sortOrder: getCookie('sortOrder') || defaults.sortOrder,
-    checkedValues: JSON.parse(getCookie('checkedValues') || JSON.stringify(defaults.checkedValues)),
-    selectedOption: getCookie('selectedOption') || defaults.selectedOption,
-    darkLimit: !isNaN(parseInt(getCookie('darkLimit'))) ? parseInt(getCookie('darkLimit')) : defaults.darkLimit,
-    brightLimit: !isNaN(parseInt(getCookie('brightLimit'))) ? parseInt(getCookie('brightLimit')) : defaults.brightLimit,
+    hex: getLocalStorage('hex') || defaults.hex,
+    prefix: getLocalStorage('prefix') || defaults.prefix,
+    suffix: getLocalStorage('suffix') || defaults.suffix,
+    sortOrder: getLocalStorage('sortOrder') || defaults.sortOrder,
+    checkedValues: getLocalStorage('checkedValues') || defaults.checkedValues,
+    selectedOption: getLocalStorage('selectedOption') || defaults.selectedOption,
+    darkLimit: getLocalStorage('darkLimit') || defaults.darkLimit,
+    brightLimit: getLocalStorage('brightLimit') || defaults.brightLimit,
     generatedPalette: null,
   };
 
@@ -128,10 +126,10 @@ function loadFromCookies() {
 }
 
 export default function PaletteGenerator() {
-  // State initialisieren aus Cookies
-  const [state, dispatch] = useReducer(paletteReducer, loadFromCookies());
-  const [snapshots, setSnapshots] = useState(JSON.parse(getCookie('snapshots')) || []);
-  const [snapshotIndex, setSnapshotIndex] = useState(parseInt(getCookie('snapshotIndex')) || -1);
+  // State initialisieren aus LocalStorage
+  const [state, dispatch] = useReducer(paletteReducer, loadFromLocalStorage());
+  const [snapshots, setSnapshots] = useState(getLocalStorage('snapshots') || []);
+  const [snapshotIndex, setSnapshotIndex] = useState(getLocalStorage('snapshotIndex') || -1);
   const [snapshotTaken, setSnapshotTaken] = useState(false); // Add snapshotTaken state
   const [isCopied, setIsCopied] = useState(false); // Add isCopied state to control copy status
   const [isGenerateClicked, setIsGenerateClicked] = useState(false); // Control button state for generate click
@@ -170,23 +168,20 @@ export default function PaletteGenerator() {
     setSnapshots(newSnapshots);
     setSnapshotIndex(newSnapshots.length - 1);
 
-    setCookie('snapshots', JSON.stringify(newSnapshots), 7);
-    setCookie('snapshotIndex', (newSnapshots.length - 1).toString(), 7);
+    setLocalStorage('snapshots', newSnapshots);
+    setLocalStorage('snapshotIndex', newSnapshots.length - 1);
   };
 
-  // Weitere Funktionen und UI-Komponenten bleiben unverändert
-  // Zum Beispiel: handleUndo, handleRedo, handleGeneratePalette, handleCopyPalette, resetForm, etc.
-
   useEffect(() => {
-    // Speichern des States bei jeder Änderung in den Cookies
-    setCookie('hex', state.hex, 7);
-    setCookie('prefix', state.prefix, 7);
-    setCookie('suffix', state.suffix, 7);
-    setCookie('sortOrder', state.sortOrder, 7);
-    setCookie('checkedValues', JSON.stringify(state.checkedValues), 7);
-    setCookie('selectedOption', state.selectedOption, 7);
-    setCookie('darkLimit', state.darkLimit.toString(), 7);
-    setCookie('brightLimit', state.brightLimit.toString(), 7);
+    // Speichern des States bei jeder Änderung in den LocalStorage
+    setLocalStorage('hex', state.hex);
+    setLocalStorage('prefix', state.prefix);
+    setLocalStorage('suffix', state.suffix);
+    setLocalStorage('sortOrder', state.sortOrder);
+    setLocalStorage('checkedValues', state.checkedValues);
+    setLocalStorage('selectedOption', state.selectedOption);
+    setLocalStorage('darkLimit', state.darkLimit);
+    setLocalStorage('brightLimit', state.brightLimit);
   }, [state]);
 
   const handleUndo = () => {
