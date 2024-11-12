@@ -7,9 +7,9 @@ export const Wrapper = styled.div`
   flex-direction: column;
   align-items: center;
   margin: 0.6rem auto;
-  margin-right: 2rem;
-  padding: 1.4rem 1.8rem;
-  width: 88%;
+  margin-right: 1.6rem;
+  padding: 1.2rem 1.4rem;
+  width: 92%;
   max-width: 600px;
   background-color: #f4f4f9;
   border-radius: 8px;
@@ -52,7 +52,8 @@ export const ColorPickerWrapper = styled.div`
 `;
 
 export const ColorPicker = styled.input`
-  type: 'color';
+  /* type: 'color'; */
+
   border: 2px solid #ddd;
   border-radius: 8px;
   width: 5rem;
@@ -134,7 +135,7 @@ export const StyledSlider = styled.input.attrs((props) => ({
 
 export const SliderText = styled.div`
   text-align: center;
-  font-size: 0.7rem;
+  font-size: 0.6rem;
   color: #333;
   width: 100%;
 `;
@@ -143,6 +144,7 @@ export const SliderValue = styled.div`
   text-align: center;
   font-size: 0.9rem;
   font-weight: bold;
+  min-width: 1.4rem;
   color: #555;
 `;
 
