@@ -16,7 +16,7 @@ export default function InfoContact() {
     <>
       <ScrollToTop />
       <AvatarContainer>
-        <Avatar src={`/images/gmndr-pic-02.jpg`} alt='Markus Gemeinder' width={160} height={160} />
+        <Avatar src={`/images/gmndr-pic-2.jpg`} alt='Markus Gemeinder' width={160} height={160} />
       </AvatarContainer>
       <Title>{getText('info_contact', 'contact', language)}</Title>
       <Subtitle>{getText('info_contact', 'name', language)}</Subtitle>
