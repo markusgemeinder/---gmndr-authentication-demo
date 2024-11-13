@@ -27,7 +27,7 @@ export default function InfoProject() {
     <>
       <ScrollToTop />
       <AvatarContainer>
-        <Avatar src={`/images/gmndr-pic-01.jpg`} alt='Markus Gemeinder' width={160} height={160} />
+        <Avatar src={`/images/gmndr-pic-1.jpg`} alt='Markus Gemeinder' width={160} height={160} />
       </AvatarContainer>
       <Title>{getText('info_project', 'title', language)}</Title>
       <Paragraph>
