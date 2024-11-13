@@ -210,9 +210,10 @@ ol {
   --color-text: var(--color-secondary-1000);
   --color-text-light: var(--color-secondary-550);
 
-  /* Header & Footer Colors */
+  /* Header, Footer & Logo Colors */
   --color-header-footer: var(--color-primary-850);
   --color-header-footer-text: var(--color-white);
+  --color-logo: var(--color-white);
 
   /* Background & Border Colors */
   --color-background: var(--color-primary-0);
@@ -271,9 +272,10 @@ ol {
   --color-text: var(--color-secondary-50);
   --color-text-light: var(--color-secondary-250);
 
-  /* Header & Footer Colors */
+  /* Header, Footer & Logo Colors */
   --color-header-footer: var(--color-primary-850);
   --color-header-footer-text: var(--color-white);
+  --color-logo: var(--color-white);
 
   /* Background & Border Colors */
   --color-background: var(--color-primary-1000);
