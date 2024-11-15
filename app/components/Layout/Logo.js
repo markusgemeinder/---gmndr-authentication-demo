@@ -30,7 +30,8 @@ export default function Logo({ onClick }) {
 
   return (
     <LogoContainer onClick={onClick}>
-      <img src={`/images/gmndr-dev-bits-logo.svg?${timestamp}`} alt='Logo' />
+      <img src={`/images/gmndr-dev-bits-logo.svg`} alt='Logo' />
+      {/* <img src={`/images/gmndr-dev-bits-logo.svg?${timestamp}`} alt='Logo' /> */}
     </LogoContainer>
   );
 }

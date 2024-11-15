@@ -18,7 +18,9 @@ export const SnapshotContainer = styled.div`
   }
 `;
 
-export const SnapshotButton = styled.button`
+export const SnapshotButton = styled.button.withConfig({
+  shouldForwardProp: (prop) => !['isSnapshotLimitReached'].includes(prop),
+})`
   display: grid;
   grid-template-columns: auto auto;
   gap: 0.4rem;
@@ -27,26 +29,27 @@ export const SnapshotButton = styled.button`
   border: none;
   border-radius: 0.6rem;
   cursor: pointer;
-  background-color: #5a5a5a;
+  background-color: ${({ isSnapshotLimitReached }) => (isSnapshotLimitReached ? '#fd9696' : '#5a5a5a')};
   width: 60px;
   height: 48px;
   padding: 0.6rem;
+
   &:hover {
-    background-color: #3a3a3a;
-  }
-  svg {
-    font-size: 1.4rem;
-    color: white;
+    background-color: ${({ isSnapshotLimitReached }) =>
+      isSnapshotLimitReached
+        ? '#ff7070'
+        : '#3a3a3a'}; /* Ändere die Hover-Farbe auf ein helleres Rot, wenn Limit erreicht */
   }
 
-  @media (min-width: 768px) and (min-height: 768px) {
+  @media (min-width: 768px) {
     padding: 0.8rem;
     width: 72px;
     height: 56px;
-    svg {
-      font-size: 1.8rem;
-      color: white;
-    }
+  }
+
+  svg {
+    font-size: 1.8rem;
+    color: white;
   }
 `;
 
@@ -85,10 +88,6 @@ export const DeleteButton = styled.button`
     color: white;
   }
 
-  &:hover {
-    background-color: #3a3a3a;
-  }
-
   @media (min-width: 768px) and (min-height: 768px) {
     padding: 0.8rem;
     width: 72px;
@@ -97,10 +96,6 @@ export const DeleteButton = styled.button`
       font-size: 1.8rem;
       color: white;
     }
-  }
-
-  &:disabled {
-    background-color: #e0e0e0;
   }
 `;
 
@@ -113,48 +108,44 @@ export const ModalContainer = styled.div`
   position: fixed;
   top: 0;
   left: 0;
-  right: 0;
-  bottom: 0;
-  background-color: rgba(0, 0, 0, 0.6);
+  width: 100%;
+  height: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
-  z-index: 5;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 1111;
 `;
 
 export const ModalContent = styled.div`
-  background-color: #f4f4f9;
-  padding: 1rem;
+  background-color: white;
+  padding: 2rem;
   border-radius: 8px;
-  max-width: 400px;
-  width: 100%;
-  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 `;
 
 export const ModalHeader = styled.h3`
-  font-size: 1.2rem;
-  margin: 1rem 0;
+  margin-bottom: 1rem;
 `;
 
 export const ModalButton = styled.button`
-  padding: 0.75rem 1.5rem;
+  background-color: #007bff;
   color: white;
-  font-weight: bold;
+  padding: 0.6rem 1.2rem;
   border: none;
   border-radius: 8px;
   cursor: pointer;
-  background-color: #f44336;
-  margin: 0.5rem;
-
+  font-size: 1rem;
   &:hover {
-    background-color: #d32f2f;
+    background-color: #0056b3;
   }
 `;
 
 export const CancelButton = styled(ModalButton)`
-  background-color: #9e9e9e;
-
+  background-color: #e0e0e0;
   &:hover {
-    background-color: #757575;
+    background-color: #b3b3b3;
   }
 `;
