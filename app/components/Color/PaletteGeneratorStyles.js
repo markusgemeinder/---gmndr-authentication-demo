@@ -100,7 +100,7 @@ export const ColorPreview = styled.div.attrs((props) => ({
 
 export const StyledSlider = styled.input.attrs((props) => ({
   style: {
-    background: `linear-gradient(to right, ${props.$startColor}, ${props.$endColor || '#fff'})`,
+    background: `linear-gradient(to right, ${props.$startColor}, ${props.$endColor || 'var(--color-white'})`,
   },
 }))`
   width: 100%;
@@ -161,19 +161,11 @@ export const CheckboxGroup = styled.div`
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
   margin: 0.5rem;
-  margin-left: 0;
   gap: 0.2rem;
-
-  & > label {
-    padding-left: 0rem;
-  }
 
   @media (min-width: 768px) and (min-height: 768px) {
     margin: 0.5rem 1.8rem;
-
-    & > label {
-      padding-left: 0.4rem;
-    }
+    margin-left: 3rem;
   }
 `;
 
@@ -181,6 +173,9 @@ export const CheckboxLabel = styled.label`
   font-size: 0.9rem;
   color: var(--color-secondary-700);
   text-align: left;
+  display: inline-flex; /* Inline-Block, um mit der Checkbox auf gleicher Linie zu stehen */
+  align-items: center; /* Zentriert das Label und die Checkbox vertikal */
+  /* gap: 0.1rem; */
 `;
 
 export const CheckboxInput = styled.input.attrs((props) => ({
@@ -200,15 +195,15 @@ export const CheckboxInput = styled.input.attrs((props) => ({
   cursor: pointer;
   width: 20px;
   height: 20px;
+  vertical-align: middle; /* Hinzugefügt für vertikale Ausrichtung */
 
-  /* Für sichtbare Darstellung der Checkbox */
   &::before {
     content: '';
     position: absolute;
     width: 100%;
     height: 100%;
     border-radius: 4px;
-    border: 2px solid var(--color-secondary-500);
+    border: 1px solid var(--color-secondary-300);
     background-color: var(--color-white);
     transition: background-color 0.3s, border-color 0.3s;
   }
@@ -219,12 +214,13 @@ export const CheckboxInput = styled.input.attrs((props) => ({
   }
 
   &:checked::after {
-    content: '✔';
+    content: 'X';
     position: absolute;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    font-size: 1.1rem;
+    /* font-size: 1.1rem; */
+    /* font-weight: bold; */
     color: var(--color-white);
   }
 
