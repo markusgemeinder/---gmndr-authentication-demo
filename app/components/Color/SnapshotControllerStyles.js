@@ -105,26 +105,34 @@ export const ButtonText = styled.span`
   font-size: 0.8rem;
 `;
 
-export const ModalContainer = styled.div`
+export const ModalOverlay = styled.div`
   position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  /* top: 0;
+  left: 0; */
   display: flex;
   justify-content: center;
   align-items: center;
-  background: rgba(0, 0, 0, 0.5);
-  z-index: 1111;
+  z-index: 1001;
 `;
 
 export const ModalContent = styled.div`
   background-color: var(--color-white);
   padding: 2rem;
   border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  width: 90%;
+
+  @media (min-width: 768px) and (min-height: 768px) {
+    width: 80%;
+    max-width: 30rem;
+  }
 `;
 
 export const ModalHeader = styled.h3`

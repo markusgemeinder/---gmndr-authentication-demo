@@ -8,13 +8,13 @@ import {
   SnapshotButton,
   DeleteButton,
   ButtonText,
-  ModalContainer,
+  ModalOverlay,
   ModalContent,
   ModalHeader,
   ModalButton,
   CancelButton,
   OKModalButton,
-  ModalButtonContainer, // Container für die Buttons
+  ModalButtonContainer,
 } from './SnapshotControllerStyles';
 
 const SNAPSHOT_LIMIT = 5;
@@ -23,7 +23,8 @@ export default function SnapshotController({ state }) {
   const { snapshots: initialSnapshots } = loadSnapshotsFromLocalStorage();
   const [snapshots, setSnapshots] = useState(initialSnapshots);
   const [isSnapshotLimitReached, setIsSnapshotLimitReached] = useState(snapshots.length >= SNAPSHOT_LIMIT);
-  const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const [showModal, setShowModal] = useState(false);
+  const [modalType, setModalType] = useState(null); // 'info' oder 'decision'
   const [infoModalMessage, setInfoModalMessage] = useState('');
 
   const formData = {
@@ -44,40 +45,44 @@ export default function SnapshotController({ state }) {
 
   const handleSnapshot = () => {
     if (snapshots.length >= SNAPSHOT_LIMIT) {
-      setInfoModalMessage('Maximum erreicht – kein weiterer Snapshot möglich!');
-      return setShowDeleteModal(true);
+      setInfoModalMessage('Maximum erreicht, kein weiterer Snapshot möglich.');
+      setModalType('info'); // Info-Modal aufrufen
+      return setShowModal(true);
     }
 
     if (snapshots.length === SNAPSHOT_LIMIT - 1) {
       // Warnmeldung, dass das Limit erreicht ist, aber der Snapshot gespeichert wird
-      setInfoModalMessage('Snapshot gespeichert. Maximum erreicht – kein weiterer Snapshot möglich!');
+      setInfoModalMessage('Snapshot gespeichert. Bitte beachten: Maximum erreicht, kein weiterer Snapshot möglich.');
       setSnapshots([...snapshots, formData]);
-      return setShowDeleteModal(true);
+      setModalType('info'); // Info-Modal
+      return setShowModal(true);
     }
 
     // Normaler Snapshot ohne Warnmeldung
     const newSnapshots = [...snapshots, formData];
-    setSnapshots(newSnapshots); // Füge den neuen Snapshot hinzu
+    setSnapshots(newSnapshots);
   };
 
   const handleDeleteAll = () => {
     if (snapshots.length === 0) {
-      setInfoModalMessage('Kein Snapshot vorhanden.');
-      return setShowDeleteModal(true);
+      setInfoModalMessage('Kein Snapshot zum Löschen vorhanden.');
+      setModalType('info'); // Info-Modal
+      return setShowModal(true);
     }
 
     setInfoModalMessage('Alle Snapshots löschen?');
-    setShowDeleteModal(true);
+    setModalType('decision'); // Decision-Modal
+    setShowModal(true);
   };
 
   const confirmDeleteAll = () => {
     setSnapshots([]);
-    setShowDeleteModal(false);
+    setShowModal(false);
     setInfoModalMessage('');
   };
 
-  const closeInfoModal = () => {
-    setShowDeleteModal(false);
+  const closeModal = () => {
+    setShowModal(false);
     setInfoModalMessage('');
   };
 
@@ -93,16 +98,22 @@ export default function SnapshotController({ state }) {
         </DeleteButton>
       </SnapshotContainer>
 
-      {showDeleteModal && (
-        <ModalContainer>
+      {showModal && (
+        <ModalOverlay>
           <ModalContent>
             <ModalHeader>{infoModalMessage}</ModalHeader>
             <ModalButtonContainer>
-              <ModalButton onClick={confirmDeleteAll}>Ja</ModalButton>
-              <CancelButton onClick={closeInfoModal}>Nein</CancelButton>
+              {modalType === 'decision' ? (
+                <>
+                  <ModalButton onClick={confirmDeleteAll}>Ja</ModalButton>
+                  <CancelButton onClick={closeModal}>Nein</CancelButton>
+                </>
+              ) : (
+                <OKModalButton onClick={closeModal}>OK</OKModalButton>
+              )}
             </ModalButtonContainer>
           </ModalContent>
-        </ModalContainer>
+        </ModalOverlay>
       )}
     </>
   );
