@@ -19,6 +19,7 @@ import {
   Select,
   CheckboxGroup,
   CheckboxLabel,
+  CheckboxInput,
   GeneratePaletteButton,
   ResetFormButton,
   CopyPaletteButton,
@@ -197,10 +198,10 @@ export default function PaletteGenerator() {
             max={100}
             value={state.brightLimit}
             onChange={(e) => dispatch({ type: 'SET_VALUE', key: 'brightLimit', value: parseInt(e.target.value) })}
-            $startColor='#ffffff'
+            $startColor='var(--color-white)'
             $endColor={getColorPreview(state.hex, state.brightLimit)}
-            $thumbColor='#fff'
-            $thumbBorderColor='#333'
+            $thumbColor='var(--color-white)'
+            $thumbBorderColor='var(--color-secondary-700)'
           />
           <SliderText>
             <span>heller</span>
@@ -223,9 +224,8 @@ export default function PaletteGenerator() {
             onChange={(e) => dispatch({ type: 'SET_VALUE', key: 'darkLimit', value: parseInt(e.target.value) })}
             $startColor={getColorPreview(state.hex, state.darkLimit)}
             $endColor={getColorPreview(state.hex, state.darkLimit)}
-            // $endColor='#000000'
-            $thumbColor='#fff'
-            $thumbBorderColor='#333'
+            $thumbColor='var(--color-white)'
+            $thumbBorderColor='var(--color-secondary-700)'
           />
           <SliderText>
             <span>heller</span>
@@ -276,7 +276,7 @@ export default function PaletteGenerator() {
         <CheckboxGroup>
           {allValues.map((value) => (
             <CheckboxLabel key={value}>
-              <input
+              <CheckboxInput
                 type='checkbox'
                 checked={state.checkedValues.includes(value)}
                 onChange={() => {

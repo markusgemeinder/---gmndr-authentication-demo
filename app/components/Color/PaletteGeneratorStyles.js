@@ -160,16 +160,20 @@ export const Select = styled.select`
 export const CheckboxGroup = styled.div`
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
-  margin-top: 0.5rem;
-  margin-left: 0.6rem;
+  margin: 0.5rem;
+  margin-left: 0;
   gap: 0.2rem;
 
   & > label {
-    padding-left: 0.5rem;
+    padding-left: 0rem;
   }
 
   @media (min-width: 768px) and (min-height: 768px) {
-    margin-left: 2rem;
+    margin: 0.5rem 1.8rem;
+
+    & > label {
+      padding-left: 0.4rem;
+    }
   }
 `;
 
@@ -177,6 +181,56 @@ export const CheckboxLabel = styled.label`
   font-size: 0.9rem;
   color: var(--color-secondary-700);
   text-align: left;
+`;
+
+export const CheckboxInput = styled.input.attrs((props) => ({
+  type: 'checkbox',
+  style: {
+    width: props.size || '1.6rem', // Größe anpassbar
+    height: props.size || '1.6rem', // Größe anpassbar
+    margin: props.margin || '0.1rem 0.4rem', // Margin anpassbar
+    backgroundColor: props.backgroundColor || 'var(--color-white)', // Hintergrundfarbe anpassbar
+  },
+}))`
+  -webkit-appearance: none;
+  appearance: none;
+  border-radius: 4px;
+  background-color: ${(props) => props.backgroundColor};
+  position: relative;
+  cursor: pointer;
+  width: 20px;
+  height: 20px;
+
+  /* Für sichtbare Darstellung der Checkbox */
+  &::before {
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    border-radius: 4px;
+    border: 2px solid var(--color-secondary-500);
+    background-color: var(--color-white);
+    transition: background-color 0.3s, border-color 0.3s;
+  }
+
+  &:checked::before {
+    background-color: var(--color-primary-500);
+    border-color: var(--color-primary-500);
+  }
+
+  &:checked::after {
+    content: '✔';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 1.1rem;
+    color: var(--color-white);
+  }
+
+  &:focus {
+    outline: none;
+  }
 `;
 
 export const PaletteWrapper = styled.div`
