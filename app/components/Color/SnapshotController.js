@@ -1,7 +1,7 @@
 // /app/components/Color/SnapshotController.js
 
 import { useState, useEffect } from 'react';
-import { FaCamera, FaStackOverflow, FaTrash, FaCheck } from 'react-icons/fa';
+import { FaCamera, FaStackOverflow, FaTrash, FaCheck, FaUndo, FaRedo } from 'react-icons/fa';
 import {
   saveFormDataToLocalStorage,
   loadSnapshotsFromLocalStorage,
@@ -14,6 +14,8 @@ import {
   SnapshotContainer,
   SnapshotButton,
   DeleteButton,
+  UndoButton,
+  RedoButton,
   ButtonText,
   ModalOverlay,
   ModalContent,
@@ -29,6 +31,7 @@ export default function SnapshotController({ state }) {
   const { snapshots: initialSnapshots } = loadSnapshotsFromLocalStorage();
   const [snapshots, setSnapshots] = useState(initialSnapshots);
   const [isSnapshotLimitReached, setIsSnapshotLimitReached] = useState(snapshots.length >= SNAPSHOT_LIMIT);
+  const [currentSnapshotIndex, setCurrentSnapshotIndex] = useState(snapshots.length ? snapshots.length - 1 : -1); // Der Index des aktuellen Snapshots
   const [showModal, setShowModal] = useState(false);
   const [modalType, setModalType] = useState(null); // 'info' oder 'decision'
   const [infoModalMessage, setInfoModalMessage] = useState('');
@@ -56,13 +59,14 @@ export default function SnapshotController({ state }) {
     saveSnapshotsToLocalStorage(snapshots);
 
     // Speichern der Formulardaten unabhängig vom Snapshot
-    saveFormDataToLocalStorage(state); // Speichert die Formulardaten, auch wenn sich der Snapshot nicht geändert hat
+    saveFormDataToLocalStorage(state);
 
     // Wenn keine Snapshots vorhanden sind, löschen wir auch lastUsedSnapshot
     if (snapshots.length === 0) {
-      deleteLastUsedSnapshotFromLocalStorage(); // Löscht lastUsedSnapshot, wenn keine Snapshots existieren
+      deleteLastUsedSnapshotFromLocalStorage();
+      setCurrentSnapshotIndex(-1); // Reset auf keinen Snapshot
     }
-  }, [snapshots, state]); // Abhängigkeit von state, damit Formulardaten bei jeder Änderung gespeichert werden
+  }, [snapshots, state]);
 
   const handleSnapshot = () => {
     if (snapshots.length >= SNAPSHOT_LIMIT) {
@@ -88,11 +92,10 @@ export default function SnapshotController({ state }) {
 
     const newSnapshots = [...snapshots, formData];
     setSnapshots(newSnapshots);
+    setCurrentSnapshotIndex(newSnapshots.length - 1); // Gehe zum neuesten Snapshot
 
     // Snapshot-Prozess starten
     setSnapshotInProgress(true);
-
-    // Speichern des zuletzt erstellten Snapshots in LocalStorage
     saveLastUsedSnapshotToLocalStorage(formData);
 
     setTimeout(() => {
@@ -102,7 +105,7 @@ export default function SnapshotController({ state }) {
 
   const handleDeleteAll = () => {
     if (snapshots.length === 0) {
-      setInfoModalMessage('Kein Snapshot zum Löschen vorhanden.');
+      setInfoModalMessage('Keine Snapshots gespeichert.');
       setModalType('info');
       return setShowModal(true);
     }
@@ -116,8 +119,8 @@ export default function SnapshotController({ state }) {
     setSnapshots([]);
     setShowModal(false);
     setInfoModalMessage('');
+    setCurrentSnapshotIndex(-1);
 
-    // Löschen des lastUsedSnapshot beim Löschen aller Snapshots
     deleteLastUsedSnapshotFromLocalStorage();
   };
 
@@ -126,6 +129,33 @@ export default function SnapshotController({ state }) {
     setInfoModalMessage('');
   };
 
+  // Undo- und Redo-Logik
+  const handleUndo = () => {
+    if (currentSnapshotIndex === 0) {
+      setInfoModalMessage('Keine weiteren Snapshots für Undo verfügbar.');
+      setModalType('info');
+      return setShowModal(true);
+    }
+
+    setCurrentSnapshotIndex(currentSnapshotIndex - 1);
+  };
+
+  const handleRedo = () => {
+    if (currentSnapshotIndex === snapshots.length - 1) {
+      setInfoModalMessage('Keine weiteren Snapshots für Redo verfügbar.');
+      setModalType('info');
+      return setShowModal(true);
+    }
+
+    setCurrentSnapshotIndex(currentSnapshotIndex + 1);
+  };
+
+  const undoSteps = currentSnapshotIndex >= 0 ? currentSnapshotIndex : 0;
+  const redoSteps =
+    snapshots.length > 0 && currentSnapshotIndex < snapshots.length - 1
+      ? snapshots.length - currentSnapshotIndex - 1
+      : 0;
+
   return (
     <>
       <SnapshotContainer>
@@ -133,6 +163,14 @@ export default function SnapshotController({ state }) {
           {snapshotInProgress ? <FaCheck /> : snapshots.length >= SNAPSHOT_LIMIT ? <FaStackOverflow /> : <FaCamera />}
           <ButtonText>{snapshots.length}</ButtonText>
         </SnapshotButton>
+        <UndoButton onClick={handleUndo}>
+          <FaUndo />
+          <ButtonText>{undoSteps}</ButtonText>
+        </UndoButton>
+        <RedoButton onClick={handleRedo}>
+          <FaRedo />
+          <ButtonText>{redoSteps}</ButtonText>
+        </RedoButton>
         <DeleteButton onClick={handleDeleteAll}>
           <FaTrash />
         </DeleteButton>
