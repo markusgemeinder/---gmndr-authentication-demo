@@ -8,9 +8,9 @@ import {
   saveSnapshotsToLocalStorage,
   saveLastUsedSnapshotToLocalStorage,
   loadLastUsedSnapshotFromLocalStorage,
-  loadLastUsedSnapshotIndexFromLocalStorage, // Diese Funktion ist bereits da
+  loadLastUsedSnapshotIndexFromLocalStorage,
   deleteLastUsedSnapshotFromLocalStorage,
-  saveLastUsedSnapshotIndexToLocalStorage, // Diese Funktion ist ebenfalls da
+  saveLastUsedSnapshotIndexToLocalStorage,
 } from './utils/localStorageUtils';
 import {
   SnapshotContainer,
@@ -31,14 +31,15 @@ const SNAPSHOT_LIMIT = 5;
 
 export default function SnapshotController({ state, onApplySnapshot }) {
   const { snapshots: initialSnapshots } = loadSnapshotsFromLocalStorage();
+
   const [snapshots, setSnapshots] = useState(initialSnapshots);
   const [isSnapshotLimitReached, setIsSnapshotLimitReached] = useState(snapshots.length >= SNAPSHOT_LIMIT);
-  const [currentSnapshotPosition, setCurrentSnapshotPosition] = useState(snapshots.length ? snapshots.length - 1 : -1); // Position im Array
+  const [currentSnapshotPosition, setCurrentSnapshotPosition] = useState(snapshots.length ? snapshots.length - 1 : -1);
   const [showModal, setShowModal] = useState(false);
-  const [modalType, setModalType] = useState(null); // 'info' oder 'decision'
+  const [modalType, setModalType] = useState(null);
   const [infoModalMessage, setInfoModalMessage] = useState('');
-  const [snapshotInProgress, setSnapshotInProgress] = useState(false); // Zustand für Snapshot-Symbol
-  const [lastUsedRestored, setLastUsedRestored] = useState(false); // Indikator für Wiederherstellung von lastUsedSnapshot
+  const [snapshotInProgress, setSnapshotInProgress] = useState(false);
+  const [lastUsedRestored, setLastUsedRestored] = useState(false);
 
   const formData = {
     hex: state.hex,
@@ -51,34 +52,30 @@ export default function SnapshotController({ state, onApplySnapshot }) {
     brightLimit: state.brightLimit,
   };
 
-  // Laden des letzten verwendeten Snapshots und des Indexes
   const lastUsedSnapshot = loadLastUsedSnapshotFromLocalStorage();
-  const lastUsedSnapshotIndex = loadLastUsedSnapshotIndexFromLocalStorage(); // Neuen Index laden
-
-  // Überprüfen, ob sich die Formulardaten im Vergleich zum letzten Snapshot geändert haben
+  const lastUsedSnapshotIndex = loadLastUsedSnapshotIndexFromLocalStorage();
   const hasFormDataChanged = JSON.stringify(formData) !== JSON.stringify(lastUsedSnapshot);
 
   useEffect(() => {
     setIsSnapshotLimitReached(snapshots.length >= SNAPSHOT_LIMIT);
     saveSnapshotsToLocalStorage(snapshots);
-
-    // Speichern der Formulardaten unabhängig vom Snapshot
     saveFormDataToLocalStorage(state);
 
-    // Wenn keine Snapshots vorhanden sind, löschen wir auch lastUsedSnapshot und lastUsedSnapshotIndex
     if (snapshots.length === 0) {
       deleteLastUsedSnapshotFromLocalStorage();
-      saveLastUsedSnapshotIndexToLocalStorage(-1); // Setze den Index auf -1, wenn keine Snapshots vorhanden sind
-      setCurrentSnapshotPosition(-1); // Reset auf keinen Snapshot
+      saveLastUsedSnapshotIndexToLocalStorage(-1);
+      setCurrentSnapshotPosition(-1);
     }
   }, [snapshots, state]);
 
-  // Funktion zur Berechnung des Indexes des letzten verwendeten Snapshots
+  const isSnapshotDuplicate = (snapshots, formData) => {
+    return snapshots.some((snapshot) => JSON.stringify(snapshot) === JSON.stringify(formData));
+  };
+
   const findLastUsedSnapshotIndex = (snapshots, lastUsedSnapshot) => {
     return snapshots.findIndex((snapshot) => JSON.stringify(snapshot) === JSON.stringify(lastUsedSnapshot));
   };
 
-  // Funktion zum Hinzufügen eines neuen Snapshots rechts vom letzten verwendeten Snapshot
   const handleSnapshot = () => {
     if (snapshots.length >= SNAPSHOT_LIMIT) {
       setInfoModalMessage('Maximum erreicht, kein weiterer Snapshot möglich.');
@@ -86,33 +83,29 @@ export default function SnapshotController({ state, onApplySnapshot }) {
       return setShowModal(true);
     }
 
-    if (!hasFormDataChanged) {
-      setInfoModalMessage('Formulardaten unverändert, kein neuer Snapshot möglich.');
+    if (isSnapshotDuplicate(snapshots, formData) || !hasFormDataChanged) {
+      setInfoModalMessage('Snapshot existiert bereits, kein neuer Snapshot möglich.');
       setModalType('info');
       return setShowModal(true);
     }
 
-    // Finde den Index des letzten verwendeten Snapshots
     const lastUsedSnapshotIndex = findLastUsedSnapshotIndex(snapshots, lastUsedSnapshot);
-
-    // Der neue Snapshot wird direkt nach dem letzten verwendeten Snapshot eingefügt
     const newSnapshots = [
-      ...snapshots.slice(0, lastUsedSnapshotIndex + 1), // Snapshots vor dem lastUsedSnapshot
-      formData, // Der neue Snapshot wird nach dem lastUsedSnapshot eingefügt
-      ...snapshots.slice(lastUsedSnapshotIndex + 1), // Snapshots nach dem lastUsedSnapshot
+      ...snapshots.slice(0, lastUsedSnapshotIndex + 1),
+      formData,
+      ...snapshots.slice(lastUsedSnapshotIndex + 1),
     ];
 
     setSnapshots(newSnapshots);
-    setCurrentSnapshotPosition(lastUsedSnapshotIndex + 1); // Setze die Position des neuen Snapshots
-
-    // Snapshot-Prozess starten
-    setSnapshotInProgress(true);
+    setCurrentSnapshotPosition(lastUsedSnapshotIndex + 1);
     saveLastUsedSnapshotToLocalStorage(formData);
-    saveLastUsedSnapshotIndexToLocalStorage(lastUsedSnapshotIndex + 1); // Speichern des Indexes
+    saveLastUsedSnapshotIndexToLocalStorage(lastUsedSnapshotIndex + 1);
 
-    setTimeout(() => {
-      setSnapshotInProgress(false);
-    }, 1000); // 1000ms = 1 Sekunde
+    if (newSnapshots.length >= SNAPSHOT_LIMIT) {
+      setInfoModalMessage('Snapshot gespeichert. (Bitte beachten: Maximum erreicht, kein weiterer Snapshot möglich.)');
+      setModalType('info');
+      setShowModal(true);
+    }
   };
 
   const handleDeleteAll = () => {
@@ -134,7 +127,7 @@ export default function SnapshotController({ state, onApplySnapshot }) {
     setCurrentSnapshotPosition(-1);
 
     deleteLastUsedSnapshotFromLocalStorage();
-    saveLastUsedSnapshotIndexToLocalStorage(-1); // Lösche den Index ebenfalls
+    saveLastUsedSnapshotIndexToLocalStorage(-1);
   };
 
   const closeModal = () => {
@@ -142,24 +135,26 @@ export default function SnapshotController({ state, onApplySnapshot }) {
     setInfoModalMessage('');
   };
 
-  // Undo-/Redo-Logik
   const handleUndoRedo = (direction) => {
+    let newPosition;
+
     if (!lastUsedRestored && hasFormDataChanged) {
-      // Wiederherstellen des letzten verwendeten Snapshots beim ersten Undo/Redo
       onApplySnapshot(lastUsedSnapshot);
       setLastUsedRestored(true);
+      newPosition = lastUsedSnapshotIndex;
     } else {
-      // Normale Undo-/Redo-Navigation
-      const newPosition =
+      newPosition =
         direction === 'undo'
           ? Math.max(currentSnapshotPosition - 1, 0)
           : Math.min(currentSnapshotPosition + 1, snapshots.length - 1);
 
       onApplySnapshot(snapshots[newPosition]);
-      setCurrentSnapshotPosition(newPosition);
     }
-    console.log('CurrentSnapshotPosition:', currentSnapshotPosition);
-    console.log('LastUsedRestored:', lastUsedRestored);
+
+    setCurrentSnapshotPosition(newPosition);
+
+    saveLastUsedSnapshotToLocalStorage(snapshots[newPosition]);
+    saveLastUsedSnapshotIndexToLocalStorage(newPosition);
   };
 
   const undoSteps = currentSnapshotPosition >= 0 ? currentSnapshotPosition : 0;
@@ -183,7 +178,6 @@ export default function SnapshotController({ state, onApplySnapshot }) {
           <FaRedo />
           <ButtonText>{redoSteps}</ButtonText>
         </RedoButton>
-
         <DeleteButton onClick={handleDeleteAll}>
           <FaTrash />
         </DeleteButton>
