@@ -138,37 +138,8 @@ export default function SnapshotController({ state, onApplySnapshot }) {
       onApplySnapshot(snapshots[newIndex]);
       setCurrentSnapshotIndex(newIndex);
     }
-  };
-
-  const handleUndo = () => {
-    if (!lastUsedRestored && hasFormDataChanged) {
-      // Zeigt an, dass noch kein reguläres Undo erfolgt ist
-      setInfoModalMessage('Formulardaten wurden geändert. Erster Undo stellt den vorherigen Zustand wieder her.');
-    } else if (currentSnapshotIndex === 0) {
-      setInfoModalMessage('Keine weiteren Snapshots für Undo verfügbar.');
-    }
-    if (infoModalMessage) {
-      setModalType('info');
-      setShowModal(true);
-      return;
-    }
-
-    handleUndoRedo('undo');
-  };
-
-  const handleRedo = () => {
-    if (!lastUsedRestored && hasFormDataChanged) {
-      setInfoModalMessage('Formulardaten wurden geändert. Erster Redo stellt den vorherigen Zustand wieder her.');
-    } else if (currentSnapshotIndex === snapshots.length - 1) {
-      setInfoModalMessage('Keine weiteren Snapshots für Redo verfügbar.');
-    }
-    if (infoModalMessage) {
-      setModalType('info');
-      setShowModal(true);
-      return;
-    }
-
-    handleUndoRedo('redo');
+    console.log('CurrentSnapshotIndex:', currentSnapshotIndex);
+    console.log('LastUsedRestored:', lastUsedRestored);
   };
 
   const undoSteps = currentSnapshotIndex >= 0 ? currentSnapshotIndex : 0;
@@ -184,14 +155,15 @@ export default function SnapshotController({ state, onApplySnapshot }) {
           {snapshotInProgress ? <FaCheck /> : snapshots.length >= SNAPSHOT_LIMIT ? <FaStackOverflow /> : <FaCamera />}
           <ButtonText>{snapshots.length}</ButtonText>
         </SnapshotButton>
-        <UndoButton onClick={handleUndo} disabled={undoSteps === 0}>
+        <UndoButton onClick={() => handleUndoRedo('undo')} disabled={undoSteps === 0}>
           <FaUndo />
           <ButtonText>{undoSteps}</ButtonText>
         </UndoButton>
-        <RedoButton onClick={handleRedo} disabled={redoSteps === 0}>
+        <RedoButton onClick={() => handleUndoRedo('redo')} disabled={redoSteps === 0}>
           <FaRedo />
           <ButtonText>{redoSteps}</ButtonText>
         </RedoButton>
+
         <DeleteButton onClick={handleDeleteAll}>
           <FaTrash />
         </DeleteButton>

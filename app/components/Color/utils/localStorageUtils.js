@@ -53,32 +53,7 @@ export function loadSnapshotsFromLocalStorage() {
   return { snapshots };
 }
 
-// Speichern des aktuellen Snapshot-Index im LocalStorage
-export function saveSnapshotIndexToLocalStorage(index) {
-  setLocalStorage('pg_snapshotIndex', index);
-}
-
-// Laden des aktuellen Snapshot-Index aus dem LocalStorage
-export function loadSnapshotIndexFromLocalStorage() {
-  return getLocalStorage('pg_snapshotIndex') || null; // Standardwert: null
-}
-
-// Speichern des letzten Snapshot-Index im LocalStorage
-export function saveLastSnapshotIndexToLocalStorage(index) {
-  setLocalStorage('pg_lastSnapshotIndex', index);
-}
-
-// Laden des letzten Snapshot-Index aus dem LocalStorage
-export function loadLastSnapshotIndexFromLocalStorage() {
-  return getLocalStorage('pg_lastSnapshotIndex') || null; // Standardwert: null
-}
-
-// Laden der Anzahl der Snapshots aus dem LocalStorage
-export function loadSnapshotCountFromLocalStorage() {
-  return getLocalStorage('pg_snapshotCount') || 0; // Standardwert: 0
-}
-
-// Funktion zum Speichern des zuletzt verwendeten Snapshots
+// Speichern des zuletzt verwendeten Snapshots
 export function saveLastUsedSnapshotToLocalStorage(snapshot) {
   setLocalStorage('pg_lastUsedSnapshot', snapshot);
 }
