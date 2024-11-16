@@ -27,15 +27,16 @@ import {
 
 const SNAPSHOT_LIMIT = 5;
 
-export default function SnapshotController({ state }) {
+export default function SnapshotController({ state, onApplySnapshot }) {
   const { snapshots: initialSnapshots } = loadSnapshotsFromLocalStorage();
   const [snapshots, setSnapshots] = useState(initialSnapshots);
   const [isSnapshotLimitReached, setIsSnapshotLimitReached] = useState(snapshots.length >= SNAPSHOT_LIMIT);
-  const [currentSnapshotIndex, setCurrentSnapshotIndex] = useState(snapshots.length ? snapshots.length - 1 : -1); // Der Index des aktuellen Snapshots
+  const [currentSnapshotIndex, setCurrentSnapshotIndex] = useState(snapshots.length ? snapshots.length - 1 : -1); // Index des aktuellen Snapshots
   const [showModal, setShowModal] = useState(false);
   const [modalType, setModalType] = useState(null); // 'info' oder 'decision'
   const [infoModalMessage, setInfoModalMessage] = useState('');
   const [snapshotInProgress, setSnapshotInProgress] = useState(false); // Zustand für Snapshot-Symbol
+  const [lastUsedRestored, setLastUsedRestored] = useState(false); // Indikator für Wiederherstellung von lastUsedSnapshot
 
   const formData = {
     hex: state.hex,
@@ -82,14 +83,6 @@ export default function SnapshotController({ state }) {
       return setShowModal(true);
     }
 
-    // Wenn das Limit kurz davor ist, einen Snapshot zu speichern
-    if (snapshots.length === SNAPSHOT_LIMIT - 1) {
-      setInfoModalMessage('Snapshot gespeichert. Bitte beachten: Maximum erreicht, kein weiterer Snapshot möglich.');
-      setSnapshots([...snapshots, formData]);
-      setModalType('info');
-      return setShowModal(true);
-    }
-
     const newSnapshots = [...snapshots, formData];
     setSnapshots(newSnapshots);
     setCurrentSnapshotIndex(newSnapshots.length - 1); // Gehe zum neuesten Snapshot
@@ -129,25 +122,53 @@ export default function SnapshotController({ state }) {
     setInfoModalMessage('');
   };
 
-  // Undo- und Redo-Logik
+  // Undo-/Redo-Logik
+  const handleUndoRedo = (direction) => {
+    if (!lastUsedRestored && hasFormDataChanged) {
+      // Wiederherstellen des letzten verwendeten Snapshots beim ersten Undo/Redo
+      onApplySnapshot(lastUsedSnapshot);
+      setLastUsedRestored(true);
+    } else {
+      // Normale Undo-/Redo-Navigation
+      const newIndex =
+        direction === 'undo'
+          ? Math.max(currentSnapshotIndex - 1, 0)
+          : Math.min(currentSnapshotIndex + 1, snapshots.length - 1);
+
+      onApplySnapshot(snapshots[newIndex]);
+      setCurrentSnapshotIndex(newIndex);
+    }
+  };
+
   const handleUndo = () => {
-    if (currentSnapshotIndex === 0) {
+    if (!lastUsedRestored && hasFormDataChanged) {
+      // Zeigt an, dass noch kein reguläres Undo erfolgt ist
+      setInfoModalMessage('Formulardaten wurden geändert. Erster Undo stellt den vorherigen Zustand wieder her.');
+    } else if (currentSnapshotIndex === 0) {
       setInfoModalMessage('Keine weiteren Snapshots für Undo verfügbar.');
+    }
+    if (infoModalMessage) {
       setModalType('info');
-      return setShowModal(true);
+      setShowModal(true);
+      return;
     }
 
-    setCurrentSnapshotIndex(currentSnapshotIndex - 1);
+    handleUndoRedo('undo');
   };
 
   const handleRedo = () => {
-    if (currentSnapshotIndex === snapshots.length - 1) {
+    if (!lastUsedRestored && hasFormDataChanged) {
+      setInfoModalMessage('Formulardaten wurden geändert. Erster Redo stellt den vorherigen Zustand wieder her.');
+    } else if (currentSnapshotIndex === snapshots.length - 1) {
       setInfoModalMessage('Keine weiteren Snapshots für Redo verfügbar.');
+    }
+    if (infoModalMessage) {
       setModalType('info');
-      return setShowModal(true);
+      setShowModal(true);
+      return;
     }
 
-    setCurrentSnapshotIndex(currentSnapshotIndex + 1);
+    handleUndoRedo('redo');
   };
 
   const undoSteps = currentSnapshotIndex >= 0 ? currentSnapshotIndex : 0;
@@ -163,11 +184,11 @@ export default function SnapshotController({ state }) {
           {snapshotInProgress ? <FaCheck /> : snapshots.length >= SNAPSHOT_LIMIT ? <FaStackOverflow /> : <FaCamera />}
           <ButtonText>{snapshots.length}</ButtonText>
         </SnapshotButton>
-        <UndoButton onClick={handleUndo}>
+        <UndoButton onClick={handleUndo} disabled={undoSteps === 0}>
           <FaUndo />
           <ButtonText>{undoSteps}</ButtonText>
         </UndoButton>
-        <RedoButton onClick={handleRedo}>
+        <RedoButton onClick={handleRedo} disabled={redoSteps === 0}>
           <FaRedo />
           <ButtonText>{redoSteps}</ButtonText>
         </RedoButton>
