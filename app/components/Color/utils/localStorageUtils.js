@@ -22,20 +22,9 @@ export function getLocalStorage(key) {
   }
 }
 
-// Speichern der Snapshots im LocalStorage (aktualisiert, ohne snapshotPositionInArray)
-export function saveSnapshotsToLocalStorage(snapshots) {
-  setLocalStorage('snapshotsData', snapshots);
-}
-
-// Laden der Snapshots aus dem LocalStorage
-export function loadSnapshotsFromLocalStorage() {
-  const snapshots = getLocalStorage('snapshotsData') || []; // Standardwert: leeres Array
-  return { snapshots };
-}
-
 // Speichern der Formulardaten im LocalStorage
 export function saveFormDataToLocalStorage(state) {
-  setLocalStorage('formData', {
+  setLocalStorage('pg_formData', {
     hex: state.hex,
     prefix: state.prefix,
     suffix: state.suffix,
@@ -49,5 +38,42 @@ export function saveFormDataToLocalStorage(state) {
 
 // Laden der Formulardaten aus dem LocalStorage
 export function loadFormDataFromLocalStorage() {
-  return getLocalStorage('formData') || defaults; // Falls keine Formulardaten vorhanden sind, verwenden wir die Standardwerte
+  return getLocalStorage('pg_formData') || defaults; // Falls keine Formulardaten vorhanden sind, verwenden wir die Standardwerte
+}
+
+// Speichern der Snapshots im LocalStorage
+export function saveSnapshotsToLocalStorage(snapshots) {
+  setLocalStorage('pg_snapshots', snapshots);
+  setLocalStorage('pg_snapshotCount', snapshots.length); // Speichern der Anzahl
+}
+
+// Laden der Snapshots aus dem LocalStorage
+export function loadSnapshotsFromLocalStorage() {
+  const snapshots = getLocalStorage('pg_snapshots') || []; // Standardwert: leeres Array
+  return { snapshots };
+}
+
+// Speichern des aktuellen Snapshot-Index im LocalStorage
+export function saveSnapshotIndexToLocalStorage(index) {
+  setLocalStorage('pg_snapshotIndex', index);
+}
+
+// Laden des aktuellen Snapshot-Index aus dem LocalStorage
+export function loadSnapshotIndexFromLocalStorage() {
+  return getLocalStorage('pg_snapshotIndex') || null; // Standardwert: null
+}
+
+// Speichern des letzten Snapshot-Index im LocalStorage
+export function saveLastSnapshotIndexToLocalStorage(index) {
+  setLocalStorage('pg_lastSnapshotIndex', index);
+}
+
+// Laden des letzten Snapshot-Index aus dem LocalStorage
+export function loadLastSnapshotIndexFromLocalStorage() {
+  return getLocalStorage('pg_lastSnapshotIndex') || null; // Standardwert: null
+}
+
+// Laden der Anzahl der Snapshots aus dem LocalStorage
+export function loadSnapshotCountFromLocalStorage() {
+  return getLocalStorage('pg_snapshotCount') || 0; // Standardwert: 0
 }

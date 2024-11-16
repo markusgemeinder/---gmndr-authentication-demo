@@ -29,16 +29,15 @@ export const SnapshotButton = styled.button.withConfig({
   border: none;
   border-radius: 0.6rem;
   cursor: pointer;
-  background-color: ${({ isSnapshotLimitReached }) => (isSnapshotLimitReached ? '#fd9696' : '#5a5a5a')};
+  background-color: ${({ isSnapshotLimitReached }) =>
+    isSnapshotLimitReached ? 'var(--color-red-400)' : 'var(--color-secondary-550)'};
   width: 60px;
   height: 48px;
   padding: 0.6rem;
 
   &:hover {
     background-color: ${({ isSnapshotLimitReached }) =>
-      isSnapshotLimitReached
-        ? '#ff7070'
-        : '#3a3a3a'}; /* Ändere die Hover-Farbe auf ein helleres Rot, wenn Limit erreicht */
+      isSnapshotLimitReached ? 'var(--color-red-500)' : 'var(--color-secondary-700)'};
   }
 
   @media (min-width: 768px) {
@@ -49,26 +48,27 @@ export const SnapshotButton = styled.button.withConfig({
 
   svg {
     font-size: 1.8rem;
-    color: white;
+    color: var(--color-white);
   }
 `;
 
 export const UndoButton = styled(SnapshotButton)`
-  background-color: #c0c0c0;
+  background-color: var(--color-secondary-250);
+
   &:hover {
-    background-color: #a0a0a0;
+    background-color: var(--color-secondary-350);
   }
 `;
 
 export const RedoButton = styled(SnapshotButton)`
-  background-color: #c0c0c0;
+  background-color: var(--color-secondary-250);
+
   &:hover {
-    background-color: #a0a0a0;
+    background-color: var(--color-secondary-350);
   }
 `;
 
 export const DeleteButton = styled.button`
-  background-color: #c0c0c0;
   border: none;
   border-radius: 8px;
   display: flex;
@@ -78,14 +78,15 @@ export const DeleteButton = styled.button`
   width: 60px;
   height: 48px;
   padding: 0.6rem;
+  background-color: var(--color-secondary-250);
 
   &:hover {
-    background-color: #a0a0a0;
+    background-color: var(--color-secondary-350);
   }
 
   svg {
     font-size: 1.2rem;
-    color: white;
+    color: var(--color-white);
   }
 
   @media (min-width: 768px) and (min-height: 768px) {
@@ -94,13 +95,13 @@ export const DeleteButton = styled.button`
     height: 56px;
     svg {
       font-size: 1.8rem;
-      color: white;
+      color: var(--color-white);
     }
   }
 `;
 
 export const ButtonText = styled.span`
-  color: white;
+  color: var(--color-white);
   font-size: 0.8rem;
 `;
 
@@ -118,7 +119,7 @@ export const ModalContainer = styled.div`
 `;
 
 export const ModalContent = styled.div`
-  background-color: white;
+  background-color: var(--color-white);
   padding: 2rem;
   border-radius: 8px;
   display: flex;
@@ -130,22 +131,40 @@ export const ModalHeader = styled.h3`
   margin-bottom: 1rem;
 `;
 
+export const ModalButtonContainer = styled.div`
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  width: 100%;
+`;
+
 export const ModalButton = styled.button`
-  background-color: #007bff;
-  color: white;
+  color: var(--color-white);
   padding: 0.6rem 1.2rem;
   border: none;
   border-radius: 8px;
   cursor: pointer;
   font-size: 1rem;
+  font-weight: bold;
+  width: 100%; /* Maximale Breite der Buttons */
+  max-width: 150px; /* Maximale Breite für bessere Darstellung */
+  background-color: var(--color-primary-500);
   &:hover {
-    background-color: #0056b3;
+    background-color: var(--color-primary-600);
   }
 `;
 
 export const CancelButton = styled(ModalButton)`
-  background-color: #e0e0e0;
+  background-color: var(--color-secondary-300);
   &:hover {
-    background-color: #b3b3b3;
+    background-color: var(--color-secondary-500);
+  }
+`;
+
+// Neuer Modal mit nur einem OK-Button
+export const OKModalButton = styled(ModalButton)`
+  background-color: var(--color-primary-500);
+  &:hover {
+    background-color: var(--color-primary-600);
   }
 `;

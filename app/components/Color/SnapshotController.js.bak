@@ -1,0 +1,194 @@
+// /app/components/Color/SnapshotController.js
+
+import { useState, useEffect } from 'react';
+import { FaCamera, FaStackOverflow, FaCheck, FaUndo, FaRedo, FaTimes, FaTrash } from 'react-icons/fa';
+import {
+  loadSnapshotsFromLocalStorage,
+  saveSnapshotsToLocalStorage,
+  saveSnapshotIndexToLocalStorage,
+  loadSnapshotIndexFromLocalStorage,
+  saveLastSnapshotIndexToLocalStorage,
+  loadLastSnapshotIndexFromLocalStorage,
+} from './utils/localStorageUtils';
+import {
+  SnapshotContainer,
+  SnapshotButton,
+  UndoButton,
+  RedoButton,
+  DeleteButton,
+  ButtonText,
+  ModalContainer,
+  ModalContent,
+  ModalHeader,
+  ModalButton,
+  CancelButton,
+} from './SnapshotControllerStyles';
+
+const SNAPSHOT_LIMIT = 5;
+
+export default function SnapshotController({ state, onApplySnapshot }) {
+  const { snapshots: initialSnapshots } = loadSnapshotsFromLocalStorage();
+  const initialSnapshotIndex = loadSnapshotIndexFromLocalStorage();
+  const initialLastSnapshotIndex = loadLastSnapshotIndexFromLocalStorage();
+
+  const [snapshots, setSnapshots] = useState(initialSnapshots);
+  const [snapshotIndex, setSnapshotIndex] = useState(initialSnapshotIndex ?? null);
+  const [lastSnapshotIndex, setLastSnapshotIndex] = useState(initialLastSnapshotIndex ?? null);
+  const [isSnapshotLimitReached, setIsSnapshotLimitReached] = useState(snapshots.length >= SNAPSHOT_LIMIT);
+  const [formDataIsSnapshot, setFormDataIsSnapshot] = useState(false);
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const [infoModalMessage, setInfoModalMessage] = useState('');
+  const [deleteType, setDeleteType] = useState(null);
+
+  const formData = {
+    hex: state.hex,
+    prefix: state.prefix,
+    suffix: state.suffix,
+    sortOrder: state.sortOrder,
+    checkedValues: state.checkedValues,
+    selectedOption: state.selectedOption,
+    darkLimit: state.darkLimit,
+    brightLimit: state.brightLimit,
+  };
+
+  const logState = () => {
+    console.log('=====');
+    console.log('(1) isSnapshotLimitReached:', isSnapshotLimitReached);
+    console.log('(2) formData:', formData);
+    console.log('(3) snapshotDataAll:', snapshots);
+    console.log('(4) formDataIsSnapshot:', formDataIsSnapshot);
+    console.log('(5) snapshotIndex:', snapshotIndex);
+    console.log('(6) lastSnapshotIndex:', lastSnapshotIndex);
+  };
+
+  useEffect(() => {
+    const matchingIndex = snapshots.findIndex((snapshot) => JSON.stringify(snapshot) === JSON.stringify(formData));
+
+    setFormDataIsSnapshot(matchingIndex !== -1);
+    setSnapshotIndex(matchingIndex !== -1 ? matchingIndex : null);
+    setLastSnapshotIndex(matchingIndex === -1 && snapshots.length > 0 ? snapshots.length - 1 : null);
+    setIsSnapshotLimitReached(snapshots.length >= SNAPSHOT_LIMIT);
+
+    saveSnapshotsToLocalStorage(snapshots);
+    saveSnapshotIndexToLocalStorage(matchingIndex !== -1 ? matchingIndex : null);
+    saveLastSnapshotIndexToLocalStorage(matchingIndex === -1 && snapshots.length > 0 ? snapshots.length - 1 : null);
+
+    logState();
+  }, [snapshots, formData]);
+
+  const handleSnapshot = () => {
+    if (snapshots.length >= SNAPSHOT_LIMIT) {
+      setInfoModalMessage('Maximum erreicht – kein weiterer Snapshot möglich!');
+      return setShowDeleteModal(true);
+    }
+    if (formDataIsSnapshot) {
+      setInfoModalMessage('Keine Änderungen. Snapshot nicht gespeichert.');
+      return setShowDeleteModal(true);
+    }
+
+    const newSnapshots = [...snapshots.slice(0, (snapshotIndex ?? -1) + 1), formData];
+    setSnapshots(newSnapshots);
+    setSnapshotIndex(newSnapshots.length - 1);
+    setLastSnapshotIndex(null);
+
+    saveSnapshotsToLocalStorage(newSnapshots);
+    saveSnapshotIndexToLocalStorage(newSnapshots.length - 1);
+  };
+
+  const handleUndo = () => {
+    if (snapshotIndex === null || snapshotIndex <= 0) return; // Kein Undo, wenn 0
+    const prevSnapshot = snapshots[snapshotIndex - 1];
+    onApplySnapshot(prevSnapshot);
+    setSnapshotIndex(snapshotIndex - 1);
+  };
+
+  const handleRedo = () => {
+    if (snapshotIndex === null || lastSnapshotIndex === null || snapshotIndex >= lastSnapshotIndex) return; // Kein Redo, wenn letzter Index
+    const nextSnapshot = snapshots[snapshotIndex + 1];
+    onApplySnapshot(nextSnapshot);
+    setSnapshotIndex(snapshotIndex + 1);
+  };
+
+  const handleDeleteCurrent = () => {
+    if (snapshotIndex === null || !formDataIsSnapshot) {
+      setInfoModalMessage('Kein Snapshot zum Löschen vorhanden.');
+      return setShowDeleteModal(true);
+    }
+
+    setDeleteType('current');
+    setShowDeleteModal(true);
+  };
+
+  const confirmDelete = () => {
+    if (deleteType === 'current') {
+      const newSnapshots = snapshots.filter((_, index) => index !== snapshotIndex);
+      const newSnapshotIndex = newSnapshots.length > 0 ? Math.min(snapshotIndex, newSnapshots.length - 1) : null;
+      setSnapshots(newSnapshots);
+      setSnapshotIndex(newSnapshotIndex);
+      setLastSnapshotIndex(null);
+    } else if (deleteType === 'all') {
+      setSnapshots([]);
+      setSnapshotIndex(null);
+      setLastSnapshotIndex(null);
+    }
+    setShowDeleteModal(false);
+    setDeleteType(null);
+    setInfoModalMessage('');
+  };
+
+  const handleDeleteAll = () => {
+    if (snapshots.length === 0) {
+      setInfoModalMessage('Kein Snapshot vorhanden.');
+      return setShowDeleteModal(true);
+    }
+
+    setDeleteType('all');
+    setShowDeleteModal(true);
+  };
+
+  const closeInfoModal = () => {
+    setInfoModalMessage('');
+    setShowDeleteModal(false);
+  };
+
+  const isUndoDisabled = snapshotIndex === null || snapshotIndex <= 0;
+  const isRedoDisabled = lastSnapshotIndex === null || snapshotIndex === null || snapshotIndex >= lastSnapshotIndex;
+
+  return (
+    <>
+      <SnapshotContainer>
+        <SnapshotButton onClick={handleSnapshot} isSnapshotLimitReached={isSnapshotLimitReached}>
+          {snapshots.length >= SNAPSHOT_LIMIT ? <FaStackOverflow /> : formDataIsSnapshot ? <FaCheck /> : <FaCamera />}
+          <ButtonText>{snapshots.length}</ButtonText>
+        </SnapshotButton>
+        <UndoButton onClick={handleUndo} disabled={isUndoDisabled}>
+          <FaUndo />
+          <ButtonText>{snapshotIndex !== null ? snapshotIndex : 0}</ButtonText>
+        </UndoButton>
+        <RedoButton onClick={handleRedo} disabled={isRedoDisabled}>
+          <FaRedo />
+          <ButtonText>{snapshots.length - (snapshotIndex ?? snapshots.length)}</ButtonText>
+        </RedoButton>
+        <DeleteButton onClick={handleDeleteCurrent}>
+          <FaTimes />
+        </DeleteButton>
+        <DeleteButton onClick={handleDeleteAll}>
+          <FaTrash />
+        </DeleteButton>
+      </SnapshotContainer>
+
+      {showDeleteModal && (
+        <ModalContainer>
+          <ModalContent>
+            <ModalHeader>
+              {infoModalMessage ||
+                (deleteType === 'current' ? 'Aktuellen Snapshot löschen?' : 'Alle Snapshots löschen?')}
+            </ModalHeader>
+            <ModalButton onClick={confirmDelete}>Ja</ModalButton>
+            <CancelButton onClick={closeInfoModal}>Nein</CancelButton>
+          </ModalContent>
+        </ModalContainer>
+      )}
+    </>
+  );
+}
