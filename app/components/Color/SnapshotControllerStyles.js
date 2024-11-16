@@ -40,15 +40,20 @@ export const SnapshotButton = styled.button.withConfig({
       isSnapshotLimitReached ? 'var(--color-red-500)' : 'var(--color-secondary-700)'};
   }
 
+  svg {
+    font-size: 1.4rem;
+    color: var(--color-white);
+  }
+
   @media (min-width: 768px) {
     padding: 0.8rem;
     width: 72px;
     height: 56px;
-  }
 
-  svg {
-    font-size: 1.8rem;
-    color: var(--color-white);
+    svg {
+      font-size: 1.8rem;
+      color: var(--color-white);
+    }
   }
 `;
 
@@ -85,7 +90,7 @@ export const DeleteButton = styled.button`
   }
 
   svg {
-    font-size: 1.2rem;
+    font-size: 1.4rem;
     color: var(--color-white);
   }
 
@@ -93,6 +98,7 @@ export const DeleteButton = styled.button`
     padding: 0.8rem;
     width: 72px;
     height: 56px;
+
     svg {
       font-size: 1.8rem;
       color: var(--color-white);
@@ -103,6 +109,7 @@ export const DeleteButton = styled.button`
 export const ButtonText = styled.span`
   color: var(--color-white);
   font-size: 0.8rem;
+  font-weight: bold;
 `;
 
 export const ModalOverlay = styled.div`

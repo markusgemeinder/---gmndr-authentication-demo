@@ -1,7 +1,7 @@
 // /app/components/Color/SnapshotController.js
 
 import { useState, useEffect } from 'react';
-import { FaCamera, FaStackOverflow, FaTrash } from 'react-icons/fa';
+import { FaCamera, FaStackOverflow, FaTrash, FaCheck } from 'react-icons/fa';
 import { loadSnapshotsFromLocalStorage, saveSnapshotsToLocalStorage } from './utils/localStorageUtils';
 import {
   SnapshotContainer,
@@ -25,6 +25,7 @@ export default function SnapshotController({ state }) {
   const [showModal, setShowModal] = useState(false);
   const [modalType, setModalType] = useState(null); // 'info' oder 'decision'
   const [infoModalMessage, setInfoModalMessage] = useState('');
+  const [snapshotInProgress, setSnapshotInProgress] = useState(false); // Zustand für Snapshot-Symbol
 
   const formData = {
     hex: state.hex,
@@ -60,6 +61,14 @@ export default function SnapshotController({ state }) {
     // Normaler Snapshot ohne Warnmeldung
     const newSnapshots = [...snapshots, formData];
     setSnapshots(newSnapshots);
+
+    // Snapshot-Prozess starten
+    setSnapshotInProgress(true);
+
+    // Setze nach 1 Sekunde zurück zum Kamera-Symbol
+    setTimeout(() => {
+      setSnapshotInProgress(false);
+    }, 1000); // 1000ms = 1 Sekunde
   };
 
   const handleDeleteAll = () => {
@@ -89,7 +98,7 @@ export default function SnapshotController({ state }) {
     <>
       <SnapshotContainer>
         <SnapshotButton onClick={handleSnapshot} isSnapshotLimitReached={isSnapshotLimitReached}>
-          {snapshots.length >= SNAPSHOT_LIMIT ? <FaStackOverflow /> : <FaCamera />}
+          {snapshotInProgress ? <FaCheck /> : snapshots.length >= SNAPSHOT_LIMIT ? <FaStackOverflow /> : <FaCamera />}
           <ButtonText>{snapshots.length}</ButtonText>
         </SnapshotButton>
         <DeleteButton onClick={handleDeleteAll}>
