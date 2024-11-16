@@ -11,10 +11,9 @@ import {
   ModalOverlay,
   ModalContent,
   ModalHeader,
-  ModalButton,
-  CancelButton,
-  OKModalButton,
   ModalButtonContainer,
+  ModalConfirmButton,
+  ModalCancelButton,
 } from './SnapshotControllerStyles';
 
 const SNAPSHOT_LIMIT = 5;
@@ -105,11 +104,11 @@ export default function SnapshotController({ state }) {
             <ModalButtonContainer>
               {modalType === 'decision' ? (
                 <>
-                  <ModalButton onClick={confirmDeleteAll}>Ja</ModalButton>
-                  <CancelButton onClick={closeModal}>Nein</CancelButton>
+                  <ModalConfirmButton onClick={confirmDeleteAll}>Ja</ModalConfirmButton>
+                  <ModalCancelButton onClick={closeModal}>Nein</ModalCancelButton>
                 </>
               ) : (
-                <OKModalButton onClick={closeModal}>OK</OKModalButton>
+                <ModalConfirmButton onClick={closeModal}>OK</ModalConfirmButton>
               )}
             </ModalButtonContainer>
           </ModalContent>

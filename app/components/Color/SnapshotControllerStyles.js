@@ -136,7 +136,7 @@ export const ModalContent = styled.div`
 `;
 
 export const ModalHeader = styled.h3`
-  margin-bottom: 1rem;
+  margin-bottom: 0.6rem;
 `;
 
 export const ModalButtonContainer = styled.div`
@@ -154,25 +154,30 @@ export const ModalButton = styled.button`
   cursor: pointer;
   font-size: 1rem;
   font-weight: bold;
-  width: 100%; /* Maximale Breite der Buttons */
-  max-width: 150px; /* Maximale Breite für bessere Darstellung */
+  width: 100%;
+  height: 48px;
+  max-width: 120px;
   background-color: var(--color-primary-500);
   &:hover {
     background-color: var(--color-primary-600);
   }
+
+  @media (min-width: 768px) and (min-height: 768px) {
+    width: 100%;
+    max-width: 120px;
+  }
 `;
 
-export const CancelButton = styled(ModalButton)`
+export const ModalConfirmButton = styled(ModalButton)`
+  /* background-color: var(--color-primary-500);
+  &:hover {
+    background-color: var(--color-primary-600);
+  } */
+`;
+
+export const ModalCancelButton = styled(ModalButton)`
   background-color: var(--color-secondary-300);
   &:hover {
     background-color: var(--color-secondary-500);
-  }
-`;
-
-// Neuer Modal mit nur einem OK-Button
-export const OKModalButton = styled(ModalButton)`
-  background-color: var(--color-primary-500);
-  &:hover {
-    background-color: var(--color-primary-600);
   }
 `;
