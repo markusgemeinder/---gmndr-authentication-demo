@@ -1,8 +1,13 @@
 // /app/components/Color/SnapshotController.js
-
 import { useState, useEffect } from 'react';
 import { FaCamera, FaStackOverflow, FaTrash, FaCheck } from 'react-icons/fa';
-import { loadSnapshotsFromLocalStorage, saveSnapshotsToLocalStorage } from './utils/localStorageUtils';
+import {
+  saveFormDataToLocalStorage,
+  loadSnapshotsFromLocalStorage,
+  saveSnapshotsToLocalStorage,
+  saveLastUsedSnapshotToLocalStorage,
+  deleteLastUsedSnapshotFromLocalStorage,
+} from './utils/localStorageUtils';
 import {
   SnapshotContainer,
   SnapshotButton,
@@ -41,31 +46,39 @@ export default function SnapshotController({ state }) {
   useEffect(() => {
     setIsSnapshotLimitReached(snapshots.length >= SNAPSHOT_LIMIT);
     saveSnapshotsToLocalStorage(snapshots);
-  }, [snapshots]);
+
+    // Speichern der Formulardaten unabhängig vom Snapshot
+    saveFormDataToLocalStorage(state); // Hier wird die Speicherung der Formulardaten ausgeführt
+
+    // Wenn keine Snapshots vorhanden sind, löschen wir auch lastUsedSnapshot
+    if (snapshots.length === 0) {
+      deleteLastUsedSnapshotFromLocalStorage(); // Löscht lastUsedSnapshot, wenn keine Snapshots existieren
+    }
+  }, [snapshots, state]); // Abhängigkeit von state, damit Formulardaten bei jeder Änderung gespeichert werden
 
   const handleSnapshot = () => {
     if (snapshots.length >= SNAPSHOT_LIMIT) {
       setInfoModalMessage('Maximum erreicht, kein weiterer Snapshot möglich.');
-      setModalType('info'); // Info-Modal aufrufen
+      setModalType('info');
       return setShowModal(true);
     }
 
     if (snapshots.length === SNAPSHOT_LIMIT - 1) {
-      // Warnmeldung, dass das Limit erreicht ist, aber der Snapshot gespeichert wird
       setInfoModalMessage('Snapshot gespeichert. Bitte beachten: Maximum erreicht, kein weiterer Snapshot möglich.');
       setSnapshots([...snapshots, formData]);
-      setModalType('info'); // Info-Modal
+      setModalType('info');
       return setShowModal(true);
     }
 
-    // Normaler Snapshot ohne Warnmeldung
     const newSnapshots = [...snapshots, formData];
     setSnapshots(newSnapshots);
 
     // Snapshot-Prozess starten
     setSnapshotInProgress(true);
 
-    // Setze nach 1 Sekunde zurück zum Kamera-Symbol
+    // Speichern des zuletzt erstellten Snapshots in LocalStorage
+    saveLastUsedSnapshotToLocalStorage(formData);
+
     setTimeout(() => {
       setSnapshotInProgress(false);
     }, 1000); // 1000ms = 1 Sekunde
@@ -74,12 +87,12 @@ export default function SnapshotController({ state }) {
   const handleDeleteAll = () => {
     if (snapshots.length === 0) {
       setInfoModalMessage('Kein Snapshot zum Löschen vorhanden.');
-      setModalType('info'); // Info-Modal
+      setModalType('info');
       return setShowModal(true);
     }
 
     setInfoModalMessage('Alle Snapshots löschen?');
-    setModalType('decision'); // Decision-Modal
+    setModalType('decision');
     setShowModal(true);
   };
 
@@ -87,6 +100,9 @@ export default function SnapshotController({ state }) {
     setSnapshots([]);
     setShowModal(false);
     setInfoModalMessage('');
+
+    // Löschen des lastUsedSnapshot beim Löschen aller Snapshots
+    deleteLastUsedSnapshotFromLocalStorage();
   };
 
   const closeModal = () => {

@@ -77,3 +77,22 @@ export function loadLastSnapshotIndexFromLocalStorage() {
 export function loadSnapshotCountFromLocalStorage() {
   return getLocalStorage('pg_snapshotCount') || 0; // Standardwert: 0
 }
+
+// Funktion zum Speichern des zuletzt verwendeten Snapshots
+export function saveLastUsedSnapshotToLocalStorage(snapshot) {
+  setLocalStorage('pg_lastUsedSnapshot', snapshot);
+}
+
+// Funktion zum Laden des zuletzt verwendeten Snapshots
+export function loadLastUsedSnapshotFromLocalStorage() {
+  return getLocalStorage('pg_lastUsedSnapshot') || null; // Rückfall auf null, wenn kein Snapshot gespeichert wurde
+}
+
+// Funktion zum Löschen des lastUsedSnapshot aus dem LocalStorage
+export function deleteLastUsedSnapshotFromLocalStorage() {
+  try {
+    localStorage.removeItem('pg_lastUsedSnapshot');
+  } catch (error) {
+    console.error('Fehler beim Löschen von lastUsedSnapshot aus localStorage:', error);
+  }
+}
