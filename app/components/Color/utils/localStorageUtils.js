@@ -1,6 +1,4 @@
-// /app/components/Color/localStorageUtils.js
-
-import { defaults } from '../PaletteGenerator';
+// /utils/localStorageUtils.js
 
 // Funktion zum Setzen von Daten in den LocalStorage
 export function setLocalStorage(key, value) {
@@ -38,13 +36,25 @@ export function saveFormDataToLocalStorage(state) {
 
 // Laden der Formulardaten aus dem LocalStorage
 export function loadFormDataFromLocalStorage() {
-  return getLocalStorage('pg_formData') || defaults; // Falls keine Formulardaten vorhanden sind, verwenden wir die Standardwerte
+  return (
+    getLocalStorage('pg_formData') || {
+      // Falls keine Formulardaten vorhanden sind, verwenden wir die Standardwerte
+      hex: '',
+      prefix: '',
+      suffix: '',
+      sortOrder: 'ascending',
+      checkedValues: [],
+      selectedOption: null,
+      darkLimit: 0,
+      brightLimit: 100,
+    }
+  );
 }
 
 // Speichern der Snapshots im LocalStorage
 export function saveSnapshotsToLocalStorage(snapshots) {
   setLocalStorage('pg_snapshots', snapshots);
-  setLocalStorage('pg_snapshotCount', snapshots.length); // Speichern der Anzahl
+  // Entferne die Speicherung der 'pg_snapshotCount' (wird nicht mehr benötigt)
 }
 
 // Laden der Snapshots aus dem LocalStorage
@@ -53,7 +63,7 @@ export function loadSnapshotsFromLocalStorage() {
   return { snapshots };
 }
 
-// Speichern des zuletzt verwendeten Snapshots
+// Speichern des letzten verwendeten Snapshots
 export function saveLastUsedSnapshotToLocalStorage(snapshot) {
   setLocalStorage('pg_lastUsedSnapshot', snapshot);
 }
@@ -70,4 +80,14 @@ export function deleteLastUsedSnapshotFromLocalStorage() {
   } catch (error) {
     console.error('Fehler beim Löschen von lastUsedSnapshot aus localStorage:', error);
   }
+}
+
+// Speichern des letzten verwendeten Snapshot-Index
+export function saveLastUsedSnapshotIndexToLocalStorage(index) {
+  setLocalStorage('pg_lastUsedSnapshotIndex', index);
+}
+
+// Laden des letzten verwendeten Snapshot-Index
+export function loadLastUsedSnapshotIndexFromLocalStorage() {
+  return getLocalStorage('pg_lastUsedSnapshotIndex') || -1; // Rückfall auf -1, wenn kein Index vorhanden ist
 }
