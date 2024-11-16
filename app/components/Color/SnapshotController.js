@@ -1,4 +1,5 @@
 // /app/components/Color/SnapshotController.js
+
 import { useState, useEffect } from 'react';
 import { FaCamera, FaStackOverflow, FaTrash, FaCheck } from 'react-icons/fa';
 import {
@@ -6,6 +7,7 @@ import {
   loadSnapshotsFromLocalStorage,
   saveSnapshotsToLocalStorage,
   saveLastUsedSnapshotToLocalStorage,
+  loadLastUsedSnapshotFromLocalStorage,
   deleteLastUsedSnapshotFromLocalStorage,
 } from './utils/localStorageUtils';
 import {
@@ -43,12 +45,18 @@ export default function SnapshotController({ state }) {
     brightLimit: state.brightLimit,
   };
 
+  // Laden des letzten verwendeten Snapshots
+  const lastUsedSnapshot = loadLastUsedSnapshotFromLocalStorage();
+
+  // Überprüfen, ob sich die Formulardaten im Vergleich zum letzten Snapshot geändert haben
+  const hasFormDataChanged = JSON.stringify(formData) !== JSON.stringify(lastUsedSnapshot);
+
   useEffect(() => {
     setIsSnapshotLimitReached(snapshots.length >= SNAPSHOT_LIMIT);
     saveSnapshotsToLocalStorage(snapshots);
 
     // Speichern der Formulardaten unabhängig vom Snapshot
-    saveFormDataToLocalStorage(state); // Hier wird die Speicherung der Formulardaten ausgeführt
+    saveFormDataToLocalStorage(state); // Speichert die Formulardaten, auch wenn sich der Snapshot nicht geändert hat
 
     // Wenn keine Snapshots vorhanden sind, löschen wir auch lastUsedSnapshot
     if (snapshots.length === 0) {
@@ -63,6 +71,14 @@ export default function SnapshotController({ state }) {
       return setShowModal(true);
     }
 
+    // Nur ein Snapshot erstellen, wenn sich die Formulardaten geändert haben
+    if (!hasFormDataChanged) {
+      setInfoModalMessage('Formulardaten unverändert, kein neuer Snapshot möglich.');
+      setModalType('info');
+      return setShowModal(true);
+    }
+
+    // Wenn das Limit kurz davor ist, einen Snapshot zu speichern
     if (snapshots.length === SNAPSHOT_LIMIT - 1) {
       setInfoModalMessage('Snapshot gespeichert. Bitte beachten: Maximum erreicht, kein weiterer Snapshot möglich.');
       setSnapshots([...snapshots, formData]);
