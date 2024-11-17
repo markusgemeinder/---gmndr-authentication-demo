@@ -1,4 +1,4 @@
-// /app/components/Color/SnapshotController.js
+// /app/components/ColorPaletteGenerator/SnapshotController.js
 
 import { useState, useEffect } from 'react';
 import { FaCamera, FaStackOverflow, FaTrash, FaTimes, FaCheck, FaUndo, FaRedo } from 'react-icons/fa';
@@ -22,7 +22,7 @@ import {
   ButtonText,
 } from './SnapshotControllerStyles';
 
-const SNAPSHOT_LIMIT = 3;
+const SNAPSHOT_LIMIT = 5;
 
 export default function SnapshotController({ state, onApplySnapshot }) {
   const { snapshots: initialSnapshots } = loadSnapshotsFromLocalStorage();

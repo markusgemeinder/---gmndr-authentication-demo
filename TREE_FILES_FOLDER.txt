@@ -39,7 +39,7 @@
     39	│   │   │   └── route.js.bak
     40	│   │   └── send-test-email
     41	│   │       └── route.js
-    42	│   ├── color
+    42	│   ├── color-generator
     43	│   │   └── page.js
     44	│   ├── components
     45	│   │   ├── AuthForm
@@ -61,7 +61,7 @@
     61	│   │   │   ├── NavigationButtonPreviousPage.js
     62	│   │   │   ├── NavigationButtonTemplate.js
     63	│   │   │   └── ThemeToggleButton.js
-    64	│   │   ├── Color
+    64	│   │   ├── ColorPaletteGenerator
     65	│   │   │   ├── PaletteGenerator.js
     66	│   │   │   ├── PaletteGeneratorStyles.js
     67	│   │   │   ├── SnapshotController.js

@@ -1,4 +1,4 @@
-// /app/components/Color/PaletteGenerator.js
+// /app/components/ColorPaletteGenerator/PaletteGenerator.js
 
 'use client';
 

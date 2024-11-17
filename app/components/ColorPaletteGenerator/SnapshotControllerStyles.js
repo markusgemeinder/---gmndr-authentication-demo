@@ -1,4 +1,4 @@
-// /app/components/Color/SnapshotControllerStyles.js
+// /app/components/ColorPaletteGenerator/SnapshotControllerStyles.js
 
 import styled from 'styled-components';
 

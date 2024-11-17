@@ -1,4 +1,4 @@
-// /app/components/Color/SnapshotControllerModalPopup.js
+// /app/components/ColorPaletteGenerator/SnapshotControllerModalPopup.js
 
 import React from 'react';
 import styled from 'styled-components';
