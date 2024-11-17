@@ -12,6 +12,7 @@ import {
   deleteLastUsedSnapshotFromLocalStorage,
   saveLastUsedSnapshotIndexToLocalStorage,
 } from './utils/localStorageUtils';
+import SnapshotControllerModalPopup from './SnapshotControllerModalPopup';
 import {
   SnapshotContainer,
   SnapshotButton,
@@ -19,12 +20,6 @@ import {
   UndoButton,
   RedoButton,
   ButtonText,
-  ModalOverlay,
-  ModalContent,
-  ModalHeader,
-  ModalButtonContainer,
-  ModalConfirmButton,
-  ModalCancelButton,
 } from './SnapshotControllerStyles';
 
 const SNAPSHOT_LIMIT = 3;
@@ -255,14 +250,15 @@ export default function SnapshotController({ state, onApplySnapshot }) {
         </DeleteButton>
       </SnapshotContainer>
 
-      {showModal && (
-        <ModalOverlay>
-          <ModalContent>
-            <ModalHeader>{infoModalMessage}</ModalHeader>
-            <ModalButtonContainer>{renderModalButtons()}</ModalButtonContainer>
-          </ModalContent>
-        </ModalOverlay>
-      )}
+      <SnapshotControllerModalPopup
+        showModal={showModal}
+        modalType={modalType}
+        infoModalMessage={infoModalMessage}
+        onConfirm={
+          modalType === 'decision' && infoModalMessage.includes('Aktuellen') ? confirmDeleteCurrent : confirmDeleteAll
+        }
+        onCancel={() => setShowModal(false)}
+      />
     </>
   );
 }
