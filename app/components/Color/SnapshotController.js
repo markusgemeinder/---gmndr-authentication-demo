@@ -105,14 +105,14 @@ export default function SnapshotController({ state, onApplySnapshot }) {
 
     if (hasFormDataChanged) {
       setInfoModalMessage('Die Formulardaten wurden verändert. Auf letzten Snapshot zurücksetzen?');
-      setModalType('decision');
+      setModalType('decision-delete-current');
       setResetToLastSnapshot(true); // Aktiviert das Flag
       setShowModal(true);
       return;
     }
 
     setInfoModalMessage('Aktuellen Snapshot löschen?');
-    setModalType('decision');
+    setModalType('decision-delete-current');
     setResetToLastSnapshot(false); // Setzt das Flag zurück
     setShowModal(true);
   };
@@ -154,7 +154,7 @@ export default function SnapshotController({ state, onApplySnapshot }) {
     }
 
     setInfoModalMessage('Alle Snapshots löschen?');
-    setModalType('decision');
+    setModalType('decision-delete-all');
     setShowModal(true);
   };
 
@@ -231,7 +231,9 @@ export default function SnapshotController({ state, onApplySnapshot }) {
         onConfirm={
           resetToLastSnapshot
             ? confirmResetFormToLastSnapshot
-            : modalType === 'decision'
+            : modalType === 'decision-undo-redo'
+            ? createSnapshotFromModal
+            : modalType === 'decision-delete-current'
             ? confirmDeleteCurrentSnapshot
             : confirmDeleteAllSnapshots
         }
