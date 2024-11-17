@@ -1,7 +1,7 @@
 // /app/components/Color/SnapshotController.js
 
 import { useState, useEffect } from 'react';
-import { FaCamera, FaStackOverflow, FaTrash, FaCheck, FaUndo, FaRedo } from 'react-icons/fa';
+import { FaCamera, FaStackOverflow, FaTrash, FaTimes, FaCheck, FaUndo, FaRedo } from 'react-icons/fa';
 import {
   saveFormDataToLocalStorage,
   loadSnapshotsFromLocalStorage,
@@ -85,8 +85,6 @@ export default function SnapshotController({ state, onApplySnapshot }) {
     }
 
     let newSnapshots;
-
-    // Logik für das Einfügen des neuen Snapshots basierend auf lastUsedSnapshotIndex
     if (snapshots.length === 1) {
       newSnapshots = [...snapshots, formData];
     } else if (lastUsedSnapshotIndex === 0) {
@@ -101,17 +99,45 @@ export default function SnapshotController({ state, onApplySnapshot }) {
 
     const newSnapshotIndex = newSnapshots.indexOf(formData);
 
-    // Setze neuen Snapshot-Zustand und speichere den Index
     setSnapshots(newSnapshots);
     setCurrentSnapshotPosition(newSnapshotIndex);
     saveSnapshotsToLocalStorage(newSnapshots);
     saveLastUsedSnapshotToLocalStorage(formData);
-    saveLastUsedSnapshotIndexToLocalStorage(newSnapshotIndex); // Korrekt setzen
+    saveLastUsedSnapshotIndexToLocalStorage(newSnapshotIndex);
 
     if (newSnapshots.length >= SNAPSHOT_LIMIT) {
       setInfoModalMessage('Snapshot gespeichert. (Bitte beachten: Maximum erreicht, kein weiterer Snapshot möglich.)');
       setModalType('info');
       setShowModal(true);
+    }
+  };
+
+  const handleDeleteCurrent = () => {
+    if (snapshots.length === 0) {
+      setInfoModalMessage('Kein Snapshot zum Löschen vorhanden.');
+      setModalType('info');
+      return setShowModal(true);
+    }
+
+    setInfoModalMessage('Aktuellen Snapshot löschen?');
+    setModalType('decision');
+    setShowModal(true);
+  };
+
+  const confirmDeleteCurrent = () => {
+    const newSnapshots = snapshots.filter((_, index) => index !== currentSnapshotPosition);
+    setSnapshots(newSnapshots);
+    setShowModal(false);
+
+    const newPosition = Math.max(currentSnapshotPosition - 1, 0);
+    setCurrentSnapshotPosition(newPosition);
+
+    if (newSnapshots.length > 0) {
+      saveLastUsedSnapshotToLocalStorage(newSnapshots[newPosition]);
+      saveLastUsedSnapshotIndexToLocalStorage(newPosition);
+    } else {
+      deleteLastUsedSnapshotFromLocalStorage();
+      saveLastUsedSnapshotIndexToLocalStorage(0);
     }
   };
 
@@ -169,6 +195,21 @@ export default function SnapshotController({ state, onApplySnapshot }) {
     saveLastUsedSnapshotIndexToLocalStorage(newPosition);
   };
 
+  const renderModalButtons = () => {
+    if (modalType === 'decision') {
+      return (
+        <>
+          <ModalConfirmButton
+            onClick={infoModalMessage.includes('Aktuellen') ? confirmDeleteCurrent : confirmDeleteAll}>
+            Ja
+          </ModalConfirmButton>
+          <ModalCancelButton onClick={closeModal}>Nein</ModalCancelButton>
+        </>
+      );
+    }
+    return <ModalConfirmButton onClick={closeModal}>OK</ModalConfirmButton>;
+  };
+
   return (
     <>
       <SnapshotContainer>
@@ -184,6 +225,9 @@ export default function SnapshotController({ state, onApplySnapshot }) {
           <FaRedo />
           <ButtonText>{redoSteps}</ButtonText>
         </RedoButton>
+        <DeleteButton onClick={handleDeleteCurrent}>
+          <FaTimes />
+        </DeleteButton>
         <DeleteButton onClick={handleDeleteAll}>
           <FaTrash />
         </DeleteButton>
@@ -193,16 +237,7 @@ export default function SnapshotController({ state, onApplySnapshot }) {
         <ModalOverlay>
           <ModalContent>
             <ModalHeader>{infoModalMessage}</ModalHeader>
-            <ModalButtonContainer>
-              {modalType === 'decision' ? (
-                <>
-                  <ModalConfirmButton onClick={confirmDeleteAll}>Ja</ModalConfirmButton>
-                  <ModalCancelButton onClick={closeModal}>Nein</ModalCancelButton>
-                </>
-              ) : (
-                <ModalConfirmButton onClick={closeModal}>OK</ModalConfirmButton>
-              )}
-            </ModalButtonContainer>
+            <ModalButtonContainer>{renderModalButtons()}</ModalButtonContainer>
           </ModalContent>
         </ModalOverlay>
       )}
