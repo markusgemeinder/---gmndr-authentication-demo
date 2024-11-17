@@ -100,8 +100,8 @@ export default function SnapshotControllerModalPopup({ showModal, modalType, inf
       case 'decision-undo-redo':
         return (
           <>
-            <ModalConfirmButton onClick={onConfirm}>Snapshot erstellen</ModalConfirmButton>
-            <ModalCancelButton onClick={onCancel}>Abbrechen</ModalCancelButton>
+            <ModalConfirmButton onClick={onConfirm}>Ja</ModalConfirmButton>
+            <ModalCancelButton onClick={onCancel}>Nein</ModalCancelButton>
           </>
         );
       case 'info':

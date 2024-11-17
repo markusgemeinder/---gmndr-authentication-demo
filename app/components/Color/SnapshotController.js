@@ -36,6 +36,8 @@ export default function SnapshotController({ state, onApplySnapshot }) {
   const [lastUsedRestored, setLastUsedRestored] = useState(false);
   const [resetToLastSnapshot, setResetToLastSnapshot] = useState(false);
   const [pendingDirection, setPendingDirection] = useState(null);
+  const [undoSteps, setUndoSteps] = useState(0);
+  const [redoSteps, setRedoSteps] = useState(0);
 
   const formData = {
     hex: state.hex,
@@ -62,7 +64,9 @@ export default function SnapshotController({ state, onApplySnapshot }) {
       saveLastUsedSnapshotIndexToLocalStorage(0);
       setCurrentSnapshotPosition(0);
     }
-  }, [snapshots, state]);
+
+    updateUndoRedoSteps();
+  }, [snapshots, state, currentSnapshotPosition]);
 
   const isSnapshotDuplicate = (snapshots, formData) => {
     return snapshots.some((snapshot) => JSON.stringify(snapshot) === JSON.stringify(formData));
@@ -102,6 +106,15 @@ export default function SnapshotController({ state, onApplySnapshot }) {
       setModalType('info');
       setShowModal(true);
     }
+  };
+
+  const updateUndoRedoSteps = () => {
+    const undoSteps = currentSnapshotPosition > 0 ? currentSnapshotPosition : 0;
+    const redoSteps =
+      currentSnapshotPosition < snapshots.length - 1 ? snapshots.length - currentSnapshotPosition - 1 : 0;
+
+    setUndoSteps(undoSteps);
+    setRedoSteps(redoSteps);
   };
 
   const handleDeleteCurrent = () => {
@@ -180,8 +193,8 @@ export default function SnapshotController({ state, onApplySnapshot }) {
       setInfoModalMessage('Einstellungen noch nicht gespeichert. Snapshot erstellen?');
       setModalType('decision-undo-redo');
       setShowModal(true);
-      setPendingDirection(direction); // Richtung speichern
-      return;
+      setPendingDirection(direction); // Richtung speichern (undo oder redo)
+      return; // Abbrechen, bis der Benutzer das Modal bestätigt
     }
 
     performUndoRedo(direction); // Direkte Ausführung, wenn keine Modal erforderlich
@@ -191,8 +204,10 @@ export default function SnapshotController({ state, onApplySnapshot }) {
     let newPosition;
 
     if (!lastUsedRestored && hasFormDataChanged) {
-      onApplySnapshot(lastUsedSnapshot);
-      setLastUsedRestored(true);
+      // Falls Formulardaten geändert wurden und noch nicht gespeichert sind,
+      // Snapshot erstellen, bevor der Undo/Redo ausgeführt wird.
+      handleSnapshot(); // Snapshot erstellen
+      setLastUsedRestored(true); // Status setzen, dass der Snapshot wiederhergestellt wurde
       newPosition = lastUsedSnapshotIndex;
     } else {
       if (direction === 'undo') {
@@ -201,21 +216,23 @@ export default function SnapshotController({ state, onApplySnapshot }) {
         newPosition = Math.min(currentSnapshotPosition + 1, snapshots.length - 1);
       }
 
-      onApplySnapshot(snapshots[newPosition]);
+      onApplySnapshot(snapshots[newPosition]); // Die angewendeten Änderungen
     }
 
     setCurrentSnapshotPosition(newPosition);
-    saveLastUsedSnapshotToLocalStorage(snapshots[newPosition]);
-    saveLastUsedSnapshotIndexToLocalStorage(newPosition);
+    updateUndoRedoSteps(); // Update der Undo/Redo-Schritte
   };
 
   const createSnapshotFromModal = () => {
     handleSnapshot(); // Snapshot erstellen
     if (pendingDirection) {
-      performUndoRedo(pendingDirection); // Undo/Redo ausführen
+      performUndoRedo(pendingDirection); // Undo/Redo ausführen, auch bei Ja
       setPendingDirection(null); // Richtung zurücksetzen
     }
     setShowModal(false);
+    setInfoModalMessage('');
+    setResetToLastSnapshot(false);
+    setModalType(null);
   };
 
   const closeModal = () => {
@@ -228,12 +245,6 @@ export default function SnapshotController({ state, onApplySnapshot }) {
     setResetToLastSnapshot(false);
     setModalType(null);
   };
-
-  const undoSteps = snapshots.length > 1 && currentSnapshotPosition > 0 ? currentSnapshotPosition : 0;
-  const redoSteps =
-    snapshots.length > 0 && currentSnapshotPosition < snapshots.length - 1
-      ? snapshots.length - currentSnapshotPosition - 1
-      : 0;
 
   return (
     <>
@@ -267,7 +278,7 @@ export default function SnapshotController({ state, onApplySnapshot }) {
             ? confirmResetFormToLastSnapshot
             : modalType === 'decision-undo-redo'
             ? createSnapshotFromModal
-            : modalType === 'decision'
+            : modalType === 'decision-delete-current'
             ? confirmDeleteCurrentSnapshot
             : confirmDeleteAllSnapshots
         }
