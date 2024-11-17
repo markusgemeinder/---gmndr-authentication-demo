@@ -65,7 +65,7 @@
     65	│   │   │   ├── PaletteGenerator.js
     66	│   │   │   ├── PaletteGeneratorStyles.js
     67	│   │   │   ├── SnapshotController.js
-    68	│   │   │   ├── SnapshotController.js.bak
+    68	│   │   │   ├── SnapshotControllerModalPopup.js
     69	│   │   │   ├── SnapshotControllerStyles.js
     70	│   │   │   └── utils
     71	│   │   │       ├── localStorageUtils.js

@@ -34,6 +34,7 @@ export default function SnapshotController({ state, onApplySnapshot }) {
   const [infoModalMessage, setInfoModalMessage] = useState('');
   const [snapshotInProgress, setSnapshotInProgress] = useState(false);
   const [lastUsedRestored, setLastUsedRestored] = useState(false);
+  const [resetToLastSnapshot, setResetToLastSnapshot] = useState(false); // Neues Flag
 
   const formData = {
     hex: state.hex,
@@ -79,20 +80,8 @@ export default function SnapshotController({ state, onApplySnapshot }) {
       return setShowModal(true);
     }
 
-    let newSnapshots;
-    if (snapshots.length === 1) {
-      newSnapshots = [...snapshots, formData];
-    } else if (lastUsedSnapshotIndex === 0) {
-      const pg_snapshots_a = snapshots.slice(0, 1);
-      const pg_snapshots_b = snapshots.slice(1);
-      newSnapshots = [...pg_snapshots_a, formData, ...pg_snapshots_b];
-    } else {
-      const pg_snapshots_a = snapshots.slice(0, lastUsedSnapshotIndex + 1);
-      const pg_snapshots_b = snapshots.slice(lastUsedSnapshotIndex + 1);
-      newSnapshots = [...pg_snapshots_a, formData, ...pg_snapshots_b];
-    }
-
-    const newSnapshotIndex = newSnapshots.indexOf(formData);
+    const newSnapshots = [...snapshots, formData];
+    const newSnapshotIndex = newSnapshots.length - 1;
 
     setSnapshots(newSnapshots);
     setCurrentSnapshotPosition(newSnapshotIndex);
@@ -108,53 +97,52 @@ export default function SnapshotController({ state, onApplySnapshot }) {
   };
 
   const handleDeleteCurrent = () => {
-    console.log('hasFormDataChanged', hasFormDataChanged);
-    console.log('lastUsedSnapshot', lastUsedSnapshot);
-
     if (snapshots.length === 0) {
       setInfoModalMessage('Kein Snapshot zum Löschen vorhanden.');
       setModalType('info');
       return setShowModal(true);
     }
 
-    if (snapshots.length > 0 && hasFormDataChanged) {
+    if (hasFormDataChanged) {
       setInfoModalMessage('Die Formulardaten wurden verändert. Auf letzten Snapshot zurücksetzen?');
       setModalType('decision');
+      setResetToLastSnapshot(true); // Aktiviert das Flag
       setShowModal(true);
       return;
     }
 
     setInfoModalMessage('Aktuellen Snapshot löschen?');
     setModalType('decision');
+    setResetToLastSnapshot(false); // Setzt das Flag zurück
     setShowModal(true);
   };
 
-  const confirmDeleteCurrent = () => {
-    if (hasFormDataChanged) {
-      onApplySnapshot(lastUsedSnapshot);
-      setSnapshots([lastUsedSnapshot]); // Setze Snapshots zurück
-      saveSnapshotsToLocalStorage([lastUsedSnapshot]);
-      setCurrentSnapshotPosition(0);
-      saveLastUsedSnapshotToLocalStorage(lastUsedSnapshot);
-      saveLastUsedSnapshotIndexToLocalStorage(0);
+  const confirmDeleteCurrentSnapshot = () => {
+    const newSnapshots = snapshots.filter((_, index) => index !== currentSnapshotPosition);
+    setSnapshots(newSnapshots);
+
+    const newPosition = Math.max(currentSnapshotPosition - 1, 0);
+    setCurrentSnapshotPosition(newPosition);
+
+    if (newSnapshots.length > 0) {
+      saveLastUsedSnapshotToLocalStorage(newSnapshots[newPosition]);
+      saveLastUsedSnapshotIndexToLocalStorage(newPosition);
+      onApplySnapshot(newSnapshots[newPosition]);
     } else {
-      const newSnapshots = snapshots.filter((_, index) => index !== currentSnapshotPosition);
-      setSnapshots(newSnapshots);
-      setShowModal(false);
-
-      const newPosition = Math.max(currentSnapshotPosition - 1, 0);
-      setCurrentSnapshotPosition(newPosition);
-
-      if (newSnapshots.length > 0) {
-        saveLastUsedSnapshotToLocalStorage(newSnapshots[newPosition]);
-        saveLastUsedSnapshotIndexToLocalStorage(newPosition);
-        onApplySnapshot(newSnapshots[newPosition]);
-      } else {
-        deleteLastUsedSnapshotFromLocalStorage();
-        saveLastUsedSnapshotIndexToLocalStorage(0);
-      }
+      deleteLastUsedSnapshotFromLocalStorage();
+      saveLastUsedSnapshotIndexToLocalStorage(0);
     }
 
+    setShowModal(false);
+  };
+
+  const confirmResetFormToLastSnapshot = () => {
+    onApplySnapshot(lastUsedSnapshot);
+    setSnapshots([lastUsedSnapshot]); // Setzt die Snapshots zurück
+    saveSnapshotsToLocalStorage([lastUsedSnapshot]);
+    setCurrentSnapshotPosition(0);
+    saveLastUsedSnapshotToLocalStorage(lastUsedSnapshot);
+    saveLastUsedSnapshotIndexToLocalStorage(0);
     setShowModal(false);
   };
 
@@ -170,7 +158,7 @@ export default function SnapshotController({ state, onApplySnapshot }) {
     setShowModal(true);
   };
 
-  const confirmDeleteAll = () => {
+  const confirmDeleteAllSnapshots = () => {
     setSnapshots([]);
     setShowModal(false);
     setInfoModalMessage('');
@@ -182,6 +170,7 @@ export default function SnapshotController({ state, onApplySnapshot }) {
   const closeModal = () => {
     setShowModal(false);
     setInfoModalMessage('');
+    setResetToLastSnapshot(false); // Setzt das Flag zurück
   };
 
   const undoSteps = snapshots.length > 1 && currentSnapshotPosition > 0 ? currentSnapshotPosition : 0;
@@ -212,21 +201,6 @@ export default function SnapshotController({ state, onApplySnapshot }) {
     saveLastUsedSnapshotIndexToLocalStorage(newPosition);
   };
 
-  const renderModalButtons = () => {
-    if (modalType === 'decision') {
-      return (
-        <>
-          <ModalConfirmButton
-            onClick={infoModalMessage.includes('Aktuellen') ? confirmDeleteCurrent : confirmDeleteAll}>
-            Ja
-          </ModalConfirmButton>
-          <ModalCancelButton onClick={closeModal}>Nein</ModalCancelButton>
-        </>
-      );
-    }
-    return <ModalConfirmButton onClick={closeModal}>OK</ModalConfirmButton>;
-  };
-
   return (
     <>
       <SnapshotContainer>
@@ -255,9 +229,13 @@ export default function SnapshotController({ state, onApplySnapshot }) {
         modalType={modalType}
         infoModalMessage={infoModalMessage}
         onConfirm={
-          modalType === 'decision' && infoModalMessage.includes('Aktuellen') ? confirmDeleteCurrent : confirmDeleteAll
+          resetToLastSnapshot
+            ? confirmResetFormToLastSnapshot
+            : modalType === 'decision'
+            ? confirmDeleteCurrentSnapshot
+            : confirmDeleteAllSnapshots
         }
-        onCancel={() => setShowModal(false)}
+        onCancel={closeModal}
       />
     </>
   );
