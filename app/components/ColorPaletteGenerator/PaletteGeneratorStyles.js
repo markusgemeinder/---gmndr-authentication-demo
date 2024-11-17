@@ -1,4 +1,4 @@
-// /app/components/Color/PaletteGeneratorStyles.js
+// /app/components/ColorPaletteGenerator/PaletteGeneratorStyles.js
 
 import styled from 'styled-components';
 
@@ -11,9 +11,10 @@ export const Wrapper = styled.div`
   padding: 1.2rem 1.4rem;
   width: 92%;
   max-width: 600px;
-  background-color: #f4f4f9;
+  background-color: var(--color-secondary-50);
   border-radius: 8px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  border: 1px solid var(--color-secondary-200);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
 
   @media (min-width: 768px) and (min-height: 768px) {
     /* margin-left: 0; */
@@ -25,9 +26,9 @@ export const Wrapper = styled.div`
 export const Title = styled.h2`
   font-size: 1.4rem;
   font-weight: bold;
-  color: #333;
+  color: var(--color-primary-700);
   text-align: center;
-  margin-bottom: 0.8rem;
+  margin: 0.4rem 0 0.8rem 0;
 `;
 
 export const InputGroup = styled.div`
@@ -41,7 +42,7 @@ export const Label = styled.label`
   font-size: 1rem;
   font-weight: 600;
   margin-bottom: 0.5rem;
-  color: #555;
+  color: var(--color-secondary-700);
 `;
 
 export const ColorPickerWrapper = styled.div`
@@ -52,19 +53,17 @@ export const ColorPickerWrapper = styled.div`
 `;
 
 export const ColorPicker = styled.input`
-  /* type: 'color'; */
-
-  border: 2px solid #ddd;
+  border: 2px solid var(--color-secondary-200);
   border-radius: 8px;
   width: 5rem;
   height: 3rem;
   padding: 0.2rem;
   cursor: pointer;
-  background-color: #fff;
+  background-color: var(--color-white);
 
   &:focus {
     outline: none;
-    border-color: #4caf50;
+    border-color: var(--color-secondary-700);
   }
 `;
 
@@ -72,9 +71,9 @@ export const TextInput = styled.input`
   padding: 0.75rem;
   font-size: 1rem;
   border-radius: 8px;
-  border: 1px solid #ddd;
-  background-color: #fff;
-  color: #333;
+  border: 1px solid var(--color-secondary-200);
+  background-color: var(--color-white);
+  color: var(--color-black);
   flex-grow: 1;
   width: 100%;
 `;
@@ -95,12 +94,13 @@ export const ColorPreview = styled.div.attrs((props) => ({
   width: 40px;
   height: 40px;
   border-radius: 4px;
-  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+  border: 2px solid var(--color-secondary-200);
+  /* box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1); */
 `;
 
 export const StyledSlider = styled.input.attrs((props) => ({
   style: {
-    background: `linear-gradient(to right, ${props.$startColor}, ${props.$endColor || '#ffffff'})`,
+    background: `linear-gradient(to right, ${props.$startColor}, ${props.$endColor || 'var(--color-white'})`,
   },
 }))`
   width: 100%;
@@ -117,26 +117,26 @@ export const StyledSlider = styled.input.attrs((props) => ({
     appearance: none;
     height: 20px;
     width: 20px;
-    background: ${(props) => props.$thumbColor || '#333'};
+    background: ${(props) => props.$thumbColor || 'var(--color-secondary-700)'};
     border-radius: 50%;
     cursor: pointer;
-    border: 2px solid ${(props) => props.$thumbBorderColor || '#fff'};
+    border: 2px solid ${(props) => props.$thumbBorderColor || 'var(--color-white)'};
   }
 
   ::-moz-range-thumb {
     height: 20px;
     width: 20px;
-    background: ${(props) => props.$thumbColor || '#333'};
+    background: ${(props) => props.$thumbColor || 'var(--color-secondary-700)'};
     border-radius: 50%;
     cursor: pointer;
-    border: 2px solid ${(props) => props.$thumbBorderColor || '#fff'};
+    border: 2px solid ${(props) => props.$thumbBorderColor || 'var(--color-white)'};
   }
 `;
 
 export const SliderText = styled.div`
   text-align: center;
   font-size: 0.6rem;
-  color: #333;
+  color: var(--color-black);
   width: 100%;
 `;
 
@@ -145,43 +145,88 @@ export const SliderValue = styled.div`
   font-size: 0.9rem;
   font-weight: bold;
   min-width: 1.4rem;
-  color: #555;
+  color: var(--color-secondary-700);
 `;
 
 export const Select = styled.select`
   padding: 0.75rem;
   font-size: 1rem;
   border-radius: 8px;
-  border: 1px solid #ddd;
-  background-color: #fff;
-  color: #333;
+  border: 1px solid var(--color-secondary-200);
+  background-color: var(--color-white);
+  color: var(--color-black);
 `;
 
 export const CheckboxGroup = styled.div`
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
-  margin-top: 0.5rem;
-  margin-left: 0.6rem;
+  margin: 0.5rem;
   gap: 0.2rem;
 
-  & > label {
-    padding-left: 0.5rem;
-    border-right: 1px solid #ddd;
-
-    &:nth-child(3n) {
-      border-right: none;
-    }
-  }
-
   @media (min-width: 768px) and (min-height: 768px) {
-    margin-left: 2rem;
+    margin: 0.5rem 1.8rem;
+    margin-left: 3rem;
   }
 `;
 
 export const CheckboxLabel = styled.label`
   font-size: 0.9rem;
-  color: #555;
+  color: var(--color-secondary-700);
   text-align: left;
+  display: inline-flex; /* Inline-Block, um mit der Checkbox auf gleicher Linie zu stehen */
+  align-items: center; /* Zentriert das Label und die Checkbox vertikal */
+  /* gap: 0.1rem; */
+`;
+
+export const CheckboxInput = styled.input.attrs((props) => ({
+  type: 'checkbox',
+  style: {
+    width: props.size || '1.6rem', // Größe anpassbar
+    height: props.size || '1.6rem', // Größe anpassbar
+    margin: props.margin || '0.1rem 0.4rem', // Margin anpassbar
+    backgroundColor: props.backgroundColor || 'var(--color-white)', // Hintergrundfarbe anpassbar
+  },
+}))`
+  -webkit-appearance: none;
+  appearance: none;
+  border-radius: 4px;
+  background-color: ${(props) => props.backgroundColor};
+  position: relative;
+  cursor: pointer;
+  width: 20px;
+  height: 20px;
+  vertical-align: middle; /* Hinzugefügt für vertikale Ausrichtung */
+
+  &::before {
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    border-radius: 4px;
+    border: 1px solid var(--color-secondary-300);
+    background-color: var(--color-white);
+    transition: background-color 0.3s, border-color 0.3s;
+  }
+
+  &:checked::before {
+    background-color: var(--color-primary-500);
+    border-color: var(--color-primary-500);
+  }
+
+  &:checked::after {
+    content: 'X';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    /* font-size: 1.1rem; */
+    /* font-weight: bold; */
+    color: var(--color-white);
+  }
+
+  &:focus {
+    outline: none;
+  }
 `;
 
 export const PaletteWrapper = styled.div`
@@ -189,15 +234,15 @@ export const PaletteWrapper = styled.div`
   margin-top: 1.4rem;
   padding: 1rem;
   border-radius: 8px;
-  background-color: #f0f5f9;
-  border: 1px solid #ddd;
+  background-color: var(--color-white);
+  border: 1px solid var(--color-secondary-200);
   position: relative;
 `;
 
 export const PaletteOutput = styled.pre`
   font-family: monospace;
   font-size: 0.9rem;
-  color: #333;
+  color: var(--color-black);
   white-space: pre-wrap;
   word-wrap: break-word;
   margin-top: 3.6rem;
@@ -205,7 +250,7 @@ export const PaletteOutput = styled.pre`
 
 export const Button = styled.button`
   padding: 0.75rem 1.5rem;
-  color: white;
+  color: var(--color-white);
   font-weight: bold;
   border: none;
   border-radius: 8px;
@@ -228,7 +273,7 @@ export const Button = styled.button`
   `}
 
   &:hover {
-    background-color: ${({ $hoverColor }) => $hoverColor || '#555'};
+    background-color: ${({ $hoverColor }) => $hoverColor || 'var(--color-secondary-900)'};
   }
 
   svg {
@@ -238,17 +283,17 @@ export const Button = styled.button`
 
 export const GeneratePaletteButton = styled(Button)`
   width: 15.6rem;
-  background-color: #1fbf3f;
+  background-color: var(--color-primary-500);
   &:hover {
-    background-color: #199a33;
+    background-color: var(--color-primary-600);
   }
 `;
 
 export const ResetFormButton = styled(Button)`
   width: 15.6rem;
-  background-color: #c0c0c0;
+  background-color: var(--color-secondary-300);
   &:hover {
-    background-color: #a0a0a0;
+    background-color: var(--color-secondary-500);
   }
 `;
 
@@ -257,57 +302,9 @@ export const CopyPaletteButton = styled(Button)`
   position: absolute;
   top: 0;
   right: 0.8rem;
-  background-color: #3a3a3a;
+  background-color: var(--color-secondary-700);
   &:hover {
-    background-color: #1a1a1a;
-  }
-`;
-
-export const SnapshotContainer = styled.div`
-  position: fixed;
-  top: 4.7rem;
-  right: 0.7rem;
-  display: flex;
-  flex-direction: column;
-  gap: 0.4rem;
-  z-index: 4;
-
-  @media (min-width: 768px) and (min-height: 768px) {
-    top: 7rem;
-    right: 2rem;
-  }
-`;
-
-export const SnapshotButton = styled.button`
-  background: none;
-  border: none;
-  padding: 0.5rem;
-  border-radius: 0.6rem;
-  width: 48px;
-  height: 48px;
-  cursor: pointer;
-  background-color: #5a5a5a;
-  &:hover {
-    background-color: #3a3a3a;
-  }
-
-  svg {
-    font-size: 1.8rem;
-    color: white;
-  }
-`;
-
-export const UndoButton = styled(SnapshotButton)`
-  background-color: #c0c0c0;
-  &:hover {
-    background-color: #a0a0a0;
-  }
-`;
-
-export const RedoButton = styled(SnapshotButton)`
-  background-color: #c0c0c0;
-  &:hover {
-    background-color: #a0a0a0;
+    background-color: var(--color-secondary-900);
   }
 `;
 
