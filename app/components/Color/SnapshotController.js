@@ -27,7 +27,7 @@ import {
   ModalCancelButton,
 } from './SnapshotControllerStyles';
 
-const SNAPSHOT_LIMIT = 5;
+const SNAPSHOT_LIMIT = 10;
 
 export default function SnapshotController({ state, onApplySnapshot }) {
   const { snapshots: initialSnapshots } = loadSnapshotsFromLocalStorage();
@@ -86,27 +86,27 @@ export default function SnapshotController({ state, onApplySnapshot }) {
 
     let newSnapshots;
 
+    // Logik für das Einfügen des neuen Snapshots basierend auf lastUsedSnapshotIndex
     if (snapshots.length === 1) {
       newSnapshots = [...snapshots, formData];
-      setCurrentSnapshotPosition(1);
+    } else if (lastUsedSnapshotIndex === 0) {
+      const pg_snapshots_a = snapshots.slice(0, 1);
+      const pg_snapshots_b = snapshots.slice(1);
+      newSnapshots = [...pg_snapshots_a, formData, ...pg_snapshots_b];
     } else {
-      if (lastUsedSnapshotIndex === 0) {
-        const pg_snapshots_a = snapshots.slice(0, 1);
-        const pg_snapshots_b = snapshots.slice(1);
-        newSnapshots = [...pg_snapshots_a, formData, ...pg_snapshots_b];
-        setCurrentSnapshotPosition(1);
-      } else {
-        const pg_snapshots_a = snapshots.slice(0, lastUsedSnapshotIndex + 1);
-        const pg_snapshots_b = snapshots.slice(lastUsedSnapshotIndex + 1);
-        newSnapshots = [...pg_snapshots_a, formData, ...pg_snapshots_b];
-        setCurrentSnapshotPosition(lastUsedSnapshotIndex + 1);
-      }
+      const pg_snapshots_a = snapshots.slice(0, lastUsedSnapshotIndex + 1);
+      const pg_snapshots_b = snapshots.slice(lastUsedSnapshotIndex + 1);
+      newSnapshots = [...pg_snapshots_a, formData, ...pg_snapshots_b];
     }
 
+    const newSnapshotIndex = newSnapshots.indexOf(formData);
+
+    // Setze neuen Snapshot-Zustand und speichere den Index
     setSnapshots(newSnapshots);
+    setCurrentSnapshotPosition(newSnapshotIndex);
     saveSnapshotsToLocalStorage(newSnapshots);
     saveLastUsedSnapshotToLocalStorage(formData);
-    saveLastUsedSnapshotIndexToLocalStorage(currentSnapshotPosition);
+    saveLastUsedSnapshotIndexToLocalStorage(newSnapshotIndex); // Korrekt setzen
 
     if (newSnapshots.length >= SNAPSHOT_LIMIT) {
       setInfoModalMessage('Snapshot gespeichert. (Bitte beachten: Maximum erreicht, kein weiterer Snapshot möglich.)');
