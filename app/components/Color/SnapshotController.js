@@ -27,7 +27,7 @@ import {
   ModalCancelButton,
 } from './SnapshotControllerStyles';
 
-const SNAPSHOT_LIMIT = 10;
+const SNAPSHOT_LIMIT = 3;
 
 export default function SnapshotController({ state, onApplySnapshot }) {
   const { snapshots: initialSnapshots } = loadSnapshotsFromLocalStorage();
@@ -106,13 +106,16 @@ export default function SnapshotController({ state, onApplySnapshot }) {
     saveLastUsedSnapshotIndexToLocalStorage(newSnapshotIndex);
 
     if (newSnapshots.length >= SNAPSHOT_LIMIT) {
-      setInfoModalMessage('Snapshot gespeichert. (Bitte beachten: Maximum erreicht, kein weiterer Snapshot möglich.)');
+      setInfoModalMessage('Snapshot gespeichert. (Maximum erreicht, kein weiterer Snapshot möglich.)');
       setModalType('info');
       setShowModal(true);
     }
   };
 
   const handleDeleteCurrent = () => {
+    console.log('hasFormDataChanged', hasFormDataChanged);
+    console.log('lastUsedSnapshot', lastUsedSnapshot);
+
     if (snapshots.length === 0) {
       setInfoModalMessage('Kein Snapshot zum Löschen vorhanden.');
       setModalType('info');
