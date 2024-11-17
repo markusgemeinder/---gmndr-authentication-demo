@@ -113,6 +113,12 @@ export default function SnapshotController({ state, onApplySnapshot }) {
   };
 
   const handleDeleteCurrent = () => {
+    if (JSON.stringify(formData) !== JSON.stringify(lastUsedSnapshot)) {
+      setInfoModalMessage('Die Formulardaten entsprechen keinem Snapshot, Löschen nicht möglich.');
+      setModalType('info');
+      return setShowModal(true);
+    }
+
     if (snapshots.length === 0) {
       setInfoModalMessage('Kein Snapshot zum Löschen vorhanden.');
       setModalType('info');
@@ -135,6 +141,8 @@ export default function SnapshotController({ state, onApplySnapshot }) {
     if (newSnapshots.length > 0) {
       saveLastUsedSnapshotToLocalStorage(newSnapshots[newPosition]);
       saveLastUsedSnapshotIndexToLocalStorage(newPosition);
+
+      onApplySnapshot(newSnapshots[newPosition]);
     } else {
       deleteLastUsedSnapshotFromLocalStorage();
       saveLastUsedSnapshotIndexToLocalStorage(0);
@@ -143,7 +151,7 @@ export default function SnapshotController({ state, onApplySnapshot }) {
 
   const handleDeleteAll = () => {
     if (snapshots.length === 0) {
-      setInfoModalMessage('Keine Snapshots gespeichert.');
+      setInfoModalMessage('Keine Snapshots zum Löschen vorhanden.');
       setModalType('info');
       return setShowModal(true);
     }
