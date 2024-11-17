@@ -84,6 +84,7 @@ export default function SnapshotControllerModalPopup({ showModal, modalType, inf
   const renderModalButtons = () => {
     switch (modalType) {
       case 'decision':
+      case 'decision-undo-redo':
         return (
           <>
             <ModalConfirmButton onClick={onConfirm}>Ja</ModalConfirmButton>
