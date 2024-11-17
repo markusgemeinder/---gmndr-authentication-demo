@@ -16,7 +16,7 @@ export function getLocalStorage(key) {
     return value ? JSON.parse(value) : null;
   } catch (error) {
     console.error(`Fehler beim Abrufen und Parsen von ${key} aus localStorage:`, error);
-    return null; // Rückfall auf null bei Fehler
+    return null;
   }
 }
 
@@ -38,7 +38,6 @@ export function saveFormDataToLocalStorage(state) {
 export function loadFormDataFromLocalStorage() {
   return (
     getLocalStorage('pg_formData') || {
-      // Falls keine Formulardaten vorhanden sind, verwenden wir die Standardwerte
       hex: '',
       prefix: '',
       suffix: '',
@@ -70,7 +69,7 @@ export function saveLastUsedSnapshotToLocalStorage(snapshot) {
 
 // Funktion zum Laden des zuletzt verwendeten Snapshots
 export function loadLastUsedSnapshotFromLocalStorage() {
-  return getLocalStorage('pg_lastUsedSnapshot') || null; // Rückfall auf null, wenn kein Snapshot gespeichert wurde
+  return getLocalStorage('pg_lastUsedSnapshot') || null;
 }
 
 // Funktion zum Löschen des lastUsedSnapshot aus dem LocalStorage
@@ -89,5 +88,5 @@ export function saveLastUsedSnapshotIndexToLocalStorage(index) {
 
 // Laden des letzten verwendeten Snapshot-Index
 export function loadLastUsedSnapshotIndexFromLocalStorage() {
-  return getLocalStorage('pg_lastUsedSnapshotIndex') || -1; // Rückfall auf -1, wenn kein Index vorhanden ist
+  return getLocalStorage('pg_lastUsedSnapshotIndex') || 0;
 }
