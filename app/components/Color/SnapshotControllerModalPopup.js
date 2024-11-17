@@ -83,12 +83,25 @@ export default function SnapshotControllerModalPopup({ showModal, modalType, inf
 
   const renderModalButtons = () => {
     switch (modalType) {
-      case 'decision':
-      case 'decision-undo-redo':
+      case 'decision-delete-current':
         return (
           <>
             <ModalConfirmButton onClick={onConfirm}>Ja</ModalConfirmButton>
             <ModalCancelButton onClick={onCancel}>Nein</ModalCancelButton>
+          </>
+        );
+      case 'decision-delete-all':
+        return (
+          <>
+            <ModalConfirmButton onClick={onConfirm}>Ja</ModalConfirmButton>
+            <ModalCancelButton onClick={onCancel}>Nein</ModalCancelButton>
+          </>
+        );
+      case 'decision-undo-redo':
+        return (
+          <>
+            <ModalConfirmButton onClick={onConfirm}>Snapshot erstellen</ModalConfirmButton>
+            <ModalCancelButton onClick={onCancel}>Abbrechen</ModalCancelButton>
           </>
         );
       case 'info':

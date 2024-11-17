@@ -113,35 +113,16 @@ export default function SnapshotController({ state, onApplySnapshot }) {
 
     if (hasFormDataChanged) {
       setInfoModalMessage('Die Formulardaten wurden verändert. Auf letzten Snapshot zurücksetzen?');
-      setModalType('decision');
+      setModalType('decision-undo-redo');
       setResetToLastSnapshot(true);
       setShowModal(true);
       return;
     }
 
     setInfoModalMessage('Aktuellen Snapshot löschen?');
-    setModalType('decision');
+    setModalType('decision-delete-current');
     setResetToLastSnapshot(false);
     setShowModal(true);
-  };
-
-  const confirmDeleteCurrentSnapshot = () => {
-    const newSnapshots = snapshots.filter((_, index) => index !== currentSnapshotPosition);
-    setSnapshots(newSnapshots);
-
-    const newPosition = Math.max(currentSnapshotPosition - 1, 0);
-    setCurrentSnapshotPosition(newPosition);
-
-    if (newSnapshots.length > 0) {
-      saveLastUsedSnapshotToLocalStorage(newSnapshots[newPosition]);
-      saveLastUsedSnapshotIndexToLocalStorage(newPosition);
-      onApplySnapshot(newSnapshots[newPosition]);
-    } else {
-      deleteLastUsedSnapshotFromLocalStorage();
-      saveLastUsedSnapshotIndexToLocalStorage(0);
-    }
-
-    setShowModal(false);
   };
 
   const confirmResetFormToLastSnapshot = () => {
@@ -162,8 +143,27 @@ export default function SnapshotController({ state, onApplySnapshot }) {
     }
 
     setInfoModalMessage('Alle Snapshots löschen?');
-    setModalType('decision');
+    setModalType('decision-delete-all');
     setShowModal(true);
+  };
+
+  const confirmDeleteCurrentSnapshot = () => {
+    const newSnapshots = snapshots.filter((_, index) => index !== currentSnapshotPosition);
+    setSnapshots(newSnapshots);
+
+    const newPosition = Math.max(currentSnapshotPosition - 1, 0);
+    setCurrentSnapshotPosition(newPosition);
+
+    if (newSnapshots.length > 0) {
+      saveLastUsedSnapshotToLocalStorage(newSnapshots[newPosition]);
+      saveLastUsedSnapshotIndexToLocalStorage(newPosition);
+      onApplySnapshot(newSnapshots[newPosition]);
+    } else {
+      deleteLastUsedSnapshotFromLocalStorage();
+      saveLastUsedSnapshotIndexToLocalStorage(0);
+    }
+
+    setShowModal(false);
   };
 
   const confirmDeleteAllSnapshots = () => {
