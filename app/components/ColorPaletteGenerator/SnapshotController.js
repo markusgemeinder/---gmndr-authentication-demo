@@ -22,7 +22,7 @@ import {
   ButtonText,
 } from './SnapshotControllerStyles';
 
-const SNAPSHOT_LIMIT = 5;
+const SNAPSHOT_LIMIT = 8;
 
 export default function SnapshotController({ state, onApplySnapshot }) {
   const { snapshots: initialSnapshots } = loadSnapshotsFromLocalStorage();
@@ -67,6 +67,10 @@ export default function SnapshotController({ state, onApplySnapshot }) {
     return snapshots.some((snapshot) => JSON.stringify(snapshot) === JSON.stringify(formData));
   };
 
+  const findLastUsedSnapshotIndex = (snapshots, lastUsedSnapshot) => {
+    return snapshots.findIndex((snapshot) => JSON.stringify(snapshot) === JSON.stringify(lastUsedSnapshot));
+  };
+
   const handleSnapshot = () => {
     if (snapshots.length >= SNAPSHOT_LIMIT) {
       setInfoModalMessage('Maximum erreicht, kein weiterer Snapshot möglich.');
@@ -80,14 +84,17 @@ export default function SnapshotController({ state, onApplySnapshot }) {
       return setShowModal(true);
     }
 
-    const newSnapshots = [...snapshots, formData];
-    const newSnapshotIndex = newSnapshots.length - 1;
+    const lastUsedSnapshotIndex = findLastUsedSnapshotIndex(snapshots, lastUsedSnapshot);
+    const newSnapshots = [
+      ...snapshots.slice(0, lastUsedSnapshotIndex + 1),
+      formData,
+      ...snapshots.slice(lastUsedSnapshotIndex + 1),
+    ];
 
     setSnapshots(newSnapshots);
-    setCurrentSnapshotPosition(newSnapshotIndex);
-    saveSnapshotsToLocalStorage(newSnapshots);
+    setCurrentSnapshotPosition(lastUsedSnapshotIndex + 1);
     saveLastUsedSnapshotToLocalStorage(formData);
-    saveLastUsedSnapshotIndexToLocalStorage(newSnapshotIndex);
+    saveLastUsedSnapshotIndexToLocalStorage(lastUsedSnapshotIndex + 1);
 
     if (newSnapshots.length >= SNAPSHOT_LIMIT) {
       setInfoModalMessage('Snapshot gespeichert. (Maximum erreicht, kein weiterer Snapshot möglich.)');
@@ -95,7 +102,6 @@ export default function SnapshotController({ state, onApplySnapshot }) {
       setShowModal(true);
     }
   };
-
   const handleDeleteCurrent = () => {
     if (snapshots.length === 0) {
       setInfoModalMessage('Kein Snapshot zum Löschen vorhanden.');
