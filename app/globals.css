@@ -198,9 +198,9 @@ ol {
   --color-green-900: #106220;
   --color-green-950: #0d501a;
   --color-green-1000: #0a3d14;
-}
+  /* } */
 
-[data-theme='light'] {
+  /* [data-theme='light'] { */
   /* Link Colors */
   --color-link: var(--color-primary-300);
   --color-link-hover: var(--color-primary-600);
