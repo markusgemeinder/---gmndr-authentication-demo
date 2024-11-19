@@ -85,17 +85,32 @@ export const CriteriaList = styled.ul`
 `;
 
 export const CriteriaItem = styled.li`
-  display: flex;
+  display: grid;
+  grid-template-columns: auto 4fr;
   align-items: center;
-  color: ${(props) => (props.valid ? 'var(--color-green-700)' : 'var(--color-text-light)')};
   font-size: 0.9rem;
+  line-height: 1.2;
+  gap: 0.5rem;
+  color: ${(props) => (props.valid ? 'var(--color-green-700)' : 'var(--color-text-light)')};
   margin-bottom: 0.4rem;
 
   svg {
-    margin-right: 0.6rem;
+    font-size: 1.2rem;
+  }
+
+  span {
+    word-wrap: break-word;
+  }
+
+  @media (min-width: 768px) {
+    gap: 0.7rem;
+    line-height: 1.4;
+    font-size: 1rem;
+    svg {
+      font-size: 1.4rem;
+    }
   }
 `;
-
 export const Divider = styled.div`
   display: flex;
   align-items: center;

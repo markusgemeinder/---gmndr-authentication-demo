@@ -25,7 +25,6 @@ export default function ValidatePassword({ hasRepeatPassword = false, onPassword
   const [passwordVisible, setPasswordVisible] = useState(false);
   const passwordInputRef = useRef(null);
 
-  // Define validation criteria
   const criteria = [
     { id: 'min_length', test: (pwd) => pwd.length >= 8, text: getText('validate_password', 'min_length', language) },
     { id: 'uppercase', test: (pwd) => /[A-Z]/.test(pwd), text: getText('validate_password', 'uppercase', language) },
@@ -33,7 +32,7 @@ export default function ValidatePassword({ hasRepeatPassword = false, onPassword
     { id: 'digit', test: (pwd) => /[0-9]/.test(pwd), text: getText('validate_password', 'digit', language) },
     {
       id: 'special_character',
-      test: (pwd) => /[^A-Za-z0-9]/.test(pwd),
+      test: (pwd) => /[^A-Za-z0-9\s]/.test(pwd) && !/\s/.test(pwd),
       text: getText('validate_password', 'special_character', language),
     },
   ];
@@ -117,20 +116,21 @@ export default function ValidatePassword({ hasRepeatPassword = false, onPassword
 
       {/* Kriterienliste */}
       <CriteriaList>
-        {criteria.map(({ id, test, text }) => (
-          <CriteriaItem key={id} valid={test(password)}>
-            {test(password) ? <CheckIcon /> : <ErrorIcon />}
-            <span>{text}</span>
-          </CriteriaItem>
-        ))}
-
-        {/* Fehleranzeige für Nicht-Übereinstimmung (wird unten hinzugefügt) */}
+        {/* Fehleranzeige für Nicht-Übereinstimmung */}
         {hasRepeatPassword && isPasswordValid && (
           <CriteriaItem valid={passwordsMatch}>
             {passwordsMatch ? <CheckIcon /> : <ErrorIcon />}
             <span>{getText('validate_password', 'error_mismatch', language)}</span>
           </CriteriaItem>
         )}
+
+        {/* Kriterien für Passwortprüfung */}
+        {criteria.map(({ id, test, text }) => (
+          <CriteriaItem key={id} valid={test(password)}>
+            {test(password) ? <CheckIcon /> : <ErrorIcon />}
+            <span>{text}</span>
+          </CriteriaItem>
+        ))}
       </CriteriaList>
     </>
   );
