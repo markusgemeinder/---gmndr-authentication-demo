@@ -29,7 +29,16 @@ export const LanguageProvider = ({ children }) => {
     });
   };
 
-  return <LanguageContext.Provider value={{ language, toggleLanguage }}>{children}</LanguageContext.Provider>;
+  const setLanguagePreference = (selectedLanguage) => {
+    setLanguage(selectedLanguage);
+    setCookie('language', selectedLanguage, { path: '/' });
+  };
+
+  return (
+    <LanguageContext.Provider value={{ language, toggleLanguage, setLanguagePreference }}>
+      {children}
+    </LanguageContext.Provider>
+  );
 };
 
 export default LanguageContext;

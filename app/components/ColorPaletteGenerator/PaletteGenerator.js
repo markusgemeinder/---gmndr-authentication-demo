@@ -2,7 +2,8 @@
 
 'use client';
 
-import { useReducer, useState, useEffect } from 'react';
+import { useReducer, useState, useEffect, useContext } from 'react';
+import PropTypes from 'prop-types';
 import {
   Wrapper,
   Title,
@@ -30,42 +31,45 @@ import { FaCopy, FaSlidersH, FaRedo } from 'react-icons/fa';
 import { generateMonochromePalette, getColorPreview } from './utils/paletteGeneratorUtils';
 import SnapshotController from './SnapshotController';
 import { loadFormDataFromLocalStorage, saveFormDataToLocalStorage } from './utils/localStorageUtils';
+import LanguageContext from '@/app/components/LanguageProvider';
+import { getText } from '@/lib/languageLibrary';
 
-// Default Werte
-export const defaults = {
-  hex: '#ffff00',
+const defaults = {
+  hex: '#456789',
   prefix: '--color-',
   suffix: 'test',
   sortOrder: 'asc',
   checkedValues: [
     0, 50, 100, 150, 200, 250, 300, 350, 400, 450, 500, 550, 600, 650, 700, 750, 800, 850, 900, 950, 1000,
   ],
-  selectedOption: 'Alle',
+  selectedOption: 'optionDefault',
   darkLimit: 20,
   brightLimit: 95,
   generatedPalette: null,
 };
 
 const selectorOptions = {
-  Alle: [0, 50, 100, 150, 200, 250, 300, 350, 400, 450, 500, 550, 600, 650, 700, 750, 800, 850, 900, 950, 1000],
-  '100er [0-1000]': [0, 100, 200, 300, 400, 500, 600, 700, 800, 900, 1000],
-  '100er [100-900]': [100, 200, 300, 400, 500, 600, 700, 800, 900],
-  '100er [mit 50, 950]': [50, 100, 200, 300, 400, 500, 600, 700, 800, 900, 950],
-  '200er [0-1000]': [0, 200, 400, 600, 800, 1000],
-  '200er [200-800]': [200, 400, 600, 800],
-  Keine: [],
+  selectorOptionDefault: [
+    0, 50, 100, 150, 200, 250, 300, 350, 400, 450, 500, 550, 600, 650, 700, 750, 800, 850, 900, 950, 1000,
+  ],
+  selectorOption1: [0, 100, 200, 300, 400, 500, 600, 700, 800, 900, 1000],
+  selectorOption2: [100, 200, 300, 400, 500, 600, 700, 800, 900],
+  selectorOption3: [50, 100, 200, 300, 400, 500, 600, 700, 800, 900, 950],
+  selectorOption4: [0, 200, 400, 600, 800, 1000],
+  selectorOption5: [200, 400, 600, 800],
+  selectorOptionNone: [],
 };
 
 const allValues = [
   0, 50, 100, 150, 200, 250, 300, 350, 400, 450, 500, 550, 600, 650, 700, 750, 800, 850, 900, 950, 1000,
 ];
 
-// Hilfsfunktion zum Vergleichen von Arrays
+// ===== Hilfsfunktion zum Vergleichen von Arrays =====
 function isArraysEqual(arr1, arr2) {
   return arr1.length === arr2.length && arr1.every((value, index) => value === arr2[index]);
 }
 
-// Reducer Funktion zum Steuern des States
+// ===== Reducer zur Verwaltung des Formularzustands =====
 function paletteReducer(state, action) {
   switch (action.type) {
     case 'SET_VALUE':
@@ -79,30 +83,39 @@ function paletteReducer(state, action) {
     case 'SET_GENERATED_PALETTE':
       return { ...state, generatedPalette: action.value };
     case 'LOAD_SNAPSHOT':
-      return { ...action.payload }; // Lädt den gesamten Snapshot
+      return { ...action.payload }; // Snapshot laden
     default:
       return state;
   }
 }
 
+// ===== Formular-Daten aus LocalStorage laden =====
 const formData = loadFormDataFromLocalStorage() || defaults;
 
 export default function PaletteGenerator() {
+  const { language } = useContext(LanguageContext);
   const [state, dispatch] = useReducer(paletteReducer, formData);
 
-  // Weitere useState-Initialisierungen
+  // ===== Sprachtext-Abfrage
+  const getLanguageText = (key) => {
+    return getText('paletteGenerator', key, language);
+  };
+
+  // ===== Zustand für visuelle Effekte =====
   const [isCopied, setIsCopied] = useState(false);
   const [isGenerateClicked, setIsGenerateClicked] = useState(false);
 
-  // Save form data to localStorage when state changes
+  // ===== Formularzustand in LocalStorage speichern =====
   useEffect(() => {
     saveFormDataToLocalStorage(state);
   }, [state]);
 
+  // ===== Snapshot anwenden =====
   function applySnapshot(snapshot) {
     dispatch({ type: 'LOAD_SNAPSHOT', payload: snapshot });
   }
 
+  // ===== Farbwerte-Änderungen =====
   const handleHexChange = (e) => {
     dispatch({ type: 'SET_VALUE', key: 'hex', value: e.target.value });
   };
@@ -111,10 +124,12 @@ export default function PaletteGenerator() {
     dispatch({ type: 'SET_VALUE', key: 'hex', value: e.target.value });
   };
 
+  // ===== Palette generieren =====
   const handleGeneratePalette = () => {
     setIsGenerateClicked(true);
     setTimeout(() => setIsGenerateClicked(false), 200);
 
+    // Generiere die Palette
     const palette = generateMonochromePalette(
       state.hex,
       state.prefix,
@@ -123,6 +138,7 @@ export default function PaletteGenerator() {
       state.brightLimit
     );
 
+    // Filtere die Palette basierend auf den checkedValues
     const filteredPalette = Object.entries(palette)
       .filter(([key]) => state.checkedValues.includes(parseInt(key.split('-').pop())))
       .sort(([keyA], [keyB]) => {
@@ -131,13 +147,16 @@ export default function PaletteGenerator() {
         return state.sortOrder === 'asc' ? valA - valB : valB - valA;
       })
       .reduce((acc, [key, value]) => ({ ...acc, [key]: value }), {});
+
     dispatch({ type: 'SET_GENERATED_PALETTE', value: filteredPalette });
   };
 
+  // ===== Formular zurücksetzen =====
   const resetForm = () => {
     dispatch({ type: 'RESET_FORM' });
   };
 
+  // ===== Palette kopieren =====
   const handleCopyPalette = () => {
     const brightLimitDisplayed = 100 - state.brightLimit;
     const darkLimitDisplayed = 100 - state.darkLimit;
@@ -155,11 +174,13 @@ export default function PaletteGenerator() {
     setTimeout(() => setIsCopied(false), 2000);
   };
 
+  // ===== Option auswählen =====
   const handleSelectOption = (option) => {
     dispatch({ type: 'SET_SELECTED_OPTION', value: option });
     dispatch({ type: 'SET_CHECKED_VALUES', value: selectorOptions[option] || [] });
   };
 
+  // ===== Formular auf Änderungen prüfen =====
   const isFormChanged = () => {
     return (
       state.hex !== defaults.hex ||
@@ -175,22 +196,24 @@ export default function PaletteGenerator() {
 
   return (
     <Wrapper>
-      <SnapshotController state={state} onApplySnapshot={applySnapshot} />
+      <SnapshotController state={state} onApplySnapshot={applySnapshot} resetForm={resetForm} />
 
-      <Title>Monochrome Palette Generator</Title>
+      <Title>{getLanguageText('title')}</Title>
+
       <InputGroup>
-        <Label>Basisfarbwert (Hex):</Label>
+        <Label>{getLanguageText('hexLabel')}</Label>
         <ColorPickerWrapper>
           <ColorPicker type='color' value={state.hex} onChange={handleColorPickerChange} />
           <TextInput type='text' value={state.hex} onChange={handleHexChange} placeholder='#' />
         </ColorPickerWrapper>
       </InputGroup>
+
       <InputGroup>
-        <Label>Hellster Wert (0):</Label>
+        <Label>{getLanguageText('brightLimitLabel')}</Label>
         <ColorTileWrapper>
           <ColorPreview $bgColor={getColorPreview(state.hex, state.brightLimit)} />
           <SliderText>
-            <span>dunkler</span>
+            <span>{getLanguageText('adjustLabelsDarker')}</span>
           </SliderText>
           <StyledSlider
             type='range'
@@ -204,17 +227,20 @@ export default function PaletteGenerator() {
             $thumbBorderColor='var(--color-secondary-700)'
           />
           <SliderText>
-            <span>heller</span>
+            <span>{getLanguageText('adjustLabelsLighter')}</span>
           </SliderText>
           <SliderValue>{-(state.brightLimit - 100)}</SliderValue>
         </ColorTileWrapper>
       </InputGroup>
+
       <InputGroup>
-        <Label>Dunkelster Wert (1000):</Label>
+        <Label>{getLanguageText('darkLimitLabel')}</Label>
         <ColorTileWrapper>
           <ColorPreview $bgColor={getColorPreview(state.hex, state.darkLimit)} />
           <SliderText>
-            <span>dunkler</span>
+            <SliderText>
+              <span>{getLanguageText('adjustLabelsDarker')}</span>
+            </SliderText>
           </SliderText>
           <StyledSlider
             type='range'
@@ -227,15 +253,16 @@ export default function PaletteGenerator() {
             $thumbColor='var(--color-white)'
             $thumbBorderColor='var(--color-secondary-700)'
           />
+
           <SliderText>
-            <span>heller</span>
+            <span>{getLanguageText('adjustLabelsLighter')}</span>
           </SliderText>
           <SliderValue>{100 - state.darkLimit}</SliderValue>
         </ColorTileWrapper>
       </InputGroup>
-      {/* New Input for Prefix */}
+
       <InputGroup>
-        <Label>Prefix:</Label>
+        <Label>{getLanguageText('prefixLabel')}</Label>
         <TextInput
           type='text'
           value={state.prefix}
@@ -243,9 +270,9 @@ export default function PaletteGenerator() {
           placeholder='--color-'
         />
       </InputGroup>
-      {/* New Input for Suffix */}
+
       <InputGroup>
-        <Label>Suffix:</Label>
+        <Label>{getLanguageText('suffixLabel')}</Label>
         <TextInput
           type='text'
           value={state.suffix}
@@ -253,25 +280,31 @@ export default function PaletteGenerator() {
           placeholder='test'
         />
       </InputGroup>
+
       <InputGroup>
-        <Label>Sortierung:</Label>
+        <Label>{getLanguageText('sortOrderLabel')}</Label>
         <Select
           value={state.sortOrder}
           onChange={(e) => dispatch({ type: 'SET_VALUE', key: 'sortOrder', value: e.target.value })}>
-          <option value='asc'>Aufsteigend (0 ... 1000)</option>
-          <option value='desc'>Absteigend (1000 ... 0)</option>
+          <option value='asc'>{getLanguageText('sortOrderAsc')}</option>
+          <option value='desc'>{getLanguageText('sortOrderDesc')}</option>
         </Select>
       </InputGroup>
+
       <InputGroup>
-        <Label>Ausgabewerte:</Label>
+        <Label>{getLanguageText('outputValuesLabel')}</Label>
+
         <Select value={state.selectedOption} onChange={(e) => handleSelectOption(e.target.value)}>
-          {Object.keys(selectorOptions).map((option) => (
-            <option key={option} value={option}>
-              {option}
-            </option>
-          ))}
+          {Object.keys(selectorOptions).map((option) => {
+            return (
+              <option key={option} value={option}>
+                {getText('paletteGenerator', option, language)}
+              </option>
+            );
+          })}
         </Select>
       </InputGroup>
+
       <InputGroup>
         <CheckboxGroup>
           {allValues.map((value) => (
@@ -293,17 +326,19 @@ export default function PaletteGenerator() {
       </InputGroup>
 
       <GeneratePaletteButton width='100%' onClick={handleGeneratePalette}>
-        <FaSlidersH /> Palette generieren
+        <FaSlidersH /> {getLanguageText('generateButton')}
       </GeneratePaletteButton>
+
       {isFormChanged() && (
         <ResetFormButton width='auto' onClick={resetForm}>
-          <FaRedo /> Formular zurücksetzen
+          <FaRedo /> {getLanguageText('resetButton')}
         </ResetFormButton>
       )}
-      {state.generatedPalette && (
+
+      {state.generatedPalette && Object.entries(state.generatedPalette).length > 0 && (
         <PaletteWrapper>
           <CopyPaletteButton width='auto' onClick={handleCopyPalette}>
-            <FaCopy /> {isCopied ? 'Kopiert!' : 'Kopieren'}
+            <FaCopy /> {isCopied ? getLanguageText('copied') : getLanguageText('copyButton')}
           </CopyPaletteButton>
 
           <PaletteOutput>

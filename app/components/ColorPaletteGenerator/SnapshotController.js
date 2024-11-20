@@ -1,6 +1,6 @@
 // /app/components/ColorPaletteGenerator/SnapshotController.js
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useContext } from 'react';
 import { FaCamera, FaStackOverflow, FaTrash, FaTimes, FaCheck, FaUndo, FaRedo } from 'react-icons/fa';
 import {
   saveFormDataToLocalStorage,
@@ -21,21 +21,32 @@ import {
   RedoButton,
   ButtonText,
 } from './SnapshotControllerStyles';
+import LanguageContext from '@/app/components/LanguageProvider';
+import { getText } from '@/lib/languageLibrary';
 
 const SNAPSHOT_LIMIT = 8;
 
-export default function SnapshotController({ state, onApplySnapshot }) {
+export default function SnapshotController({ state, onApplySnapshot, resetForm }) {
+  // ===== State Management
+  const { language } = useContext(LanguageContext);
   const { snapshots: initialSnapshots } = loadSnapshotsFromLocalStorage();
   const [snapshots, setSnapshots] = useState(initialSnapshots);
-  const [isSnapshotLimitReached, setIsSnapshotLimitReached] = useState(snapshots.length >= SNAPSHOT_LIMIT);
   const [currentSnapshotPosition, setCurrentSnapshotPosition] = useState(snapshots.length ? snapshots.length - 1 : 0);
+  const [isSnapshotLimitReached, setIsSnapshotLimitReached] = useState(snapshots.length >= SNAPSHOT_LIMIT);
   const [showModal, setShowModal] = useState(false);
   const [modalType, setModalType] = useState(null);
+  const [modalUndoRedoDirection, setModalUndoRedoDirection] = useState(null);
   const [infoModalMessage, setInfoModalMessage] = useState('');
   const [snapshotInProgress, setSnapshotInProgress] = useState(false);
   const [lastUsedRestored, setLastUsedRestored] = useState(false);
-  const [resetToLastSnapshot, setResetToLastSnapshot] = useState(false); // Neues Flag
+  const [resetToLastSnapshot, setResetToLastSnapshot] = useState(false);
 
+  // ===== Sprachtext-Abfrage
+  const getLanguageText = (key) => {
+    return getText('snapshotController', key, language);
+  };
+
+  // ===== Derived Variables
   const formData = {
     hex: state.hex,
     prefix: state.prefix,
@@ -46,11 +57,13 @@ export default function SnapshotController({ state, onApplySnapshot }) {
     darkLimit: state.darkLimit,
     brightLimit: state.brightLimit,
   };
-
   const lastUsedSnapshot = loadLastUsedSnapshotFromLocalStorage();
   const lastUsedSnapshotIndex = loadLastUsedSnapshotIndexFromLocalStorage();
-  const hasFormDataChanged = JSON.stringify(formData) !== JSON.stringify(lastUsedSnapshot);
+  const [hasFormDataChanged, setHasFormDataChanged] = useState(
+    JSON.stringify(formData) !== JSON.stringify(lastUsedSnapshot)
+  );
 
+  // ===== Effects
   useEffect(() => {
     setIsSnapshotLimitReached(snapshots.length >= SNAPSHOT_LIMIT);
     saveSnapshotsToLocalStorage(snapshots);
@@ -63,71 +76,78 @@ export default function SnapshotController({ state, onApplySnapshot }) {
     }
   }, [snapshots, state]);
 
-  const isSnapshotDuplicate = (snapshots, formData) => {
-    return snapshots.some((snapshot) => JSON.stringify(snapshot) === JSON.stringify(formData));
-  };
+  useEffect(() => {
+    setHasFormDataChanged(JSON.stringify(formData) !== JSON.stringify(lastUsedSnapshot));
+  }, [formData]);
 
-  const findLastUsedSnapshotIndex = (snapshots, lastUsedSnapshot) => {
-    return snapshots.findIndex((snapshot) => JSON.stringify(snapshot) === JSON.stringify(lastUsedSnapshot));
-  };
+  // ===== Helper Functions
+  const isSnapshotDuplicate = (snapshots, formData) =>
+    snapshots.some((snapshot) => JSON.stringify(snapshot) === JSON.stringify(formData));
+
+
+  const findLastUsedSnapshotIndex = (snapshots, lastUsedSnapshot) =>
+    snapshots.findIndex((snapshot) => JSON.stringify(snapshot) === JSON.stringify(lastUsedSnapshot));
+
+  // ===== Snapshot Management
 
   const handleSnapshot = () => {
-    if (snapshots.length >= SNAPSHOT_LIMIT) {
-      setInfoModalMessage('Maximum erreicht, kein weiterer Snapshot möglich.');
+    if (isSnapshotLimitReached) {
+      setInfoModalMessage(getLanguageText('snapshotLimitReached'));
       setModalType('info');
       return setShowModal(true);
     }
 
     if (isSnapshotDuplicate(snapshots, formData) || !hasFormDataChanged) {
-      setInfoModalMessage('Snapshot existiert bereits, kein neuer Snapshot möglich.');
+      setInfoModalMessage(getLanguageText('snapshotAlreadyExists'));
       setModalType('info');
       return setShowModal(true);
     }
 
     const lastUsedSnapshotIndex = findLastUsedSnapshotIndex(snapshots, lastUsedSnapshot);
     const newSnapshots = [
-      ...snapshots.slice(0, lastUsedSnapshotIndex + 1),
+
+    
+      ...snapshots.slice(0, currentSnapshotPosition + 1),
       formData,
-      ...snapshots.slice(lastUsedSnapshotIndex + 1),
+      ...snapshots.slice(currentSnapshotPosition + 1),
     ];
 
     setSnapshots(newSnapshots);
-    setCurrentSnapshotPosition(lastUsedSnapshotIndex + 1);
+    setCurrentSnapshotPosition(currentSnapshotPosition + 1);
+
     saveLastUsedSnapshotToLocalStorage(formData);
     saveLastUsedSnapshotIndexToLocalStorage(lastUsedSnapshotIndex + 1);
 
     if (newSnapshots.length >= SNAPSHOT_LIMIT) {
-      setInfoModalMessage('Snapshot gespeichert. (Maximum erreicht, kein weiterer Snapshot möglich.)');
+      setInfoModalMessage(getLanguageText('snapshotSavedMaxReached'));
       setModalType('info');
       setShowModal(true);
     }
   };
   const handleDeleteCurrent = () => {
     if (snapshots.length === 0) {
-      setInfoModalMessage('Kein Snapshot zum Löschen vorhanden.');
+      setInfoModalMessage(getLanguageText('noSnapshotToDelete'));
       setModalType('info');
       return setShowModal(true);
     }
 
     if (hasFormDataChanged) {
-      setInfoModalMessage('Die Formulardaten wurden verändert. Auf letzten Snapshot zurücksetzen?');
+      setInfoModalMessage(getLanguageText('formDataChangedReset'));
       setModalType('decision-delete-current');
-      setResetToLastSnapshot(true); // Aktiviert das Flag
-      setShowModal(true);
-      return;
+      setResetToLastSnapshot(true);
+      return setShowModal(true);
     }
 
-    setInfoModalMessage('Aktuellen Snapshot löschen?');
+    setInfoModalMessage(getLanguageText('deleteCurrentSnapshot'));
     setModalType('decision-delete-current');
-    setResetToLastSnapshot(false); // Setzt das Flag zurück
+    setResetToLastSnapshot(false);
     setShowModal(true);
   };
 
   const confirmDeleteCurrentSnapshot = () => {
     const newSnapshots = snapshots.filter((_, index) => index !== currentSnapshotPosition);
-    setSnapshots(newSnapshots);
-
     const newPosition = Math.max(currentSnapshotPosition - 1, 0);
+    setSnapshots(newSnapshots);
     setCurrentSnapshotPosition(newPosition);
 
     if (newSnapshots.length > 0) {
@@ -154,12 +174,12 @@ export default function SnapshotController({ state, onApplySnapshot }) {
 
   const handleDeleteAll = () => {
     if (snapshots.length === 0) {
-      setInfoModalMessage('Keine Snapshots zum Löschen vorhanden.');
+      setInfoModalMessage(getLanguageText('noSnapshotsToDelete'));
       setModalType('info');
       return setShowModal(true);
     }
 
-    setInfoModalMessage('Alle Snapshots löschen?');
+    setInfoModalMessage(getLanguageText('deleteAllSnapshots'));
     setModalType('decision-delete-all');
     setShowModal(true);
   };
@@ -171,34 +191,21 @@ export default function SnapshotController({ state, onApplySnapshot }) {
     setCurrentSnapshotPosition(0);
     saveLastUsedSnapshotIndexToLocalStorage(0);
     deleteLastUsedSnapshotFromLocalStorage();
-  };
-
-  const closeModal = () => {
+    resetForm();
     setShowModal(false);
-    setInfoModalMessage('');
-    setResetToLastSnapshot(false); // Setzt das Flag zurück
   };
 
+  // ===== Undo/Redo Logic
   const handleUndoRedo = (direction) => {
-    let newPosition;
-
-    if (!lastUsedRestored && hasFormDataChanged) {
-      onApplySnapshot(lastUsedSnapshot);
-      setLastUsedRestored(true);
-      newPosition = lastUsedSnapshotIndex;
+    if (hasFormDataChanged && !lastUsedRestored) {
+      // Änderungen vorhanden – Modal öffnen
+      undoRedoModal(direction);
     } else {
-      if (direction === 'undo') {
-        newPosition = Math.max(currentSnapshotPosition - 1, 0);
-      } else {
-        newPosition = Math.min(currentSnapshotPosition + 1, snapshots.length - 1);
-      }
-
-      onApplySnapshot(snapshots[newPosition]);
+      // Keine Änderungen – direkt Undo/Redo ausführen
+      performUndoRedo(direction);
+      setLastUsedRestored(false);
+      setHasFormDataChanged(JSON.stringify(formData) !== JSON.stringify(lastUsedSnapshot));
     }
-
-    setCurrentSnapshotPosition(newPosition);
-    saveLastUsedSnapshotToLocalStorage(snapshots[newPosition]);
-    saveLastUsedSnapshotIndexToLocalStorage(newPosition);
   };
 
   const undoSteps = snapshots.length > 1 && currentSnapshotPosition > 0 ? currentSnapshotPosition : 0;
@@ -207,6 +214,48 @@ export default function SnapshotController({ state, onApplySnapshot }) {
       ? snapshots.length - currentSnapshotPosition - 1
       : 0;
 
+  const undoRedoModal = (direction) => {
+    setInfoModalMessage(getLanguageText('formDataNotSaved'));
+    setModalType('decision-undo-redo');
+    setShowModal(true);
+
+    // Speichert die Richtung, die verarbeitet werden soll
+    setModalUndoRedoDirection(direction);
+  };
+
+  const performUndoRedo = (direction) => {
+    let newPosition;
+
+    if (!lastUsedRestored && hasFormDataChanged) {
+      // Letzten Snapshot wiederherstellen
+      onApplySnapshot(lastUsedSnapshot);
+      setLastUsedRestored(true);
+      newPosition = lastUsedSnapshotIndex;
+    } else {
+      const newPosition =
+        direction === 'undo'
+          ? Math.max(currentSnapshotPosition - 1, 0)
+          : Math.min(currentSnapshotPosition + 1, snapshots.length - 1);
+
+      onApplySnapshot(snapshots[newPosition]);
+      setCurrentSnapshotPosition(newPosition);
+      saveLastUsedSnapshotToLocalStorage(snapshots[newPosition]);
+      saveLastUsedSnapshotIndexToLocalStorage(newPosition);
+    }
+
+    // Zustände nach Undo/Redo zurücksetzen
+    setHasFormDataChanged(JSON.stringify(formData) !== JSON.stringify(lastUsedSnapshot)); // Neu prüfen
+  };
+
+  // ===== Modal Control
+  const closeModal = () => {
+    setShowModal(false);
+    setInfoModalMessage('');
+    setModalUndoRedoDirection(null);
+    setLastUsedRestored(false);
+  };
+
+  // ===== Render
   return (
     <>
       <SnapshotContainer>
@@ -234,16 +283,29 @@ export default function SnapshotController({ state, onApplySnapshot }) {
         showModal={showModal}
         modalType={modalType}
         infoModalMessage={infoModalMessage}
-        onConfirm={
-          resetToLastSnapshot
-            ? confirmResetFormToLastSnapshot
-            : modalType === 'decision-undo-redo'
-            ? createSnapshotFromModal
-            : modalType === 'decision-delete-current'
-            ? confirmDeleteCurrentSnapshot
-            : confirmDeleteAllSnapshots
+        onConfirm={() => {
+          if (modalType === 'decision-undo-redo') {
+            handleSnapshot(); // Snapshot speichern
+            performUndoRedo(modalUndoRedoDirection);
+            setModalUndoRedoDirection(null);
+          } else if (resetToLastSnapshot) {
+            confirmResetFormToLastSnapshot();
+          } else if (modalType === 'decision-delete-current') {
+            confirmDeleteCurrentSnapshot();
+          } else {
+            confirmDeleteAllSnapshots();
+          }
+          setShowModal(false); // Modal schließen
+        }}
+        onCancel={
+          modalType === 'decision-undo-redo'
+            ? () => {
+                closeModal(); // Modal schließen
+                performUndoRedo(modalUndoRedoDirection);
+                setModalUndoRedoDirection(null);
+              }
+            : closeModal
         }
-        onCancel={closeModal}
       />
     </>
   );

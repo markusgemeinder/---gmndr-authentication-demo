@@ -12,7 +12,7 @@ import { getText } from '@/lib/languageLibrary';
 export default function Home() {
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState('');
-  const { language, toggleLanguage } = useContext(LanguageContext);
+  const { language } = useContext(LanguageContext);
 
   const [accordionState, setAccordionState] = useState({
     aboutProject: false,
