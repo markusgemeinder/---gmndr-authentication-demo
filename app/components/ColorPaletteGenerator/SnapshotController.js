@@ -51,7 +51,9 @@ export default function SnapshotController({ state, onApplySnapshot, resetForm }
   };
   const lastUsedSnapshot = loadLastUsedSnapshotFromLocalStorage();
   const lastUsedSnapshotIndex = loadLastUsedSnapshotIndexFromLocalStorage();
-  const hasFormDataChanged = JSON.stringify(formData) !== JSON.stringify(lastUsedSnapshot);
+  const [hasFormDataChanged, setHasFormDataChanged] = useState(
+    JSON.stringify(formData) !== JSON.stringify(lastUsedSnapshot)
+  );
 
   // ===== Effects
   useEffect(() => {
@@ -65,6 +67,10 @@ export default function SnapshotController({ state, onApplySnapshot, resetForm }
       setCurrentSnapshotPosition(0);
     }
   }, [snapshots, state]);
+
+  useEffect(() => {
+    setHasFormDataChanged(JSON.stringify(formData) !== JSON.stringify(lastUsedSnapshot));
+  }, [formData]); // Triggered whenever formData changes
 
   // ===== Helper Functions
   const isSnapshotDuplicate = (snapshots, formData) =>
@@ -185,6 +191,8 @@ export default function SnapshotController({ state, onApplySnapshot, resetForm }
     } else {
       // Keine Änderungen – direkt Undo/Redo ausführen
       performUndoRedo(direction);
+      setLastUsedRestored(false);
+      setHasFormDataChanged(JSON.stringify(formData) !== JSON.stringify(lastUsedSnapshot));
     }
   };
 
@@ -196,7 +204,7 @@ export default function SnapshotController({ state, onApplySnapshot, resetForm }
 
   const undoRedoModal = (direction) => {
     setInfoModalMessage(
-      'Formular geändert – nicht als Snapshot gespeichert. Snapshot erstellen, bevor Aktion fortgesetzt wird?'
+      'Formulareinstellung noch nicht gespeichert. Snapshot erstellen, bevor Aktion fortgesetzt wird?'
     );
     setModalType('decision-undo-redo');
     setShowModal(true);
@@ -224,6 +232,9 @@ export default function SnapshotController({ state, onApplySnapshot, resetForm }
       saveLastUsedSnapshotToLocalStorage(snapshots[newPosition]);
       saveLastUsedSnapshotIndexToLocalStorage(newPosition);
     }
+
+    // Zustände nach Undo/Redo zurücksetzen
+    setHasFormDataChanged(JSON.stringify(formData) !== JSON.stringify(lastUsedSnapshot)); // Neu prüfen
   };
 
   // ===== Modal Control
