@@ -161,7 +161,8 @@ export default function SnapshotController({ state, onApplySnapshot }) {
       return setShowModal(true);
     }
 
-    setInfoModalMessage('Alle Snapshots löschen?');
+    // setInfoModalMessage('Alle Snapshots löschen?');
+    setInfoModalMessage('Alle Snapshots löschen und Formular zurücksetzen?');
     setModalType('decision-delete-all');
     setShowModal(true);
   };
