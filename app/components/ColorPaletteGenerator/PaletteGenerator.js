@@ -34,7 +34,7 @@ import { loadFormDataFromLocalStorage, saveFormDataToLocalStorage } from './util
 
 // ===== Standardwerte für das Formular =====
 export const defaults = {
-  hex: '#ffffff',
+  hex: '#456789',
   prefix: '--color-',
   suffix: 'test',
   sortOrder: 'asc',
