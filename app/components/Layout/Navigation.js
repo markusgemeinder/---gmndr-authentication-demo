@@ -165,6 +165,11 @@ export default function Navigation() {
     );
   };
 
+  // Funktion zum Wechseln der Sprache
+  const handleLanguageChange = (lang) => {
+    toggleLanguage(lang); // Setze die Sprache explizit auf den gewünschten Wert (EN oder DE)
+  };
+
   return (
     <>
       <Header>
@@ -176,11 +181,11 @@ export default function Navigation() {
           <ThemeToggleButton />
         </BrandContainer>
         <NavItem>
-          <NavLink href='#' onClick={() => toggleLanguage()} $isActive={language === 'EN'}>
+          <NavLink href='#' onClick={() => handleLanguageChange('EN')} $isActive={language === 'EN'}>
             EN
           </NavLink>
           {' | '}
-          <NavLink href='#' onClick={() => toggleLanguage()} $isActive={language === 'DE'}>
+          <NavLink href='#' onClick={() => handleLanguageChange('DE')} $isActive={language === 'DE'}>
             DE
           </NavLink>
         </NavItem>
