@@ -2,7 +2,7 @@
 
 'use client';
 
-import { useReducer, useState, useEffect } from 'react';
+import { useReducer, useState, useEffect, useContext } from 'react';
 import PropTypes from 'prop-types'; // PropTypes für SnapshotController
 import {
   Wrapper,
@@ -31,6 +31,8 @@ import { FaCopy, FaSlidersH, FaRedo } from 'react-icons/fa';
 import { generateMonochromePalette, getColorPreview } from './utils/paletteGeneratorUtils';
 import SnapshotController from './SnapshotController';
 import { loadFormDataFromLocalStorage, saveFormDataToLocalStorage } from './utils/localStorageUtils';
+import LanguageContext from '@/app/components/LanguageProvider';
+import { getText } from '@/lib/languageLibrary';
 
 // ===== Standardwerte für das Formular =====
 export const defaults = {
@@ -90,6 +92,7 @@ function paletteReducer(state, action) {
 const formData = loadFormDataFromLocalStorage() || defaults;
 
 export default function PaletteGenerator() {
+  const { language, toggleLanguage } = useContext(LanguageContext);
   const [state, dispatch] = useReducer(paletteReducer, formData);
 
   // ===== Zustand für visuelle Effekte =====
@@ -186,10 +189,10 @@ export default function PaletteGenerator() {
     <Wrapper>
       <SnapshotController state={state} onApplySnapshot={applySnapshot} resetForm={resetForm} />
 
-      <Title>Monochrome Palette Generator</Title>
+      <Title>{getText('paletteGenerator', 'title', language)}</Title>
 
       <InputGroup>
-        <Label>Basisfarbwert (Hex):</Label>
+        <Label>{getText('paletteGenerator', 'hexLabel', language)}</Label>
         <ColorPickerWrapper>
           <ColorPicker type='color' value={state.hex} onChange={handleColorPickerChange} />
           <TextInput type='text' value={state.hex} onChange={handleHexChange} placeholder='#' />
@@ -197,7 +200,7 @@ export default function PaletteGenerator() {
       </InputGroup>
 
       <InputGroup>
-        <Label>Hellster Wert (0):</Label>
+        <Label>{getText('paletteGenerator', 'brightLimitLabel', language)}</Label>
         <ColorTileWrapper>
           <ColorPreview $bgColor={getColorPreview(state.hex, state.brightLimit)} />
           <SliderText>
@@ -222,7 +225,7 @@ export default function PaletteGenerator() {
       </InputGroup>
 
       <InputGroup>
-        <Label>Dunkelster Wert (1000):</Label>
+        <Label>{getText('paletteGenerator', 'darkLimitLabel', language)}</Label>
         <ColorTileWrapper>
           <ColorPreview $bgColor={getColorPreview(state.hex, state.darkLimit)} />
           <SliderText>
@@ -247,7 +250,7 @@ export default function PaletteGenerator() {
       </InputGroup>
 
       <InputGroup>
-        <Label>Prefix:</Label>
+        <Label>{getText('paletteGenerator', 'prefixLabel', language)}</Label>
         <TextInput
           type='text'
           value={state.prefix}
@@ -257,7 +260,7 @@ export default function PaletteGenerator() {
       </InputGroup>
 
       <InputGroup>
-        <Label>Suffix:</Label>
+        <Label>{getText('paletteGenerator', 'suffixLabel', language)}</Label>
         <TextInput
           type='text'
           value={state.suffix}
@@ -267,7 +270,7 @@ export default function PaletteGenerator() {
       </InputGroup>
 
       <InputGroup>
-        <Label>Sortierung:</Label>
+        <Label>{getText('paletteGenerator', 'sortOrderLabel', language)}</Label>
         <Select
           value={state.sortOrder}
           onChange={(e) => dispatch({ type: 'SET_VALUE', key: 'sortOrder', value: e.target.value })}>
@@ -307,18 +310,21 @@ export default function PaletteGenerator() {
       </InputGroup>
 
       <GeneratePaletteButton width='100%' onClick={handleGeneratePalette}>
-        <FaSlidersH /> Palette generieren
+        <FaSlidersH /> {getText('paletteGenerator', 'generateButton', language)}
       </GeneratePaletteButton>
       {isFormChanged() && (
         <ResetFormButton width='auto' onClick={resetForm}>
-          <FaRedo /> Formular zurücksetzen
+          <FaRedo /> {getText('paletteGenerator', 'resetButton', language)}
         </ResetFormButton>
       )}
 
       {state.generatedPalette && (
         <PaletteWrapper>
           <CopyPaletteButton width='auto' onClick={handleCopyPalette}>
-            <FaCopy /> {isCopied ? 'Kopiert!' : 'Kopieren'}
+            <FaCopy />{' '}
+            {isCopied
+              ? getText('paletteGenerator', 'copied', language)
+              : getText('paletteGenerator', 'copyButton', language)}
           </CopyPaletteButton>
 
           <PaletteOutput>
