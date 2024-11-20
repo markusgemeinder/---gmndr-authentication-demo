@@ -115,21 +115,29 @@ export const StyledSlider = styled.input.attrs((props) => ({
   ::-webkit-slider-thumb {
     -webkit-appearance: none;
     appearance: none;
-    height: 20px;
-    width: 20px;
+    height: 40px;
+    width: 40px;
+    background: ${(props) => props.$thumbColor || 'var(--color-secondary-700)'};
+    border-radius: 50%;
+    cursor: pointer;
+    border: 2px solid ${(props) => props.$thumbBorderColor || 'var(--color-white)'};
+
+    &:hover {
+      transform: scale(1.1); /* Vergrößert den Thumb beim Hover */
+    }
+  }
+
+  ::-moz-range-thumb {
+    height: 40px;
+    width: 40px;
     background: ${(props) => props.$thumbColor || 'var(--color-secondary-700)'};
     border-radius: 50%;
     cursor: pointer;
     border: 2px solid ${(props) => props.$thumbBorderColor || 'var(--color-white)'};
   }
 
-  ::-moz-range-thumb {
-    height: 20px;
-    width: 20px;
-    background: ${(props) => props.$thumbColor || 'var(--color-secondary-700)'};
-    border-radius: 50%;
-    cursor: pointer;
-    border: 2px solid ${(props) => props.$thumbBorderColor || 'var(--color-white)'};
+  &:hover {
+    transform: scale(1.1); /* Vergrößert den Thumb beim Hover */
   }
 `;
 

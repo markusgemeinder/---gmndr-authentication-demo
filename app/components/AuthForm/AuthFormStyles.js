@@ -50,6 +50,7 @@ export const Input = styled.input`
   border: 1px solid var(--color-border);
   border-radius: 0.4rem;
   box-sizing: border-box;
+  color: var(--color-text);
 `;
 
 export const ToggleVisibility = styled.button`
@@ -69,15 +70,47 @@ export const PasswordVisibleIcon = styled(FaEye)``;
 export const PasswordHiddenIcon = styled(FaEyeSlash)``;
 
 export const CheckIcon = styled(FaCheck)`
-  color: var(--color-check-ok);
-  margin: 0 0.2rem;
+  color: var(--color-green-700);
 `;
 
 export const ErrorIcon = styled(FaTimes)`
-  color: var(--color-check-warning);
-  margin: 0 0.2rem;
+  color: var(--color-text-light);
 `;
 
+export const CriteriaList = styled.ul`
+  list-style: none;
+  padding: 0 1.6rem;
+  margin: 0.8rem 0;
+  text-align: left;
+`;
+
+export const CriteriaItem = styled.li`
+  display: grid;
+  grid-template-columns: auto 4fr;
+  align-items: center;
+  font-size: 0.9rem;
+  line-height: 1.2;
+  gap: 0.5rem;
+  color: ${(props) => (props.valid ? 'var(--color-green-700)' : 'var(--color-text-light)')};
+  margin-bottom: 0.4rem;
+
+  svg {
+    font-size: 1.2rem;
+  }
+
+  span {
+    word-wrap: break-word;
+  }
+
+  @media (min-width: 768px) {
+    gap: 0.7rem;
+    line-height: 1.4;
+    font-size: 1rem;
+    svg {
+      font-size: 1.4rem;
+    }
+  }
+`;
 export const Divider = styled.div`
   display: flex;
   align-items: center;
@@ -104,14 +137,14 @@ export const Divider = styled.div`
   }
 `;
 
-export const WarningMessage = styled.p`
-  color: var(--color-check-warning);
-  font-size: 0.875rem;
-  padding: 0.8rem;
-  line-height: 1.2;
-  text-align: center;
-  font-weight: 700;
-`;
+// export const WarningMessage = styled.p`
+//   color: var(--color-check-warning);
+//   font-size: 0.875rem;
+//   padding: 0.8rem;
+//   line-height: 1.2;
+//   text-align: center;
+//   font-weight: 700;
+// `;
 
 export const IconButtonImage = styled(Image)`
   margin-right: 8px;

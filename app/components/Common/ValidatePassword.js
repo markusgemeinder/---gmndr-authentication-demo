@@ -10,11 +10,12 @@ import {
   Input,
   InputContainer,
   ToggleVisibility,
-  CheckIcon,
-  ErrorIcon,
-  WarningMessage,
+  CriteriaList,
+  CriteriaItem,
   PasswordVisibleIcon,
   PasswordHiddenIcon,
+  CheckIcon,
+  ErrorIcon,
 } from '@/app/components/AuthForm/AuthFormStyles';
 
 export default function ValidatePassword({ hasRepeatPassword = false, onPasswordValid }) {
@@ -22,28 +23,35 @@ export default function ValidatePassword({ hasRepeatPassword = false, onPassword
   const [password, setPassword] = useState('');
   const [repeatPassword, setRepeatPassword] = useState('');
   const [passwordVisible, setPasswordVisible] = useState(false);
-  const [passwordQuality, setPasswordQuality] = useState(null);
-  const [passwordsMatch, setPasswordsMatch] = useState(true);
   const passwordInputRef = useRef(null);
 
-  function validatePassword(password) {
-    if (password.length < 8) return getText('validate_password', 'error_min_length', language);
-    if (!/[A-Z]/.test(password)) return getText('validate_password', 'error_uppercase', language);
-    if (!/[a-z]/.test(password)) return getText('validate_password', 'error_lowercase', language);
-    if (!/[0-9]/.test(password)) return getText('validate_password', 'error_digit', language);
-    if (!/[^A-Za-z0-9]/.test(password)) return getText('validate_password', 'error_special_char', language);
-    return null; // No error
-  }
+  const criteria = [
+    { id: 'min_length', test: (pwd) => pwd.length >= 8, text: getText('validate_password', 'min_length', language) },
+    { id: 'uppercase', test: (pwd) => /[A-Z]/.test(pwd), text: getText('validate_password', 'uppercase', language) },
+    { id: 'lowercase', test: (pwd) => /[a-z]/.test(pwd), text: getText('validate_password', 'lowercase', language) },
+    { id: 'digit', test: (pwd) => /[0-9]/.test(pwd), text: getText('validate_password', 'digit', language) },
+    {
+      id: 'special_character',
+      test: (pwd) => /[^A-Za-z0-9\s]/.test(pwd) && !/\s/.test(pwd),
+      text: getText('validate_password', 'special_character', language),
+    },
+  ];
+
+  const isPasswordValid = criteria.every((criterion) => criterion.test(password));
+  const passwordsMatch = password === repeatPassword && repeatPassword.length > 0;
+  const isOverallValid = isPasswordValid && (!hasRepeatPassword || passwordsMatch);
+
+  useEffect(() => {
+    onPasswordValid(isOverallValid, password);
+  }, [isOverallValid, password]);
 
   function handlePasswordChange(pwd) {
     setPassword(pwd);
+    if (!isPasswordValid) setRepeatPassword(''); // Reset Repeat Password if the main password becomes invalid
   }
 
   function handleRepeatPasswordChange(pwd) {
     setRepeatPassword(pwd);
-    const match = password === pwd;
-    setPasswordsMatch(match);
-    onPasswordValid(!passwordQuality && match, password);
   }
 
   function togglePasswordVisibility() {
@@ -54,23 +62,12 @@ export default function ValidatePassword({ hasRepeatPassword = false, onPassword
     }
   }
 
-  // Validate password on every change
-  useEffect(() => {
-    const validationMessage = validatePassword(password);
-    setPasswordQuality(validationMessage);
-
-    const isValid = !validationMessage && (!hasRepeatPassword || (hasRepeatPassword && passwordsMatch));
-    onPasswordValid(isValid, password);
-  }, [password, passwordsMatch, hasRepeatPassword, language]); // Ensure validation runs on language change
-
-  const isPasswordValid = !passwordQuality; // True if password is valid
-
   return (
     <>
+      {/* Passwortfeld */}
       <InputGroup>
         <LabelContainer>
           <Label htmlFor='password'>{getText('validate_password', 'label_password', language)}:</Label>
-          {password.length > 0 && isPasswordValid ? <CheckIcon /> : password.length > 0 ? <ErrorIcon /> : null}
         </LabelContainer>
         <InputContainer>
           <Input
@@ -97,18 +94,13 @@ export default function ValidatePassword({ hasRepeatPassword = false, onPassword
             {passwordVisible ? <PasswordVisibleIcon /> : <PasswordHiddenIcon />}
           </ToggleVisibility>
         </InputContainer>
-        {passwordQuality && <WarningMessage>{passwordQuality}</WarningMessage>}
       </InputGroup>
 
+      {/* Repeat Password Feld (wird erst angezeigt, wenn alle Kriterien erfüllt sind) */}
       {hasRepeatPassword && isPasswordValid && (
         <InputGroup>
           <LabelContainer>
             <Label htmlFor='repeat-password'>{getText('validate_password', 'label_repeat_password', language)}:</Label>
-            {repeatPassword.length > 0 && passwordsMatch ? (
-              <CheckIcon />
-            ) : repeatPassword.length > 0 ? (
-              <ErrorIcon />
-            ) : null}
           </LabelContainer>
           <InputContainer>
             <Input
@@ -119,11 +111,27 @@ export default function ValidatePassword({ hasRepeatPassword = false, onPassword
               required
             />
           </InputContainer>
-          {repeatPassword.length > 0 && !passwordsMatch && (
-            <WarningMessage>{getText('validate_password', 'error_mismatch', language)}</WarningMessage>
-          )}
         </InputGroup>
       )}
+
+      {/* Kriterienliste */}
+      <CriteriaList>
+        {/* Fehleranzeige für Nicht-Übereinstimmung */}
+        {hasRepeatPassword && isPasswordValid && (
+          <CriteriaItem valid={passwordsMatch}>
+            {passwordsMatch ? <CheckIcon /> : <ErrorIcon />}
+            <span>{getText('validate_password', 'error_mismatch', language)}</span>
+          </CriteriaItem>
+        )}
+
+        {/* Kriterien für Passwortprüfung */}
+        {criteria.map(({ id, test, text }) => (
+          <CriteriaItem key={id} valid={test(password)}>
+            {test(password) ? <CheckIcon /> : <ErrorIcon />}
+            <span>{text}</span>
+          </CriteriaItem>
+        ))}
+      </CriteriaList>
     </>
   );
 }

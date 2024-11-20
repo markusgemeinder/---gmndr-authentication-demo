@@ -84,10 +84,12 @@ export default function SnapshotController({ state, onApplySnapshot, resetForm }
   const isSnapshotDuplicate = (snapshots, formData) =>
     snapshots.some((snapshot) => JSON.stringify(snapshot) === JSON.stringify(formData));
 
+
   const findLastUsedSnapshotIndex = (snapshots, lastUsedSnapshot) =>
     snapshots.findIndex((snapshot) => JSON.stringify(snapshot) === JSON.stringify(lastUsedSnapshot));
 
   // ===== Snapshot Management
+
   const handleSnapshot = () => {
     if (isSnapshotLimitReached) {
       setInfoModalMessage(getLanguageText('snapshotLimitReached'));
@@ -103,6 +105,8 @@ export default function SnapshotController({ state, onApplySnapshot, resetForm }
 
     const lastUsedSnapshotIndex = findLastUsedSnapshotIndex(snapshots, lastUsedSnapshot);
     const newSnapshots = [
+
+    
       ...snapshots.slice(0, currentSnapshotPosition + 1),
       formData,
       ...snapshots.slice(currentSnapshotPosition + 1),
@@ -110,6 +114,7 @@ export default function SnapshotController({ state, onApplySnapshot, resetForm }
 
     setSnapshots(newSnapshots);
     setCurrentSnapshotPosition(currentSnapshotPosition + 1);
+
     saveLastUsedSnapshotToLocalStorage(formData);
     saveLastUsedSnapshotIndexToLocalStorage(lastUsedSnapshotIndex + 1);
 
@@ -119,7 +124,6 @@ export default function SnapshotController({ state, onApplySnapshot, resetForm }
       setShowModal(true);
     }
   };
-
   const handleDeleteCurrent = () => {
     if (snapshots.length === 0) {
       setInfoModalMessage(getLanguageText('noSnapshotToDelete'));

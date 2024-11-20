@@ -35,6 +35,7 @@ const ModalContent = styled.div`
 
 const ModalHeader = styled.h3`
   margin-bottom: 0.6rem;
+  color: var(--color-primary-700);
 `;
 
 const ModalButtonContainer = styled.div`
