@@ -34,7 +34,7 @@ export default function Navigation() {
   const pathname = usePathname();
   const [isBurgerOpen, setIsBurgerOpen] = useState(false);
   const [isShaking, setIsShaking] = useState(false);
-  const { language, toggleLanguage } = useContext(LanguageContext);
+  const { language, toggleLanguage, setLanguagePreference } = useContext(LanguageContext);
 
   const handleLinkClick = () => {
     if (isBurgerOpen) setIsBurgerOpen(false);
@@ -165,11 +165,6 @@ export default function Navigation() {
     );
   };
 
-  // Funktion zum Wechseln der Sprache
-  const handleLanguageChange = (lang) => {
-    toggleLanguage(lang); // Setze die Sprache explizit auf den gewünschten Wert (EN oder DE)
-  };
-
   return (
     <>
       <Header>
@@ -181,14 +176,15 @@ export default function Navigation() {
           <ThemeToggleButton />
         </BrandContainer>
         <NavItem>
-          <NavLink href='#' onClick={() => handleLanguageChange('EN')} $isActive={language === 'EN'}>
+          <NavLink href='#' onClick={() => setLanguagePreference('EN')} $isActive={language === 'EN'}>
             EN
           </NavLink>
           {' | '}
-          <NavLink href='#' onClick={() => handleLanguageChange('DE')} $isActive={language === 'DE'}>
+          <NavLink href='#' onClick={() => setLanguagePreference('DE')} $isActive={language === 'DE'}>
             DE
           </NavLink>
         </NavItem>
+
         <NavContainer>
           <NavList>{renderNavLinks()}</NavList>
 
