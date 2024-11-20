@@ -41,6 +41,11 @@ export default function SnapshotController({ state, onApplySnapshot, resetForm }
   const [lastUsedRestored, setLastUsedRestored] = useState(false);
   const [resetToLastSnapshot, setResetToLastSnapshot] = useState(false);
 
+  // ===== Sprachtext-Abfrage
+  const getLanguageText = (key) => {
+    return getText('snapshotController', key, language);
+  };
+
   // ===== Derived Variables
   const formData = {
     hex: state.hex,
@@ -85,13 +90,13 @@ export default function SnapshotController({ state, onApplySnapshot, resetForm }
   // ===== Snapshot Management
   const handleSnapshot = () => {
     if (isSnapshotLimitReached) {
-      setInfoModalMessage(getText('snapshotController', 'snapshotLimitReached', language));
+      setInfoModalMessage(getLanguageText('snapshotLimitReached'));
       setModalType('info');
       return setShowModal(true);
     }
 
     if (isSnapshotDuplicate(snapshots, formData) || !hasFormDataChanged) {
-      setInfoModalMessage(getText('snapshotController', 'snapshotAlreadyExists', language));
+      setInfoModalMessage(getLanguageText('snapshotAlreadyExists'));
       setModalType('info');
       return setShowModal(true);
     }
@@ -109,7 +114,7 @@ export default function SnapshotController({ state, onApplySnapshot, resetForm }
     saveLastUsedSnapshotIndexToLocalStorage(lastUsedSnapshotIndex + 1);
 
     if (newSnapshots.length >= SNAPSHOT_LIMIT) {
-      setInfoModalMessage(getText('snapshotController', 'snapshotSavedMaxReached', language));
+      setInfoModalMessage(getLanguageText('snapshotSavedMaxReached'));
       setModalType('info');
       setShowModal(true);
     }
@@ -117,19 +122,19 @@ export default function SnapshotController({ state, onApplySnapshot, resetForm }
 
   const handleDeleteCurrent = () => {
     if (snapshots.length === 0) {
-      setInfoModalMessage(getText('snapshotController', 'noSnapshotToDelete', language));
+      setInfoModalMessage(getLanguageText('noSnapshotToDelete'));
       setModalType('info');
       return setShowModal(true);
     }
 
     if (hasFormDataChanged) {
-      setInfoModalMessage(getText('snapshotController', 'formDataChangedReset', language));
+      setInfoModalMessage(getLanguageText('formDataChangedReset'));
       setModalType('decision-delete-current');
       setResetToLastSnapshot(true);
       return setShowModal(true);
     }
 
-    setInfoModalMessage(getText('snapshotController', 'deleteCurrentSnapshot', language));
+    setInfoModalMessage(getLanguageText('deleteCurrentSnapshot'));
     setModalType('decision-delete-current');
     setResetToLastSnapshot(false);
     setShowModal(true);
@@ -165,12 +170,12 @@ export default function SnapshotController({ state, onApplySnapshot, resetForm }
 
   const handleDeleteAll = () => {
     if (snapshots.length === 0) {
-      setInfoModalMessage(getText('snapshotController', 'noSnapshotsToDelete', language));
+      setInfoModalMessage(getLanguageText('noSnapshotsToDelete'));
       setModalType('info');
       return setShowModal(true);
     }
 
-    setInfoModalMessage(getText('snapshotController', 'deleteAllSnapshots', language));
+    setInfoModalMessage(getLanguageText('deleteAllSnapshots'));
     setModalType('decision-delete-all');
     setShowModal(true);
   };
@@ -206,7 +211,7 @@ export default function SnapshotController({ state, onApplySnapshot, resetForm }
       : 0;
 
   const undoRedoModal = (direction) => {
-    setInfoModalMessage(getText('snapshotController', 'formDataNotSaved', language));
+    setInfoModalMessage(getLanguageText('formDataNotSaved'));
     setModalType('decision-undo-redo');
     setShowModal(true);
 
