@@ -195,7 +195,7 @@ export default function Navigation() {
   const pathname = usePathname();
   const [isBurgerOpen, setIsBurgerOpen] = useState(false);
   const [isShaking, setIsShaking] = useState(false); // Zustand für den Wackeleffekt
-  const { language, toggleLanguage } = useContext(LanguageContext);
+  const { language } = useContext(LanguageContext);
 
   const handleLinkClick = () => {
     if (isBurgerOpen) setIsBurgerOpen(false);

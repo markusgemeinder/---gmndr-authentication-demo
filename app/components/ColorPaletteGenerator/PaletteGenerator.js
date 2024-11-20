@@ -93,7 +93,7 @@ function paletteReducer(state, action) {
 const formData = loadFormDataFromLocalStorage() || defaults;
 
 export default function PaletteGenerator() {
-  const { language, toggleLanguage } = useContext(LanguageContext);
+  const { language } = useContext(LanguageContext);
   const [state, dispatch] = useReducer(paletteReducer, formData);
 
   // ===== Zustand für visuelle Effekte =====
@@ -133,8 +133,6 @@ export default function PaletteGenerator() {
       state.brightLimit
     );
 
-    console.log('Generated Palette:', palette); // Debugging-Ausgabe
-
     // Filtere die Palette basierend auf den checkedValues
     const filteredPalette = Object.entries(palette)
       .filter(([key]) => state.checkedValues.includes(parseInt(key.split('-').pop())))
@@ -144,8 +142,6 @@ export default function PaletteGenerator() {
         return state.sortOrder === 'asc' ? valA - valB : valB - valA;
       })
       .reduce((acc, [key, value]) => ({ ...acc, [key]: value }), {});
-
-    console.log('Filtered Palette:', filteredPalette); // Debugging-Ausgabe
 
     dispatch({ type: 'SET_GENERATED_PALETTE', value: filteredPalette });
   };
@@ -295,7 +291,6 @@ export default function PaletteGenerator() {
 
         <Select value={state.selectedOption} onChange={(e) => handleSelectOption(e.target.value)}>
           {Object.keys(selectorOptions).map((option) => {
-            console.log('Option:', option, 'Text:', getText('paletteGenerator', option, language));
             return (
               <option key={option} value={option}>
                 {getText('paletteGenerator', option, language)}

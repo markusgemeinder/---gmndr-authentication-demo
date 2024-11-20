@@ -1,7 +1,9 @@
 // /app/components/ColorPaletteGenerator/SnapshotControllerModalPopup.js
 
-import React from 'react';
+import { useContext } from 'react';
 import styled from 'styled-components';
+import LanguageContext from '@/app/components/LanguageProvider';
+import { getText } from '@/lib/languageLibrary';
 
 const ModalOverlay = styled.div`
   position: fixed;
@@ -79,6 +81,13 @@ const ModalCancelButton = styled(ModalButton)`
 `;
 
 export default function SnapshotControllerModalPopup({ showModal, modalType, infoModalMessage, onConfirm, onCancel }) {
+  const { language } = useContext(LanguageContext);
+
+  // Holt den Text aus der LanguageLibrary für den angegebenen Schlüssel
+  const getModalText = (key) => {
+    return getText('snapshotControllerModal', key, language);
+  };
+
   if (!showModal) return null;
 
   const renderModalButtons = () => {
@@ -86,26 +95,26 @@ export default function SnapshotControllerModalPopup({ showModal, modalType, inf
       case 'decision-delete-current':
         return (
           <>
-            <ModalConfirmButton onClick={onConfirm}>Ja</ModalConfirmButton>
-            <ModalCancelButton onClick={onCancel}>Nein</ModalCancelButton>
+            <ModalConfirmButton onClick={onConfirm}>{getModalText('modalConfirm')}</ModalConfirmButton>
+            <ModalCancelButton onClick={onCancel}>{getModalText('modalCancel')}</ModalCancelButton>
           </>
         );
       case 'decision-delete-all':
         return (
           <>
-            <ModalConfirmButton onClick={onConfirm}>Ja</ModalConfirmButton>
-            <ModalCancelButton onClick={onCancel}>Nein</ModalCancelButton>
+            <ModalConfirmButton onClick={onConfirm}>{getModalText('modalConfirm')}</ModalConfirmButton>
+            <ModalCancelButton onClick={onCancel}>{getModalText('modalCancel')}</ModalCancelButton>
           </>
         );
       case 'decision-undo-redo':
         return (
           <>
-            <ModalConfirmButton onClick={onConfirm}>Ja</ModalConfirmButton>
-            <ModalCancelButton onClick={onCancel}>Nein</ModalCancelButton>
+            <ModalConfirmButton onClick={onConfirm}>{getModalText('modalConfirm')}</ModalConfirmButton>
+            <ModalCancelButton onClick={onCancel}>{getModalText('modalCancel')}</ModalCancelButton>
           </>
         );
       case 'info':
-        return <ModalConfirmButton onClick={onCancel}>OK</ModalConfirmButton>;
+        return <ModalConfirmButton onClick={onCancel}>{getModalText('modalOk')}</ModalConfirmButton>;
       default:
         return null;
     }

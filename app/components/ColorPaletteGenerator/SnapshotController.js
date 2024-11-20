@@ -1,6 +1,6 @@
 // /app/components/ColorPaletteGenerator/SnapshotController.js
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useContext } from 'react';
 import { FaCamera, FaStackOverflow, FaTrash, FaTimes, FaCheck, FaUndo, FaRedo } from 'react-icons/fa';
 import {
   saveFormDataToLocalStorage,
@@ -28,6 +28,7 @@ const SNAPSHOT_LIMIT = 8;
 
 export default function SnapshotController({ state, onApplySnapshot, resetForm }) {
   // ===== State Management
+  const { language } = useContext(LanguageContext);
   const { snapshots: initialSnapshots } = loadSnapshotsFromLocalStorage();
   const [snapshots, setSnapshots] = useState(initialSnapshots);
   const [currentSnapshotPosition, setCurrentSnapshotPosition] = useState(snapshots.length ? snapshots.length - 1 : 0);
@@ -72,7 +73,7 @@ export default function SnapshotController({ state, onApplySnapshot, resetForm }
 
   useEffect(() => {
     setHasFormDataChanged(JSON.stringify(formData) !== JSON.stringify(lastUsedSnapshot));
-  }, [formData]); // Triggered whenever formData changes
+  }, [formData]);
 
   // ===== Helper Functions
   const isSnapshotDuplicate = (snapshots, formData) =>
@@ -84,13 +85,13 @@ export default function SnapshotController({ state, onApplySnapshot, resetForm }
   // ===== Snapshot Management
   const handleSnapshot = () => {
     if (isSnapshotLimitReached) {
-      setInfoModalMessage('Maximum erreicht, kein weiterer Snapshot möglich.');
+      setInfoModalMessage(getText('snapshotController', 'snapshotLimitReached', language));
       setModalType('info');
       return setShowModal(true);
     }
 
     if (isSnapshotDuplicate(snapshots, formData) || !hasFormDataChanged) {
-      setInfoModalMessage('Snapshot existiert bereits, kein neuer Snapshot möglich.');
+      setInfoModalMessage(getText('snapshotController', 'snapshotAlreadyExists', language));
       setModalType('info');
       return setShowModal(true);
     }
@@ -108,7 +109,7 @@ export default function SnapshotController({ state, onApplySnapshot, resetForm }
     saveLastUsedSnapshotIndexToLocalStorage(lastUsedSnapshotIndex + 1);
 
     if (newSnapshots.length >= SNAPSHOT_LIMIT) {
-      setInfoModalMessage('Snapshot gespeichert. (Maximum erreicht, kein weiterer Snapshot möglich.)');
+      setInfoModalMessage(getText('snapshotController', 'snapshotSavedMaxReached', language));
       setModalType('info');
       setShowModal(true);
     }
@@ -116,19 +117,19 @@ export default function SnapshotController({ state, onApplySnapshot, resetForm }
 
   const handleDeleteCurrent = () => {
     if (snapshots.length === 0) {
-      setInfoModalMessage('Kein Snapshot zum Löschen vorhanden.');
+      setInfoModalMessage(getText('snapshotController', 'noSnapshotToDelete', language));
       setModalType('info');
       return setShowModal(true);
     }
 
     if (hasFormDataChanged) {
-      setInfoModalMessage('Die Formulardaten wurden verändert. Auf letzten Snapshot zurücksetzen?');
+      setInfoModalMessage(getText('snapshotController', 'formDataChangedReset', language));
       setModalType('decision-delete-current');
       setResetToLastSnapshot(true);
       return setShowModal(true);
     }
 
-    setInfoModalMessage('Aktuellen Snapshot löschen?');
+    setInfoModalMessage(getText('snapshotController', 'deleteCurrentSnapshot', language));
     setModalType('decision-delete-current');
     setResetToLastSnapshot(false);
     setShowModal(true);
@@ -164,12 +165,12 @@ export default function SnapshotController({ state, onApplySnapshot, resetForm }
 
   const handleDeleteAll = () => {
     if (snapshots.length === 0) {
-      setInfoModalMessage('Keine Snapshots zum Löschen vorhanden.');
+      setInfoModalMessage(getText('snapshotController', 'noSnapshotsToDelete', language));
       setModalType('info');
       return setShowModal(true);
     }
 
-    setInfoModalMessage('Alle Snapshots löschen und Formular zurücksetzen?');
+    setInfoModalMessage(getText('snapshotController', 'deleteAllSnapshots', language));
     setModalType('decision-delete-all');
     setShowModal(true);
   };
@@ -205,9 +206,7 @@ export default function SnapshotController({ state, onApplySnapshot, resetForm }
       : 0;
 
   const undoRedoModal = (direction) => {
-    setInfoModalMessage(
-      'Formulareinstellung noch nicht gespeichert. Snapshot erstellen, bevor Aktion fortgesetzt wird?'
-    );
+    setInfoModalMessage(getText('snapshotController', 'formDataNotSaved', language));
     setModalType('decision-undo-redo');
     setShowModal(true);
 
