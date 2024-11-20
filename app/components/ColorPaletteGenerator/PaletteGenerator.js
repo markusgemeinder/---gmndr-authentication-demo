@@ -34,7 +34,7 @@ import { loadFormDataFromLocalStorage, saveFormDataToLocalStorage } from './util
 
 // ===== Standardwerte für das Formular =====
 export const defaults = {
-  hex: '#ffff00',
+  hex: '#ffffff',
   prefix: '--color-',
   suffix: 'test',
   sortOrder: 'asc',
@@ -184,7 +184,7 @@ export default function PaletteGenerator() {
 
   return (
     <Wrapper>
-      <SnapshotController state={state} onApplySnapshot={applySnapshot} />
+      <SnapshotController state={state} onApplySnapshot={applySnapshot} resetForm={resetForm} />
 
       <Title>Monochrome Palette Generator</Title>
 

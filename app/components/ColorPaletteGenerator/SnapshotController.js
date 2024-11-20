@@ -24,7 +24,7 @@ import {
 
 const SNAPSHOT_LIMIT = 8;
 
-export default function SnapshotController({ state, onApplySnapshot }) {
+export default function SnapshotController({ state, onApplySnapshot, resetForm }) {
   // ===== State Management
   const { snapshots: initialSnapshots } = loadSnapshotsFromLocalStorage();
   const [snapshots, setSnapshots] = useState(initialSnapshots);
@@ -161,7 +161,6 @@ export default function SnapshotController({ state, onApplySnapshot }) {
       return setShowModal(true);
     }
 
-    // setInfoModalMessage('Alle Snapshots löschen?');
     setInfoModalMessage('Alle Snapshots löschen und Formular zurücksetzen?');
     setModalType('decision-delete-all');
     setShowModal(true);
@@ -174,6 +173,7 @@ export default function SnapshotController({ state, onApplySnapshot }) {
     setCurrentSnapshotPosition(0);
     saveLastUsedSnapshotIndexToLocalStorage(0);
     deleteLastUsedSnapshotFromLocalStorage();
+    resetForm();
     setShowModal(false);
   };
 
