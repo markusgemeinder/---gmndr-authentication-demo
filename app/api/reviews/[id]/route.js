@@ -17,10 +17,15 @@ const decryptEmail = (cipherText) => {
 
 export async function GET(request, { params }) {
   const language = getLanguageFromCookies(request);
+
+  const getLanguageText = (key) => {
+    return getText('api_reviews_token', key, language);
+  };
+
   const token = await getToken({ req: request, secret: process.env.NEXTAUTH_SECRET });
 
   if (!token) {
-    return new Response(JSON.stringify({ error: getText('api_reviews_token', 'unauthorized', language) }), {
+    return new Response(JSON.stringify({ error: getLanguageText('unauthorized') }), {
       status: 401,
     });
   }
@@ -29,7 +34,7 @@ export async function GET(request, { params }) {
   const { id } = params;
 
   if (!mongoose.Types.ObjectId.isValid(id)) {
-    return new Response(JSON.stringify({ status: getText('api_reviews_token', 'invalid_id', language) }), {
+    return new Response(JSON.stringify({ status: getLanguageText('invalid_id') }), {
       status: 400,
     });
   }
@@ -38,7 +43,7 @@ export async function GET(request, { params }) {
     const review = await Review.findById(id);
 
     if (!review) {
-      return new Response(JSON.stringify({ status: getText('api_reviews_token', 'not_found', language) }), {
+      return new Response(JSON.stringify({ status: getLanguageText('not_found') }), {
         status: 404,
       });
     }
@@ -53,19 +58,23 @@ export async function GET(request, { params }) {
       { status: 200 }
     );
   } catch (error) {
-    return new Response(
-      JSON.stringify({ status: getText('api_reviews_token', 'server_error', language), error: error.message }),
-      { status: 500 }
-    );
+    return new Response(JSON.stringify({ status: getLanguageText('server_error'), error: error.message }), {
+      status: 500,
+    });
   }
 }
 
 export async function PATCH(request, { params }) {
   const language = getLanguageFromCookies(request);
+
+  const getLanguageText = (key) => {
+    return getText('api_reviews_token', key, language);
+  };
+
   const token = await getToken({ req: request, secret: process.env.NEXTAUTH_SECRET });
 
   if (!token) {
-    return new Response(JSON.stringify({ error: getText('api_reviews_token', 'unauthorized', language) }), {
+    return new Response(JSON.stringify({ error: getLanguageText('unauthorized') }), {
       status: 401,
     });
   }
@@ -74,7 +83,7 @@ export async function PATCH(request, { params }) {
   const { id } = params;
 
   if (!mongoose.Types.ObjectId.isValid(id)) {
-    return new Response(JSON.stringify({ status: getText('api_reviews_token', 'invalid_id', language) }), {
+    return new Response(JSON.stringify({ status: getLanguageText('invalid_id') }), {
       status: 400,
     });
   }
@@ -84,7 +93,7 @@ export async function PATCH(request, { params }) {
     const existingReview = await Review.findById(id);
 
     if (!existingReview) {
-      return new Response(JSON.stringify({ status: getText('api_reviews_token', 'review_not_found', language) }), {
+      return new Response(JSON.stringify({ status: getLanguageText('review_not_found') }), {
         status: 404,
       });
     }
@@ -97,24 +106,25 @@ export async function PATCH(request, { params }) {
 
     const updatedReview = await Review.findByIdAndUpdate(id, { $set: reviewData }, { new: true });
 
-    return new Response(
-      JSON.stringify({ status: getText('api_reviews_token', 'review_updated', language), updatedReview }),
-      { status: 200 }
-    );
+    return new Response(JSON.stringify({ status: getLanguageText('review_updated'), updatedReview }), { status: 200 });
   } catch (error) {
-    return new Response(
-      JSON.stringify({ status: getText('api_reviews_token', 'server_error', language), error: error.message }),
-      { status: 500 }
-    );
+    return new Response(JSON.stringify({ status: getLanguageText('server_error'), error: error.message }), {
+      status: 500,
+    });
   }
 }
 
 export async function DELETE(request, { params }) {
   const language = getLanguageFromCookies(request);
+
+  const getLanguageText = (key) => {
+    return getText('api_reviews_token', key, language);
+  };
+
   const token = await getToken({ req: request, secret: process.env.NEXTAUTH_SECRET });
 
   if (!token) {
-    return new Response(JSON.stringify({ error: getText('api_reviews_token', 'unauthorized', language) }), {
+    return new Response(JSON.stringify({ error: getLanguageText('unauthorized') }), {
       status: 401,
     });
   }
@@ -123,7 +133,7 @@ export async function DELETE(request, { params }) {
   const { id } = params;
 
   if (!mongoose.Types.ObjectId.isValid(id)) {
-    return new Response(JSON.stringify({ status: getText('api_reviews_token', 'invalid_id', language) }), {
+    return new Response(JSON.stringify({ status: getLanguageText('invalid_id') }), {
       status: 400,
     });
   }
@@ -132,20 +142,19 @@ export async function DELETE(request, { params }) {
     const review = await Review.findById(id);
 
     if (!review) {
-      return new Response(JSON.stringify({ status: getText('api_reviews_token', 'review_not_found', language) }), {
+      return new Response(JSON.stringify({ status: getLanguageText('review_not_found') }), {
         status: 404,
       });
     }
 
     await review.deleteOne();
 
-    return new Response(JSON.stringify({ status: getText('api_reviews_token', 'review_deleted', language) }), {
+    return new Response(JSON.stringify({ status: getLanguageText('review_deleted') }), {
       status: 200,
     });
   } catch (error) {
-    return new Response(
-      JSON.stringify({ status: getText('api_reviews_token', 'server_error', language), error: error.message }),
-      { status: 500 }
-    );
+    return new Response(JSON.stringify({ status: getLanguageText('server_error'), error: error.message }), {
+      status: 500,
+    });
   }
 }

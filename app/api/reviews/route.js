@@ -20,10 +20,15 @@ const decryptEmail = (cipherText) => {
 
 export async function GET(request) {
   const language = getLanguageFromCookies(request);
+
+  const getLanguageText = (key) => {
+    return getText('api_reviews', key, language);
+  };
+
   const token = await getToken({ req: request, secret: process.env.NEXTAUTH_SECRET });
 
   if (!token) {
-    return new Response(JSON.stringify({ error: getText('api_reviews', 'unauthorized', language) }), { status: 401 });
+    return new Response(JSON.stringify({ error: getLanguageText('unauthorized') }), { status: 401 });
   }
 
   await dbConnect();
@@ -47,10 +52,14 @@ export async function GET(request) {
 export async function POST(request) {
   const language = getLanguageFromCookies(request);
 
+  const getLanguageText = (key) => {
+    return getText('api_reviews', key, language);
+  };
+
   const token = await getToken({ req: request, secret: process.env.NEXTAUTH_SECRET });
 
   if (!token) {
-    return new Response(JSON.stringify({ error: getText('api_reviews', 'unauthorized', language) }), { status: 401 });
+    return new Response(JSON.stringify({ error: getLanguageText('unauthorized') }), { status: 401 });
   }
 
   await dbConnect();
@@ -62,7 +71,7 @@ export async function POST(request) {
     const newReview = new Review(reviewData);
     await newReview.save();
 
-    return new Response(JSON.stringify({ status: getText('api_reviews', 'review_created', language), newReview }), {
+    return new Response(JSON.stringify({ status: getLanguageText('review_created'), newReview }), {
       status: 201,
     });
   } catch (error) {
