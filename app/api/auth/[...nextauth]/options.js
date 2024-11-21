@@ -8,18 +8,14 @@ import bcrypt from 'bcrypt';
 import dbConnect from '@/db/connect';
 import { getText } from '@/lib/languageLibrary';
 
-const getLanguageText = (key) => {
-  return getText('api_auth_nextauth_options', key, language);
-};
-
 export const options = {
   providers: [
     CredentialsProvider({
       id: 'credentials',
-      name: getLanguageText('name'),
+      name: getText('api_auth_nextauth_options', 'name', 'EN'),
       credentials: {
-        email: { label: getLanguageText('email_label'), type: 'text' },
-        password: { label: getLanguageText('password_label'), type: 'password' },
+        email: { label: getText('api_auth_nextauth_options', 'email_label', 'EN'), type: 'text' },
+        password: { label: getText('api_auth_nextauth_options', 'password_label', 'EN'), type: 'password' },
       },
       async authorize(credentials, language) {
         await dbConnect();
@@ -32,31 +28,31 @@ export const options = {
           const existingUser = await User.findOne({ email: credentials.email }).lean().exec();
 
           if (!existingUser) {
-            throw new Error(getLanguageText('error_no_account', language));
+            throw new Error(getText('api_auth_nextauth_options', 'error_no_account', language));
           }
 
           if (existingUser.role === 'Credentials User') {
             if (!existingUser.isEmailConfirmed) {
               if (existingUser.confirmationTokenExpiry && new Date() < existingUser.confirmationTokenExpiry) {
-                throw new Error(getLanguageText('error_email_not_confirmed', language));
+                throw new Error(getText('api_auth_nextauth_options', 'error_email_not_confirmed', language));
               }
               if (!existingUser.confirmationTokenExpiry || new Date() > existingUser.confirmationTokenExpiry) {
-                throw new Error(getLanguageText('error_confirmation_link_expired', language));
+                throw new Error(getText('api_auth_nextauth_options', 'error_confirmation_link_expired', language));
               }
             }
           }
 
           if (existingUser.role === 'GitHub User' || existingUser.role === 'GitHub User (Admin)') {
-            throw new Error(getLanguageText('error_github_registered', language));
+            throw new Error(getText('api_auth_nextauth_options', 'error_github_registered', language));
           }
 
           if (existingUser.role === 'Google User' || existingUser.role === 'Google User (Admin)') {
-            throw new Error(getLanguageText('error_google_registered', language));
+            throw new Error(getText('api_auth_nextauth_options', 'error_google_registered', language));
           }
 
           const match = await bcrypt.compare(credentials.password, existingUser.password);
           if (!match) {
-            throw new Error(getLanguageText('error_incorrect_password', language));
+            throw new Error(getText('api_auth_nextauth_options', 'error_incorrect_password', language));
           }
 
           if (existingUser.resetToken || existingUser.resetTokenExpiry) {
@@ -121,10 +117,10 @@ export const options = {
 
             const newUser = new User({ email: user.email, role: userRole });
             await newUser.save();
-            console.log(getLanguageText('log_new_user_created', 'EN'), user.email);
+            console.log(getText('api_auth_nextauth_options', 'log_new_user_created', 'EN'), user.email);
           } else {
             await User.updateOne({ email: user.email }, { $set: { updatedAt: new Date() } });
-            console.log(getLanguageText('log_existing_user_updated', 'EN'), user.email);
+            console.log(getText('api_auth_nextauth_options', 'log_existing_user_updated', 'EN'), user.email);
           }
 
           return true;
