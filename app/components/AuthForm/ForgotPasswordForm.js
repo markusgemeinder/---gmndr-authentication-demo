@@ -21,6 +21,10 @@ export default function ForgotPasswordForm() {
     showOkButton: true,
   });
 
+  const getLanguageText = (key) => {
+    return getText('forgot_password_form', key, language);
+  };
+
   const router = useRouter();
   const { data: session, status: sessionStatus } = useSession();
   const emailInputRef = useRef(null);
@@ -48,7 +52,7 @@ export default function ForgotPasswordForm() {
     if (!isValidEmail(email)) {
       setModalState({
         show: true,
-        message: getText('forgot_password_form', 'invalid_email', language),
+        message: getLanguageText('invalid_email'),
         isSuccess: false,
         showOkButton: true,
       });
@@ -57,7 +61,7 @@ export default function ForgotPasswordForm() {
 
     setModalState({
       show: true,
-      message: getText('forgot_password_form', 'sending_email', language),
+      message: getLanguageText('sending_email'),
       isSuccess: null,
       showOkButton: false,
     });
@@ -76,14 +80,14 @@ export default function ForgotPasswordForm() {
       if (response.status === 200) {
         setModalState({
           show: true,
-          message: getText('forgot_password_form', 'reset_link_sent', language),
+          message: getLanguageText('reset_link_sent'),
           isSuccess: true,
           showOkButton: true,
         });
       } else {
         setModalState({
           show: true,
-          message: result.message || getText('forgot_password_form', 'unexpected_error', language),
+          message: result.message || getLanguageText('unexpected_error'),
           isSuccess: false,
           showOkButton: true,
         });
@@ -91,7 +95,7 @@ export default function ForgotPasswordForm() {
     } catch (error) {
       setModalState({
         show: true,
-        message: getText('forgot_password_form', 'unexpected_error', language),
+        message: getLanguageText('unexpected_error'),
         isSuccess: false,
         showOkButton: true,
       });
@@ -111,7 +115,7 @@ export default function ForgotPasswordForm() {
       <FormContainer onSubmit={handleSubmit}>
         <InputGroup>
           <LabelContainer>
-            <Label htmlFor='email'>{getText('forgot_password_form', 'email_label', language)}</Label>
+            <Label htmlFor='email'>{getLanguageText('email_label')}</Label>
           </LabelContainer>
           <Input
             id='email'
@@ -124,7 +128,7 @@ export default function ForgotPasswordForm() {
         </InputGroup>
         <ButtonContainerVertical>
           <Button type='submit' bgColor='var(--color-button-primary)' hoverColor='var(--color-button-primary-hover)'>
-            {getText('forgot_password_form', 'send_reset_link', language)}
+            {getLanguageText('send_reset_link')}
           </Button>
         </ButtonContainerVertical>
       </FormContainer>

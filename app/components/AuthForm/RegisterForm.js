@@ -23,6 +23,10 @@ export default function RegisterForm() {
     showOkButton: true,
   });
 
+  const getLanguageText = (key) => {
+    return getText('register_form', key, language);
+  };
+
   const router = useRouter();
   const emailInputRef = useRef(null);
 
@@ -38,7 +42,7 @@ export default function RegisterForm() {
     if (!isPasswordValid) {
       setModalState({
         show: true,
-        message: getText('register_form', 'password_invalid', language),
+        message: getLanguageText('password_invalid'),
         isSuccess: false,
         showOkButton: true,
       });
@@ -52,7 +56,7 @@ export default function RegisterForm() {
 
     setModalState({
       show: true,
-      message: getText('register_form', 'creating_account', language),
+      message: getLanguageText('creating_account'),
       isSuccess: null,
       showOkButton: false,
     });
@@ -69,14 +73,14 @@ export default function RegisterForm() {
 
       setModalState({
         show: true,
-        message: responseData.message || getText('register_form', 'registration_failed', language),
+        message: responseData.message || getLanguageText('registration_failed'),
         isSuccess: success,
         showOkButton: true,
       });
     } catch (error) {
       setModalState({
         show: true,
-        message: getText('register_form', 'unexpected_error', language),
+        message: getLanguageText('unexpected_error'),
         isSuccess: false,
         showOkButton: true,
       });
@@ -95,7 +99,7 @@ export default function RegisterForm() {
       <FormContainer onSubmit={handleSubmit}>
         <InputGroup>
           <LabelContainer>
-            <Label htmlFor='email'>{getText('register_form', 'email_label', language)}</Label>
+            <Label htmlFor='email'>{getLanguageText('email_label')}</Label>
           </LabelContainer>
           <Input
             id='email'
@@ -125,14 +129,14 @@ export default function RegisterForm() {
             bgColor='var(--color-button-primary)'
             hoverColor='var(--color-button-primary-hover)'
             disabled={!isPasswordValid}>
-            {getText('register_form', 'confirm', language)}
+            {getLanguageText('confirm')}
           </Button>
           <Button
             type='button'
             onClick={() => router.push('/')}
             bgColor='var(--color-button-secondary)'
             hoverColor='var(--color-button-secondary-hover)'>
-            {getText('register_form', 'cancel', language)}
+            {getLanguageText('cancel')}
           </Button>
         </ButtonContainerVertical>
       </FormContainer>

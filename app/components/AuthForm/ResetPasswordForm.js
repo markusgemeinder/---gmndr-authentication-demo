@@ -17,6 +17,10 @@ export default function ResetPasswordForm() {
   const [isPasswordValid, setIsPasswordValid] = useState(false);
   const [isTokenExpired, setIsTokenExpired] = useState(false);
 
+  const getLanguageText = (key) => {
+    return getText('reset_password_form', key, language);
+  };
+
   const [modalState, setModalState] = useState({
     show: false,
     message: '',
@@ -34,7 +38,7 @@ export default function ResetPasswordForm() {
       if (!token) {
         setModalState({
           show: true,
-          message: getText('reset_password_form', 'token_required', language),
+          message: getLanguageText('token_required'),
           isSuccess: false,
           showOkButton: true,
         });
@@ -63,7 +67,7 @@ export default function ResetPasswordForm() {
       } catch {
         setModalState({
           show: true,
-          message: getText('reset_password_form', 'check_token_error', language),
+          message: getLanguageText('check_token_error'),
           isSuccess: false,
           showOkButton: true,
         });
@@ -88,7 +92,7 @@ export default function ResetPasswordForm() {
 
     setModalState({
       show: true,
-      message: getText('reset_password_form', 'resetting_password', language),
+      message: getLanguageText('resetting_password'),
       isSuccess: null,
       showOkButton: false,
     });
@@ -102,8 +106,8 @@ export default function ResetPasswordForm() {
 
       const success = response.status === 201;
       const message = success
-        ? getText('reset_password_form', 'password_saved', language)
-        : (await response.json()).message || getText('reset_password_form', 'save_password_failed', language);
+        ? getLanguageText('password_saved')
+        : (await response.json()).message || getLanguageText('save_password_failed');
 
       setModalState({
         show: true,
@@ -114,7 +118,7 @@ export default function ResetPasswordForm() {
     } catch {
       setModalState({
         show: true,
-        message: getText('reset_password_form', 'error_occurred', language),
+        message: getLanguageText('error_occurred'),
         isSuccess: false,
         showOkButton: true,
       });
@@ -149,14 +153,14 @@ export default function ResetPasswordForm() {
             bgColor='var(--color-button-primary)'
             hoverColor='var(--color-button-primary-hover)'
             disabled={!isPasswordValid || isTokenExpired}>
-            {getText('reset_password_form', 'confirm', language)}
+            {getLanguageText('confirm')}
           </Button>
           <Button
             type='button'
             onClick={() => router.push('/')}
             bgColor='var(--color-button-secondary)'
             hoverColor='var(--color-button-secondary-hover)'>
-            {getText('reset_password_form', 'cancel', language)}
+            {getLanguageText('cancel')}
           </Button>
         </ButtonContainerVertical>
       </FormContainer>

@@ -37,6 +37,10 @@ export default function LoginForm({ onLogin, onOAuthLogin, error, onDemoLogin })
     showOkButton: true,
   });
 
+  const getLanguageText = (key) => {
+    return getText('login_form', key, language);
+  };
+
   const router = useRouter();
   const emailInputRef = useRef(null);
   const passwordInputRef = useRef(null);
@@ -83,7 +87,7 @@ export default function LoginForm({ onLogin, onOAuthLogin, error, onDemoLogin })
     event.preventDefault();
     setModalState({
       show: true,
-      message: getText('login_form', 'logging_in', language),
+      message: getLanguageText('logging_in'),
       isSuccess: null,
       showOkButton: false,
     });
@@ -92,7 +96,7 @@ export default function LoginForm({ onLogin, onOAuthLogin, error, onDemoLogin })
       const loginSuccess = await onLogin(email, password);
 
       if (!loginSuccess) {
-        showError(getText('login_form', 'login_error', language));
+        showError(getLanguageText('login_error'));
       }
     } catch (error) {
       showError(error.message);
@@ -103,7 +107,7 @@ export default function LoginForm({ onLogin, onOAuthLogin, error, onDemoLogin })
     event.preventDefault();
     setModalState({
       show: true,
-      message: getText('login_form', 'demo_logging_in', language),
+      message: getLanguageText('demo_logging_in'),
       isSuccess: null,
       showOkButton: false,
     });
@@ -112,7 +116,7 @@ export default function LoginForm({ onLogin, onOAuthLogin, error, onDemoLogin })
       const demoSuccess = await onDemoLogin();
 
       if (!demoSuccess) {
-        showError(getText('login_form', 'demo_error', language));
+        showError(getLanguageText('demo_error'));
       }
     } catch (error) {
       showError(error.message);
@@ -137,7 +141,7 @@ export default function LoginForm({ onLogin, onOAuthLogin, error, onDemoLogin })
             hoverColor='var(--color-button-secondary-hover)'
             style={{ width: '100%' }}
             onClick={handleDemoUserLogin}>
-            {getText('login_form', 'demo_user', language)}
+            {getLanguageText('demo_user')}
           </Button>
 
           <Button
@@ -162,12 +166,12 @@ export default function LoginForm({ onLogin, onOAuthLogin, error, onDemoLogin })
         </ButtonContainerVertical>
 
         <Divider>
-          <span>{getText('login_form', 'divider', language)}</span>
+          <span>{getLanguageText('divider')}</span>
         </Divider>
 
         <InputGroup>
           <LabelContainer>
-            <Label htmlFor='email'>{getText('login_form', 'email_label', language)}</Label>
+            <Label htmlFor='email'>{getLanguageText('email_label')}</Label>
           </LabelContainer>
           <Input
             id='email'
@@ -182,7 +186,7 @@ export default function LoginForm({ onLogin, onOAuthLogin, error, onDemoLogin })
 
         <InputGroup>
           <LabelContainer>
-            <Label htmlFor='password'>{getText('login_form', 'password_label', language)}</Label>
+            <Label htmlFor='password'>{getLanguageText('password_label')}</Label>
           </LabelContainer>
           <InputContainer>
             <Input
@@ -197,16 +201,8 @@ export default function LoginForm({ onLogin, onOAuthLogin, error, onDemoLogin })
             <ToggleVisibility
               onClick={handleToggleVisibility}
               type='button'
-              title={
-                passwordVisible
-                  ? getText('login_form', 'hide_password', language)
-                  : getText('login_form', 'show_password', language)
-              }
-              aria-label={
-                passwordVisible
-                  ? getText('login_form', 'hide_password', language)
-                  : getText('login_form', 'show_password', language)
-              }>
+              title={passwordVisible ? getLanguageText('hide_password') : getLanguageText('show_password')}
+              aria-label={passwordVisible ? getLanguageText('hide_password') : getLanguageText('show_password')}>
               {passwordVisible ? <PasswordVisibleIcon /> : <PasswordHiddenIcon />}
             </ToggleVisibility>
           </InputContainer>
@@ -218,7 +214,7 @@ export default function LoginForm({ onLogin, onOAuthLogin, error, onDemoLogin })
             bgColor='var(--color-button-primary)'
             hoverColor='var(--color-button-primary-hover)'
             style={{ width: '100%' }}>
-            {getText('login_form', 'login', language)}
+            {getLanguageText('login')}
           </Button>
 
           <Link href='/forgot-password'>
@@ -227,7 +223,7 @@ export default function LoginForm({ onLogin, onOAuthLogin, error, onDemoLogin })
               bgColor='var(--color-button-secondary)'
               hoverColor='var(--color-button-secondary-hover)'
               style={{ width: '100%' }}>
-              {getText('login_form', 'forgot_password', language)}
+              {getLanguageText('forgot_password')}
             </Button>
           </Link>
           <Link href='/register'>
@@ -236,7 +232,7 @@ export default function LoginForm({ onLogin, onOAuthLogin, error, onDemoLogin })
               bgColor='var(--color-button-secondary)'
               hoverColor='var(--color-button-secondary-hover)'
               style={{ width: '100%' }}>
-              {getText('login_form', 'register', language)}
+              {getLanguageText('register')}
             </Button>
           </Link>
         </ButtonContainerVertical>
