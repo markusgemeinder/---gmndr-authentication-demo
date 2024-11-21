@@ -13,6 +13,10 @@ export default function ForgotPasswordPage() {
   const [message, setMessage] = useState('');
   const { language } = useContext(LanguageContext);
 
+  const getLanguageText = (key) => {
+    return getText('auth_forgot_password', key, language);
+  };
+
   async function handleSubmit(email) {
     const response = await fetch('/api/auth/forgot-password', {
       method: 'POST',
@@ -29,7 +33,7 @@ export default function ForgotPasswordPage() {
     <>
       <Container>
         <ScrollToTop />
-        <Title>{getText('auth_forgot_password', 'title', language)}</Title>
+        <Title>{getLanguageText('title')}</Title>
         <ForgotPasswordForm onSubmit={handleSubmit} message={message} />
       </Container>
     </>

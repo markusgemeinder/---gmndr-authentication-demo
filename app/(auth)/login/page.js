@@ -16,9 +16,13 @@ export default function LoginPage() {
   const router = useRouter();
   const { language } = useContext(LanguageContext);
 
+  const getLanguageText = (key) => {
+    return getText('auth_login', key, language);
+  };
+
   async function handleLogin(email, password) {
     if (!email || !password) {
-      setError(getText('auth_login', 'error_empty_fields', language));
+      setError(getLanguageText('error_empty_fields'));
       return false;
     }
 
@@ -54,7 +58,7 @@ export default function LoginPage() {
     });
 
     if (result?.error) {
-      setError(getText('auth_login', 'error_demo_login', language));
+      setError(getLanguageText('error_demo_login'));
       return false;
     } else if (result?.ok) {
       router.push('/reviews');
@@ -66,7 +70,7 @@ export default function LoginPage() {
     <>
       <Container>
         <ScrollToTop />
-        <Title>{getText('auth_login', 'title', language)}</Title>
+        <Title>{getLanguageText('title')}</Title>
         <LoginForm onLogin={handleLogin} onOAuthLogin={handleOAuthLogin} onDemoLogin={handleDemoLogin} error={error} />
       </Container>
     </>

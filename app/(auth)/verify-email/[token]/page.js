@@ -23,11 +23,9 @@ export default function VerifyEmailPage({ params }) {
   const router = useRouter();
   const { language } = useContext(LanguageContext);
 
-  // useEffect(() => {
-  //   if (params.token) {
-  //     handleSubmit(params.token);
-  //   }
-  // }, [params.token]);
+  const getLanguageText = (key) => {
+    return getText('auth_verify_email_token', key, language);
+  };
 
   async function handleSubmit(token) {
     try {
@@ -63,7 +61,7 @@ export default function VerifyEmailPage({ params }) {
     } catch (error) {
       setModalState({
         show: true,
-        message: error.message || getText('auth_verify_email_token', 'error_unknown', language),
+        message: error.message || getLanguageText('error_unknown'),
         showResendButton: false,
         isSuccess: false,
         showOkButton: true,
@@ -74,7 +72,7 @@ export default function VerifyEmailPage({ params }) {
   async function handleResendVerification() {
     setModalState({
       show: true,
-      message: getText('auth_verify_email_token', 'message_preparing_to_send', language),
+      message: getLanguageText('message_preparing_to_send'),
       showResendButton: false,
       isSuccess: null,
       showOkButton: false,
@@ -92,7 +90,7 @@ export default function VerifyEmailPage({ params }) {
       if (response.status === 200) {
         setModalState({
           show: true,
-          message: getText('auth_verify_email_token', 'message_verification_email_sent', language),
+          message: getLanguageText('message_verification_email_sent'),
           showResendButton: false,
           isSuccess: true,
           showOkButton: true,
@@ -100,7 +98,7 @@ export default function VerifyEmailPage({ params }) {
       } else {
         setModalState({
           show: true,
-          message: result.message || getText('auth_verify_email_token', 'error_unexpected', language),
+          message: result.message || getLanguageText('error_unexpected'),
           showResendButton: false,
           isSuccess: false,
           showOkButton: true,
@@ -109,7 +107,7 @@ export default function VerifyEmailPage({ params }) {
     } catch (error) {
       setModalState({
         show: true,
-        message: getText('auth_verify_email_token', 'error_unexpected', language),
+        message: getLanguageText('error_unexpected'),
         showResendButton: false,
         isSuccess: false,
         showOkButton: true,
@@ -120,7 +118,7 @@ export default function VerifyEmailPage({ params }) {
   async function handleVerifyClick() {
     setModalState({
       show: true,
-      message: getText('auth_verify_email_token', 'message_verifying_email', language),
+      message: getLanguageText('message_verifying_email'),
       showResendButton: false,
       isSuccess: null,
       showOkButton: false,
@@ -141,7 +139,7 @@ export default function VerifyEmailPage({ params }) {
     <>
       <Container>
         <ScrollToTop />
-        <Title>{getText('auth_verify_email_token', 'title', language)}</Title>
+        <Title>{getLanguageText('title')}</Title>
         {!modalState.showResendButton ? (
           <>
             <ButtonContainerHorizontal>
@@ -149,10 +147,10 @@ export default function VerifyEmailPage({ params }) {
                 onClick={handleVerifyClick}
                 bgColor='var(--color-button-primary)'
                 hoverColor='var(--color-button-primary-hover)'>
-                {getText('auth_verify_email_token', 'button_confirm_email', language)}
+                {getLanguageText('button_confirm_email')}
               </Button>
             </ButtonContainerHorizontal>
-            <Paragraph>{getText('auth_verify_email_token', 'paragraph_instruction', language)}</Paragraph>
+            <Paragraph>{getLanguageText('paragraph_instruction')}</Paragraph>
           </>
         ) : (
           <>
@@ -161,10 +159,10 @@ export default function VerifyEmailPage({ params }) {
                 onClick={handleResendVerification}
                 bgColor='var(--color-button-warning)'
                 hoverColor='var(--color-button-warning-hover)'>
-                {getText('auth_verify_email_token', 'button_resend_verification', language)}
+                {getLanguageText('button_resend_verification')}
               </Button>
             </ButtonContainerHorizontal>
-            <Paragraph>{getText('auth_verify_email_token', 'paragraph_verification_link_expired', language)}</Paragraph>
+            <Paragraph>{getLanguageText('paragraph_verification_link_expired')}</Paragraph>
           </>
         )}
         {modalState.show && (

@@ -18,6 +18,10 @@ export default function ResetPasswordPage({ params }) {
   });
   const { language } = useContext(LanguageContext);
 
+  const getLanguageText = (key) => {
+    return getText('auth_reset_password_token', key, language);
+  };
+
   async function handleSubmit(password) {
     try {
       const response = await fetch('/api/auth/reset-password', {
@@ -32,20 +36,20 @@ export default function ResetPasswordPage({ params }) {
       if (response.ok) {
         setModalState({
           show: true,
-          message: getText('auth_reset_password_token', 'message_reset_success', language),
+          message: getLanguageText('message_reset_success'),
           isSuccess: true,
         });
       } else {
         setModalState({
           show: true,
-          message: data.message || getText('auth_reset_password_token', 'error_unexpected', language),
+          message: data.message || getLanguageText('error_unexpected'),
           isSuccess: false,
         });
       }
     } catch (error) {
       setModalState({
         show: true,
-        message: error.message || getText('auth_reset_password_token', 'error_unknown', language),
+        message: error.message || getLanguageText('error_unknown'),
         isSuccess: false,
       });
     }
@@ -62,7 +66,7 @@ export default function ResetPasswordPage({ params }) {
     <>
       <Container>
         <ScrollToTop />
-        <Title>{getText('auth_reset_password_token', 'title', language)}</Title>
+        <Title>{getLanguageText('title')}</Title>
         <ResetPasswordForm onSubmit={handleSubmit} />
         {modalState.show && <ModalPopup message={modalState.message} onOkClick={handleOkClick} showOkButton={true} />}
       </Container>

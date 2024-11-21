@@ -17,6 +17,10 @@ export default function RegisterPage() {
   const router = useRouter();
   const { language } = useContext(LanguageContext);
 
+  const getLanguageText = (key) => {
+    return getText('auth_register', key, language);
+  };
+
   useEffect(() => {
     if (status === 'authenticated') {
       router.push('/reviews');
@@ -31,7 +35,7 @@ export default function RegisterPage() {
     <>
       <Container>
         <ScrollToTop />
-        <Title>{getText('auth_register', 'title', language)}</Title>
+        <Title>{getLanguageText('title')}</Title>
         <RegisterForm />
       </Container>
     </>
