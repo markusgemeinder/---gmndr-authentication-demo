@@ -46,6 +46,11 @@ export default function SessionStatus() {
   const { data: session } = useSession();
   const [timeLeft, setTimeLeft] = useState(300);
   const [showPopup, setShowPopup] = useState(false);
+
+  const getLanguageText = (key) => {
+    return getText('session_status', key, language);
+  };
+
   const router = useRouter();
 
   useEffect(() => {
@@ -116,15 +121,15 @@ export default function SessionStatus() {
       {session ? (
         <>
           <SessionStatusText>
-            {getText('session_status', 'welcome', language)}
+            {getLanguageText('welcome')}
             <br />
             {userRole === 'Demo User' ? 'Demo User' : `${session.user.email} (${userRole})`}
           </SessionStatusText>
           <SessionStatusText>
-            {getText('session_status', 'sessionExpires', language)}
+            {getLanguageText('sessionExpires')}
             <CountdownContainer>{formatTime(timeLeft)}</CountdownContainer> min <br />(
             <StyledLink href='#' onClick={renewSession}>
-              {getText('session_status', 'renewSession', language)}
+              {getLanguageText('renewSession')}
             </StyledLink>
             ).
           </SessionStatusText>
@@ -134,7 +139,7 @@ export default function SessionStatus() {
             <SessionStatusModalOverlay>
               <ModalContent>
                 <ModalHeader>
-                  <BlinkingText>{getText('session_status', 'sessionExpiringSoon', language)}</BlinkingText>
+                  <BlinkingText>{getLanguageText('sessionExpiringSoon')}</BlinkingText>
                 </ModalHeader>
                 <Timer>{formatTime(timeLeft)}</Timer>
                 <ButtonContainerHorizontal>
@@ -143,7 +148,7 @@ export default function SessionStatus() {
                     bgColor='var(--color-button-primary)'
                     hoverColor='var(--color-button-primary-hover)'
                     color='var(--color-button-text)'>
-                    {getText('session_status', 'renewSession', language)}
+                    {getLanguageText('renewSession')}
                   </Button>
                   <Button
                     onClick={handleLogout}
@@ -160,11 +165,11 @@ export default function SessionStatus() {
       ) : (
         <>
           <SessionStatusText>
-            {getText('session_status', 'loginPrompt_intro', language)}
-            <StyledLink href='/login'>{getText('session_status', 'loginPrompt_logIn', language)}</StyledLink>
-            {getText('session_status', 'loginPrompt_separator', language)}
-            <StyledLink href='/register'>{getText('session_status', 'loginPrompt_signUp', language)}</StyledLink>
-            {getText('session_status', 'loginPrompt_outro', language)}
+            {getLanguageText('loginPrompt_intro')}
+            <StyledLink href='/login'>{getLanguageText('loginPrompt_logIn')}</StyledLink>
+            {getLanguageText('loginPrompt_separator')}
+            <StyledLink href='/register'>{getLanguageText('loginPrompt_signUp')}</StyledLink>
+            {getLanguageText('loginPrompt_outro')}
           </SessionStatusText>
         </>
       )}
