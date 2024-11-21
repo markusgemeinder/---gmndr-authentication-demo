@@ -16,6 +16,10 @@ export default function CreatePage() {
   const router = useRouter();
   const { language } = useContext(LanguageContext);
 
+  const getLanguageText = (key) => {
+    return getText('review_create', key, language);
+  };
+
   function handleSave() {
     router.push('/reviews');
   }
@@ -28,7 +32,7 @@ export default function CreatePage() {
     <ProtectedRoute>
       <Container>
         <ScrollToTop />
-        <Title>{getText('review_create', 'title', language)}</Title>
+        <Title>{getLanguageText('title')}</Title>
         <SessionStatus />
         <ReviewForm onSave={handleSave} onCancel={handleCancel} />
       </Container>

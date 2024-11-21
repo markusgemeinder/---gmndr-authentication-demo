@@ -20,6 +20,10 @@ export default function EditPage({ params }) {
   const router = useRouter();
   const { language } = useContext(LanguageContext);
 
+  const getLanguageText = (key) => {
+    return getText('review_edit', key, language);
+  };
+
   useEffect(() => {
     async function fetchReview() {
       setLoading(true);
@@ -31,7 +35,7 @@ export default function EditPage({ params }) {
             setReview(demoReview);
             setIsDemoReview(true);
           } else {
-            throw new Error(getText('review_edit', 'error_demo_review_not_found', language));
+            throw new Error(getLanguageText('error_demo_review_not_found'));
           }
         } else {
           const response = await fetch(`/api/reviews/${params.id}`);
@@ -40,11 +44,11 @@ export default function EditPage({ params }) {
             setReview(data);
             setIsDemoReview(false);
           } else {
-            throw new Error(getText('review_edit', 'error_review_not_found', language));
+            throw new Error(getLanguageText('error_review_not_found'));
           }
         }
       } catch (error) {
-        console.error(getText('review_edit', 'error_fetching_review', language), error);
+        console.error(getLanguageText('error_fetching_review'), error);
         setReview(null);
         setIsDemoReview(false);
       } finally {
@@ -68,14 +72,14 @@ export default function EditPage({ params }) {
   }
 
   if (!review && !isDemoReview) {
-    return <div>{getText('review_edit', 'review_not_found', language)}</div>;
+    return <div>{getLanguageText('review_not_found')}</div>;
   }
 
   return (
     <ProtectedRoute>
       <Container>
         <ScrollToTop />
-        <Title>{getText('review_edit', 'title', language)}</Title>
+        <Title>{getLanguageText('title')}</Title>
         <SessionStatus />
         <ReviewForm review={review} onSave={handleSave} onCancel={handleCancel} isDemoReview={isDemoReview} />
       </Container>

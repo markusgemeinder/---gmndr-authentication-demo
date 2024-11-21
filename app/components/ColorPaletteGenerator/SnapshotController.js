@@ -84,7 +84,6 @@ export default function SnapshotController({ state, onApplySnapshot, resetForm }
   const isSnapshotDuplicate = (snapshots, formData) =>
     snapshots.some((snapshot) => JSON.stringify(snapshot) === JSON.stringify(formData));
 
-
   const findLastUsedSnapshotIndex = (snapshots, lastUsedSnapshot) =>
     snapshots.findIndex((snapshot) => JSON.stringify(snapshot) === JSON.stringify(lastUsedSnapshot));
 
@@ -105,8 +104,6 @@ export default function SnapshotController({ state, onApplySnapshot, resetForm }
 
     const lastUsedSnapshotIndex = findLastUsedSnapshotIndex(snapshots, lastUsedSnapshot);
     const newSnapshots = [
-
-    
       ...snapshots.slice(0, currentSnapshotPosition + 1),
       formData,
       ...snapshots.slice(currentSnapshotPosition + 1),

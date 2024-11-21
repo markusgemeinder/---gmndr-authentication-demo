@@ -23,6 +23,10 @@ export default function ReviewsPage() {
   const router = useRouter();
   const { language } = useContext(LanguageContext);
 
+  const getLanguageText = (key) => {
+    return getText('reviews', key, language);
+  };
+
   async function fetchReviews() {
     setLoading(true);
     try {
@@ -30,7 +34,7 @@ export default function ReviewsPage() {
       const data = await response.json();
 
       if (!Array.isArray(data)) {
-        throw new Error(getText('reviews', 'error_not_array', language));
+        throw new Error(getLanguageText('error_not_array'));
       }
 
       const storedReviews = JSON.parse(sessionStorage.getItem('reviews') || '[]');
@@ -38,7 +42,7 @@ export default function ReviewsPage() {
       const sortedReviews = combinedReviews.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
       setReviews(sortedReviews);
     } catch (error) {
-      console.error(getText('reviews', 'error_fetching_reviews', language), error);
+      console.error(getLanguageText('error_fetching_reviews'), error);
     } finally {
       setLoading(false);
     }
@@ -55,9 +59,9 @@ export default function ReviewsPage() {
   function handleCreateDemoReview() {
     const demoReview = {
       _id: `demo-${Math.random().toString(36).substr(2, 12)}`,
-      username: getText('reviews', 'username_demo', language),
+      username: getLanguageText('username_demo'),
       email: 'no-reply-demo-user@example.com',
-      note: getText('reviews', 'demo_review_note', language),
+      note: getLanguageText('demo_review_note'),
       rating: 5,
       createdAt: new Date().toISOString(),
       updatedAt: new Date().toISOString(),
@@ -78,7 +82,7 @@ export default function ReviewsPage() {
     <ProtectedRoute>
       <Container>
         <ScrollToTop />
-        <Title>{getText('reviews', 'title', language)}</Title>
+        <Title>{getLanguageText('title')}</Title>
         <SessionStatus />
         {session ? (
           session.user.isDemoUser ? (
@@ -87,7 +91,7 @@ export default function ReviewsPage() {
               bgColor='var(--color-button-attention)'
               hoverColor='var(--color-button-attention-hover)'
               color='var(--color-button-text)'>
-              {getText('reviews', 'button_create_demo_review', language)}
+              {getLanguageText('button_create_demo_review')}
             </Button>
           ) : (
             <Button
@@ -95,7 +99,7 @@ export default function ReviewsPage() {
               bgColor='var(--color-button-attention)'
               hoverColor='var(--color-button-attention-hover)'
               color='var(--color-button-text)'>
-              {getText('reviews', 'button_create_review', language)}
+              {getLanguageText('button_create_review')}
             </Button>
           )
         ) : null}

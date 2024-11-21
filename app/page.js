@@ -19,6 +19,10 @@ export default function Home() {
     howToUse: false,
   });
 
+  const getLanguageText = (key) => {
+    return getText('home', key, language);
+  };
+
   useEffect(() => {
     // Reset accordion states when language changes
     setAccordionState({
@@ -30,7 +34,7 @@ export default function Home() {
   return (
     <Container>
       <ScrollToTop />
-      <Title>{getText('home', 'title', language)}</Title>
+      <Title>{getLanguageText('title')}</Title>
       <SessionStatus />
       <Spacer height='0.8rem' />
       <AboutProjectAccordion
