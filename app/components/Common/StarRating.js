@@ -35,7 +35,12 @@ const StarRatingWrapper = styled.div`
 
 export default function StarRating({ rating, setRating = null }) {
   const { language } = useContext(LanguageContext);
-  const ariaLabel = getText('star_rating', 'aria-label', language);
+
+  const getLanguageText = (key) => {
+    return getText('star_rating', key, language);
+  };
+
+  const ariaLabel = getLanguageText('aria-label');
 
   const [hoverRating, setHoverRating] = useState(0);
 

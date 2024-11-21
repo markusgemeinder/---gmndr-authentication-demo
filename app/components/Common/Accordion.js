@@ -89,6 +89,11 @@ const AccordionListItem = styled.li`
 const AccordionTemplate = ({ title, content, language }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [contentHeight, setContentHeight] = useState(0);
+
+  const getLanguageText = (key) => {
+    return getText('accordion', key, language);
+  };
+
   const contentRef = useRef(null);
 
   const toggleAccordion = () => setIsOpen((prevState) => !prevState);
@@ -100,7 +105,7 @@ const AccordionTemplate = ({ title, content, language }) => {
   useEffect(() => {
     if (contentRef.current && isOpen) {
       const calculatedHeight = contentRef.current.scrollHeight;
-      const additionalPadding = 32;
+      const additionalPadding = 8;
       setContentHeight(calculatedHeight + additionalPadding);
     } else if (!isOpen) {
       setContentHeight(0);
@@ -123,47 +128,37 @@ const AccordionTemplate = ({ title, content, language }) => {
 
 const AboutProjectAccordion = () => {
   const { language } = useContext(LanguageContext);
+  const getLanguageText = (key) => getText('accordion', key, language);
+
   const content = (
     <AccordionList>
-      <AccordionListItem>{getText('accordion', 'about_project_overview', language)}</AccordionListItem>
-      <AccordionListItem>{getText('accordion', 'about_project_auth_focus', language)}</AccordionListItem>
-      <AccordionListItem>{getText('accordion', 'about_project_language_feature', language)}</AccordionListItem>
+      <AccordionListItem>{getLanguageText('about_project_overview')}</AccordionListItem>
+      <AccordionListItem>{getLanguageText('about_project_auth_focus')}</AccordionListItem>
+      <AccordionListItem>{getLanguageText('about_project_language_feature')}</AccordionListItem>
       <AccordionListItem>
-        {getText('accordion', 'about_project_content', language)}
-        <StyledLink href='/info'>{getText('accordion', 'about_project_link', language)}</StyledLink>.
+        {getLanguageText('about_project_content')}
+        <StyledLink href='/info'>{getLanguageText('about_project_link')}</StyledLink>.
       </AccordionListItem>
     </AccordionList>
   );
 
-  return (
-    <AccordionTemplate
-      title={getText('accordion', 'about_project_title', language)}
-      content={content}
-      language={language}
-    />
-  );
+  return <AccordionTemplate title={getLanguageText('about_project_title')} content={content} language={language} />;
 };
 
 const HowToUseAccordion = () => {
   const { language } = useContext(LanguageContext);
+  const getLanguageText = (key) => getText('accordion', key, language);
+
   const content = (
     <AccordionList>
-      <AccordionListItem>{getText('accordion', 'how_to_use_create_account', language)}</AccordionListItem>
-      <AccordionListItem>{getText('accordion', 'how_to_use_add_reviews_and_saved', language)}</AccordionListItem>
-      <AccordionListItem>{getText('accordion', 'how_to_use_reviews_demo', language)}</AccordionListItem>
-      <AccordionListItem>{getText('accordion', 'how_to_use_language_toggle', language)}</AccordionListItem>
-      <AccordionListItem>{getText('accordion', 'how_to_use_forgot_password', language)}</AccordionListItem>
-      <AccordionListItem>{getText('accordion', 'how_to_use_leave_message', language)}</AccordionListItem>
+      <AccordionListItem>{getLanguageText('how_to_use_create_account')}</AccordionListItem>
+      <AccordionListItem>{getLanguageText('how_to_use_add_reviews_and_saved')}</AccordionListItem>
+      <AccordionListItem>{getLanguageText('how_to_use_language_toggle')}</AccordionListItem>
+      <AccordionListItem>{getLanguageText('how_to_use_leave_message')}</AccordionListItem>
     </AccordionList>
   );
 
-  return (
-    <AccordionTemplate
-      title={getText('accordion', 'how_to_use_title', language)}
-      content={content}
-      language={language}
-    />
-  );
+  return <AccordionTemplate title={getLanguageText('how_to_use_title')} content={content} language={language} />;
 };
 
 export { AboutProjectAccordion, HowToUseAccordion };

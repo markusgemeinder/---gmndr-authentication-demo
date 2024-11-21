@@ -27,9 +27,13 @@ const BlinkingText = styled.p`
 export default function LoadingAnimation() {
   const { language } = useContext(LanguageContext);
 
+  const getLanguageText = (key) => {
+    return getText('loading_animation', key, language);
+  };
+
   return (
     <Container>
-      <BlinkingText>{getText('loading_animation', 'loading_text', language)}</BlinkingText>
+      <BlinkingText>{getLanguageText('loading_text')}</BlinkingText>
     </Container>
   );
 }
