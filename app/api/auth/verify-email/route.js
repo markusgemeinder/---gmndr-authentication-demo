@@ -8,18 +8,19 @@ import { getText } from '@/lib/languageLibrary';
 import { getLanguageFromCookies } from '@/utils/getLanguageFromCookies';
 
 export async function POST(req) {
-  const language = getLanguageFromCookies(req);
   await dbConnect();
+  const language = getLanguageFromCookies(req);
+
+  const getLanguageText = (key) => {
+    return getText('api_auth_verify_email', key, language);
+  };
 
   try {
     const body = await req.json();
     const { token } = body;
 
     if (!token) {
-      return NextResponse.json(
-        { message: getText('api_auth_verify_email', 'token_required', language) },
-        { status: 400 }
-      );
+      return NextResponse.json({ message: getLanguageText('token_required') }, { status: 400 });
     }
 
     const hashedToken = crypto.createHash('sha256').update(token).digest('hex');
@@ -28,23 +29,20 @@ export async function POST(req) {
     if (!user) {
       return NextResponse.json(
         {
-          message: getText('api_auth_verify_email', 'invalid_link', language),
+          message: getLanguageText('invalid_link'),
         },
         { status: 401 }
       );
     }
 
     if (user.isEmailConfirmed) {
-      return NextResponse.json(
-        { message: getText('api_auth_verify_email', 'email_already_confirmed', language) },
-        { status: 400 }
-      );
+      return NextResponse.json({ message: getLanguageText('email_already_confirmed') }, { status: 400 });
     }
 
     if (user.confirmationTokenExpiry <= Date.now()) {
       return NextResponse.json(
         {
-          message: getText('api_auth_verify_email', 'link_expired', language),
+          message: getLanguageText('link_expired'),
           email: user.email,
         },
         { status: 410 }
@@ -57,16 +55,13 @@ export async function POST(req) {
     );
 
     const responseData = {
-      message: getText('api_auth_verify_email', 'email_verified', language),
+      message: getLanguageText('email_verified'),
       email: user.email,
     };
 
     return NextResponse.json(responseData, { status: 201 });
   } catch (error) {
     console.error('Verify email error:', error);
-    return NextResponse.json(
-      { message: getText('api_auth_verify_email', 'verification_failed', language) },
-      { status: 500 }
-    );
+    return NextResponse.json({ message: getLanguageText('verification_failed') }, { status: 500 });
   }
 }

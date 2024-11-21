@@ -10,6 +10,11 @@ import { getLanguageFromCookies } from '@/utils/getLanguageFromCookies';
 
 export async function POST(req) {
   const language = getLanguageFromCookies(req);
+
+  const getLanguageText = (key) => {
+    return getText('api_auth_reset_password', key, language);
+  };
+
   await dbConnect();
 
   try {
@@ -17,27 +22,18 @@ export async function POST(req) {
     const { password, token } = body;
 
     if (!password || !token) {
-      return NextResponse.json(
-        { message: getText('api_auth_reset_password', 'password_and_token_required', language) },
-        { status: 400 }
-      );
+      return NextResponse.json({ message: getLanguageText('password_and_token_required') }, { status: 400 });
     }
 
     const hashedToken = crypto.createHash('sha256').update(token).digest('hex');
     const user = await User.findOne({ resetToken: hashedToken });
 
     if (!user) {
-      return NextResponse.json(
-        { message: getText('api_auth_reset_password', 'invalid_reset_link', language) },
-        { status: 401 }
-      );
+      return NextResponse.json({ message: getLanguageText('invalid_reset_link') }, { status: 401 });
     }
 
     if (user.resetTokenExpiry <= Date.now()) {
-      return NextResponse.json(
-        { message: getText('api_auth_reset_password', 'link_expired', language) },
-        { status: 410 }
-      );
+      return NextResponse.json({ message: getLanguageText('link_expired') }, { status: 410 });
     }
 
     const hashedPassword = await bcrypt.hash(password, 10);
@@ -46,15 +42,9 @@ export async function POST(req) {
       { password: hashedPassword, resetToken: null, resetTokenExpiry: null }
     );
 
-    return NextResponse.json(
-      { message: getText('api_auth_reset_password', 'password_updated', language) },
-      { status: 201 }
-    );
+    return NextResponse.json({ message: getLanguageText('password_updated') }, { status: 201 });
   } catch (error) {
     console.error('Reset password error:', error);
-    return NextResponse.json(
-      { message: getText('api_auth_reset_password', 'update_failed', language) },
-      { status: 500 }
-    );
+    return NextResponse.json({ message: getLanguageText('update_failed') }, { status: 500 });
   }
 }

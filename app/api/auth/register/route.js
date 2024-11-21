@@ -14,41 +14,33 @@ export async function POST(req) {
   await dbConnect();
   const language = getLanguageFromCookies(req);
 
+  const getLanguageText = (key) => {
+    return getText('api_auth_register', key, language);
+  };
+
   try {
     const body = await req.json();
     const { email, password } = body;
 
     if (!email || !password) {
-      return NextResponse.json({ message: getText('api_auth_register', 'missing_fields', language) }, { status: 400 });
+      return NextResponse.json({ message: getLanguageText('missing_fields') }, { status: 400 });
     }
 
     const duplicate = await User.findOne({ email }).lean().exec();
     if (duplicate) {
       if (duplicate.role === 'Google User' || duplicate.role === 'Google User (Admin)') {
-        return NextResponse.json(
-          { message: getText('api_auth_register', 'google_user_error', language) },
-          { status: 409 }
-        );
+        return NextResponse.json({ message: getLanguageText('google_user_error') }, { status: 409 });
       }
 
       if (duplicate.role === 'GitHub User' || duplicate.role === 'GitHub User (Admin)') {
-        return NextResponse.json(
-          { message: getText('api_auth_register', 'github_user_error', language) },
-          { status: 409 }
-        );
+        return NextResponse.json({ message: getLanguageText('github_user_error') }, { status: 409 });
       }
 
       if (!duplicate.isEmailConfirmed) {
-        return NextResponse.json(
-          { message: getText('api_auth_register', 'email_not_confirmed', language) },
-          { status: 400 }
-        );
+        return NextResponse.json({ message: getLanguageText('email_not_confirmed') }, { status: 400 });
       }
 
-      return NextResponse.json(
-        { message: getText('api_auth_register', 'email_in_use_error', language) },
-        { status: 409 }
-      );
+      return NextResponse.json({ message: getLanguageText('email_in_use_error') }, { status: 409 });
     }
 
     const hashedPassword = await bcrypt.hash(password, 10);
@@ -96,15 +88,9 @@ Sprache: ${language}
       text: adminText,
     });
 
-    return NextResponse.json(
-      { message: getText('api_auth_register', 'registration_success', language) },
-      { status: 201 }
-    );
+    return NextResponse.json({ message: getLanguageText('registration_success') }, { status: 201 });
   } catch (error) {
     console.error('Register error:', error);
-    return NextResponse.json(
-      { message: getText('api_auth_register', 'registration_failed', language) },
-      { status: 500 }
-    );
+    return NextResponse.json({ message: getLanguageText('registration_failed') }, { status: 500 });
   }
 }

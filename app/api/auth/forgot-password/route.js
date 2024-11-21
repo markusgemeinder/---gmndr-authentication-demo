@@ -13,6 +13,10 @@ export async function POST(req) {
   await dbConnect();
   const language = getLanguageFromCookies(req);
 
+  const getLanguageText = (key) => {
+    return getText('api_auth_forgot_password', key, language);
+  };
+
   try {
     const body = await req.json();
     const { email } = body;
@@ -20,10 +24,7 @@ export async function POST(req) {
     // Check if user exists
     const existingUser = await User.findOne({ email }).exec();
     if (!existingUser) {
-      return NextResponse.json(
-        { message: getText('api_auth_forgot_password', 'no_account_found', language) },
-        { status: 404 }
-      );
+      return NextResponse.json({ message: getLanguageText('no_account_found') }, { status: 404 });
     }
 
     // Check if the user is a Google or GitHub user
@@ -31,18 +32,12 @@ export async function POST(req) {
     const isGithubUser = existingUser.role.includes('GitHub');
 
     if (isGoogleUser || isGithubUser) {
-      return NextResponse.json(
-        { message: getText('api_auth_forgot_password', 'google_github_link_error', language) },
-        { status: 403 }
-      );
+      return NextResponse.json({ message: getLanguageText('google_github_link_error') }, { status: 403 });
     }
 
     // Check if the email is confirmed
     if (!existingUser.isEmailConfirmed) {
-      return NextResponse.json(
-        { message: getText('api_auth_forgot_password', 'email_not_confirmed', language) },
-        { status: 400 }
-      );
+      return NextResponse.json({ message: getLanguageText('email_not_confirmed') }, { status: 400 });
     }
 
     // Generate the reset token
@@ -70,15 +65,9 @@ export async function POST(req) {
     });
 
     // Successful response
-    return NextResponse.json(
-      { message: getText('api_auth_forgot_password', 'password_reset_email_sent', language) },
-      { status: 200 }
-    );
+    return NextResponse.json({ message: getLanguageText('password_reset_email_sent') }, { status: 200 });
   } catch (error) {
     console.error('Forgot password error:', error);
-    return NextResponse.json(
-      { message: getText('api_auth_forgot_password', 'forgot_password_failed', language) },
-      { status: 500 }
-    );
+    return NextResponse.json({ message: getLanguageText('forgot_password_failed') }, { status: 500 });
   }
 }
