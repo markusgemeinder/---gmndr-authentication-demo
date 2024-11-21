@@ -12,32 +12,36 @@ import { getText } from '@/lib/languageLibrary';
 export default function InfoContact() {
   const { language } = useContext(LanguageContext);
 
+  const getLanguageText = (key) => {
+    return getText('info_contact', key, language);
+  };
+
   return (
     <>
       <ScrollToTop />
       <AvatarContainer>
         <Avatar src={`/images/gmndr-pic-2.jpg`} alt='Markus Gemeinder' width={160} height={160} />
       </AvatarContainer>
-      <Title>{getText('info_contact', 'contact', language)}</Title>
-      <Subtitle>{getText('info_contact', 'name', language)}</Subtitle>
-      <Paragraph>{getText('info_contact', 'description', language)}</Paragraph>
-      <Paragraph>{getText('info_contact', 'availability', language)}</Paragraph>
+      <Title>{getLanguageText('contact')}</Title>
+      <Subtitle>{getLanguageText('name')}</Subtitle>
+      <Paragraph>{getLanguageText('description')}</Paragraph>
+      <Paragraph>{getLanguageText('availability')}</Paragraph>
       <InfoLinkContainer>
-        <InfoLink href='tel:+491716444010'>{getText('info_contact', 'phone', language)}: +49 171 6444010</InfoLink>
+        <InfoLink href='tel:+491716444010'>{getLanguageText('phone')}: +49 171 6444010</InfoLink>
         <InfoLink href='mailto:info@gemeinder-coaching.de'>
-          {getText('info_contact', 'email', language)}: info(at)gemeinder-coaching.de
+          {getLanguageText('email')}: info(at)gemeinder-coaching.de
         </InfoLink>
         <InfoLink href='https://www.gemeinder-coaching.de' target='_blank'>
-          {getText('info_contact', 'website', language)}: www.gemeinder-coaching.de
+          {getLanguageText('website')}: www.gemeinder-coaching.de
         </InfoLink>
         <InfoLink href='https://github.com/markusgemeinder' target='_blank'>
-          {getText('info_contact', 'github', language)}: markusgemeinder
+          {getLanguageText('github')}: markusgemeinder
         </InfoLink>
         <InfoLink href='https://www.instagram.com/gemeindercoaching' target='_blank'>
-          {getText('info_contact', 'instagram', language)}: @gemeindercoaching
+          {getLanguageText('instagram')}: @gemeindercoaching
         </InfoLink>
         <InfoLink href='https://www.facebook.com/gemeindercoaching' target='_blank'>
-          {getText('info_contact', 'facebook', language)}: @gemeindercoaching
+          {getLanguageText('facebook')}: @gemeindercoaching
         </InfoLink>
       </InfoLinkContainer>
     </>

@@ -12,14 +12,18 @@ import { AvatarContainer, Avatar, InfoLinkContainer, InfoLink } from '@/app/comp
 export default function InfoProject() {
   const { language } = useContext(LanguageContext);
 
+  const getLanguageText = (key) => {
+    return getText('info_project', key, language);
+  };
+
   const getGreeting = () => {
     const hours = new Date().getHours();
     if (hours < 12) {
-      return getText('info_project', 'greeting_morning', language);
+      return getLanguageText('greeting_morning');
     } else if (hours < 18) {
-      return getText('info_project', 'greeting_afternoon', language);
+      return getLanguageText('greeting_afternoon');
     } else {
-      return getText('info_project', 'greeting_evening', language);
+      return getLanguageText('greeting_evening');
     }
   };
 
@@ -29,29 +33,25 @@ export default function InfoProject() {
       <AvatarContainer>
         <Avatar src={`/images/gmndr-pic-1.jpg`} alt='Markus Gemeinder' width={160} height={160} />
       </AvatarContainer>
-      <Title>{getText('info_project', 'title', language)}</Title>
+      <Title>{getLanguageText('title')}</Title>
       <Paragraph>
-        {getGreeting()} {getText('info_project', 'welcome_message', language)}
+        {getGreeting()} {getLanguageText('welcome_message')}
       </Paragraph>
-      <Subtitle>{getText('info_project', 'project_overview_title', language)}</Subtitle>
-      <Paragraph>{getText('info_project', 'project_overview_description_1', language)}</Paragraph>
-      <Paragraph>{getText('info_project', 'project_overview_description_2', language)}</Paragraph>
-      <Paragraph>{getText('info_project', 'project_overview_description_3', language)}</Paragraph>
-      <Subtitle>{getText('info_project', 'main_features_title', language)}</Subtitle>
+      <Subtitle>{getLanguageText('project_overview_title')}</Subtitle>
+      <Paragraph>{getLanguageText('project_overview_description_1')}</Paragraph>
+      <Paragraph>{getLanguageText('project_overview_description_2')}</Paragraph>
+      <Paragraph>{getLanguageText('project_overview_description_3')}</Paragraph>
+      <Subtitle>{getLanguageText('main_features_title')}</Subtitle>
       <ListContainer>
-        <List>{getText('info_project', 'feature_multiple_login', language)}</List>
-        <List>{getText('info_project', 'feature_double_opt_in', language)}</List>
-        <List>{getText('info_project', 'feature_middleware', language)}</List>
-        <List>{getText('info_project', 'feature_review_creation', language)}</List>
-        <List>{getText('info_project', 'feature_language_support', language)}</List>
-        <List>{getText('info_project', 'feature_responsive_navigation', language)}</List>
-        <List>{getText('info_project', 'feature_dark_light_mode', language)}</List>
-        <List>{getText('info_project', 'feature_feedback', language)}</List>
-        <List>{getText('info_project', 'feature_session_storage', language)}</List>
+        <List>{getLanguageText('feature_multiple_login')}</List>
+        <List>{getLanguageText('feature_double_opt_in')}</List>
+        <List>{getLanguageText('feature_middleware')}</List>
+        <List>{getLanguageText('feature_review_creation')}</List>
+        <List>{getLanguageText('feature_responsive_navigation')}</List>
       </ListContainer>
       <InfoLinkContainer>
         <InfoLink href='https://github.com/markusgemeinder/---gmndr-authentication-demo' target='_blank'>
-          {getText('info_project', 'link_github', language)}
+          {getLanguageText('link_github')}
         </InfoLink>
       </InfoLinkContainer>
     </>

@@ -12,41 +12,45 @@ import { AvatarContainer, Avatar } from '@/app/components/Info/InfoStyles';
 export default function InfoTechstack() {
   const { language } = useContext(LanguageContext);
 
+  const getLanguageText = (key) => {
+    return getText('info_techstack', key, language);
+  };
+
   return (
     <>
       <ScrollToTop />
       <AvatarContainer>
         <Avatar src='/images/next-js-logo-01.png' alt='Techstack Avatar' width={160} height={160} />
       </AvatarContainer>
-      <Title>{getText('info_techstack', 'title', language)}</Title>
-      <Paragraph>{getText('info_techstack', 'intro', language)}</Paragraph>
-      <Subtitle>{getText('info_techstack', 'frontend_title', language)}</Subtitle>
+      <Title>{getLanguageText('title')}</Title>
+      <Paragraph>{getLanguageText('intro')}</Paragraph>
+      <Subtitle>{getLanguageText('frontend_title')}</Subtitle>
       <ListContainer>
-        <List>{getText('info_techstack', 'frontend_nextjs', language)}</List>
-        <List>{getText('info_techstack', 'frontend_react', language)}</List>
-        <List>{getText('info_techstack', 'frontend_html', language)}</List>
-        <List>{getText('info_techstack', 'frontend_css', language)}</List>
-        <List>{getText('info_techstack', 'frontend_javascript', language)}</List>
-        <List>{getText('info_techstack', 'frontend_react_icons', language)}</List>
+        <List>{getLanguageText('frontend_nextjs')}</List>
+        <List>{getLanguageText('frontend_react')}</List>
+        <List>{getLanguageText('frontend_html')}</List>
+        <List>{getLanguageText('frontend_css')}</List>
+        <List>{getLanguageText('frontend_javascript')}</List>
+        <List>{getLanguageText('frontend_react_icons')}</List>
       </ListContainer>
-      <Subtitle>{getText('info_techstack', 'backend_title', language)}</Subtitle>
-      <Paragraph>{getText('info_techstack', 'backend_intro', language)}</Paragraph>
+      <Subtitle>{getLanguageText('backend_title')}</Subtitle>
+      <Paragraph>{getLanguageText('backend_intro')}</Paragraph>
       <ListContainer>
-        <List>{getText('info_techstack', 'backend_node', language)}</List>
-        <List>{getText('info_techstack', 'backend_next_auth', language)}</List>
-        <List>{getText('info_techstack', 'backend_mongodb', language)}</List>
-        <List>{getText('info_techstack', 'backend_next_response', language)}</List>
-        <List>{getText('info_techstack', 'backend_sendgrid', language)}</List>
+        <List>{getLanguageText('backend_node')}</List>
+        <List>{getLanguageText('backend_next_auth')}</List>
+        <List>{getLanguageText('backend_mongodb')}</List>
+        <List>{getLanguageText('backend_next_response')}</List>
+        <List>{getLanguageText('backend_sendgrid')}</List>
       </ListContainer>
 
-      <Subtitle>{getText('info_techstack', 'other_tools_title', language)}</Subtitle>
-      <Paragraph>{getText('info_techstack', 'other_tools_intro', language)}</Paragraph>
+      <Subtitle>{getLanguageText('other_tools_title')}</Subtitle>
+      <Paragraph>{getLanguageText('other_tools_intro')}</Paragraph>
       <ListContainer>
-        <List>{getText('info_techstack', 'other_tools_github', language)}</List>
-        <List>{getText('info_techstack', 'other_tools_vercel', language)}</List>
+        <List>{getLanguageText('other_tools_github')}</List>
+        <List>{getLanguageText('other_tools_vercel')}</List>
       </ListContainer>
-      <Subtitle>{getText('info_techstack', 'language_support_title', language)}</Subtitle>
-      <Paragraph>{getText('info_techstack', 'language_support_intro', language)}</Paragraph>
+      <Subtitle>{getLanguageText('language_support_title')}</Subtitle>
+      <Paragraph>{getLanguageText('language_support_intro')}</Paragraph>
     </>
   );
 }

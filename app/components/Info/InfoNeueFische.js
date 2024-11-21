@@ -24,6 +24,10 @@ export default function InfoNeueFische() {
   const [isImageExpanded, setIsImageExpanded] = useState(false);
   const [expandedImageSrc, setExpandedImageSrc] = useState('');
 
+  const getLanguageText = (key) => {
+    return getText('info_neue_fische', key, language);
+  };
+
   function handleImageClick(src) {
     setIsImageExpanded(true);
     setExpandedImageSrc(src);
@@ -40,8 +44,8 @@ export default function InfoNeueFische() {
       <AvatarContainer>
         <Avatar src={`/images/neue-fische-logo.png`} alt='neue fische' width={160} height={160} />
       </AvatarContainer>
-      <Title>{getText('info_neue_fische', 'title', language)}</Title>
-      <Paragraph>{getText('info_neue_fische', 'paragraph_participation', language)}</Paragraph>
+      <Title>{getLanguageText('title')}</Title>
+      <Paragraph>{getLanguageText('paragraph_participation')}</Paragraph>
       <InfoImageContainer>
         <InfoImageWithLink
           src={`/images/neue-fische-certificate-1.png`}
@@ -67,7 +71,7 @@ export default function InfoNeueFische() {
           <Overlay
             onClick={handleCloseImage}
             role='button'
-            aria-label={getText('info_neue_fische', 'aria_label_close_expanded_image', language)}
+            aria-label={getLanguageText('aria_label_close_expanded_image')}
           />
           <InfoImageWrapper>
             <InfoImageFullSize
@@ -82,7 +86,7 @@ export default function InfoNeueFische() {
       )}
       <InfoLinkContainer>
         <InfoLink href='https://neuefische.de' target='_blank' rel='noopener noreferrer'>
-          {getText('info_neue_fische', 'link_website', language)}
+          {getLanguageText('link_website')}
         </InfoLink>
       </InfoLinkContainer>
     </>
