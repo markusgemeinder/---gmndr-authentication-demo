@@ -219,11 +219,13 @@ ol {
   --color-background: var(--color-primary-0);
   --color-background-light: var(--color-primary-100);
   --color-border: var(--color-primary-250);
+  --color-border-strong: var(--color-primary-700);
 
   /* Special Elements*/
 
   --color-burger-menu-background: rgba(23, 95, 141, 0.95);
   --color-modal: rgba(16, 69, 102, 0.75);
+  --color-modal-content: var(--color-primary-0);
   --color-modal-header: var(--color-primary-700);
   --color-modal-text: var(--color-secondary-650);
   --color-accordion-title-background: var(--color-primary-700);
@@ -234,6 +236,8 @@ ol {
   --color-button-primary-hover: var(--color-primary-650);
   --color-button-secondary: var(--color-secondary-600);
   --color-button-secondary-hover: var(--color-secondary-700);
+  --color-button-secondary-light: var(--color-secondary-300);
+  --color-button-secondary-light-hover: var(--color-secondary-350);
 
   /* Action Button Colors */
   --color-button-attention: var(--color-orange-650);
@@ -281,10 +285,12 @@ ol {
   --color-background: var(--color-primary-1000);
   --color-background-light: var(--color-primary-800);
   --color-border: var(--color-primary-650);
+  --color-border-strong: var(--color-primary-100);
 
   /* Special Elements*/
   --color-burger-menu-background: rgba(23, 95, 141, 0.95);
   --color-modal: rgba(10, 43, 63, 0.85);
+  --color-modal-content: var(--color-primary-750);
   --color-modal-header: var(--color-primary-150);
   --color-modal-text: var(--color-secondary-600);
   --color-accordion-title-background: var(--color-primary-650);
@@ -293,8 +299,10 @@ ol {
   /* Button Colors */
   --color-button-primary: var(--color-primary-550);
   --color-button-primary-hover: var(--color-primary-450);
-  --color-button-secondary: var(--color-secondary-600);
-  --color-button-secondary-hover: var(--color-secondary-500);
+  --color-button-secondary: var(--color-secondary-650);
+  --color-button-secondary-hover: var(--color-secondary-600);
+  --color-button-secondary-light: var(--color-secondary-400);
+  --color-button-secondary-light-hover: var(--color-secondary-350);
 
   /* Action Button Colors */
   --color-button-attention: var(--color-orange-700);

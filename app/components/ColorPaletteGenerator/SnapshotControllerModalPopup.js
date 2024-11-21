@@ -8,7 +8,7 @@ import { getText } from '@/lib/languageLibrary';
 const ModalOverlay = styled.div`
   position: fixed;
   inset: 0;
-  background-color: rgba(0, 0, 0, 0.5);
+  background-color: var(--color-modal);
   display: flex;
   justify-content: center;
   align-items: center;
@@ -16,10 +16,10 @@ const ModalOverlay = styled.div`
 `;
 
 const ModalContent = styled.div`
-  background-color: var(--color-white);
+  background-color: var(--color-modal-content);
   padding: 2rem;
   border-radius: 8px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  /* box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); */
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -35,7 +35,7 @@ const ModalContent = styled.div`
 
 const ModalHeader = styled.h3`
   margin-bottom: 0.6rem;
-  color: var(--color-primary-700);
+  color: var(--color-modal-header);
 `;
 
 const ModalButtonContainer = styled.div`
@@ -56,9 +56,9 @@ const ModalButton = styled.button`
   width: 100%;
   height: 48px;
   max-width: 120px;
-  background-color: var(--color-primary-500);
+  background-color: var(--color-button-primary);
   &:hover {
-    background-color: var(--color-primary-600);
+    background-color: var(--color-button-primary-hover);
   }
 
   @media (min-width: 768px) and (min-height: 768px) {
@@ -68,16 +68,16 @@ const ModalButton = styled.button`
 `;
 
 const ModalConfirmButton = styled(ModalButton)`
-  background-color: var(--color-primary-500);
+  background-color: var(--color-button-primary);
   &:hover {
-    background-color: var(--color-primary-600);
+    background-color: var(--color-button-primary-hover);
   }
 `;
 
 const ModalCancelButton = styled(ModalButton)`
-  background-color: var(--color-secondary-300);
+  background-color: var(--color-button-secondary-light);
   &:hover {
-    background-color: var(--color-secondary-500);
+    background-color: var(--color-button-secondary-light-hover);
   }
 `;
 

@@ -11,9 +11,9 @@ export const Wrapper = styled.div`
   padding: 1.2rem 1.4rem;
   width: 92%;
   max-width: 600px;
-  background-color: var(--color-secondary-50);
+  background-color: var(--color-background-light);
   border-radius: 8px;
-  border: 1px solid var(--color-secondary-200);
+  border: 1px solid var(--color-border);
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
 
   @media (min-width: 768px) and (min-height: 768px) {
@@ -26,7 +26,7 @@ export const Wrapper = styled.div`
 export const Title = styled.h2`
   font-size: 1.4rem;
   font-weight: bold;
-  color: var(--color-primary-700);
+  color: var(--color-title);
   text-align: center;
   margin: 0.4rem 0 0.8rem 0;
 `;
@@ -42,7 +42,7 @@ export const Label = styled.label`
   font-size: 1rem;
   font-weight: 600;
   margin-bottom: 0.5rem;
-  color: var(--color-secondary-700);
+  color: var(--color-text);
 `;
 
 export const ColorPickerWrapper = styled.div`
@@ -53,17 +53,17 @@ export const ColorPickerWrapper = styled.div`
 `;
 
 export const ColorPicker = styled.input`
-  border: 2px solid var(--color-secondary-200);
+  border: 2px solid var(--color-border);
   border-radius: 8px;
   width: 5rem;
   height: 3rem;
   padding: 0.2rem;
   cursor: pointer;
-  background-color: var(--color-white);
+  background-color: var(--color-background);
 
   &:focus {
     outline: none;
-    border-color: var(--color-secondary-700);
+    border-color: var(--color-border-strong);
   }
 `;
 
@@ -71,9 +71,9 @@ export const TextInput = styled.input`
   padding: 0.75rem;
   font-size: 1rem;
   border-radius: 8px;
-  border: 1px solid var(--color-secondary-200);
-  background-color: var(--color-white);
-  color: var(--color-black);
+  border: 1px solid var(--color-border);
+  background-color: var(--color-background);
+  color: var(--color-text);
   flex-grow: 1;
   width: 100%;
 `;
@@ -94,7 +94,7 @@ export const ColorPreview = styled.div.attrs((props) => ({
   width: 40px;
   height: 40px;
   border-radius: 4px;
-  border: 2px solid var(--color-secondary-200);
+  border: 2px solid var(--color-border);
   /* box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1); */
 `;
 
@@ -121,10 +121,6 @@ export const StyledSlider = styled.input.attrs((props) => ({
     border-radius: 50%;
     cursor: pointer;
     border: 2px solid ${(props) => props.$thumbBorderColor || 'var(--color-white)'};
-
-    &:hover {
-      transform: scale(1.1); /* Vergrößert den Thumb beim Hover */
-    }
   }
 
   ::-moz-range-thumb {
@@ -135,16 +131,12 @@ export const StyledSlider = styled.input.attrs((props) => ({
     cursor: pointer;
     border: 2px solid ${(props) => props.$thumbBorderColor || 'var(--color-white)'};
   }
-
-  &:hover {
-    transform: scale(1.1); /* Vergrößert den Thumb beim Hover */
-  }
 `;
 
 export const SliderText = styled.div`
   text-align: center;
   font-size: 0.6rem;
-  color: var(--color-black);
+  color: var(--color-text);
   width: 100%;
 `;
 
@@ -153,16 +145,16 @@ export const SliderValue = styled.div`
   font-size: 0.9rem;
   font-weight: bold;
   min-width: 1.4rem;
-  color: var(--color-secondary-700);
+  color: var(--color-text-light);
 `;
 
 export const Select = styled.select`
   padding: 0.75rem;
   font-size: 1rem;
   border-radius: 8px;
-  border: 1px solid var(--color-secondary-200);
-  background-color: var(--color-white);
-  color: var(--color-black);
+  border: 1px solid var(--color-border);
+  background-color: var(--color-background);
+  color: var(--color-text);
 `;
 
 export const CheckboxGroup = styled.div`
@@ -179,7 +171,7 @@ export const CheckboxGroup = styled.div`
 
 export const CheckboxLabel = styled.label`
   font-size: 0.9rem;
-  color: var(--color-secondary-700);
+  color: var(--color-text);
   text-align: left;
   display: inline-flex; /* Inline-Block, um mit der Checkbox auf gleicher Linie zu stehen */
   align-items: center; /* Zentriert das Label und die Checkbox vertikal */
@@ -211,14 +203,13 @@ export const CheckboxInput = styled.input.attrs((props) => ({
     width: 100%;
     height: 100%;
     border-radius: 4px;
-    border: 1px solid var(--color-secondary-300);
-    background-color: var(--color-white);
-    transition: background-color 0.3s, border-color 0.3s;
+    border: 1px solid var(--color-border);
+    background-color: var(--color-background);
   }
 
   &:checked::before {
-    background-color: var(--color-primary-500);
-    border-color: var(--color-primary-500);
+    background-color: var(--color-button-primary);
+    border-color: var(--color-button-primary);
   }
 
   &:checked::after {
@@ -227,8 +218,6 @@ export const CheckboxInput = styled.input.attrs((props) => ({
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    /* font-size: 1.1rem; */
-    /* font-weight: bold; */
     color: var(--color-white);
   }
 
@@ -242,15 +231,15 @@ export const PaletteWrapper = styled.div`
   margin-top: 1.4rem;
   padding: 1rem;
   border-radius: 8px;
-  background-color: var(--color-white);
-  border: 1px solid var(--color-secondary-200);
+  background-color: var(--color-background);
+  border: 1px solid var(--color-border);
   position: relative;
 `;
 
 export const PaletteOutput = styled.pre`
   font-family: monospace;
   font-size: 0.9rem;
-  color: var(--color-black);
+  color: var(--color-text);
   white-space: pre-wrap;
   word-wrap: break-word;
   margin-top: 3.6rem;
@@ -258,6 +247,7 @@ export const PaletteOutput = styled.pre`
 
 export const Button = styled.button`
   padding: 0.75rem 1.5rem;
+  background-color: var(--color-button-secondary);
   color: var(--color-white);
   font-weight: bold;
   border: none;
@@ -281,7 +271,7 @@ export const Button = styled.button`
   `}
 
   &:hover {
-    background-color: ${({ $hoverColor }) => $hoverColor || 'var(--color-secondary-900)'};
+    background-color: ${({ $hoverColor }) => $hoverColor || 'var(--color-button-secondary-hover)'};
   }
 
   svg {
@@ -291,17 +281,17 @@ export const Button = styled.button`
 
 export const GeneratePaletteButton = styled(Button)`
   width: 15.6rem;
-  background-color: var(--color-primary-500);
+  background-color: var(--color-button-primary);
   &:hover {
-    background-color: var(--color-primary-600);
+    background-color: var(--color-button-primary-hover);
   }
 `;
 
 export const ResetFormButton = styled(Button)`
   width: 15.6rem;
-  background-color: var(--color-secondary-300);
+  background-color: var(--color-button-secondary-light);
   &:hover {
-    background-color: var(--color-secondary-500);
+    background-color: var(--color-button-secondary-light-hover);
   }
 `;
 
@@ -310,9 +300,9 @@ export const CopyPaletteButton = styled(Button)`
   position: absolute;
   top: 0;
   right: 0.8rem;
-  background-color: var(--color-secondary-700);
+  background-color: var(--color-button-secondary);
   &:hover {
-    background-color: var(--color-secondary-900);
+    background-color: var(--color-button-secondary-hover);
   }
 `;
 

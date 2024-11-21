@@ -29,14 +29,14 @@ export const SnapshotButton = styled.button.withConfig({
   border-radius: 0.6rem;
   cursor: pointer;
   background-color: ${({ isSnapshotLimitReached }) =>
-    isSnapshotLimitReached ? 'var(--color-red-400)' : 'var(--color-secondary-550)'};
+    isSnapshotLimitReached ? 'var(--color-button-warning)' : 'var(--color-button-secondary)'};
   width: 60px;
   height: 48px;
   padding: 0.6rem;
 
   &:hover {
     background-color: ${({ isSnapshotLimitReached }) =>
-      isSnapshotLimitReached ? 'var(--color-red-500)' : 'var(--color-secondary-700)'};
+      isSnapshotLimitReached ? 'var(--color-button-warning-hover)' : 'var(--color-button-secondary-hover)'};
   }
 
   svg {
@@ -57,18 +57,18 @@ export const SnapshotButton = styled.button.withConfig({
 `;
 
 export const UndoButton = styled(SnapshotButton)`
-  background-color: var(--color-secondary-250);
+  background-color: var(--color-button-secondary-light);
 
   &:hover {
-    background-color: var(--color-secondary-350);
+    background-color: var(--color-button-secondary-light-hover);
   }
 `;
 
 export const RedoButton = styled(SnapshotButton)`
-  background-color: var(--color-secondary-250);
+  background-color: var(--color-button-secondary-light);
 
   &:hover {
-    background-color: var(--color-secondary-350);
+    background-color: var(--color-button-secondary-light-hover);
   }
 `;
 
@@ -82,10 +82,10 @@ export const DeleteButton = styled.button`
   width: 60px;
   height: 48px;
   padding: 0.6rem;
-  background-color: var(--color-secondary-250);
+  background-color: var(--color-button-secondary-light);
 
   &:hover {
-    background-color: var(--color-secondary-350);
+    background-color: var(--color-button-secondary-light-hover);
   }
 
   svg {
