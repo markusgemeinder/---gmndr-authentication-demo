@@ -36,6 +36,10 @@ export default function Navigation() {
   const [isShaking, setIsShaking] = useState(false);
   const { language, toggleLanguage, setLanguagePreference } = useContext(LanguageContext);
 
+  const getLanguageText = (key) => {
+    return getText('navigation', key, language);
+  };
+
   const handleLinkClick = () => {
     if (isBurgerOpen) setIsBurgerOpen(false);
   };
@@ -45,7 +49,7 @@ export default function Navigation() {
       setIsShaking(true);
       setTimeout(() => {
         setIsShaking(false);
-      }, 300); // Dauer der Animation
+      }, 300); // Duration of the animation
     } else {
       router.push('/');
     }
@@ -56,25 +60,25 @@ export default function Navigation() {
       {!session && (
         <NavItem>
           <NavLink href='/forgot-password' $isActive={pathname === '/forgot-password'} onClick={handleLinkClick}>
-            {getText('navigation', 'forgot_password', language)}
+            {getLanguageText('forgot_password')}
           </NavLink>
         </NavItem>
       )}
       <NavItem>
         <NavLink href='/' $isActive={pathname === '/'} onClick={handleLinkClick}>
-          {getText('navigation', 'home', language)}
+          {getLanguageText('home')}
         </NavLink>
       </NavItem>
       {session && (
         <NavItem>
           <NavLink href='/reviews' $isActive={pathname === '/reviews'} onClick={handleLinkClick}>
-            {getText('navigation', 'reviews', language)}
+            {getLanguageText('reviews')}
           </NavLink>
         </NavItem>
       )}
       <NavItem>
         <NavLink href='/info' $isActive={pathname === '/info'} onClick={handleLinkClick}>
-          {getText('navigation', 'info', language)}
+          {getLanguageText('info')}
         </NavLink>
       </NavItem>
     </>
@@ -84,7 +88,7 @@ export default function Navigation() {
     <>
       <BurgerMenuItem>
         <NavLink href='/' $isActive={pathname === '/'} onClick={handleLinkClick}>
-          {getText('navigation', 'home', language)}
+          {getLanguageText('home')}
         </NavLink>
       </BurgerMenuItem>
 
@@ -92,17 +96,17 @@ export default function Navigation() {
         <>
           <BurgerMenuItem>
             <NavLink href='/reviews' $isActive={pathname === '/reviews'} onClick={handleLinkClick}>
-              {getText('navigation', 'reviews', language)}
+              {getLanguageText('reviews')}
             </NavLink>
           </BurgerMenuItem>
           <BurgerMenuItem>
             <NavLink href='/info' $isActive={pathname === '/info'} onClick={handleLinkClick}>
-              {getText('navigation', 'info', language)}
+              {getLanguageText('info')}
             </NavLink>
           </BurgerMenuItem>
           <BurgerMenuItem>
             <NavLink href='#' onClick={() => signOut({ callbackUrl: '/' })}>
-              {getText('navigation', 'logout', language)}
+              {getLanguageText('logout')}
             </NavLink>
           </BurgerMenuItem>
         </>
@@ -110,22 +114,22 @@ export default function Navigation() {
         <>
           <BurgerMenuItem>
             <NavLink href='/login' $isActive={pathname === '/login'} onClick={handleLinkClick}>
-              {getText('navigation', 'login', language)}
+              {getLanguageText('login')}
             </NavLink>
           </BurgerMenuItem>
           <BurgerMenuItem>
             <NavLink href='/register' $isActive={pathname === '/register'} onClick={handleLinkClick}>
-              {getText('navigation', 'register', language)}
+              {getLanguageText('register')}
             </NavLink>
           </BurgerMenuItem>
           <BurgerMenuItem>
             <NavLink href='/forgot-password' $isActive={pathname === '/forgot-password'} onClick={handleLinkClick}>
-              {getText('navigation', 'forgot_password', language)}
+              {getLanguageText('forgot_password')}
             </NavLink>
           </BurgerMenuItem>
           <BurgerMenuItem>
             <NavLink href='/info' $isActive={pathname === '/info'} onClick={handleLinkClick}>
-              {getText('navigation', 'info', language)}
+              {getLanguageText('info')}
             </NavLink>
           </BurgerMenuItem>
         </>
@@ -134,7 +138,7 @@ export default function Navigation() {
   );
 
   const renderSessionButtons = () => {
-    const logoutText = getText('navigation', 'logout', language);
+    const logoutText = getLanguageText('logout');
 
     return (
       <ButtonContainerHorizontal>
@@ -149,8 +153,8 @@ export default function Navigation() {
   };
 
   const renderNoSessionButtons = () => {
-    const loginText = getText('navigation', 'login', language);
-    const registerText = getText('navigation', 'register', language);
+    const loginText = getLanguageText('login');
+    const registerText = getLanguageText('register');
 
     return (
       <ButtonContainerHorizontal>
@@ -190,7 +194,7 @@ export default function Navigation() {
 
           <BurgerMenuButton
             onClick={() => setIsBurgerOpen((prev) => !prev)}
-            aria-label={getText('navigation', 'aria_label_toggle_menu', language)}>
+            aria-label={getLanguageText('aria_label_toggle_menu')}>
             <BurgerMenuButtonSvg $isOpen={isBurgerOpen} viewBox='0 0 24 24'>
               <line x1='3' y1='6' x2='21' y2='6' />
               <line x1='3' y1='12' x2='21' y2='12' />

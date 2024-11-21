@@ -13,20 +13,20 @@ const LogoContainer = styled.div`
   img {
     width: 70px;
     height: auto;
-    filter: brightness(0) invert(1); /* Weiß einfärben, falls nötig */
+    filter: brightness(0) invert(1);
   }
 
   @media (min-width: 768px) and (min-height: 768px) {
     img {
       width: 100px;
       height: auto;
-      filter: brightness(0) invert(1); /* Weiß einfärben, falls nötig */
+      filter: brightness(0) invert(1);
     }
   }
 `;
 
 export default function Logo({ onClick }) {
-  const timestamp = new Date().getTime(); // Aktueller Timestamp
+  const timestamp = new Date().getTime();
 
   return (
     <LogoContainer onClick={onClick}>
