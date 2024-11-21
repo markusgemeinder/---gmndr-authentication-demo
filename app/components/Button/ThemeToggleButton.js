@@ -46,7 +46,12 @@ const StyledSunIcon = styled(SunIcon)`
 export default function ThemeToggleButton() {
   const { theme, toggleTheme } = useContext(ThemeContext);
   const { language } = useContext(LanguageContext);
-  const ariaLabel = getText('theme_toggle_button', 'aria-label', language);
+
+  const getLanguageText = (key) => {
+    return getText('theme_toggle_button', key, language);
+  };
+
+  const ariaLabel = getLanguageText('aria-label');
 
   return (
     <ToggleButton type='button' onClick={toggleTheme} aria-label={ariaLabel}>

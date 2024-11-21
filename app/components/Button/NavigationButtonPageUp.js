@@ -11,6 +11,10 @@ export default function NavigationButtonPageUp() {
   const { language } = useContext(LanguageContext);
   const [showButton, setShowButton] = useState(false);
 
+  const getLanguageText = (key) => {
+    return getText('navigation_button_page_up', key, language);
+  };
+
   useEffect(() => {
     const handleScroll = () => {
       const isScrolled = window.scrollY > 60;
@@ -42,7 +46,7 @@ export default function NavigationButtonPageUp() {
       desktopBottom='5rem'
       desktopRight='2rem'
       onClick={scrollToTop}
-      ariaLabel={getText('navigation_button_page_up', 'aria_label', language)}>
+      ariaLabel={getLanguageText('aria_label')}>
       {svg}
     </NavigationButtonTemplate>
   );
