@@ -16,10 +16,25 @@ export const Wrapper = styled.div`
   border: 1px solid var(--color-border);
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
 
-  @media (min-width: 768px) and (min-height: 768px) {
-    /* margin-left: 0; */
+  /* Mobile First & Tablets im Hochformat */
+  @media (min-width: 600px) {
     width: 88%;
-    max-width: 30rem;
+    max-width: 32rem;
+  }
+
+  /* Smartphones im Querformat */
+  @media (min-width: 600px) and (max-width: 1024px) and (orientation: landscape) {
+    width: 88%;
+    max-width: 24rem;
+    margin: 0.6rem;
+    margin-right: 6rem;
+    padding: 1rem;
+  }
+
+  /* Desktop & Tablets im Querformat */
+  @media (min-width: 1025px) {
+    width: 80%;
+    max-width: 40rem;
   }
 `;
 
@@ -95,7 +110,6 @@ export const ColorPreview = styled.div.attrs((props) => ({
   height: 40px;
   border-radius: 4px;
   border: 2px solid var(--color-border);
-  /* box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1); */
 `;
 
 export const StyledSlider = styled.input.attrs((props) => ({
@@ -163,7 +177,13 @@ export const CheckboxGroup = styled.div`
   margin: 0.5rem;
   gap: 0.2rem;
 
-  @media (min-width: 768px) and (min-height: 768px) {
+  /* Smartphones im Querformat */
+  @media (min-width: 600px) and (max-width: 1024px) and (orientation: landscape) {
+    width: 100%;
+  }
+
+  /* Desktop & Tablets im Querformat */
+  @media (min-width: 1025px) {
     margin: 0.5rem 1.8rem;
     margin-left: 3rem;
   }
@@ -173,18 +193,17 @@ export const CheckboxLabel = styled.label`
   font-size: 0.9rem;
   color: var(--color-text);
   text-align: left;
-  display: inline-flex; /* Inline-Block, um mit der Checkbox auf gleicher Linie zu stehen */
-  align-items: center; /* Zentriert das Label und die Checkbox vertikal */
-  /* gap: 0.1rem; */
+  display: inline-flex;
+  align-items: center;
 `;
 
 export const CheckboxInput = styled.input.attrs((props) => ({
   type: 'checkbox',
   style: {
-    width: props.size || '1.6rem', // Größe anpassbar
-    height: props.size || '1.6rem', // Größe anpassbar
-    margin: props.margin || '0.1rem 0.4rem', // Margin anpassbar
-    backgroundColor: props.backgroundColor || 'var(--color-white)', // Hintergrundfarbe anpassbar
+    width: props.size || '1.6rem',
+    height: props.size || '1.6rem',
+    margin: props.margin || '0.1rem 0.4rem',
+    backgroundColor: props.backgroundColor || 'var(--color-white)',
   },
 }))`
   -webkit-appearance: none;
@@ -195,7 +214,7 @@ export const CheckboxInput = styled.input.attrs((props) => ({
   cursor: pointer;
   width: 20px;
   height: 20px;
-  vertical-align: middle; /* Hinzugefügt für vertikale Ausrichtung */
+  vertical-align: middle;
 
   &::before {
     content: '';

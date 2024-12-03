@@ -4,16 +4,24 @@ import styled from 'styled-components';
 
 export const SnapshotContainer = styled.div`
   position: fixed;
-  top: 4.7rem;
+  top: 5rem;
   right: 0.7rem;
   display: flex;
   flex-direction: column;
-  gap: 0.4rem;
+  gap: 0.3rem;
   z-index: 4;
 
+  /* Für größere Geräte */
   @media (min-width: 768px) and (min-height: 768px) {
     top: 7rem;
     right: 2rem;
+  }
+
+  /* Für Smartphones im Querformat */
+  @media (max-width: 767px) and (orientation: landscape) {
+    top: 4.6rem;
+    right: 6.6rem;
+    gap: 0.2rem;
   }
 `;
 
@@ -44,6 +52,7 @@ export const SnapshotButton = styled.button.withConfig({
     color: var(--color-white);
   }
 
+  /* Für größere Geräte */
   @media (min-width: 768px) {
     padding: 0.8rem;
     width: 72px;
@@ -52,6 +61,28 @@ export const SnapshotButton = styled.button.withConfig({
     svg {
       font-size: 1.8rem;
       color: var(--color-white);
+    }
+  }
+
+  /* Querformat für Smartphones */
+  @media (max-width: 767px) and (orientation: landscape) {
+    width: 56px;
+    height: 48px;
+    padding: 0.6rem;
+
+    svg {
+      font-size: 1.2rem;
+    }
+  }
+
+  /* Querformat für Tablets */
+  @media (min-width: 768px) and (orientation: landscape) {
+    width: 80px;
+    height: 64px;
+    padding: 0.8rem;
+
+    svg {
+      font-size: 2rem;
     }
   }
 `;
@@ -93,6 +124,7 @@ export const DeleteButton = styled.button`
     color: var(--color-white);
   }
 
+  /* Für größere Geräte */
   @media (min-width: 768px) and (min-height: 768px) {
     padding: 0.8rem;
     width: 72px;
@@ -101,6 +133,28 @@ export const DeleteButton = styled.button`
     svg {
       font-size: 1.8rem;
       color: var(--color-white);
+    }
+  }
+
+  /* Querformat für Smartphones */
+  @media (max-width: 767px) and (orientation: landscape) {
+    width: 56px;
+    height: 48px;
+    padding: 0.6rem;
+
+    svg {
+      font-size: 1.2rem;
+    }
+  }
+
+  /* Querformat für Tablets */
+  @media (min-width: 768px) and (orientation: landscape) {
+    width: 80px;
+    height: 64px;
+    padding: 0.8rem;
+
+    svg {
+      font-size: 2rem;
     }
   }
 `;
