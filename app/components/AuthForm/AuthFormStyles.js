@@ -1,5 +1,7 @@
 // /app/components/AuthForm/AuthFormStyles.js
 
+// /app/components/AuthForm/AuthFormStyles.js
+
 import styled from 'styled-components';
 import { FaEye, FaEyeSlash, FaCheck, FaTimes } from 'react-icons/fa';
 import Image from 'next/image';
@@ -12,7 +14,12 @@ export const FormContainer = styled.form`
   padding: 1.5rem;
   max-width: 32rem;
   width: 100%;
-  /* box-sizing: border-box; */
+
+  /* Für Smartphones im Querformat */
+  @media (max-width: 767px) and (orientation: landscape) {
+    padding: 1rem;
+    max-width: 28rem;
+  }
 `;
 
 export const InputGroup = styled.div`
@@ -22,6 +29,11 @@ export const InputGroup = styled.div`
 
   &:first-child {
     margin-top: 0;
+  }
+
+  /* Für Smartphones im Querformat */
+  @media (max-width: 767px) and (orientation: landscape) {
+    margin: 0.8rem 0;
   }
 `;
 
@@ -51,6 +63,11 @@ export const Input = styled.input`
   border-radius: 0.4rem;
   box-sizing: border-box;
   color: var(--color-text);
+
+  /* Für Smartphones im Querformat */
+  @media (max-width: 767px) and (orientation: landscape) {
+    padding: 0.5rem;
+  }
 `;
 
 export const ToggleVisibility = styled.button`
@@ -64,6 +81,11 @@ export const ToggleVisibility = styled.button`
   color: var(--color-text-light);
   display: flex;
   align-items: center;
+
+  /* Für Smartphones im Querformat */
+  @media (max-width: 767px) and (orientation: landscape) {
+    right: 0.5rem;
+  }
 `;
 
 export const PasswordVisibleIcon = styled(FaEye)``;
@@ -82,6 +104,12 @@ export const CriteriaList = styled.ul`
   padding: 0 1.6rem;
   margin: 0.8rem 0;
   text-align: left;
+
+  /* Für Smartphones im Querformat */
+  @media (max-width: 767px) and (orientation: landscape) {
+    padding: 0 1rem;
+    margin: 0.6rem 0;
+  }
 `;
 
 export const CriteriaItem = styled.li`
@@ -102,6 +130,7 @@ export const CriteriaItem = styled.li`
     word-wrap: break-word;
   }
 
+  /* Für größere Geräte */
   @media (min-width: 768px) {
     gap: 0.7rem;
     line-height: 1.4;
@@ -110,7 +139,18 @@ export const CriteriaItem = styled.li`
       font-size: 1.4rem;
     }
   }
+
+  /* Für Smartphones im Querformat */
+  @media (max-width: 767px) and (orientation: landscape) {
+    gap: 0.4rem;
+    font-size: 0.8rem;
+    line-height: 1.1;
+    svg {
+      font-size: 1rem;
+    }
+  }
 `;
+
 export const Divider = styled.div`
   display: flex;
   align-items: center;
@@ -131,23 +171,27 @@ export const Divider = styled.div`
     font-size: 0.875rem;
   }
 
+  /* Für größere Geräte */
   @media (min-width: 768px) and (min-height: 768px) {
     margin-top: 1.8rem;
     margin-bottom: 1.4rem;
   }
-`;
 
-// export const WarningMessage = styled.p`
-//   color: var(--color-check-warning);
-//   font-size: 0.875rem;
-//   padding: 0.8rem;
-//   line-height: 1.2;
-//   text-align: center;
-//   font-weight: 700;
-// `;
+  /* Für Smartphones im Querformat */
+  @media (max-width: 767px) and (orientation: landscape) {
+    margin-top: 1.2rem;
+    margin-bottom: 0.8rem;
+  }
+`;
 
 export const IconButtonImage = styled(Image)`
   margin-right: 8px;
   width: 20px;
   height: 20px;
+
+  /* Für Smartphones im Querformat */
+  @media (max-width: 767px) and (orientation: landscape) {
+    width: 18px;
+    height: 18px;
+  }
 `;
