@@ -24,7 +24,7 @@ import {
 import LanguageContext from '@/app/components/LanguageProvider';
 import { getText } from '@/lib/languageLibrary';
 
-const SNAPSHOT_LIMIT = 8;
+const SNAPSHOT_LIMIT = 6;
 
 export default function SnapshotController({ state, onApplySnapshot, resetForm }) {
   // ===== State Management
@@ -143,6 +143,11 @@ export default function SnapshotController({ state, onApplySnapshot, resetForm }
       setModalType('info');
       setShowModal(true);
     }
+
+    setSnapshotInProgress(true);
+    setTimeout(() => {
+      setSnapshotInProgress(false);
+    }, 1000); // 1 Sekunde
   };
 
   const handleDeleteCurrent = () => {
