@@ -8,34 +8,53 @@ import { getText } from '@/lib/languageLibrary';
 const ModalOverlay = styled.div`
   position: fixed;
   inset: 0;
-  background-color: rgba(0, 0, 0, 0.5);
+  background-color: var(--color-modal);
   display: flex;
   justify-content: center;
   align-items: center;
   z-index: 1001;
+  padding: 1rem;
+
+  /* Für kleinere Geräte: Setze zusätzliche Polsterung */
+  @media (max-width: 767px) {
+    padding: 2rem;
+  }
 `;
 
 const ModalContent = styled.div`
-  background-color: var(--color-white);
+  background-color: var(--color-modal-content);
   padding: 2rem;
   border-radius: 8px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 1rem;
+  gap: 1.2rem;
   width: 90%;
+  max-width: 600px;
 
-  @media (min-width: 768px) and (min-height: 768px) {
+  @media (min-width: 768px) {
     width: 80%;
     max-width: 30rem;
+  }
+
+  /* Anpassung für sehr kleine Bildschirme */
+  @media (max-width: 600px) {
+    padding: 1.5rem;
+    gap: 1rem;
+    width: 95%;
   }
 `;
 
 const ModalHeader = styled.h3`
-  margin-bottom: 0.6rem;
-  color: var(--color-primary-700);
+  margin-bottom: 0.8rem;
+  color: var(--color-modal-header);
+  text-align: center;
+  font-size: 1.25rem;
+
+  @media (max-width: 767px) {
+    font-size: 1rem;
+  }
 `;
 
 const ModalButtonContainer = styled.div`
@@ -43,6 +62,7 @@ const ModalButtonContainer = styled.div`
   gap: 1rem;
   justify-content: center;
   width: 100%;
+  flex-wrap: wrap;
 `;
 
 const ModalButton = styled.button`
@@ -54,30 +74,33 @@ const ModalButton = styled.button`
   font-size: 1rem;
   font-weight: bold;
   width: 100%;
-  height: 48px;
   max-width: 120px;
-  background-color: var(--color-primary-500);
+  height: 48px;
+  background-color: var(--color-button-primary);
+
   &:hover {
-    background-color: var(--color-primary-600);
+    background-color: var(--color-button-primary-hover);
   }
 
-  @media (min-width: 768px) and (min-height: 768px) {
-    width: 100%;
-    max-width: 120px;
+  @media (max-width: 767px) {
+    padding: 0.5rem 1rem;
+    font-size: 0.9rem;
+    max-width: 100px;
+    height: 42px;
   }
 `;
 
 const ModalConfirmButton = styled(ModalButton)`
-  background-color: var(--color-primary-500);
+  background-color: var(--color-button-primary);
   &:hover {
-    background-color: var(--color-primary-600);
+    background-color: var(--color-button-primary-hover);
   }
 `;
 
 const ModalCancelButton = styled(ModalButton)`
-  background-color: var(--color-secondary-300);
+  background-color: var(--color-button-secondary-light);
   &:hover {
-    background-color: var(--color-secondary-500);
+    background-color: var(--color-button-secondary-light-hover);
   }
 `;
 

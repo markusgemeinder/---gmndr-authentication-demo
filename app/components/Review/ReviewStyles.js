@@ -6,6 +6,26 @@ export const ReviewsContainer = styled.div`
   display: flex;
   flex-direction: column;
   gap: 1rem;
+  width: 96%;
+  max-width: 600px;
+
+  /* Mobile First & Tablets im Hochformat */
+  @media (min-width: 600px) {
+    width: 88%;
+    max-width: 32rem;
+  }
+
+  /* Smartphones im Querformat */
+  @media (min-width: 600px) and (max-width: 1024px) and (orientation: landscape) {
+    width: 88%;
+    max-width: 24rem;
+  }
+
+  /* Desktop & Tablets im Querformat */
+  @media (min-width: 1025px) {
+    width: 80%;
+    max-width: 40rem;
+  }
 `;
 
 export const CardContainer = styled.div`
@@ -33,9 +53,28 @@ export const FormContainer = styled.form`
   border: 1px solid var(--color-border);
   border-radius: 0.6rem;
   padding: 1.5rem;
-  width: 100%;
   margin-bottom: 1.3rem;
   box-sizing: border-box;
+  width: 96%;
+  max-width: 600px;
+
+  /* Mobile First & Tablets im Hochformat */
+  @media (min-width: 600px) {
+    width: 88%;
+    max-width: 32rem;
+  }
+
+  /* Smartphones im Querformat */
+  @media (min-width: 600px) and (max-width: 1024px) and (orientation: landscape) {
+    width: 88%;
+    max-width: 24rem;
+  }
+
+  /* Desktop & Tablets im Querformat */
+  @media (min-width: 1025px) {
+    width: 80%;
+    max-width: 40rem;
+  }
 `;
 
 export const InputGroup = styled.div`
@@ -47,6 +86,11 @@ export const InputGroup = styled.div`
 
   &:first-child {
     margin-top: 0;
+  }
+
+  /* Für Smartphones im Querformat */
+  @media (max-width: 767px) and (orientation: landscape) {
+    margin: 0.8rem 0;
   }
 `;
 
@@ -78,6 +122,12 @@ export const Input = styled.input`
   font-size: 1rem;
   color: var(--color-text);
   box-sizing: border-box;
+
+  /* Für Smartphones im Querformat */
+  @media (max-width: 767px) and (orientation: landscape) {
+    padding: 0.5rem;
+    font-size: 0.9rem;
+  }
 `;
 
 export const InputEmail = styled(Input)`
@@ -94,6 +144,11 @@ export const IDLabel = styled.div`
   position: absolute;
   top: 0.6rem;
   right: 0.6rem;
+
+  /* Für Smartphones im Querformat */
+  @media (max-width: 767px) and (orientation: landscape) {
+    font-size: 0.7rem;
+  }
 `;
 
 export const Email = styled.div`
@@ -101,6 +156,11 @@ export const Email = styled.div`
   color: var(--color-text-light);
   margin: 0.4rem 0;
   text-align: left;
+
+  /* Für Smartphones im Querformat */
+  @media (max-width: 767px) and (orientation: landscape) {
+    font-size: 0.9rem;
+  }
 `;
 
 export const Textarea = styled.textarea`
@@ -111,6 +171,12 @@ export const Textarea = styled.textarea`
   font-size: 1rem;
   color: var(--color-text);
   background-color: var(--color-background);
+
+  /* Für Smartphones im Querformat */
+  @media (max-width: 767px) and (orientation: landscape) {
+    padding: 0.6rem;
+    font-size: 0.9rem;
+  }
 `;
 
 export const Note = styled.p`
@@ -121,6 +187,12 @@ export const Note = styled.p`
   border-radius: 0.3rem;
   background-color: var(--color-background);
   text-align: left;
+
+  /* Für Smartphones im Querformat */
+  @media (max-width: 767px) and (orientation: landscape) {
+    padding: 0.6rem;
+    font-size: 0.9rem;
+  }
 `;
 
 export const CharCounter = styled.div`
@@ -129,12 +201,22 @@ export const CharCounter = styled.div`
   position: absolute;
   bottom: 0.4rem;
   right: 0.6rem;
+
+  /* Für Smartphones im Querformat */
+  @media (max-width: 767px) and (orientation: landscape) {
+    font-size: 0.7rem;
+  }
 `;
 
 export const RatingContainer = styled.div`
   display: flex;
   align-items: center;
   gap: 0.3rem;
+
+  /* Für Smartphones im Querformat */
+  @media (max-width: 767px) and (orientation: landscape) {
+    gap: 0.2rem;
+  }
 `;
 
 export const CreatedUpdated = styled.div`
@@ -142,10 +224,20 @@ export const CreatedUpdated = styled.div`
   color: var(--color-text-light);
   padding: 0 0.8rem;
   text-align: center;
+
+  /* Für Smartphones im Querformat */
+  @media (max-width: 767px) and (orientation: landscape) {
+    font-size: 0.7rem;
+  }
 `;
 
 export const CardElementsWrapper = styled.div`
   display: flex;
   flex-direction: column;
   gap: 0.6rem;
+
+  /* Für Smartphones im Querformat */
+  @media (max-width: 767px) and (orientation: landscape) {
+    gap: 0.5rem;
+  }
 `;

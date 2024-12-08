@@ -4,16 +4,24 @@ import styled from 'styled-components';
 
 export const SnapshotContainer = styled.div`
   position: fixed;
-  top: 4.7rem;
+  top: 5rem;
   right: 0.7rem;
   display: flex;
   flex-direction: column;
-  gap: 0.4rem;
+  gap: 0.3rem;
   z-index: 4;
 
+  /* Für größere Geräte */
   @media (min-width: 768px) and (min-height: 768px) {
     top: 7rem;
     right: 2rem;
+  }
+
+  /* Für Smartphones im Querformat */
+  @media (max-width: 767px) and (orientation: landscape) {
+    top: 4.6rem;
+    right: 6.6rem;
+    gap: 0.2rem;
   }
 `;
 
@@ -29,14 +37,14 @@ export const SnapshotButton = styled.button.withConfig({
   border-radius: 0.6rem;
   cursor: pointer;
   background-color: ${({ isSnapshotLimitReached }) =>
-    isSnapshotLimitReached ? 'var(--color-red-400)' : 'var(--color-secondary-550)'};
+    isSnapshotLimitReached ? 'var(--color-button-warning)' : 'var(--color-button-secondary)'};
   width: 60px;
   height: 48px;
   padding: 0.6rem;
 
   &:hover {
     background-color: ${({ isSnapshotLimitReached }) =>
-      isSnapshotLimitReached ? 'var(--color-red-500)' : 'var(--color-secondary-700)'};
+      isSnapshotLimitReached ? 'var(--color-button-warning-hover)' : 'var(--color-button-secondary-hover)'};
   }
 
   svg {
@@ -44,6 +52,7 @@ export const SnapshotButton = styled.button.withConfig({
     color: var(--color-white);
   }
 
+  /* Für größere Geräte */
   @media (min-width: 768px) {
     padding: 0.8rem;
     width: 72px;
@@ -54,21 +63,43 @@ export const SnapshotButton = styled.button.withConfig({
       color: var(--color-white);
     }
   }
+
+  /* Querformat für Smartphones */
+  @media (max-width: 767px) and (orientation: landscape) {
+    width: 56px;
+    height: 48px;
+    padding: 0.6rem;
+
+    svg {
+      font-size: 1.2rem;
+    }
+  }
+
+  /* Querformat für Tablets */
+  @media (min-width: 768px) and (orientation: landscape) {
+    width: 80px;
+    height: 64px;
+    padding: 0.8rem;
+
+    svg {
+      font-size: 2rem;
+    }
+  }
 `;
 
 export const UndoButton = styled(SnapshotButton)`
-  background-color: var(--color-secondary-250);
+  background-color: var(--color-button-secondary-light);
 
   &:hover {
-    background-color: var(--color-secondary-350);
+    background-color: var(--color-button-secondary-light-hover);
   }
 `;
 
 export const RedoButton = styled(SnapshotButton)`
-  background-color: var(--color-secondary-250);
+  background-color: var(--color-button-secondary-light);
 
   &:hover {
-    background-color: var(--color-secondary-350);
+    background-color: var(--color-button-secondary-light-hover);
   }
 `;
 
@@ -82,10 +113,10 @@ export const DeleteButton = styled.button`
   width: 60px;
   height: 48px;
   padding: 0.6rem;
-  background-color: var(--color-secondary-250);
+  background-color: var(--color-button-secondary-light);
 
   &:hover {
-    background-color: var(--color-secondary-350);
+    background-color: var(--color-button-secondary-light-hover);
   }
 
   svg {
@@ -93,6 +124,7 @@ export const DeleteButton = styled.button`
     color: var(--color-white);
   }
 
+  /* Für größere Geräte */
   @media (min-width: 768px) and (min-height: 768px) {
     padding: 0.8rem;
     width: 72px;
@@ -101,6 +133,28 @@ export const DeleteButton = styled.button`
     svg {
       font-size: 1.8rem;
       color: var(--color-white);
+    }
+  }
+
+  /* Querformat für Smartphones */
+  @media (max-width: 767px) and (orientation: landscape) {
+    width: 56px;
+    height: 48px;
+    padding: 0.6rem;
+
+    svg {
+      font-size: 1.2rem;
+    }
+  }
+
+  /* Querformat für Tablets */
+  @media (min-width: 768px) and (orientation: landscape) {
+    width: 80px;
+    height: 64px;
+    padding: 0.8rem;
+
+    svg {
+      font-size: 2rem;
     }
   }
 `;
