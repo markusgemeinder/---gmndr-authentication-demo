@@ -1,9 +1,8 @@
-// /app/components/ColorPaletteGenerator/PaletteGenerator.js
+// /app/components/ColorGenerator/PaletteGenerator.js
 
 'use client';
 
 import { useReducer, useState, useEffect, useContext } from 'react';
-import PropTypes from 'prop-types';
 import {
   Wrapper,
   Title,
@@ -28,9 +27,9 @@ import {
   PaletteOutput,
 } from './PaletteGeneratorStyles';
 import { FaCopy, FaSlidersH, FaRedo } from 'react-icons/fa';
-import { generateMonochromePalette, getColorPreview } from './utils/paletteGeneratorUtils';
+import { generateMonochromePalette, getColorPreview } from '@/utils/paletteGeneratorUtils';
 import SnapshotController from './SnapshotController';
-import { loadFormDataFromLocalStorage, saveFormDataToLocalStorage } from './utils/localStorageUtils';
+import { loadFormDataFromLocalStorage, saveFormDataToLocalStorage } from '@/utils/localStorageUtils';
 import LanguageContext from '@/app/components/LanguageProvider';
 import { getText } from '@/lib/languageLibrary';
 

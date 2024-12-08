@@ -247,7 +247,7 @@ ol {
   --color-button-confirmation: var(--color-green-700);
   --color-button-confirmation-hover: var(--color-green-750);
 
-  /* Button Text ColorPaletteGenerator */
+  /* Button Text ColorGenerator */
   --color-button-text: var(--color-white);
 
   /* Page Navigation Button Colors */
@@ -312,7 +312,7 @@ ol {
   --color-button-confirmation: var(--color-green-750);
   --color-button-confirmation-hover: var(--color-green-700);
 
-  /* Button Text ColorPaletteGenerator */
+  /* Button Text ColorGenerator */
   --color-button-text: var(--color-white);
 
   /* Page Navigation Button Colors */

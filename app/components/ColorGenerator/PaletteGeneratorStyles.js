@@ -1,4 +1,4 @@
-// /app/components/ColorPaletteGenerator/PaletteGeneratorStyles.js
+// /app/components/ColorGenerator/PaletteGeneratorStyles.js
 
 import styled from 'styled-components';
 

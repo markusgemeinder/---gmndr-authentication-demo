@@ -1,4 +1,4 @@
-// /app/components/ColorPaletteGenerator/SnapshotController.js
+// /app/components/ColorGenerator/SnapshotController.js
 
 import { useState, useEffect, useContext } from 'react';
 import { FaCamera, FaStackOverflow, FaTrash, FaTimes, FaCheck, FaUndo, FaRedo } from 'react-icons/fa';
@@ -11,7 +11,7 @@ import {
   loadLastUsedSnapshotIndexFromLocalStorage,
   deleteLastUsedSnapshotFromLocalStorage,
   saveLastUsedSnapshotIndexToLocalStorage,
-} from './utils/localStorageUtils';
+} from '@/utils/localStorageUtils';
 import SnapshotControllerModalPopup from './SnapshotControllerModalPopup';
 import {
   SnapshotContainer,
@@ -24,7 +24,7 @@ import {
 import LanguageContext from '@/app/components/LanguageProvider';
 import { getText } from '@/lib/languageLibrary';
 
-const SNAPSHOT_LIMIT = 6;
+const SNAPSHOT_LIMIT = 8;
 
 export default function SnapshotController({ state, onApplySnapshot, resetForm }) {
   // ===== State Management

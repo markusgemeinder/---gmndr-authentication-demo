@@ -1,4 +1,4 @@
-// /app/components/ColorPaletteGenerator/SnapshotControllerModalPopup.js
+// /app/components/ColorGenerator/SnapshotControllerModalPopup.js
 
 import { useContext } from 'react';
 import styled from 'styled-components';

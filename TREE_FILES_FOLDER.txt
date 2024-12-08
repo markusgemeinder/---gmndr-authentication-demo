@@ -2,62 +2,54 @@
      2	├── README.md
      3	├── TREE_FILES_FOLDER.txt
      4	├── app
-     5	│   ├── TREE_FILES_FOLDER.txt
-     6	│   ├── color-generator
-     7	│   ├── components
-     8	│   │   ├── Button
-     9	│   │   │   ├── AuthButtonSvg.js
-    10	│   │   │   ├── Button.js
-    11	│   │   │   ├── NavigationButtonNextPage.js
-    12	│   │   │   ├── NavigationButtonPageUp.js
-    13	│   │   │   ├── NavigationButtonPreviousPage.js
-    14	│   │   │   ├── NavigationButtonTemplate.js
-    15	│   │   │   └── ThemeToggleButton.js
-    16	│   │   ├── ColorPaletteGenerator
-    17	│   │   │   ├── PaletteGenerator.js
-    18	│   │   │   ├── PaletteGeneratorStyles.js
-    19	│   │   │   ├── SnapshotController.js
-    20	│   │   │   ├── SnapshotControllerModalPopup.js
-    21	│   │   │   ├── SnapshotControllerStyles.js
-    22	│   │   │   └── utils
-    23	│   │   │       ├── localStorageUtils.js
-    24	│   │   │       └── paletteGeneratorUtils.js
-    25	│   │   ├── Common
-    26	│   │   │   ├── CommonStyles.js
-    27	│   │   │   ├── ModalPopup.js
-    28	│   │   │   ├── ScrollToTop.js
-    29	│   │   │   └── ThemeProvider.js
-    30	│   │   ├── Info
-    31	│   │   │   ├── InfoContact.js
-    32	│   │   │   ├── InfoNeueFische.js
-    33	│   │   │   ├── InfoProject.js
-    34	│   │   │   ├── InfoStyles.js
-    35	│   │   │   └── InfoTechstack.js
-    36	│   │   ├── LanguageProvider.js
-    37	│   │   └── Layout
-    38	│   │       ├── Footer.js
-    39	│   │       ├── Logo.js
-    40	│   │       ├── MainContainer.js
-    41	│   │       ├── Navigation.js
-    42	│   │       └── NavigationStyles.js
-    43	│   ├── globals.css
-    44	│   ├── info
-    45	│   │   └── page.js
-    46	│   ├── layout.js
-    47	│   └── page.js
-    48	├── jsconfig.json
-    49	├── lib
-    50	│   └── languageLibrary.js
-    51	├── middleware.js
-    52	├── next.config.mjs
-    53	├── package.json
-    54	├── postcss.config.mjs
-    55	├── tailwind.config.js.bak
-    56	└── utils
-    57	    ├── emailTemplate.js
-    58	    ├── getLanguageFromCookies.js
-    59	    ├── maskEmail.js
-    60	    ├── sendEmail.js
-    61	    └── sendEmail.js.bak
+     5	│   ├── components
+     6	│   │   ├── Button
+     7	│   │   │   ├── AuthButtonSvg.js
+     8	│   │   │   ├── Button.js
+     9	│   │   │   ├── NavigationButtonNextPage.js
+    10	│   │   │   ├── NavigationButtonPageUp.js
+    11	│   │   │   ├── NavigationButtonPreviousPage.js
+    12	│   │   │   ├── NavigationButtonTemplate.js
+    13	│   │   │   └── ThemeToggleButton.js
+    14	│   │   ├── ColorGenerator
+    15	│   │   │   ├── PaletteGenerator.js
+    16	│   │   │   ├── PaletteGeneratorStyles.js
+    17	│   │   │   ├── SnapshotController.js
+    18	│   │   │   ├── SnapshotControllerModalPopup.js
+    19	│   │   │   └── SnapshotControllerStyles.js
+    20	│   │   ├── Common
+    21	│   │   │   ├── CommonStyles.js
+    22	│   │   │   ├── ModalPopup.js.bak
+    23	│   │   │   ├── ScrollToTop.js
+    24	│   │   │   └── ThemeProvider.js
+    25	│   │   ├── Info
+    26	│   │   │   ├── InfoContact.js
+    27	│   │   │   ├── InfoNeueFische.js
+    28	│   │   │   ├── InfoProject.js
+    29	│   │   │   ├── InfoStyles.js
+    30	│   │   │   └── InfoTechstack.js
+    31	│   │   ├── LanguageProvider.js
+    32	│   │   └── Layout
+    33	│   │       ├── Footer.js
+    34	│   │       ├── Logo.js
+    35	│   │       ├── MainContainer.js
+    36	│   │       ├── Navigation.js
+    37	│   │       └── NavigationStyles.js
+    38	│   ├── globals.css
+    39	│   ├── info
+    40	│   │   └── page.js
+    41	│   ├── layout.js
+    42	│   └── page.js
+    43	├── jsconfig.json
+    44	├── lib
+    45	│   └── languageLibrary.js
+    46	├── next.config.mjs
+    47	├── package.json
+    48	├── postcss.config.mjs
+    49	├── tailwind.config.js.bak
+    50	└── utils
+    51	    ├── getLanguageFromCookies.js
+    52	    ├── localStorageUtils.js
+    53	    └── paletteGeneratorUtils.js
       	
-    62	13 directories, 48 files
+    54	11 directories, 42 files

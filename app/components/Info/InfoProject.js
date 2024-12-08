@@ -1,5 +1,7 @@
 // /app/components/Info/InfoProject.js
 
+// /app/components/Info/InfoProject.js
+
 'use client';
 
 import { useContext } from 'react';
@@ -38,19 +40,18 @@ export default function InfoProject() {
         {getGreeting()} {getLanguageText('welcome_message')}
       </Paragraph>
       <Subtitle>{getLanguageText('project_overview_title')}</Subtitle>
-      <Paragraph>{getLanguageText('project_overview_description_1')}</Paragraph>
-      <Paragraph>{getLanguageText('project_overview_description_2')}</Paragraph>
-      <Paragraph>{getLanguageText('project_overview_description_3')}</Paragraph>
+      <Paragraph>{getLanguageText('project_overview_description')}</Paragraph>
       <Subtitle>{getLanguageText('main_features_title')}</Subtitle>
       <ListContainer>
-        <List>{getLanguageText('feature_multiple_login')}</List>
-        <List>{getLanguageText('feature_double_opt_in')}</List>
-        <List>{getLanguageText('feature_middleware')}</List>
-        <List>{getLanguageText('feature_review_creation')}</List>
+        <List>{getLanguageText('feature_base_color_selection')}</List>
+        <List>{getLanguageText('feature_color_spread')}</List>
+        <List>{getLanguageText('feature_custom_variable_naming')}</List>
+        <List>{getLanguageText('feature_sorting_and_scaling')}</List>
+        <List>{getLanguageText('feature_snapshots')}</List>
         <List>{getLanguageText('feature_responsive_navigation')}</List>
       </ListContainer>
       <InfoLinkContainer>
-        <InfoLink href='https://github.com/markusgemeinder/---gmndr-authentication-demo' target='_blank'>
+        <InfoLink href='https://github.com/markusgemeinder/---gmndr-color-palette-generator' target='_blank'>
           {getLanguageText('link_github')}
         </InfoLink>
       </InfoLinkContainer>

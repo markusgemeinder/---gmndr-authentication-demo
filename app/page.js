@@ -6,7 +6,7 @@ import { Container } from '@/app/components/Common/CommonStyles';
 import ScrollToTop from '@/app/components/Common/ScrollToTop';
 
 import dynamic from 'next/dynamic';
-const PaletteGenerator = dynamic(() => import('@/app/components/ColorPaletteGenerator/PaletteGenerator'), {
+const PaletteGenerator = dynamic(() => import('@/app/components/ColorGenerator/PaletteGenerator'), {
   ssr: false,
 });
 

@@ -33,15 +33,6 @@ export default function InfoTechstack() {
         <List>{getLanguageText('frontend_javascript')}</List>
         <List>{getLanguageText('frontend_react_icons')}</List>
       </ListContainer>
-      <Subtitle>{getLanguageText('backend_title')}</Subtitle>
-      <Paragraph>{getLanguageText('backend_intro')}</Paragraph>
-      <ListContainer>
-        <List>{getLanguageText('backend_node')}</List>
-        <List>{getLanguageText('backend_next_auth')}</List>
-        <List>{getLanguageText('backend_mongodb')}</List>
-        <List>{getLanguageText('backend_next_response')}</List>
-        <List>{getLanguageText('backend_sendgrid')}</List>
-      </ListContainer>
 
       <Subtitle>{getLanguageText('other_tools_title')}</Subtitle>
       <Paragraph>{getLanguageText('other_tools_intro')}</Paragraph>
