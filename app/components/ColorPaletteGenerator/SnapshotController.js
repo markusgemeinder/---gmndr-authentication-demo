@@ -134,7 +134,6 @@ export default function SnapshotController({ state, onApplySnapshot, resetForm }
 
     setSnapshots(newSnapshots);
     setCurrentSnapshotPosition(currentSnapshotPosition + 1);
-
     saveLastUsedSnapshotToLocalStorage(formData);
     saveLastUsedSnapshotIndexToLocalStorage(lastUsedSnapshotIndex + 1);
 
@@ -221,42 +220,33 @@ export default function SnapshotController({ state, onApplySnapshot, resetForm }
 
   // ===== Undo/Redo Logic
   const handleUndoRedo = (direction) => {
-    if (hasFormDataChanged && !lastUsedRestored) {
+    if (hasFormDataChanged) {
       undoRedoModal(direction);
     } else {
       performUndoRedo(direction);
-      setLastUsedRestored(false);
-      setHasFormDataChanged(JSON.stringify(formData) !== JSON.stringify(lastUsedSnapshot));
     }
+  };
+
+  const performUndoRedo = (direction) => {
+    const newPosition =
+      direction === 'undo'
+        ? Math.max(currentSnapshotPosition - 1, 0)
+        : Math.min(currentSnapshotPosition + 1, snapshots.length - 1);
+
+    onApplySnapshot(snapshots[newPosition]);
+    setCurrentSnapshotPosition(newPosition);
+
+    saveLastUsedSnapshotToLocalStorage(snapshots[newPosition]);
+    saveLastUsedSnapshotIndexToLocalStorage(newPosition);
+
+    setHasFormDataChanged(JSON.stringify(formData) !== JSON.stringify(snapshots[newPosition]));
   };
 
   const undoRedoModal = (direction) => {
     setInfoModalMessage(getLanguageText('formDataNotSaved'));
     setModalType('decision-undo-redo');
-    setShowModal(true);
     setModalUndoRedoDirection(direction);
-  };
-
-  const performUndoRedo = (direction) => {
-    let newPosition;
-
-    if (!lastUsedRestored && hasFormDataChanged) {
-      onApplySnapshot(lastUsedSnapshot);
-      setLastUsedRestored(true);
-      newPosition = lastUsedSnapshotIndex;
-    } else {
-      newPosition =
-        direction === 'undo'
-          ? Math.max(currentSnapshotPosition - 1, 0)
-          : Math.min(currentSnapshotPosition + 1, snapshots.length - 1);
-
-      onApplySnapshot(snapshots[newPosition]);
-      setCurrentSnapshotPosition(newPosition);
-      saveLastUsedSnapshotToLocalStorage(snapshots[newPosition]);
-      saveLastUsedSnapshotIndexToLocalStorage(newPosition);
-    }
-
-    setHasFormDataChanged(JSON.stringify(formData) !== JSON.stringify(lastUsedSnapshot));
+    setShowModal(true);
   };
 
   // ===== Modal Control
@@ -298,7 +288,7 @@ export default function SnapshotController({ state, onApplySnapshot, resetForm }
         onConfirm={() => {
           if (modalType === 'decision-undo-redo') {
             handleSnapshot();
-            performUndoRedo(modalUndoRedoDirection);
+            // performUndoRedo(modalUndoRedoDirection);
             setModalUndoRedoDirection(null);
           } else if (resetToLastSnapshot) {
             confirmResetFormToLastSnapshot();
