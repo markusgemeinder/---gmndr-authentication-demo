@@ -1,0 +1,46 @@
+     1	.
+     2	├── TREE_FILES_FOLDER.txt
+     3	├── color-generator
+     4	├── components
+     5	│   ├── Button
+     6	│   │   ├── AuthButtonSvg.js
+     7	│   │   ├── Button.js
+     8	│   │   ├── NavigationButtonNextPage.js
+     9	│   │   ├── NavigationButtonPageUp.js
+    10	│   │   ├── NavigationButtonPreviousPage.js
+    11	│   │   ├── NavigationButtonTemplate.js
+    12	│   │   └── ThemeToggleButton.js
+    13	│   ├── ColorPaletteGenerator
+    14	│   │   ├── PaletteGenerator.js
+    15	│   │   ├── PaletteGeneratorStyles.js
+    16	│   │   ├── SnapshotController.js
+    17	│   │   ├── SnapshotControllerModalPopup.js
+    18	│   │   ├── SnapshotControllerStyles.js
+    19	│   │   └── utils
+    20	│   │       ├── localStorageUtils.js
+    21	│   │       └── paletteGeneratorUtils.js
+    22	│   ├── Common
+    23	│   │   ├── CommonStyles.js
+    24	│   │   ├── ModalPopup.js
+    25	│   │   ├── ScrollToTop.js
+    26	│   │   └── ThemeProvider.js
+    27	│   ├── Info
+    28	│   │   ├── InfoContact.js
+    29	│   │   ├── InfoNeueFische.js
+    30	│   │   ├── InfoProject.js
+    31	│   │   ├── InfoStyles.js
+    32	│   │   └── InfoTechstack.js
+    33	│   ├── LanguageProvider.js
+    34	│   └── Layout
+    35	│       ├── Footer.js
+    36	│       ├── Logo.js
+    37	│       ├── MainContainer.js
+    38	│       ├── Navigation.js
+    39	│       └── NavigationStyles.js
+    40	├── globals.css
+    41	├── info
+    42	│   └── page.js
+    43	├── layout.js
+    44	└── page.js
+      	
+    45	10 directories, 34 files

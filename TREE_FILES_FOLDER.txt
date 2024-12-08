@@ -2,128 +2,62 @@
      2	├── README.md
      3	├── TREE_FILES_FOLDER.txt
      4	├── app
-     5	│   ├── (auth)
-     6	│   │   ├── forgot-password
-     7	│   │   │   └── page.js
-     8	│   │   ├── login
-     9	│   │   │   └── page.js
-    10	│   │   ├── register
-    11	│   │   │   └── page.js
-    12	│   │   ├── reset-password
-    13	│   │   │   └── [token]
-    14	│   │   │       └── page.js
-    15	│   │   └── verify-email
-    16	│   │       └── [token]
-    17	│   │           └── page.js
-    18	│   ├── api
-    19	│   │   ├── auth
-    20	│   │   │   ├── [...nextauth]
-    21	│   │   │   │   ├── options.js
-    22	│   │   │   │   └── route.js
-    23	│   │   │   ├── check-token
-    24	│   │   │   │   └── route.js
-    25	│   │   │   ├── forgot-password
-    26	│   │   │   │   └── route.js
-    27	│   │   │   ├── register
-    28	│   │   │   │   └── route.js
-    29	│   │   │   ├── reset-password
-    30	│   │   │   │   └── route.js
-    31	│   │   │   ├── verify-email
-    32	│   │   │   │   └── route.js
-    33	│   │   │   └── verify-email-resend
-    34	│   │   │       └── route.js
-    35	│   │   ├── reviews
-    36	│   │   │   ├── [id]
-    37	│   │   │   │   └── route.js
-    38	│   │   │   └── route.js
-    39	│   │   └── send-test-email
-    40	│   │       └── route.js
-    41	│   ├── color-generator
-    42	│   │   └── page.js
-    43	│   ├── components
-    44	│   │   ├── AuthForm
-    45	│   │   │   ├── AuthFormStyles.js
-    46	│   │   │   ├── ForgotPasswordForm.js
-    47	│   │   │   ├── LoginForm.js
-    48	│   │   │   ├── RegisterForm.js
-    49	│   │   │   └── ResetPasswordForm.js
-    50	│   │   ├── Authentication
-    51	│   │   │   ├── AuthProvider.js
-    52	│   │   │   ├── ProtectedRoute.js
-    53	│   │   │   └── SessionStatus.js
-    54	│   │   ├── Button
-    55	│   │   │   ├── AuthButtonSvg.js
-    56	│   │   │   ├── Button.js
-    57	│   │   │   ├── NavigationButtonNextPage.js
-    58	│   │   │   ├── NavigationButtonPageUp.js
-    59	│   │   │   ├── NavigationButtonPreviousPage.js
-    60	│   │   │   ├── NavigationButtonTemplate.js
-    61	│   │   │   └── ThemeToggleButton.js
-    62	│   │   ├── ColorPaletteGenerator
-    63	│   │   │   ├── PaletteGenerator.js
-    64	│   │   │   ├── PaletteGeneratorStyles.js
-    65	│   │   │   ├── SnapshotController.js
-    66	│   │   │   ├── SnapshotControllerModalPopup.js
-    67	│   │   │   ├── SnapshotControllerStyles.js
-    68	│   │   │   └── utils
-    69	│   │   │       ├── localStorageUtils.js
-    70	│   │   │       └── paletteGeneratorUtils.js
-    71	│   │   ├── Common
-    72	│   │   │   ├── Accordion.js
-    73	│   │   │   ├── CommonStyles.js
-    74	│   │   │   ├── LoadingAnimation.js
-    75	│   │   │   ├── ModalPopup.js
-    76	│   │   │   ├── ScrollToTop.js
-    77	│   │   │   ├── StarRating.js
-    78	│   │   │   ├── ThemeProvider.js
-    79	│   │   │   └── ValidatePassword.js
-    80	│   │   ├── Info
-    81	│   │   │   ├── InfoContact.js
-    82	│   │   │   ├── InfoNeueFische.js
-    83	│   │   │   ├── InfoProject.js
-    84	│   │   │   ├── InfoStyles.js
-    85	│   │   │   └── InfoTechstack.js
-    86	│   │   ├── LanguageProvider.js
-    87	│   │   ├── Layout
-    88	│   │   │   ├── Footer.js
-    89	│   │   │   ├── Logo.js
-    90	│   │   │   ├── MainContainer.js
-    91	│   │   │   ├── Navigation.js
-    92	│   │   │   └── NavigationStyles.js
-    93	│   │   └── Review
-    94	│   │       ├── ReviewCard.js
-    95	│   │       ├── ReviewForm.js
-    96	│   │       └── ReviewStyles.js
-    97	│   ├── globals.css
-    98	│   ├── globals.css.bak
-    99	│   ├── info
-   100	│   │   └── page.js
-   101	│   ├── layout.js
-   102	│   ├── page.js
-   103	│   └── reviews
-   104	│       ├── [id]
-   105	│       │   └── page.js
-   106	│       ├── create
-   107	│       │   └── page.js
-   108	│       └── page.js
-   109	├── db
-   110	│   ├── connect.js
-   111	│   └── models
-   112	│       ├── Review.js
-   113	│       └── User.js
-   114	├── jsconfig.json
-   115	├── lib
-   116	│   └── languageLibrary.js
-   117	├── middleware.js
-   118	├── next.config.mjs
-   119	├── package.json
-   120	├── postcss.config.mjs
-   121	├── tailwind.config.js.bak
-   122	└── utils
-   123	    ├── emailTemplate.js
-   124	    ├── getLanguageFromCookies.js
-   125	    ├── maskEmail.js
-   126	    ├── sendEmail.js
-   127	    └── sendEmail.js.bak
+     5	│   ├── TREE_FILES_FOLDER.txt
+     6	│   ├── color-generator
+     7	│   ├── components
+     8	│   │   ├── Button
+     9	│   │   │   ├── AuthButtonSvg.js
+    10	│   │   │   ├── Button.js
+    11	│   │   │   ├── NavigationButtonNextPage.js
+    12	│   │   │   ├── NavigationButtonPageUp.js
+    13	│   │   │   ├── NavigationButtonPreviousPage.js
+    14	│   │   │   ├── NavigationButtonTemplate.js
+    15	│   │   │   └── ThemeToggleButton.js
+    16	│   │   ├── ColorPaletteGenerator
+    17	│   │   │   ├── PaletteGenerator.js
+    18	│   │   │   ├── PaletteGeneratorStyles.js
+    19	│   │   │   ├── SnapshotController.js
+    20	│   │   │   ├── SnapshotControllerModalPopup.js
+    21	│   │   │   ├── SnapshotControllerStyles.js
+    22	│   │   │   └── utils
+    23	│   │   │       ├── localStorageUtils.js
+    24	│   │   │       └── paletteGeneratorUtils.js
+    25	│   │   ├── Common
+    26	│   │   │   ├── CommonStyles.js
+    27	│   │   │   ├── ModalPopup.js
+    28	│   │   │   ├── ScrollToTop.js
+    29	│   │   │   └── ThemeProvider.js
+    30	│   │   ├── Info
+    31	│   │   │   ├── InfoContact.js
+    32	│   │   │   ├── InfoNeueFische.js
+    33	│   │   │   ├── InfoProject.js
+    34	│   │   │   ├── InfoStyles.js
+    35	│   │   │   └── InfoTechstack.js
+    36	│   │   ├── LanguageProvider.js
+    37	│   │   └── Layout
+    38	│   │       ├── Footer.js
+    39	│   │       ├── Logo.js
+    40	│   │       ├── MainContainer.js
+    41	│   │       ├── Navigation.js
+    42	│   │       └── NavigationStyles.js
+    43	│   ├── globals.css
+    44	│   ├── info
+    45	│   │   └── page.js
+    46	│   ├── layout.js
+    47	│   └── page.js
+    48	├── jsconfig.json
+    49	├── lib
+    50	│   └── languageLibrary.js
+    51	├── middleware.js
+    52	├── next.config.mjs
+    53	├── package.json
+    54	├── postcss.config.mjs
+    55	├── tailwind.config.js.bak
+    56	└── utils
+    57	    ├── emailTemplate.js
+    58	    ├── getLanguageFromCookies.js
+    59	    ├── maskEmail.js
+    60	    ├── sendEmail.js
+    61	    └── sendEmail.js.bak
       	
-   128	41 directories, 86 files
+    62	13 directories, 48 files

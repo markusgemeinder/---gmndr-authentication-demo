@@ -2,7 +2,6 @@
 
 'use client';
 
-import { useSession, signOut } from 'next-auth/react';
 import { useRouter, usePathname } from 'next/navigation';
 import { useState, useContext } from 'react';
 
@@ -29,7 +28,6 @@ import {
 } from '@/app/components/Layout/NavigationStyles';
 
 export default function Navigation() {
-  const { data: session } = useSession();
   const router = useRouter();
   const pathname = usePathname();
   const [isBurgerOpen, setIsBurgerOpen] = useState(false);
@@ -57,25 +55,11 @@ export default function Navigation() {
 
   const renderNavLinks = () => (
     <>
-      {!session && (
-        <NavItem>
-          <NavLink href='/forgot-password' $isActive={pathname === '/forgot-password'} onClick={handleLinkClick}>
-            {getLanguageText('forgot_password')}
-          </NavLink>
-        </NavItem>
-      )}
       <NavItem>
         <NavLink href='/' $isActive={pathname === '/'} onClick={handleLinkClick}>
           {getLanguageText('home')}
         </NavLink>
       </NavItem>
-      {session && (
-        <NavItem>
-          <NavLink href='/reviews' $isActive={pathname === '/reviews'} onClick={handleLinkClick}>
-            {getLanguageText('reviews')}
-          </NavLink>
-        </NavItem>
-      )}
       <NavItem>
         <NavLink href='/info' $isActive={pathname === '/info'} onClick={handleLinkClick}>
           {getLanguageText('info')}
@@ -92,82 +76,13 @@ export default function Navigation() {
         </NavLink>
       </BurgerMenuItem>
 
-      {session ? (
-        <>
-          <BurgerMenuItem>
-            <NavLink href='/reviews' $isActive={pathname === '/reviews'} onClick={handleLinkClick}>
-              {getLanguageText('reviews')}
-            </NavLink>
-          </BurgerMenuItem>
-          <BurgerMenuItem>
-            <NavLink href='/info' $isActive={pathname === '/info'} onClick={handleLinkClick}>
-              {getLanguageText('info')}
-            </NavLink>
-          </BurgerMenuItem>
-          <BurgerMenuItem>
-            <NavLink href='#' onClick={() => signOut({ callbackUrl: '/' })}>
-              {getLanguageText('logout')}
-            </NavLink>
-          </BurgerMenuItem>
-        </>
-      ) : (
-        <>
-          <BurgerMenuItem>
-            <NavLink href='/login' $isActive={pathname === '/login'} onClick={handleLinkClick}>
-              {getLanguageText('login')}
-            </NavLink>
-          </BurgerMenuItem>
-          <BurgerMenuItem>
-            <NavLink href='/register' $isActive={pathname === '/register'} onClick={handleLinkClick}>
-              {getLanguageText('register')}
-            </NavLink>
-          </BurgerMenuItem>
-          <BurgerMenuItem>
-            <NavLink href='/forgot-password' $isActive={pathname === '/forgot-password'} onClick={handleLinkClick}>
-              {getLanguageText('forgot_password')}
-            </NavLink>
-          </BurgerMenuItem>
-          <BurgerMenuItem>
-            <NavLink href='/info' $isActive={pathname === '/info'} onClick={handleLinkClick}>
-              {getLanguageText('info')}
-            </NavLink>
-          </BurgerMenuItem>
-        </>
-      )}
+      <BurgerMenuItem>
+        <NavLink href='/info' $isActive={pathname === '/info'} onClick={handleLinkClick}>
+          {getLanguageText('info')}
+        </NavLink>
+      </BurgerMenuItem>
     </>
   );
-
-  const renderSessionButtons = () => {
-    const logoutText = getLanguageText('logout');
-
-    return (
-      <ButtonContainerHorizontal>
-        <LogoutButton
-          buttonText={logoutText}
-          onCloseMenu={handleLinkClick}
-          aria-label={logoutText}
-          title={logoutText}
-        />
-      </ButtonContainerHorizontal>
-    );
-  };
-
-  const renderNoSessionButtons = () => {
-    const loginText = getLanguageText('login');
-    const registerText = getLanguageText('register');
-
-    return (
-      <ButtonContainerHorizontal>
-        <LoginButton buttonText={loginText} onCloseMenu={handleLinkClick} aria-label={loginText} title={loginText} />
-        <RegisterButton
-          buttonText={registerText}
-          onCloseMenu={handleLinkClick}
-          aria-label={registerText}
-          title={registerText}
-        />
-      </ButtonContainerHorizontal>
-    );
-  };
 
   return (
     <>
@@ -176,7 +91,6 @@ export default function Navigation() {
           <ShakeAnimation $isShaking={isShaking}>
             <Logo onClick={handleLogoClick} />
           </ShakeAnimation>
-          {session ? renderSessionButtons() : renderNoSessionButtons()}
           <ThemeToggleButton />
         </BrandContainer>
         <NavItem>
