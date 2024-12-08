@@ -146,7 +146,7 @@ export default function SnapshotController({ state, onApplySnapshot, resetForm }
     setSnapshotInProgress(true);
     setTimeout(() => {
       setSnapshotInProgress(false);
-    }, 1000); // 1 Sekunde
+    }, 1000);
   };
 
   const handleDeleteCurrent = () => {
@@ -189,7 +189,7 @@ export default function SnapshotController({ state, onApplySnapshot, resetForm }
 
   const confirmResetFormToLastSnapshot = () => {
     onApplySnapshot(lastUsedSnapshot);
-    setSnapshots([lastUsedSnapshot]); // Setzt die Snapshots zurück
+    setSnapshots([lastUsedSnapshot]);
     saveSnapshotsToLocalStorage([lastUsedSnapshot]);
     setCurrentSnapshotPosition(0);
     saveLastUsedSnapshotToLocalStorage(lastUsedSnapshot);
