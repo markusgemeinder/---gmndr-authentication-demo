@@ -89,19 +89,18 @@ export default function Navigation() {
           <ShakeAnimation $isShaking={isShaking}>
             <Logo onClick={handleLogoClick} />
           </ShakeAnimation>
-          <ThemeToggleButton />
         </BrandContainer>
-        <NavItem>
-          <NavLink href='#' onClick={() => setLanguagePreference('EN')} $isActive={language === 'EN'}>
-            EN
-          </NavLink>
-          {' | '}
-          <NavLink href='#' onClick={() => setLanguagePreference('DE')} $isActive={language === 'DE'}>
-            DE
-          </NavLink>
-        </NavItem>
-
         <NavContainer>
+          <NavItem>
+            <NavLink href='#' onClick={() => setLanguagePreference('EN')} $isActive={language === 'EN'}>
+              EN
+            </NavLink>
+            {' | '}
+            <NavLink href='#' onClick={() => setLanguagePreference('DE')} $isActive={language === 'DE'}>
+              DE
+            </NavLink>
+          </NavItem>
+          <ThemeToggleButton />
           <NavList>{renderNavLinks()}</NavList>
 
           <BurgerMenuButton

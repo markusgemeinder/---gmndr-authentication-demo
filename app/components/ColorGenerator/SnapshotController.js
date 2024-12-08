@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 // /app/components/ColorGenerator/SnapshotController.js
 
 import { useState, useEffect, useContext } from 'react';
@@ -80,7 +81,7 @@ export default function SnapshotController({ state, onApplySnapshot, resetForm }
 
   useEffect(() => {
     setHasFormDataChanged(JSON.stringify(formData) !== JSON.stringify(lastUsedSnapshot));
-  }, [formData]);
+  }, [formData, lastUsedSnapshot]);
 
   useEffect(() => {
     const { undoSteps, redoSteps } = calculateUndoRedoSteps(snapshots, currentSnapshotPosition);
