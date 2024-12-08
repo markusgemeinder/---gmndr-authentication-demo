@@ -40,6 +40,8 @@ export default function SnapshotController({ state, onApplySnapshot, resetForm }
   const [snapshotInProgress, setSnapshotInProgress] = useState(false);
   const [lastUsedRestored, setLastUsedRestored] = useState(false);
   const [resetToLastSnapshot, setResetToLastSnapshot] = useState(false);
+  const [undoSteps, setUndoSteps] = useState(0);
+  const [redoSteps, setRedoSteps] = useState(0);
 
   // ===== Sprachtext-Abfrage
   const getLanguageText = (key) => {
@@ -80,6 +82,12 @@ export default function SnapshotController({ state, onApplySnapshot, resetForm }
     setHasFormDataChanged(JSON.stringify(formData) !== JSON.stringify(lastUsedSnapshot));
   }, [formData]);
 
+  useEffect(() => {
+    const { undoSteps, redoSteps } = calculateUndoRedoSteps(snapshots, currentSnapshotPosition);
+    setUndoSteps(undoSteps);
+    setRedoSteps(redoSteps);
+  }, [snapshots, currentSnapshotPosition]);
+
   // ===== Helper Functions
   const isSnapshotDuplicate = (snapshots, formData) =>
     snapshots.some((snapshot) => JSON.stringify(snapshot) === JSON.stringify(formData));
@@ -87,8 +95,23 @@ export default function SnapshotController({ state, onApplySnapshot, resetForm }
   const findLastUsedSnapshotIndex = (snapshots, lastUsedSnapshot) =>
     snapshots.findIndex((snapshot) => JSON.stringify(snapshot) === JSON.stringify(lastUsedSnapshot));
 
-  // ===== Snapshot Management
+  const calculateUndoRedoSteps = (snapshots, currentSnapshotPosition) => {
+    if (!snapshots || snapshots.length <= 1) {
+      // Weniger als 2 Snapshots bedeutet keine Undo- oder Redo-Schritte möglich.
+      return { undoSteps: 0, redoSteps: 0 };
+    }
 
+    // Sicherstellen, dass die Position innerhalb des gültigen Bereichs liegt
+    const validCurrentPosition = Math.max(0, Math.min(currentSnapshotPosition, snapshots.length - 1));
+
+    // Berechnung der Undo- und Redo-Schritte
+    const undoSteps = validCurrentPosition; // Schritte zurück von der aktuellen Position
+    const redoSteps = snapshots.length - 1 - validCurrentPosition; // Schritte vorwärts von der aktuellen Position
+
+    return { undoSteps, redoSteps };
+  };
+
+  // ===== Snapshot Management
   const handleSnapshot = () => {
     if (isSnapshotLimitReached) {
       setInfoModalMessage(getLanguageText('snapshotLimitReached'));
@@ -121,6 +144,7 @@ export default function SnapshotController({ state, onApplySnapshot, resetForm }
       setShowModal(true);
     }
   };
+
   const handleDeleteCurrent = () => {
     if (snapshots.length === 0) {
       setInfoModalMessage(getLanguageText('noSnapshotToDelete'));
@@ -183,40 +207,28 @@ export default function SnapshotController({ state, onApplySnapshot, resetForm }
 
   const confirmDeleteAllSnapshots = () => {
     setSnapshots([]);
-    setShowModal(false);
-    setInfoModalMessage('');
     setCurrentSnapshotPosition(0);
-    saveLastUsedSnapshotIndexToLocalStorage(0);
-    deleteLastUsedSnapshotFromLocalStorage();
     resetForm();
+    deleteLastUsedSnapshotFromLocalStorage();
+    saveLastUsedSnapshotIndexToLocalStorage(0);
     setShowModal(false);
   };
 
   // ===== Undo/Redo Logic
   const handleUndoRedo = (direction) => {
     if (hasFormDataChanged && !lastUsedRestored) {
-      // Änderungen vorhanden – Modal öffnen
       undoRedoModal(direction);
     } else {
-      // Keine Änderungen – direkt Undo/Redo ausführen
       performUndoRedo(direction);
       setLastUsedRestored(false);
       setHasFormDataChanged(JSON.stringify(formData) !== JSON.stringify(lastUsedSnapshot));
     }
   };
 
-  const undoSteps = snapshots.length > 1 && currentSnapshotPosition > 0 ? currentSnapshotPosition : 0;
-  const redoSteps =
-    snapshots.length > 0 && currentSnapshotPosition < snapshots.length - 1
-      ? snapshots.length - currentSnapshotPosition - 1
-      : 0;
-
   const undoRedoModal = (direction) => {
     setInfoModalMessage(getLanguageText('formDataNotSaved'));
     setModalType('decision-undo-redo');
     setShowModal(true);
-
-    // Speichert die Richtung, die verarbeitet werden soll
     setModalUndoRedoDirection(direction);
   };
 
@@ -224,12 +236,11 @@ export default function SnapshotController({ state, onApplySnapshot, resetForm }
     let newPosition;
 
     if (!lastUsedRestored && hasFormDataChanged) {
-      // Letzten Snapshot wiederherstellen
       onApplySnapshot(lastUsedSnapshot);
       setLastUsedRestored(true);
       newPosition = lastUsedSnapshotIndex;
     } else {
-      const newPosition =
+      newPosition =
         direction === 'undo'
           ? Math.max(currentSnapshotPosition - 1, 0)
           : Math.min(currentSnapshotPosition + 1, snapshots.length - 1);
@@ -240,8 +251,7 @@ export default function SnapshotController({ state, onApplySnapshot, resetForm }
       saveLastUsedSnapshotIndexToLocalStorage(newPosition);
     }
 
-    // Zustände nach Undo/Redo zurücksetzen
-    setHasFormDataChanged(JSON.stringify(formData) !== JSON.stringify(lastUsedSnapshot)); // Neu prüfen
+    setHasFormDataChanged(JSON.stringify(formData) !== JSON.stringify(lastUsedSnapshot));
   };
 
   // ===== Modal Control
@@ -282,7 +292,7 @@ export default function SnapshotController({ state, onApplySnapshot, resetForm }
         infoModalMessage={infoModalMessage}
         onConfirm={() => {
           if (modalType === 'decision-undo-redo') {
-            handleSnapshot(); // Snapshot speichern
+            handleSnapshot();
             performUndoRedo(modalUndoRedoDirection);
             setModalUndoRedoDirection(null);
           } else if (resetToLastSnapshot) {
@@ -292,12 +302,12 @@ export default function SnapshotController({ state, onApplySnapshot, resetForm }
           } else {
             confirmDeleteAllSnapshots();
           }
-          setShowModal(false); // Modal schließen
+          setShowModal(false);
         }}
         onCancel={
           modalType === 'decision-undo-redo'
             ? () => {
-                closeModal(); // Modal schließen
+                closeModal();
                 performUndoRedo(modalUndoRedoDirection);
                 setModalUndoRedoDirection(null);
               }
