@@ -34,13 +34,23 @@ const ToggleButton = styled.button`
 `;
 
 const StyledMoonIcon = styled(MoonIcon)`
-  width: 36px;
-  height: 36px;
+  width: 30px;
+  height: 30px;
+
+  @media (min-width: 600px) and (max-width: 999px) and (orientation: portrait) {
+    width: 36px;
+    height: 36px;
+  }
 `;
 
 const StyledSunIcon = styled(SunIcon)`
-  width: 36px;
-  height: 36px;
+  width: 30px;
+  height: 30px;
+
+  @media (min-width: 600px) and (max-width: 999px) and (orientation: portrait) {
+    width: 36px;
+    height: 36px;
+  }
 `;
 
 export default function ThemeToggleButton() {

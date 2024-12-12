@@ -11,7 +11,7 @@ export const AvatarContainer = styled.div`
   justify-content: center;
   flex-direction: column;
 
-  @media (min-width: 768px) and (min-height: 768px) {
+  @media (min-width: 600px) {
     gap: 1rem;
     flex-direction: row;
   }
@@ -31,14 +31,25 @@ export const Avatar = styled(Image)`
 
 export const PaginationContainer = styled.div`
   position: fixed;
-  top: 4.6rem;
+  top: 4rem;
   right: 0.6rem;
   display: flex;
   gap: 0.4rem;
   z-index: 10;
 
-  @media (min-width: 768px) and (min-height: 768px) {
-    top: 5.6rem;
+  @media (min-width: 600px) and (max-width: 999px) and (orientation: landscape) {
+    top: 4.4rem;
+    right: 1rem;
+  }
+
+  @media (min-width: 600px) and (max-width: 999px) and (orientation: portrait) {
+    top: 6rem;
+    right: 1.6rem;
+  }
+
+  @media (min-width: 1000px) {
+    top: 6rem;
+    right: 1.6rem;
   }
 `;
 
@@ -48,11 +59,6 @@ export const Pagination = styled.p`
   color: var(--color-button-page-navigation-icon);
   font-weight: 700;
   font-size: 1.2rem;
-
-  @media (min-width: 768px) and (min-height: 768px) {
-    margin-top: 2rem;
-    margin-right: 2rem;
-  }
 `;
 
 export const InfoLinkContainer = styled.div`

@@ -14,7 +14,7 @@ const AuthButtonLink = styled.button.withConfig({
   justify-content: center;
   border: none;
   border-radius: 0.6rem;
-  width: 100%;
+  width: 48px;
   height: 48px;
   padding: 0 0.6rem;
   /* transition: background-color 0.05s ease; */
@@ -29,35 +29,68 @@ const AuthButtonLink = styled.button.withConfig({
     outline: none;
   }
 
-  @media (max-width: 768px) {
-    width: 48px;
-    height: 48px;
-    flex-direction: column;
+  @media (min-width: 600px) and (max-width: 999px) and (orientation: landscape) {
+    width: auto;
+    flex-direction: row;
+  }
+
+  @media (min-width: 600px) and (max-width: 999px) and (orientation: portrait) {
+    width: auto;
+    flex-direction: row;
+  }
+
+  @media (min-width: 1000px) {
+    width: auto;
+    flex-direction: row;
   }
 `;
 
 const AuthButtonSvg = styled.svg`
-  height: 32px;
-
+  width: 100%;
+  height: 100%;
+  max-width: 32px;
+  max-height: 32px;
+  margin: 0;
   fill: var(--color-button-text);
-  margin-right: 0.3rem;
 
   @media (max-width: 768px) {
-    width: 100%;
-    height: 100%;
-    max-width: 32px;
-    max-height: 32px;
-    margin: 0;
+  }
+
+  @media (min-width: 600px) and (max-width: 999px) and (orientation: landscape) {
+    height: 32px;
+    margin-right: 0.3rem;
+  }
+
+  @media (min-width: 600px) and (max-width: 999px) and (orientation: portrait) {
+    height: 32px;
+    margin-right: 0.3rem;
+  }
+
+  @media (min-width: 1000px) {
+    height: 32px;
+    margin-right: 0.3rem;
   }
 `;
 
 const ButtonText = styled.span`
-  color: var(--color-button-text);
-  font-weight: 500;
-  display: block;
+  display: none;
 
-  @media (max-width: 768px) {
-    display: none;
+  @media (min-width: 600px) and (max-width: 999px) and (orientation: landscape) {
+    display: block;
+    font-weight: 500;
+    color: var(--color-button-text);
+  }
+
+  @media (min-width: 600px) and (max-width: 999px) and (orientation: portrait) {
+    display: block;
+    font-weight: 500;
+    color: var(--color-button-text);
+  }
+
+  @media (min-width: 1000px) {
+    display: block;
+    font-weight: 500;
+    color: var(--color-button-text);
   }
 `;
 

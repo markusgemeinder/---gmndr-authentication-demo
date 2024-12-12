@@ -11,12 +11,19 @@ const LogoContainer = styled.div`
   height: auto;
 
   img {
-    width: 70px;
+    width: 75px;
     height: auto;
     filter: brightness(0) invert(1);
   }
 
-  @media (min-width: 768px) and (min-height: 768px) {
+  @media (min-width: 600px) and (max-width: 999px) and (orientation: portrait) {
+    img {
+      width: 100px;
+      height: auto;
+      filter: brightness(0) invert(1);
+    }
+  }
+  @media (min-width: 1000px) {
     img {
       width: 100px;
       height: auto;

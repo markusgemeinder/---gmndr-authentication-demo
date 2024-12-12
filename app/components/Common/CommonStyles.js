@@ -4,16 +4,29 @@ import styled from 'styled-components';
 import Link from 'next/link';
 
 export const Main = styled.main`
-  margin: 4rem auto;
-  padding: 1.4rem 1.2rem;
+  margin: 4.4rem auto;
+  padding: 1.6rem 1rem;
   display: flex;
   flex-direction: column;
   align-items: center;
   /* background-color: yellow; */
 
-  @media (min-width: 768px) and (min-height: 768px) {
-    padding: 2.4rem 1rem;
+  /* Smartphones im Querformat */
+  @media (min-width: 600px) and (max-width: 999px) and (orientation: landscape) {
+    margin: 4.4rem auto;
+    /* padding: 1.2rem 1rem; */
+  }
+
+  /* Tablets im Hochformat */
+  @media (min-width: 600px) and (max-width: 999px) and (orientation: portrait) {
     margin: 5rem auto;
+    /* padding: 3rem 1rem; */
+  }
+
+  /* Desktop & Tablets im Querformat */
+  @media (min-width: 1000px) {
+    margin: 5rem auto;
+    /* padding: 2rem 1rem; */
   }
 `;
 
@@ -22,13 +35,9 @@ export const Container = styled.div`
   flex-direction: column;
   align-items: center;
   justify-content: flex-start;
-  width: 96%;
+  width: 95%;
+  max-width: 32rem;
   /* background-color: magenta; */
-
-  @media (min-width: 768px) and (min-height: 768px) {
-    width: 80%;
-    max-width: 30rem;
-  }
 `;
 
 export const NarrowContainer = styled.div`
