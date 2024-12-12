@@ -10,7 +10,7 @@ const FooterContainer = styled.footer`
   position: fixed;
   bottom: 0;
   left: 0;
-  height: 2.5rem;
+  height: 2rem;
   width: 100%;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   z-index: 99;
@@ -18,7 +18,7 @@ const FooterContainer = styled.footer`
 
 const FooterContent = styled.div`
   text-align: center;
-  margin: 0.6rem;
+  margin: 0.4rem;
 `;
 
 const FooterText = styled.p`
