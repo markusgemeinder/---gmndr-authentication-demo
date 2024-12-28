@@ -11,14 +11,14 @@ export default function ThemeProvider({ children }) {
 
   useEffect(() => {
     if (typeof window !== 'undefined') {
-      const storedTheme = localStorage.getItem('auth_demo_theme') || 'light';
+      const storedTheme = localStorage.getItem('authDemo_theme') || 'light';
       setTheme(storedTheme);
       document.documentElement.setAttribute('data-theme', storedTheme);
     }
   }, []);
 
   useEffect(() => {
-    localStorage.setItem('auth_demo_theme', theme);
+    localStorage.setItem('authDemo_theme', theme);
     document.documentElement.setAttribute('data-theme', theme);
   }, [theme]);
 
