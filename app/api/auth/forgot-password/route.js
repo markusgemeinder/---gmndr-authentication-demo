@@ -50,8 +50,8 @@ export async function POST(req) {
       { email },
       {
         $set: {
-          passwordResetToken: hashedResetToken,
-          passwordResetExpiry: expiry,
+          resetToken: hashedResetToken,
+          resetTokenExpiry: expiry,
         },
       }
     );
