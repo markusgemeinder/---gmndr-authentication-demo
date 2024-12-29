@@ -107,6 +107,11 @@ ol {
   --color-secondary-950: #20262a;
   --color-secondary-1000: #161a1d;
 
+  /* Farbvariablen für Hintergründe Burger-Menu und Modal mit Transparenz (95% und 75% Deckkraft*/
+  --color-primary-800-transparent-5: #145279f2;
+  --color-primary-800-transparent-25: #145279bf;
+  --color-primary-900-transparent-25: #0d3853bf;
+
   /* Farbvariablen für Schmuckfarbe Gelb */
   /* --color-yellow-base: #ffd15c; */
   /* Light level (0): 4% | Dark level (1000): 98% */
@@ -231,8 +236,8 @@ ol {
 
   /* Special Elements*/
 
-  --color-burger-menu-background: rgba(23, 95, 141, 0.95);
-  --color-modal: rgba(16, 69, 102, 0.75);
+  --color-burger-menu-background: var(--color-primary-800-transparent-5);
+  --color-modal: var(--color-primary-900-transparent-25);
   --color-modal-content: var(--color-primary-0);
   --color-modal-header: var(--color-primary-700);
   --color-modal-text: var(--color-secondary-650);
@@ -296,8 +301,8 @@ ol {
   --color-border-strong: var(--color-primary-100);
 
   /* Special Elements*/
-  --color-burger-menu-background: rgba(23, 95, 141, 0.95);
-  --color-modal: rgba(10, 43, 63, 0.85);
+  --color-burger-menu-background: var(--color-primary-800-transparent-5);
+  --color-modal: var(--color-primary-900-transparent-25);
   --color-modal-content: var(--color-primary-750);
   --color-modal-header: var(--color-primary-150);
   --color-modal-text: var(--color-secondary-600);
