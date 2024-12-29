@@ -8,7 +8,7 @@ import Button, { ButtonContainerVertical } from '@/app/components/Button/Button'
 import { FormContainer, InputGroup, LabelContainer, Label, Input } from '@/app/components/AuthForm/AuthFormStyles';
 import ModalPopup from '@/app/components/Common/ModalPopup';
 import ValidatePassword from '@/app/components/Common/ValidatePassword';
-import LanguageContext from '@/app/components/LanguageProvider';
+import LanguageContext from '@/app/components/Provider/LanguageProvider';
 import { getText } from '@/lib/languageLibrary';
 
 export default function RegisterForm() {

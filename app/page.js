@@ -6,7 +6,7 @@ import SessionStatus from '@/app/components/Authentication/SessionStatus';
 import { Container, NarrowContainer, Title, Spacer } from '@/app/components/Common/CommonStyles';
 import ScrollToTop from '@/app/components/Common/ScrollToTop';
 import { AboutProjectAccordion, HowToUseAccordion } from '@/app/components/Common/Accordion';
-import LanguageContext from '@/app/components/LanguageProvider';
+import LanguageContext from '@/app/components/Provider/LanguageProvider';
 import { getText } from '@/lib/languageLibrary';
 
 export default function Home() {

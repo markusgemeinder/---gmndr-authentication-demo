@@ -5,7 +5,7 @@
 import { useContext } from 'react';
 import styled, { keyframes } from 'styled-components';
 import { Container } from '@/app/components/Common/CommonStyles';
-import LanguageContext from '@/app/components/LanguageProvider';
+import LanguageContext from '@/app/components/Provider/LanguageProvider';
 import { getText } from '@/lib/languageLibrary';
 
 const blinkAnimation = keyframes`

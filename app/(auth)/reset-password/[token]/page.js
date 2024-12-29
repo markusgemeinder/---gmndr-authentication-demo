@@ -7,7 +7,7 @@ import ScrollToTop from '@/app/components/Common/ScrollToTop';
 import { Container, Title, Paragraph } from '@/app/components/Common/CommonStyles';
 import ResetPasswordForm from '@/app/components/AuthForm/ResetPasswordForm';
 import ModalPopup from '@/app/components/Common/ModalPopup';
-import LanguageContext from '@/app/components/LanguageProvider';
+import LanguageContext from '@/app/components/Provider/LanguageProvider';
 import { getText } from '@/lib/languageLibrary';
 
 export default function ResetPasswordPage({ params }) {

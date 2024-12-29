@@ -1,7 +1,7 @@
 // /app/components/Common/ValidatePassword.js
 
 import { useState, useRef, useContext, useEffect } from 'react';
-import LanguageContext from '@/app/components/LanguageProvider';
+import LanguageContext from '@/app/components/Provider/LanguageProvider';
 import { getText } from '@/lib/languageLibrary';
 import {
   InputGroup,

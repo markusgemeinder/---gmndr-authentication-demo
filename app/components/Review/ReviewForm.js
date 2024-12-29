@@ -20,7 +20,7 @@ import {
   CardElementsWrapper,
   CharCounter,
 } from '@/app/components/Review/ReviewStyles';
-import LanguageContext from '@/app/components/LanguageProvider';
+import LanguageContext from '@/app/components/Provider/LanguageProvider';
 import { getText } from '@/lib/languageLibrary';
 
 export default function ReviewForm({ review, onSave, onCancel, isDemoReview }) {

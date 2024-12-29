@@ -7,7 +7,7 @@ import { useRouter } from 'next/navigation';
 import Button, { ButtonContainerHorizontal } from '@/app/components/Button/Button';
 import { ModalOverlay, ModalHeader, ModalContent, BlinkingText } from '@/app/components/Common/ModalPopup';
 import { Paragraph, StyledLink } from '@/app/components/Common/CommonStyles';
-import LanguageContext from '@/app/components/LanguageProvider';
+import LanguageContext from '@/app/components/Provider/LanguageProvider';
 import { getText } from '@/lib/languageLibrary';
 
 const StatusContainer = styled.div`

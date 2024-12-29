@@ -8,7 +8,7 @@ import { useState, useContext } from 'react';
 
 import Logo from '@/app/components/Layout/Logo';
 import ThemeToggleButton from '@/app/components/Button/ThemeToggleButton';
-import LanguageContext from '@/app/components/LanguageProvider';
+import LanguageContext from '@/app/components/Provider/LanguageProvider';
 import { getText } from '@/lib/languageLibrary';
 import { LoginButton, LogoutButton, RegisterButton } from '@/app/components/Button/AuthButtonSvg';
 import { ButtonContainerHorizontal } from '@/app/components/Button/Button';

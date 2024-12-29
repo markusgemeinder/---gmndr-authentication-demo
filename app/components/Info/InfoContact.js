@@ -6,7 +6,7 @@ import { useContext } from 'react';
 import ScrollToTop from '@/app/components/Common/ScrollToTop';
 import { Title, Subtitle, Paragraph } from '@/app/components/Common/CommonStyles';
 import { AvatarContainer, Avatar, InfoLink, InfoLinkContainer } from '@/app/components/Info/InfoStyles';
-import LanguageContext from '@/app/components/LanguageProvider';
+import LanguageContext from '@/app/components/Provider/LanguageProvider';
 import { getText } from '@/lib/languageLibrary';
 
 export default function InfoContact() {

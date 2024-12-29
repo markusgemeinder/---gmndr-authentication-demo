@@ -21,7 +21,7 @@ import {
 } from '@/app/components/AuthForm/AuthFormStyles';
 import Link from 'next/link';
 import ModalPopup from '@/app/components/Common/ModalPopup';
-import LanguageContext from '@/app/components/LanguageProvider';
+import LanguageContext from '@/app/components/Provider/LanguageProvider';
 import { getText } from '@/lib/languageLibrary';
 
 export default function LoginForm({ onLogin, onOAuthLogin, error, onDemoLogin }) {

@@ -1,4 +1,4 @@
-// /app/components/Common/ThemeProvider.js
+// /app/components/Provider/ThemeProvider.js
 
 'use client';
 

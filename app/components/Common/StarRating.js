@@ -4,7 +4,7 @@ import { FaStar, FaStarHalfAlt, FaRegStar } from 'react-icons/fa';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
 import { useState, useContext } from 'react';
-import LanguageContext from '@/app/components/LanguageProvider';
+import LanguageContext from '@/app/components/Provider/LanguageProvider';
 import { getText } from '@/lib/languageLibrary';
 
 const StarContainer = styled.div`

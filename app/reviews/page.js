@@ -13,7 +13,7 @@ import { Container, Title } from '@/app/components/Common/CommonStyles';
 import { ReviewsContainer } from '@/app/components/Review/ReviewStyles';
 import ScrollToTop from '@/app/components/Common/ScrollToTop';
 import { useSession } from 'next-auth/react';
-import LanguageContext from '@/app/components/LanguageProvider';
+import LanguageContext from '@/app/components/Provider/LanguageProvider';
 import { getText } from '@/lib/languageLibrary';
 
 export default function ReviewsPage() {

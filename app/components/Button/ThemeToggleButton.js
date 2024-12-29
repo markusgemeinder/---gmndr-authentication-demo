@@ -5,8 +5,8 @@
 import styled from 'styled-components';
 import { useContext } from 'react';
 import { SunIcon, MoonIcon } from '@heroicons/react/24/solid';
-import { ThemeContext } from '@/app/components/Common/ThemeProvider';
-import LanguageContext from '@/app/components/LanguageProvider';
+import { ThemeContext } from '@/app/components/Provider/ThemeProvider';
+import LanguageContext from '@/app/components/Provider/LanguageProvider';
 import { getText } from '@/lib/languageLibrary';
 
 const ToggleButton = styled.button`

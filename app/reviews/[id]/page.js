@@ -10,7 +10,7 @@ import SessionStatus from '@/app/components/Authentication/SessionStatus';
 import LoadingAnimation from '@/app/components/Common/LoadingAnimation';
 import { Container, Title } from '@/app/components/Common/CommonStyles';
 import ScrollToTop from '@/app/components/Common/ScrollToTop';
-import LanguageContext from '@/app/components/LanguageProvider';
+import LanguageContext from '@/app/components/Provider/LanguageProvider';
 import { getText } from '@/lib/languageLibrary';
 
 export default function EditPage({ params }) {

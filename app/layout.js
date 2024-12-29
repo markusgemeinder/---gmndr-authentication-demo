@@ -6,10 +6,10 @@ import { Ubuntu } from 'next/font/google';
 import Navigation from '@/app/components/Layout/Navigation';
 import AuthProvider from '@/app/components/Authentication/AuthProvider';
 import Footer from '@/app/components/Layout/Footer';
-import ThemeProvider from '@/app/components/Common/ThemeProvider';
+import ThemeProvider from '@/app/components/Provider/ThemeProvider';
 import NavigationButtonPageUp from '@/app/components/Button/NavigationButtonPageUp';
 import MainContainer from '@/app/components/Layout/MainContainer';
-import { LanguageProvider } from '@/app/components/LanguageProvider';
+import { LanguageProvider } from '@/app/components/Provider/LanguageProvider';
 
 export const metadata = {
   title: '#GMNDR Auth Demo',

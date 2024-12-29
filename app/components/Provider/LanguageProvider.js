@@ -1,4 +1,4 @@
-// /app/components/LanguageProvider.js
+// /app/components/Provider/LanguageProvider.js
 
 'use client';
 

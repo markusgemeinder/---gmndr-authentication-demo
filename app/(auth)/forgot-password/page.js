@@ -6,7 +6,7 @@ import { useContext, useState } from 'react';
 import ScrollToTop from '@/app/components/Common/ScrollToTop';
 import { Container, Title } from '@/app/components/Common/CommonStyles';
 import ForgotPasswordForm from '@/app/components/AuthForm/ForgotPasswordForm';
-import LanguageContext from '@/app/components/LanguageProvider';
+import LanguageContext from '@/app/components/Provider/LanguageProvider';
 import { getText } from '@/lib/languageLibrary';
 
 export default function ForgotPasswordPage() {

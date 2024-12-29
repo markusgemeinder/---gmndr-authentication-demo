@@ -8,7 +8,7 @@ import { useRouter } from 'next/navigation';
 import ScrollToTop from '@/app/components/Common/ScrollToTop';
 import { Container, Title } from '@/app/components/Common/CommonStyles';
 import LoginForm from '@/app/components/AuthForm/LoginForm';
-import LanguageContext from '@/app/components/LanguageProvider';
+import LanguageContext from '@/app/components/Provider/LanguageProvider';
 import { getText } from '@/lib/languageLibrary';
 
 export default function LoginPage() {

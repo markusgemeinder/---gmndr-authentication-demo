@@ -8,7 +8,7 @@ import { Container, Title, Paragraph } from '@/app/components/Common/CommonStyle
 import ModalPopup from '@/app/components/Common/ModalPopup';
 import Button, { ButtonContainerHorizontal } from '@/app/components/Button/Button';
 import { useRouter } from 'next/navigation';
-import LanguageContext from '@/app/components/LanguageProvider';
+import LanguageContext from '@/app/components/Provider/LanguageProvider';
 import { getText } from '@/lib/languageLibrary';
 
 export default function VerifyEmailPage({ params }) {

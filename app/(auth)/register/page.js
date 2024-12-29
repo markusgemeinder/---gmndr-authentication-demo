@@ -9,7 +9,7 @@ import { Container, Title } from '@/app/components/Common/CommonStyles';
 import RegisterForm from '@/app/components/AuthForm/RegisterForm';
 import LoadingAnimation from '@/app/components/Common/LoadingAnimation';
 import ScrollToTop from '@/app/components/Common/ScrollToTop';
-import LanguageContext from '@/app/components/LanguageProvider';
+import LanguageContext from '@/app/components/Provider/LanguageProvider';
 import { getText } from '@/lib/languageLibrary';
 
 export default function RegisterPage() {

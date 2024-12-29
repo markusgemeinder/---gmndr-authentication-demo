@@ -24,7 +24,7 @@ import {
   ModalParagraph,
 } from '@/app/components/Common/ModalPopup';
 import { maskEmail } from '@/utils/maskEmail';
-import LanguageContext from '@/app/components/LanguageProvider';
+import LanguageContext from '@/app/components/Provider/LanguageProvider';
 import { getText } from '@/lib/languageLibrary';
 
 export default function ReviewCard({ review, onDelete }) {
