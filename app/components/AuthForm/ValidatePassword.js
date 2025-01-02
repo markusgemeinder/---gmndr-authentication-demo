@@ -1,4 +1,4 @@
-// /app/components/Common/ValidatePassword.js
+// /app/components/AuthForm/ValidatePassword.js
 
 import { useState, useRef, useContext, useEffect } from 'react';
 import LanguageContext from '@/app/components/Provider/LanguageProvider';

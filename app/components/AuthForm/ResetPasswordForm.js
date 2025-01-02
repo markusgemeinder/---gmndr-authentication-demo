@@ -7,7 +7,7 @@ import { useRouter } from 'next/navigation';
 import Button, { ButtonContainerVertical } from '@/app/components/Button/Button';
 import { FormContainer } from '@/app/components/AuthForm/AuthFormStyles';
 import ModalPopup from '@/app/components/Common/ModalPopup';
-import ValidatePassword from '@/app/components/Common/ValidatePassword';
+import ValidatePassword from '@/app/components/AuthForm/ValidatePassword';
 import LanguageContext from '@/app/components/Provider/LanguageProvider';
 import { getText } from '@/lib/languageLibrary';
 
