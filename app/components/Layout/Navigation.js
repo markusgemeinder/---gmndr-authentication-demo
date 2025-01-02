@@ -4,7 +4,7 @@
 
 import { useSession, signOut } from 'next-auth/react';
 import { useRouter, usePathname } from 'next/navigation';
-import { useState, useContext } from 'react';
+import { useEffect, useState, useContext } from 'react';
 
 import Logo from '@/app/components/Layout/Logo';
 import ThemeToggleButton from '@/app/components/Button/ThemeToggleButton';
@@ -32,9 +32,18 @@ export default function Navigation() {
   const { data: session } = useSession();
   const router = useRouter();
   const pathname = usePathname();
+  const [mounted, setMounted] = useState(false);
   const [isBurgerOpen, setIsBurgerOpen] = useState(false);
   const [isShaking, setIsShaking] = useState(false);
   const { language, toggleLanguage, setLanguagePreference } = useContext(LanguageContext);
+
+  // Set mounted to true when the component is mounted in the client-side
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  // Don't render anything until mounted to avoid hydration errors
+  if (!mounted) return null;
 
   const getLanguageText = (key) => {
     return getText('navigation', key, language);

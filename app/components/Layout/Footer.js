@@ -2,6 +2,8 @@
 
 'use client';
 
+import { useEffect, useState } from 'react';
+
 import styled from 'styled-components';
 
 const FooterContainer = styled.footer`
@@ -26,6 +28,16 @@ const FooterText = styled.p`
 `;
 
 export default function Footer() {
+  const [mounted, setMounted] = useState(false);
+
+  // Set mounted to true when the component is mounted in the client-side
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  // Don't render anything until mounted to avoid hydration errors
+  if (!mounted) return null;
+
   return (
     <FooterContainer>
       <FooterContent>

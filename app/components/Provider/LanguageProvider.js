@@ -11,13 +11,14 @@ export const useLanguage = () => useContext(LanguageContext);
 
 export const LanguageProvider = ({ children }) => {
   const [cookies, setCookie] = useCookies(['language']);
-  const [language, setLanguage] = useState('EN');
+  const [language, setLanguage] = useState(null);
 
   useEffect(() => {
     if (cookies.language) {
       setLanguage(cookies.language);
     } else {
       setCookie('language', 'EN', { path: '/' });
+      setLanguage('EN');
     }
   }, [cookies, setCookie]);
 
@@ -33,6 +34,10 @@ export const LanguageProvider = ({ children }) => {
     setLanguage(selectedLanguage);
     setCookie('language', selectedLanguage, { path: '/' });
   };
+
+  if (language === null) {
+    return null; // Verhindert das Rendern vor der Hydration
+  }
 
   return (
     <LanguageContext.Provider value={{ language, toggleLanguage, setLanguagePreference }}>
